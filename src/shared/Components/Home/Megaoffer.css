@@ -1,0 +1,15 @@
+.swiper-button-next1,.swiper-button-prev1{
+    @apply !text-white py-12 px-6 bg-primary  !text-lg
+}
+.swiper-button-prev1{
+    @apply !left-0 rounded-r-xl
+}
+.swiper-button-next1{
+    @apply !right-0 rounded-l-xl
+}
+
+.swiper-button-next1:after, .swiper-button-prev1:after{
+    font-size: 18px!important;
+}
+
+

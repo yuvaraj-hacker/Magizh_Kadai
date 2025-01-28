@@ -1,0 +1,81 @@
+.raj {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.options {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.option-btn {
+    background-color: #269C53;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.raj:hover {
+    transform: rotate(180deg);
+}
+
+.raj:hover+.options {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+
+
+.options {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.show-options {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+.btn {
+    position: relative;
+    transition: all 0.5s ease;
+    background: none;
+    color: #CA2E43;
+    overflow: hidden;
+   
+
+}
+
+.btn:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #CA2E43;
+    z-index: -1;
+    border-radius: 0 0 50% 50%;
+    height: 0;
+    transition: all 0.5s ease;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.btn:hover:before {
+    height: 190%;
+}
