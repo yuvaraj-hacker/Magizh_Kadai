@@ -195,6 +195,9 @@ export default function Header(props) {
                     <Link to='/'>
                       <i class="fi fi-ss-house-chimney"></i>
                     </Link>
+                    <Link to='/products'>
+                      <i class="fi fi-rs-shop"></i>
+                    </Link>
                     <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
                         {isWishlistAnimating && (

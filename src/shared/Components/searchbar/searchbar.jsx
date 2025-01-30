@@ -110,14 +110,14 @@ const SearchBar = ({ categories, onclickcategories, opencategories, setOpenCateg
   };
 
 
-  const AllCategories = ({ opencategories, setOpenCategories, categories }) => (
+  const AllCategories = () => (
     <>  <div className={` max-h-[50vh] w-64 bg-white rounded-xl border cursor-default overflow-auto`}>
       <ul className="divide-y p-2 hover:*:bg-gray-100 *:rounded-lg" >
         {console.log(categories)}
         {categories.map(
           (category) =>
             category.Category_Name !== "Everything" && (
-              <li key={category._id} className="group">
+              <li key={category._id} className="group py-1">
                 <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}>
                   <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
                     <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" />
@@ -150,7 +150,7 @@ const SearchBar = ({ categories, onclickcategories, opencategories, setOpenCateg
         {(searchTerm || expandSearch) ? (
           <X className="!p-0 -translate-x-2 z-20 text-gray-500 cursor-pointer hover:text-[#38031D] dark:text-white transition-colors" onClick={clearSearch} />
         ) : (
-          <i className="fi fi-rr-search  pr-4 text-gray-300" ></i>
+          <i className="fi fi-rr-search  pr-4 text-gray-300 lg:block hidden" ></i>
         )}
       </div>
 
@@ -200,10 +200,8 @@ const SearchBar = ({ categories, onclickcategories, opencategories, setOpenCateg
                   <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                     {exactMatches.map((product) => (
                       <Link to={`/product-details/${product._id}`}>
-                        <div key={product._id}
-                          className="flex flex-col items-center p-3 rounded-lg cursor-pointer group bg-[#38031D]/5 hover:bg-[#38031D]/10 transition-all duration-300"
-                          onClick={() => handleResultClick(product)}
-                        >
+                        <div key={product._id} className="flex flex-col items-center p-3 rounded-lg cursor-pointer group bg-[#38031D]/5 hover:bg-[#38031D]/10 transition-all duration-300"
+                          onClick={() => handleResultClick(product)}  >
                           <div className="mb-2 overflow-hidden transition-shadow rounded-md shadow-sm group-hover:shadow-md">
                             <img
                               src={getProductImage(product.Images)}

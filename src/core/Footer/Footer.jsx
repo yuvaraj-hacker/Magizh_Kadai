@@ -16,11 +16,11 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
    const handleWishlistClick = (e) => {
       e.preventDefault();
       if (!isLoggedIn) {
-        setVisible(true);
+         setVisible(true);
       } else {
-        navigate('/saveditem');
+         navigate('/saveditem');
       }
-    };
+   };
    return (
       <>
          <section className='dark:bg-black'>
@@ -60,63 +60,66 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                </div>
 
             </section> */}
-            <section className='bg-black/90   pb-[68px] lg:pb-0'>
-               <div className='relative pt-10 lg:px-10'>
-                  <div className='max-w-[75rem] mx-auto text-white'>
-
-                     <div className='grid grid-cols-2 gap-5 px-5 sm:grid-cols-3 md:grid-cols-6 xl:gap-16'>
-
-                        <div className='col-span-2 sm:col-span-1 md:col-span-2 md:mx-auto '>
-                           {/* <h1 className="md:text-xl text-base text-secondary ">Launching Soon</h1>
-                           <div className='flex items-center justify-between gap-5 mt-5 md:mt-10 sm:block sm:space-y-5 sm:justify-start'>
-                              <img className='cursor-pointer max-w-[40%] sm:max-w-none' src="/images/Footer/image 240.png" alt="" />
-                              <img className='cursor-pointer  max-w-[40%] sm:max-w-none' src="/images/Footer/image 241.png" alt="" />
-                           </div> */}
-                           <div className='flex justify-center h-full items-center'>
-                              <img className='cursor-pointer  lg:w-[50%] my-auto mx-auto' src="/images/Logo/Logo.png" alt="" />
+            <section className='bg-black/90   pb-[60px] lg:pb-0'>
+               <div className='relative lg:px-10 py-10'>
+                  <div className='max-w-[80rem] mx-auto text-white'>
+                     <div className='grid md:grid-cols-2 grid-cols-1 gap-5 px-5 lg:grid-cols-8 xl:gap-16'>
+                        <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center mx-auto  flex  '>
+                           <div className='flex flex-col justify-center gap-4 items-center'>
+                              <div>
+                                 <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
+                              </div>
+                              <div className=' space-y-2'>
+                                 <div>
+                                    <h1 className='text-secondary md:text-base'>Connect With Us</h1>
+                                 </div>
+                                 <div className='flex gap-3 justify-center'>
+                                    <a href='https://www.facebook.com/profile.php?id=61569764904097&mibextid=7B2xQ4' target='_blank'  >
+                                       <i className="fi fi-brands-facebook md:text-xl"></i>
+                                    </a>
+                                    <a href='https://www.instagram.com/kiranaa_bazaar/profilecard/?igsh=d24xNHZud2d4ejB3' target='_blank'>
+                                       <i className="fi fi-brands-instagram md:text-xl"></i>
+                                    </a>
+                                    <a href='https://wa.me/19165074320' target='_blank'>
+                                       <i className="fi fi-brands-whatsapp md:text-xl"></i>
+                                    </a>
+                                 </div>
+                              </div>
                            </div>
                         </div>
-
-                        <div className='md:mx-auto '>
-                           <h1 className='md:text-xl text-lg text-secondary'>Links</h1>
-                           <div className='mt-5 space-y-2 text-sm md:mt-10 md:text-base sm:space-y-4'>
+                        <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center '>
+                           <h1 className='md:text-xl text-lg text-secondary'>Store and Sites</h1>
+                           <div className=' text-sm space-y-3 '>
                               <p>  <Link to='/'>  Home </Link></p>
                               <p>  <Link to='/products'>  Products</Link></p>
                               <p><Link to='/wishlist'> Wishlist </Link></p>
                               <p> <Link to='/cart'>Cart </Link></p>
                            </div>
                         </div>
-
-                        <div className=" md:mx-auto">
-                           <h1 className="md:text-xl text-lg text-secondary  mb-6">Policy</h1>
-                           <div className="mt-4 space-y-2 md:mt-10 sm:space-y-6">
-                              <p className="text-sm md:text-base">
-                                 <Link to="/privacy-policy">
-                                    Privacy Policy
-                                 </Link>
+                        <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
+                           <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
+                           <div className=" space-y-3">
+                              <p className="text-sm">
+                                 <Link to="/privacy-policy">  Privacy Policy  </Link>
                               </p>
                               <p className="text-sm md:text-base">
-                                 <Link to="terms-and-conditions" >
-                                    Terms & Conditions
-                                 </Link>
+                                 <Link to="terms-and-conditions" > Terms & Conditions  </Link>
                               </p>
                               <p className="text-sm md:text-base">
-                                 <Link to="return-and-refund-policy" >
-                                    Return and Refund Policy
-                                 </Link>
+                                 <Link to="return-and-refund-policy" >  Return and Refund Policy  </Link>
                               </p>
 
                            </div>
                         </div>
 
-                         <div className='col-span-2 space-y-4 sm:col-span-3 md:col-span-2' >
+                        <div className='lg:col-span-2 space-y-4 lg:text-left text-center' >
                            <p className="md:text-xl text-lg  text-secondary">Contact Information</p>
-                           <div className='space-y-1'>
-                              <p className="text-sm md:text-base"> <span className='text-base'>
+                           <div className=' space-y-3 text-sm'>
+                              <p className=""> <span className=''>
                                  Mobile Number: </span> xxxxxxxxxx</p>
-                              <p className="text-sm md:text-base"> <span className='text-base'>
+                              <p className=""> <span className=''>
                                  Email:  </span>  support@magizhkadai.com</p>
-                              <p className="text-sm md:text-base"> <span className='text-base'>
+                              <p className=""> <span className=''>
                                  Address:   </span> xxxxxx</p>
                            </div>
                            {/* <div className='relative'>
@@ -125,26 +128,14 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                  Subscribe
                               </button>
                            </div> */}
-                           <div className='flex gap-3'>
-                              <a href='https://www.facebook.com/profile.php?id=61569764904097&mibextid=7B2xQ4' target='_blank'  >
-                                 <img className='cursor-pointer' src="/images/Footer/facebook 4.png" alt="" />
-                              </a>
-                              <a href='https://www.instagram.com/kiranaa_bazaar/profilecard/?igsh=d24xNHZud2d4ejB3' target='_blank'>
-                                 <img className='cursor-pointer' src="/images/Footer/social 2.png" alt="" />
-                              </a>
-                              <a href='https://wa.me/19165074320' target='_blank'>
-                                 <img className='cursor-pointer w-[30px] h-[30px]' src="/images/Footer/social.png" alt="" />
-                              </a>
-                           </div>
-                           <div className='flex gap-4'></div>
-                        </div>
 
+                        </div>
                      </div>
                   </div>
                </div>
-               <hr className='mt-2'/>
+               <hr className='' />
                <div className='justify-center gap-2 py-2 text-center text-white lg:py-4 md:text-base lg:flex'>
-                  <p className='text-[10px] sm:text-sm'> © Magizh Kadai {new Date().getFullYear()} | Developed by <a href='http://arrowthought.com/' target='_blank'> <span className='underline cursor-pointer underline-offset-2'>Arrow Thought</span>  </a></p>
+                  <p className='text-[10px] sm:text-sm'> © Magizh Kadai {new Date().getFullYear()} | Developed by <a href='https://thirstycrowz.com/' target='_blank'> <span className='underline cursor-pointer underline-offset-2'>Thirsty Crowz</span>  </a></p>
                </div>
             </section>
 
@@ -156,14 +147,14 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                <div className="grid grid-cols-5 justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
                   <div className="cursor-pointer "> <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney "></i><p className='text-xs '>Home</p> </Link></div>
                   <div className="cursor-pointer" onClick={handleWishlistClick}>
-                      <i className="flex flex-col items-center fi fi-rr-heart"></i><p className='text-xs '>Wishlist</p>
+                     <i className="flex flex-col items-center fi fi-rr-heart"></i><p className='text-xs '>Wishlist</p>
 
                   </div>
                   <div className="relative cursor-pointer">
                      <Link to="/cart" className="relative inline-block">
                         <div className="relative">
                            <i className="flex flex-col items-center fi fi-sr-shopping-cart"></i>
-                           {cartItems&&cartItems.length > 0 && (
+                           {cartItems && cartItems.length > 0 && (
                               <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -top-2 -right-2">
                                  {cartItems.length}
                               </span>

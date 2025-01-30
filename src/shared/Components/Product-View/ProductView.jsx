@@ -9,14 +9,14 @@ import RegisterContinueGoogle from '../Register-ContiGoogle/RegisterContiGoogle'
 
 const ProductView = (props) => {
 
-  const { product, mainImage, setMainImage, mainImageRef, zoomStyle, handleMouseMove, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity, 
+  const { product, mainImage, setMainImage, mainImageRef, zoomStyle, handleMouseMove, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
     handleIncreaseQuantity, handleAddToWishlist, wishlistData, setIsTooltipVisible, isTooltipVisible, setIsDescriptionOpen, isDescriptionOpen, descriptionRef, similarItems,
     visible, setVisible
-  } = props 
+  } = props
 
   return (
-    <div className='dark:bg-black'>
-      <div className="grid xl:grid-cols-8 grid-cols-6 gap-10  md:space-x-8 xl:my-20 md:mt-10 mb-10 px-3 max-w-[120rem] ">
+    <div className='dark:bg-black  max-w-[80rem] mx-auto '>
+      <div className="grid xl:grid-cols-9 grid-cols-6 gap-10  md:space-x-8 xl:my-20 md:mt-10 mb-10 px-3 max-w-[120rem] ">
         <div className="flex flex-row items-center order-2 col-span-6 gap-2 overflow-x-auto overflow-y-hidden md:flex-col md:space-y-3 md:order-1 scrollbar-hide md:col-span-1 place-items-center">
           {product.Images.map((img, index) => (
             <img key={index} src={`${apiurl()}/${img}`} alt={`Thumbnail ${index + 1}`}
@@ -65,7 +65,7 @@ const ProductView = (props) => {
             </Swiper>
           )}
         </div> */}
-        <div className="order-3 col-span-6 mt-5 space-y-4 xl:col-span-2 md:col-span-3 md:order-3 xl:mt-0">
+        <div className="order-3 col-span-6 mt-5 space-y-4 xl:col-span-3 md:col-span-3 md:order-3 xl:mt-0">
           {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
               <p className="inline-block text-xs font-medium">
@@ -73,19 +73,19 @@ const ProductView = (props) => {
               </p>
             )}
             {product.Measurement_Units && product.Unit_of_Measurements && (
-              <span className="text-lg font-medium text-gray-600">
+                <span className="text-lg font-medium text-gray-600">
                 {product.Measurement_Units} per {product.Unit_of_Measurements}
               </span>
             )}
           </div> */}
           <div className='flex flex-wrap items-end justify-start'>
             <h1 className="font-semibold md:text-2xl me-2">{product.Product_Name} </h1>
-            {product.QTY == 0 ||product.QTY < 0 && (
+            {product.QTY == 0 || product.QTY < 0 && (
               <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
                 <p className="text-xs ">Out of Stock</p>
               </div>
-            )} 
-            {product.QTY <= 5 &&product.QTY > 0 && (
+            )}
+            {product.QTY <= 5 && product.QTY > 0 && (
               <div className="bg-[#f1aa59] p-1 text-white rounded-lg mb-2">
                 <p className="text-xs ">Limited Stock</p>
               </div>
@@ -101,62 +101,59 @@ const ProductView = (props) => {
           </div>
 
           <div className="flex items-center space-x-2">
-           {product.Discount > 0 && (
+            {product.Discount > 0 && (
               <span className="md:px-2 px-3 md:py-1 text-sm font-semibold text-white bg-[#F29D36] rounded-3xl">{product.Discount}% off</span>
             )}
-           {product.Sale_Price > 0 && (
-            <span className="text-base font-bold text-orange-600 md:text-2xl">
-              ₹{((product.Sale_Price - (product.Sale_Price * product.Discount) / 100)).toFixed(2)}
-            </span>
-          )}
-          {product.Discount > 0 && (
+            {product.Sale_Price > 0 && (
+              <span className="text-base font-bold text-orange-600 md:text-2xl">
+                ₹{((product.Sale_Price - (product.Sale_Price * product.Discount) / 100)).toFixed(2)}
+              </span>
+            )}
+            {product.Discount > 0 && (
               <span className="text-sm text-gray-400 line-through md:text-base">₹{product?.Sale_Price?.toFixed(2)}</span>
             )}
           </div>
 
           <div className="flex items-center gap-5">
-          {product.QTY > 0 && product.QTY !== null && (
-            <>
-            {getCurrentCartQuantity() === 0 ? (
-              <button
-                className="flex items-center justify-center gap-2 w-full p-3 md:text-base text-sm font-semibold text-white bg-secondary hover:bg-[#ffc445] transition-colors rounded-full"
-                onClick={() => handleAddToCart(product)}
-              >
-                <span>
-                  <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />
-                </span>
-                Add to Cart
-              </button>
-            ) : (
-              <div className="flex items-center justify-between w-full py-[13.4px] px-[3.3px] font-semibold text-white bg-[#CA2E43] rounded-full">
-                <button
-                  onClick={getCurrentCartQuantity() === 1 ? handleDelete : handleDecreaseQuantity}
-                  className="flex items-center justify-center w-10 text-white rounded-3xl"
-                >
-                  {getCurrentCartQuantity() === 1 ? (
-                    <i className="fi fi-rr-trash relative top-[3px] text-white text-sm"></i>
-                  ) : (
-                    <span>-</span>
-                  )}
-                </button>
-                <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
-                <button onClick={handleIncreaseQuantity} className="px-3 text-white rounded-3xl">+</button>
-              </div>
+            {product.QTY > 0 && product.QTY !== null && (
+              <>
+                {getCurrentCartQuantity() === 0 ? (
+                  <button className="flex items-center justify-center gap-2 w-full p-4 px-6 md:text-base text-sm font-semibold text-white bg-secondary hover:bg-primary transition-colors rounded-full" onClick={() => handleAddToCart(product)}  >
+                    <span>
+                      <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />
+                    </span>
+                    Add to Cart
+                  </button>
+                ) : (
+                  <div className="flex items-center justify-between w-full  font-semibold text-white bg-primary rounded-full">
+                    <button
+                      onClick={getCurrentCartQuantity() === 1 ? handleDelete : handleDecreaseQuantity}
+                      className="flex items-center justify-center     p-4 bg-green-800 px-6 text-white rounded-full"
+                    >
+                      {getCurrentCartQuantity() === 1 ? (
+                        <i className="fi fi-rr-trash relative top-[3px] w-5 text-white text-sm"></i>
+                      ) : (
+                        <span className='w-5'>-</span>
+                      )}
+                    </button>
+                    <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
+                    <button onClick={handleIncreaseQuantity} className=" text-white rounded-full  p-4 px-6 bg-green-800">+</button>
+                  </div>
+                )}
+              </>
             )}
-            </>
-          )}
             {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
               {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
             </button> */}
-            <button  onClick={() => handleAddToWishlist(product)}  className="px-3 pt-2 border rounded-3xl h-fit group-0">
-            {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
-             <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
-          ) : (
-          <i className="text-2xl transition-colors fi-bs-heart text-black/60 dark:text-white"></i>
-            )}
-           </button>
+            <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
+              {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
+                <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
+              ) : (
+                <i className="text-2xl transition-colors fi-bs-heart text-black/60 dark:text-white"></i>
+              )}
+            </button>
           </div>
 
           <div className="flex items-center gap-4">
@@ -177,21 +174,21 @@ const ProductView = (props) => {
             </div> */}
             <p className="text-sm text-gray-500 dark:text-white">Weekly sold 100+</p>
           </div>
-          {product?.Product_Highlights && 
-          <div>
-            <h3 className="mt-4 text-lg font-semibold text-gray-500 dark:text-white">Product highlights</h3>
-            <ul className="text-sm text-gray-500 list-disc list-inside dark:text-white md:text-base dark:bg-gray-700 dark:p-2 dark:rounded-lg">
-              {product?.Product_Highlights?.split('.').filter(highlight => highlight.trim() !== '').map((highlight, index) => (
-                <li key={index}>{highlight.trim()}</li>
-              ))}
-            </ul>
-          </div>}
+          {product?.Product_Highlights &&
+            <div>
+              <h3 className="mt-4 text-lg font-semibold text-gray-500 dark:text-white">Product highlights</h3>
+              <ul className="text-sm text-gray-500 list-disc list-inside dark:text-white md:text-base dark:bg-gray-700 dark:p-2 dark:rounded-lg">
+                {product?.Product_Highlights?.split('.').filter(highlight => highlight.trim() !== '').map((highlight, index) => (
+                  <li key={index}>{highlight.trim()}</li>
+                ))}
+              </ul>
+            </div>}
           {/* description */}
           <div className=" space-y-4">
             <div className="p-2 border rounded-md shadow-md">
               <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
                 <h2 className="font-semibold">Description</h2>
-                  <i className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? 'rotate-180':'rotate-0' } duration-300 `}></i>
+                <i className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? 'rotate-180' : 'rotate-0'} duration-300 `}></i>
               </div>
               <div ref={descriptionRef} className={`transition-height ${isDescriptionOpen ? 'h-auto' : 'h-0'}`}
                 style={{ height: isDescriptionOpen ? `${descriptionRef.current.scrollHeight}px` : '0px' }}
@@ -204,16 +201,16 @@ const ProductView = (props) => {
           </div>
         </div>
       </div>
-     
+
 
       {/* Sections for Similar Items, Reviews, and Bought Together */}
       {/* <section>
         <SimilerItem similarItems={similarItems} />
       </section> */}
-      
+
       <section className="max-w-[100rem]">
         <section>
-          
+
           <RegisterContinueGoogle visible={visible} setVisible={setVisible} />
 
         </section>

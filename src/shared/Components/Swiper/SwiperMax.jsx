@@ -75,36 +75,19 @@ const SwiperMax = ({ banners }) => {
                   }} >
                   <div className="lg:grid grid-cols-12 h-full">
                     <div className="z-10 flex flex-col items-start justify-center col-span-7 gap-2 px-5 text-white lg:pt-7 lg:pl-40 sm:pl-14 pl-7 align-middle self-center h-full">
-                      <motion.h2
-                        variants={fadeIn("left", 50, 0.2, 1)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: false, amount: 0.2 }}
+                      <div
                         className="text-[30px] xsm:text-[35px] sm:text-[35px] md:text-[40px] lg:text-[35px] leading-6 xl:text-[36px] 2xl:text-[48px] 3xl:text-[65px] 3xl:leading-10 font-jomhuria text-secondary lg:text-black" >
                         {banner.title}
-                      </motion.h2>
-                      <motion.h2
-                        variants={fadeIn("left", 50, 0.4, 1)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: false, amount: 0.2 }} className="2xl:text-xl sm:text-base text-sm lg:text-gray-600 text-white" style={{ color: banner.textColor }}>{banner.subtitle}</motion.h2>
-                      <motion.h2
-                        variants={fadeIn("left", 50, 0.6, 1)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: false, amount: 0.2 }} className="text-secondary contrast-150 ">Starting From <span className=" text-xl font-semibold ">₹129</span> </motion.h2>
-                      <motion.div
-                        variants={fadeIn("left", 50, 0.8, 1)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: false, amount: 0.2 }}><Link to={banner.link} ><button className="p-5 border border-primary_green lg:border-primary rounded-full text-primary_green lg:text-primary mt-5">Shop Now <i class="fi fi-br-arrow-up-right text-sm pl-2"></i></button></Link>
-                      </motion.div>
+                      </div>
+                      <div
+                        className="2xl:text-xl sm:text-base text-sm lg:text-gray-600 text-white" style={{ color: banner.textColor }}>{banner.subtitle}</div>
+                      <div
+                        className="text-secondary contrast-150 ">Starting From <span className=" text-xl font-semibold ">₹129</span> </div>
+                      <div
+                      ><Link to={banner.link} ><button className="p-5 border border-primary_green lg:border-primary rounded-full text-primary_green lg:text-primary mt-5">Shop Now <i class="fi fi-br-arrow-up-right text-sm pl-2"></i></button></Link>
+                      </div>
                     </div>
-                    <motion.img src={`http://192.168.29.175:5173/${banner.image}`}
-                      variants={fadeIn("left", 0, .5, 1)}
-                      initial="hidden"
-                      whileInView="show"
-                      viewport={{ once: false, amount: 0.2 }} alt={banner.title} className="w-full h-full object-cover col-span-5 " />
+                    <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="w-full h-full object-cover col-span-5 " />
                   </div>
                 </div>
               </div>

@@ -9,11 +9,18 @@ import { getallproducts } from '../../shared/services/apiproducts/apiproduct';
 import useAuth from '../../shared/services/store/useAuth';
 import useCart from '../../shared/services/store/useCart';
 import PopupModal from '../../shared/Components/Products/PopupModal';
-import { getWishlistItems, RemoveWishlistItem, savewishitems } from '../../shared/services/wishlist/wishlist'; 
+import { getWishlistItems, RemoveWishlistItem, savewishitems } from '../../shared/services/wishlist/wishlist';
 import RegisterContinueGoogle from '../../shared/Components/Register-ContiGoogle/RegisterContiGoogle';
+import apiurl from '../../shared/services/apiendpoint/apiendpoint';
+import { apigetallcategory } from '../../shared/services/apicategory/apicategory';
+import { Link } from 'react-router-dom';
+import { Slider } from "primereact/slider";
+import { InputText } from "primereact/inputtext";
 
 const Products = () => {
-
+    const [value, setValue] = useState(50);
+    const [categories, setCategories] = useState([]);
+    const [isSidebaropen, setIssidebaropen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { userdetails } = useAuth();
     const { addToCart, cartItems, increaseQuantity, updateTotalCartItems } = useCart()
@@ -21,15 +28,16 @@ const Products = () => {
     const [visible1, setVisible1] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const selectedSubcategory = queryParams.get('subcategory');
     const placements = ["inside", "outside", "outside-left"];
-    const [wishlistData,setWishlistData] = useState([]);
-
+    const [wishlistData, setWishlistData] = useState([]);
+    const [opencategories, setOpenCategories] = useState(false);
     const [Sort, setSort] = useState(null);
+
+
 
     let isMounted = true;
 
@@ -38,7 +46,23 @@ const Products = () => {
         const res = await getallproducts({ Category: queryParams.get('category'), Sub_Category: queryParams.get('subcategory'), Sale_Price: Sort });
         setProducts(res.resdata);
         setIsLoading(false);
-    }, [selectedCategory,queryParams, selectedSubcategory, Sort]);
+    }, [selectedCategory, queryParams, selectedSubcategory, Sort]);
+
+    const allCategories = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const res = await apigetallcategory();
+            setCategories(res.resdata);
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+    useEffect(() => {
+        allCategories();
+    }, [allCategories]);
+
 
     const getWishlistItem = useCallback(async () => {
         var res = await getWishlistItems(userdetails?.Email);
@@ -46,7 +70,7 @@ const Products = () => {
     }, [selectedCategory, selectedSubcategory, Sort]);
 
     useEffect(() => {
-        if (isMounted) {  
+        if (isMounted) {
             getAllProducts();
             getWishlistItem();
         }
@@ -56,12 +80,12 @@ const Products = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const categoryParam = params.get('category');
-        if (categoryParam =='Fresh Flowers & Leaves') {
+        if (categoryParam == 'Fresh Flowers & Leaves') {
             setVisible(true);
         }
         if (categoryParam) {
             setSelectedCategory(decodeURIComponent(categoryParam));
-        } 
+        }
         else {
             setSelectedCategory("");
         }
@@ -95,10 +119,10 @@ const Products = () => {
     //     try {
     //         const cartItemsFromStore = cartItems || [];
     //         const existingCartItem = cartItemsFromStore.find(item => item._id === prod._id);
-            
+
     //         if (existingCartItem) {
     //             const updatedQuantity = existingCartItem.Quantity + 1;
-    
+
     //             if (userdetails?.Email) {
     //                 await updatecartItem(existingCartItem._id, prod._id, updatedQuantity, userdetails.Email);
     //             }
@@ -128,33 +152,33 @@ const Products = () => {
             const existingCartItem = cartItemsFromStore.find(item => item._id === prod._id);
             const isFreshProduce = prod.Category === "Fresh Produce";
             const increment = isFreshProduce ? 0.5 : 1;
-            
+
             if (existingCartItem) {
                 const updatedQuantity = existingCartItem.Quantity + increment;
-    
+
                 if (userdetails?.Email) {
                     await updatecartItem(existingCartItem._id, prod._id, updatedQuantity, userdetails.Email);
                 }
                 increaseQuantity(prod._id);
-                
-                const quantityDisplay = isFreshProduce 
+
+                const quantityDisplay = isFreshProduce
                     ? `${updatedQuantity.toFixed(1)} lb`
                     : updatedQuantity;
                 toast.success(`Quantity increased! ${prod.Product_Name}: ${quantityDisplay}`);
             } else {
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
-    
+
                 if (userdetails?.Email) {
-                    const cartData = { 
-                        productId: prod._id, 
-                        Email: userdetails.Email, 
-                        Quantity: initialQuantity 
+                    const cartData = {
+                        productId: prod._id,
+                        Email: userdetails.Email,
+                        Quantity: initialQuantity
                     };
                     await savecartitems(cartData);
                 }
-    
+
                 addToCart({ ...prod, Quantity: initialQuantity });
-                
+
                 const quantityDisplay = isFreshProduce ? "0.5 lb" : "1";
                 toast.success(`Product added to cart! ${prod.Product_Name} (${quantityDisplay})`);
                 updateTotalCartItems();
@@ -167,51 +191,153 @@ const Products = () => {
     const handleAddToWishlist = async (prod) => {
         if (userdetails?.Email) {
 
-        if (wishlistData?.some(item => item.productId?._id === prod._id)) {
-            await RemoveWishlistItem({Email:userdetails?.Email, productId: prod._id})
-            await getWishlistItem();
-        }
-        else{
-            const wishlistDatas = { productId: prod._id, Email: userdetails.Email, Quantity: 1 };
-            await savewishitems(wishlistDatas);
-            await getWishlistItem();
-            toast.success('Added to Wishlist!');
-        }
-
+            if (wishlistData?.some(item => item.productId?._id === prod._id)) {
+                await RemoveWishlistItem({ Email: userdetails?.Email, productId: prod._id })
+                await getWishlistItem();
+            }
+            else {
+                const wishlistDatas = { productId: prod._id, Email: userdetails.Email, Quantity: 1 };
+                await savewishitems(wishlistDatas);
+                await getWishlistItem();
+                toast.success('Added to Wishlist!');
+            }
         } else {
             setVisible1(true);
             toast.error('Please log in to save items!', { position: 'bottom-center', icon: '📢' });
         }
     };
-
     useEffect(() => {
         const handleScroll = () => {
-          setScrolled(window.scrollY > 30);
-        }; 
-        window.addEventListener("scroll", handleScroll); 
+            setScrolled(window.scrollY > 30);
+        };
+        window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-      }, []);
+    }, []);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    // Function to toggle checkbox state
+    const handleCategoryClick = (categoryName, e) => {
+        e.preventDefault(); // Prevent <Link> from navigating immediately
+
+        setSelectedCategories((prev) =>
+            prev.includes(categoryName)
+                ? prev.filter((name) => name !== categoryName) // Uncheck
+                : [...prev, categoryName] // Check
+        );
+    };
 
     return (
         <>
-            <div className='max-w-[1900px] mx-auto  min-h-screen relative dark:bg-black'>
-                {/* <Headpanel selectedCategory={selectedCategory} categories={categories} /> */}
-                <section>
-                    <div className='grid grid-cols-12 gap-1'>
-                        <div className="relative col-span-12 ">
-                            <Items isLoading={isLoading} products={products} placements={placements} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist}
-                            setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />
+            <section className='max-w-full mx-auto'>
+                <div className='max-w-[1900px] mx-auto flex  min-h-screen   relative dark:bg-black'>
+                    {/* <Headpanel selectedCategory={selectedCategory} categories={categories} /> */}
+                    <div className={`lg:sticky lg:top-[101px] h-screen bg-gray-100  lg:left-0 fixed   z-40  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}>
+                        <div className='lg:hidden block p-2'>
+                            <div className='flex justify-end'>
+                                <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}></i>
+                            </div>
                         </div>
-                        {/* <div className="col-span-2">
+                        <div className=' border-b p-4 flex justify-between items-center'>
+                            <div className=' text-sm text-black '>
+                                FILTERS
+                            </div>
+                            <div className=' text-sm cursor-pointer text-blue-400  bg-gray-300 p-2   '>
+                                CLEAR ALL
+                            </div>
+                        </div>
+                        <div className='space-y-2 p-4 border-b'>
+                            <div className=' text-sm text-gray-600 '>
+                                CATEGORIES
+                            </div>
+                            <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}>
+                                <ul className=" text-xs " >
+                                    {categories.map(
+                                        (category) => category.Category_Name !== "Everything" && (
+                                            <li key={category._id} className="group py-1">
+                                                <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}  >
+                                                    <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
+                                                        {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                                        <input type="checkbox" className='cursor-pointer' readOnly />
+                                                        <h5 className="whitespace-pre-wrap text-gray-500">{category.Category_Name}</h5>
+                                                    </div>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className='space-y-2 p-4 border-b'>
+                            <h1 className="  text-sm text-gray-600 uppercase ">Price</h1>
+                            <div className=" flex justify-content-center">
+                                <div className="card">
+                                    <InputText value={value} onChange={(e) => setValue(e.target.value)} className="w-full text-center rounded-none py-2 focus:ring-0" />
+                                    <Slider value={value} onChange={(e) => setValue(e.value)} className="w-full " />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='space-y-2 p-4 border-b'>
+                            <h1 className="  text-sm text-gray-600 uppercase ">Discount</h1>
+                            <div className='text-xs space-y-2'>
+                                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden ">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">30 % or more</h5>
+                                </div>
+                                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">40 % or more</h5>
+                                </div>
+                                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">50 % or more</h5>
+                                </div>
+                                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">60 % or more</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='space-y-2 p-4 border-b'>
+                            <h1 className="  text-sm text-gray-600 uppercase ">Customer Ratings</h1>
+                            <div className='text-xs py-1'>
+                                <div className="flex gap-2 justify-start items-center  overflow-hidden ">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">3 <span><i class="fi fi-ss-star flex items-center"></i></span> & above</h1>
+                                </div>
+                                <div className="flex gap-2 justify-start items-center  overflow-hidden">
+                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
+                                    <input type="checkbox" className='text-white  border-none  ' readOnly />
+                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">4 <span> <i class="fi fi-ss-star flex items-center"></i> </span> & above</h1>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div>
+                        <div>
+                            <div className='grid grid-cols-12 gap-1'>
+                                <div className="relative col-span-12 ">
+                                    <Items isLoading={isLoading} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist}
+                                        setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />  </div>
+                                {/* <div className="col-span-2">
                             <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}
                                 Tags={Tags} handleTagsCheckboxChange={handleTagsCheckboxChange} />
                             <div onClick={() => settogfilter(false)} className={`${togfilter ? 'translate-x-0' : '-translate-x-full'} lg:hidden h-screen w-full fixed top-0 left-0 z-20 bg-black/50`}> </div>
                         </div> */}
+                            </div>
+                        </div>
+                        <PopupModal visible={visible} setVisible={setVisible} />
+                        <RegisterContinueGoogle visible={visible1} setVisible={setVisible1} />
                     </div>
-                </section>
-                <PopupModal visible={visible} setVisible={setVisible}/>
-                <RegisterContinueGoogle visible={visible1} setVisible={setVisible1} />
-            </div>
+                </div>
+            </section>
         </>
     )
 }
