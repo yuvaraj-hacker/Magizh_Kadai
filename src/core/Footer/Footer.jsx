@@ -66,7 +66,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                      <div className='grid md:grid-cols-2 grid-cols-1 gap-5 px-5 lg:grid-cols-8 xl:gap-16'>
                         <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center mx-auto  flex  '>
                            <div className='flex flex-col justify-center gap-4 items-center'>
-                              <div>
+                              <div className='bg-white p-3 rounded-md'>
                                  <Link to='/'>
                                     <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
                                  </Link>
