@@ -74,21 +74,21 @@ function AllProducts({ groupedProducts }) {
         </div>
       ))} */}
               {groupedProducts[category].slice(0, 6).map((product, idx) => (
-                <div key={idx} className="flex flex-col group duration-300 p-2 lg:p-3 from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] shadow-sm  hover:via-primary hover:from-primary rounded-2xl border hover:border-primary hover:bg-gray-100">
+                <div key={idx} className="flex flex-col group duration-300 p-3 space-y-3 from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] shadow-sm  hover:via-primary hover:from-primary rounded-xl border hover:border-primary hover:bg-gray-100">
                   <div className="border h-40 md:h-60 overflow-hidden rounded-xl flex items-center justify-center bg-white">
                     <img src={`${apiurl()}/${product?.Images[0]}`} alt={product.Product_Name || 'Product'} className="object-cover h-full w-full group-hover:scale-105 bg-white duration-300" />
                   </div>
-                    <div className="*:my-2 ">
+                  <div className=" ">
                     <p className="line-clamp-2 text-gray-500 lg:text-base text-sm group-hover:text-gray-700">{product.Product_Name || 'No Name Available'}</p>
-                    <div className="text-end">
-                      <Link to={`/product-details/${product._id}`} className=" "><button className="border border-primary lg:text-primary text-white lg:hover:text-white   p-2 px-4 rounded-xl lg:hover:bg-primary lg:bg-white bg-primary duration-300 hover:translate-x-2">View</button></Link>
-                     </div>
+                    <div className="text-end ">
+                      <Link to={`/product-details/${product._id}`} className=" "><i class="fi fi-sr-angle-circle-right flex items-center justify-end text-3xl text-primary"></i></Link>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-         {/* <hr className="mt-5" /> */}
+          {/* <hr className="mt-5" /> */}
         </div>
       ))}
     </div>

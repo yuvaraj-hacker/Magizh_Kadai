@@ -67,7 +67,9 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center mx-auto  flex  '>
                            <div className='flex flex-col justify-center gap-4 items-center'>
                               <div>
-                                 <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
+                                 <Link to='/'>
+                                    <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
+                                 </Link>
                               </div>
                               <div className=' space-y-2'>
                                  <div>

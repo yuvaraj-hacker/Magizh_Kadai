@@ -177,7 +177,7 @@ export default function Header(props) {
   return (
     <>
       <header>
-        <div className={`fixed z-50 w-full ml-auto ${scrolled ? 'shadow-md' : ''} `}>
+        <div className={`fixed lg:z-50 z-40 w-full ml-auto ${scrolled ? 'shadow-md' : 'shadow-md'} `}>
           <div className='flex w-full bg-white dark:bg-black'>
             <div className='inline-flex flex-row-reverse w-full h-full px-3 lg:flex-row'>
               <div className='flex items-center  w-full justify-between lg:py-4 py-2'>

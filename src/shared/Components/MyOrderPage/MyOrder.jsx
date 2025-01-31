@@ -56,7 +56,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
 
   return (
     <>
-      <section className="md:my-10">
+      <section className="md:my-5">
         <div className="px-4">
           <div className="my-5">
             <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
               <h2 className="text-lg font-semibold md:text-2xl">My orders</h2>
             </div>
             <div className="relative flex items-center gap-2" ref={dropdownRef}>
-              <p className="mt-2 text-xs md:text-base">
+              <p className="mt-2 text-xs md:text-base ml-2">
                 {currentOrders.length} Order{currentOrders.length !== 1 ? 's' : ''} Placed In
               </p>
               <button onClick={toggleDropdown} className="flex items-center gap-3 bg-[#FFF6F4] dark:bg-gray-500 text-black px-3 py-1 mt-2 rounded-md" >
@@ -88,12 +88,12 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
             </div>
           </div>
 
-          <div className="border border-gray-300 rounded-lg min-h-[500px] overflow-auto ">
+          <div className=" rounded-lg min-h-[500px] overflow-auto ">
             {hasOrders ? (
               <div className="p-4 ">
                 {currentOrders.map((order) => (
                   <div
-                    key={order.Order_id}
+                      key={order.Order_id}
                     className="mb-6 overflow-hidden transition-shadow duration-300 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md "
                   >
                     {/* Order Header */}
@@ -216,10 +216,10 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
               <div className="flex flex-col items-center justify-center h-[500px]">
                 <p className="mb-2 text-lg text-gray-500 dark:text-white">No {activeStatus.toLowerCase()} orders to show</p>
                 <Link to="/">
-                  <button className="bg-[#540045] text-white px-4 py-2 rounded-md">Start shopping</button>
+                  <button className="bg-primary hover:bg-secondary duration-300 text-white px-4 py-2 rounded-md">Find Your Favourites</button>
                 </Link>
               </div>
-            )}
+            )}  
           </div>
         </div>
       </section>

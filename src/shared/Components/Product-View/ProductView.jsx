@@ -2,33 +2,74 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import SimilerItem from './SimilerItem';
-// import Reviews from './Reviews';
 import apiurl from '../../services/apiendpoint/apiendpoint';
 import { Link } from 'react-router-dom';
 import RegisterContinueGoogle from '../Register-ContiGoogle/RegisterContiGoogle';
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { div } from 'framer-motion/m';
 
 const ProductView = (props) => {
+  const tabRefs = useRef([]);
+  const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Check screen size
+  // Update screen size on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-  const { product, mainImage, setMainImage, mainImageRef, zoomStyle, handleMouseMove, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const scrollUp = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        top: isMobile ? 0 : -100, // Vertical on large screens
+        left: isMobile ? -100 : 0, // Horizontal on mobile
+        behavior: "smooth",
+      });
+    }
+  };
+  const scrollDown = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        top: isMobile ? 0 : 100, // Vertical on large screens
+        left: isMobile ? 100 : 0, // Horizontal on mobile
+        behavior: "smooth",
+      });
+    }
+  };
+  const { product, mainImage, setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
     handleIncreaseQuantity, handleAddToWishlist, wishlistData, setIsTooltipVisible, isTooltipVisible, setIsDescriptionOpen, isDescriptionOpen, descriptionRef, similarItems,
     visible, setVisible
   } = props
 
   return (
-    <div className='dark:bg-black  max-w-[80rem] mx-auto '>
-      <div className="grid xl:grid-cols-9 grid-cols-6 gap-10  md:space-x-8 xl:my-20 md:mt-10 mb-10 px-3 max-w-[120rem] ">
-        <div className="flex flex-row items-center order-2 col-span-6 gap-2 overflow-x-auto overflow-y-hidden md:flex-col md:space-y-3 md:order-1 scrollbar-hide md:col-span-1 place-items-center">
-          {product.Images.map((img, index) => (
-            <img key={index} src={`${apiurl()}/${img}`} alt={`Thumbnail ${index + 1}`}
-              className={`w-20 h-20 border ${mainImage === img ? 'border-orange-500' : 'border-gray-300 bg-[#FFF6F4]'} rounded cursor-pointer p-2`}
-              onClick={() => setMainImage(img)}
-              onMouseEnter={() => setMainImage(img)}
-            />
-          ))}
+    <div className='dark:bg-black  max-w-[80rem] mx-auto  md:my-10  my-5'>
+      <div className="grid xl:grid-cols-9 grid-cols-6 md:gap-10 gap-5 md:space-x-8 px-3 max-w-[120rem] ">
+        <div className='order-2 col-span-6 gap-2 md:col-span-1 md:order-1 ' >
+          <div className="flex flex-row items-center overflow-x-auto overflow-y-hidden md:flex-col md:space-y-3 md:space-x-0 space-x-2 scrollbar-hide   place-items-center p-2 ">
+            <button onClick={scrollUp} className="p-1 bg-gray-200 rounded hover:bg-gray-300 md:w-full h-full md:h-auto  flex justify-center items-center focus:ring-2 ring-primary m-2 ">
+              {isMobile ? <ChevronLeftIcon className="w-6 h-6 text-gray-600" /> : <ChevronUpIcon className="w-6 h-6 text-gray-600" />}
+            </button>
+            <div className=' md:max-h-96 md:h-96 overflow-hidden md:space-y-3 md:space-x-0 space-x-3 md:flex-col flex flex-row items-center overflow-x-auto scrollbar-hide  place-items-center ' ref={containerRef}>
+              {product.Images.map((img, index) => (
+                <img key={index} src={`${apiurl()}/${img}`} alt={`Thumbnail ${index + 1}`}
+                  ref={(el) => (tabRefs.current[index] = el)} className={`w-20 h-20 border  ${mainImage === img ? 'border-secondary' : 'border-gray-300 bg-primary'} rounded cursor-pointer p-2`}
+                  // onClick={() => setMainImage(img)}
+                  onMouseEnter={() => setMainImage(img)}
+                />
+              ))}
+            </div>
+            <button onClick={scrollDown} className="p-1 bg-gray-200 rounded hover:bg-gray-300  md:w-full h-full flex justify-center items-center focus:ring-2 ring-primary m-2">
+              {isMobile ? <ChevronRightIcon className="w-6 h-6 text-gray-600" /> : <ChevronDownIcon className="w-6 h-6 text-gray-600" />}
+            </button>
+          </div>
         </div>
-        <div className="flex-1 order-1 col-span-6 mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 place-items-center "   >
+        <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 m-2 place-items-center "   >
           <div className="relative" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
-            <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="object-contain max-h-96 min-h-96 w-96" />
+            <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="object-contain " />
           </div>
         </div>
         {/* <div className="flex-1 order-1 col-span-6 mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 place-items-center ">
@@ -65,7 +106,7 @@ const ProductView = (props) => {
             </Swiper>
           )}
         </div> */}
-        <div className="order-3 col-span-6 mt-5 space-y-4 xl:col-span-3 md:col-span-3 md:order-3 xl:mt-0">
+        <div className="order-3 col-span-6 mt-5 space-y-4 xl:col-span-4 md:col-span-3 md:order-3 sticky top-20 m-2 xl:mt-0 ">
           {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
               <p className="inline-block text-xs font-medium">
@@ -79,7 +120,7 @@ const ProductView = (props) => {
             )}
           </div> */}
           <div className='flex flex-wrap items-end justify-start'>
-            <h1 className="font-semibold md:text-2xl me-2">{product.Product_Name} </h1>
+            <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
             {product.QTY == 0 || product.QTY < 0 && (
               <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
                 <p className="text-xs ">Out of Stock</p>
@@ -102,15 +143,15 @@ const ProductView = (props) => {
 
           <div className="flex items-center space-x-2">
             {product.Discount > 0 && (
-              <span className="md:px-2 px-3 md:py-1 text-sm font-semibold text-white bg-[#F29D36] rounded-3xl">{product.Discount}% off</span>
+              <span className="md:px-2 px-3 md:py-1 text-sm font-semibold text-white bg-secondary rounded-3xl">{product.Discount}% off</span>
             )}
             {product.Sale_Price > 0 && (
-              <span className="text-base font-bold text-orange-600 md:text-2xl">
+              <span className="text-base font-bold text-primary md:text-2xl">
                 ₹{((product.Sale_Price - (product.Sale_Price * product.Discount) / 100)).toFixed(2)}
               </span>
             )}
             {product.Discount > 0 && (
-              <span className="text-sm text-gray-400 line-through md:text-base">₹{product?.Sale_Price?.toFixed(2)}</span>
+              <span className="text-xs text-third line-through md:text-base">₹{product?.Sale_Price?.toFixed(2)}</span>
             )}
           </div>
 
@@ -118,36 +159,38 @@ const ProductView = (props) => {
             {product.QTY > 0 && product.QTY !== null && (
               <>
                 {getCurrentCartQuantity() === 0 ? (
-                  <button className="flex items-center justify-center gap-2 w-full p-4 px-6 md:text-base text-sm font-semibold text-white bg-secondary hover:bg-primary transition-colors rounded-full" onClick={() => handleAddToCart(product)}  >
-                    <span>
-                      <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />
-                    </span>
+                  <button className="flex items-center justify-center gap-2 w-full p-5 px-6 md:text-base text-sm font-semibold text-white rounded-xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
+                    <span>  <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />  </span>
                     Add to Cart
                   </button>
                 ) : (
-                  <div className="flex items-center justify-between w-full  font-semibold text-white bg-primary rounded-full">
-                    <button
-                      onClick={getCurrentCartQuantity() === 1 ? handleDelete : handleDecreaseQuantity}
-                      className="flex items-center justify-center     p-4 bg-green-800 px-6 text-white rounded-full"
-                    >
-                      {getCurrentCartQuantity() === 1 ? (
-                        <i className="fi fi-rr-trash relative top-[3px] w-5 text-white text-sm"></i>
-                      ) : (
-                        <span className='w-5'>-</span>
-                      )}
-                    </button>
+                  <button className="flex items-center justify-center gap-2 w-full p-5 px-6 md:text-base text-sm font-semibold text-white rounded-xl bg-primary transition-colors">
+                    <span>  <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />  </span>
                     <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
-                    <button onClick={handleIncreaseQuantity} className=" text-white rounded-full  p-4 px-6 bg-green-800">+</button>
+                  </button>
+                )}
+                {getCurrentCartQuantity() >= 1 ? (
+                  <div className='flex flex-col justify-between gap-3'>
+                    <button className='bg-primary rounded-xl border-primary border cursor-pointer' onClick={handleIncreaseQuantity}>
+                      <ChevronUpIcon className="w-6 h-6 text-white" />
+                    </button>
+                    <button className='bg-primary rounded-xl  cursor-pointer disabled:cursor-not-allowed  disabled:bg-primary/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
+                      <ChevronDownIcon className="w-6 h-6 text-white" />
+                    </button>
+                  </div>
+                ) : (
+                  <div>
                   </div>
                 )}
               </>
             )}
+
             {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
               {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
             </button> */}
-            <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
+            <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
               {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
                 <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
               ) : (
@@ -185,15 +228,17 @@ const ProductView = (props) => {
             </div>}
           {/* description */}
           <div className=" space-y-4">
-            <div className="p-2 border rounded-md shadow-md">
-              <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
-                <h2 className="font-semibold">Description</h2>
-                <i className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? 'rotate-180' : 'rotate-0'} duration-300 `}></i>
+            <div className="  ">
+              <div className="flex items-center justify-between cursor-pointer bg-gray-50 p-3" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
+                <h2 className=" uppercase">PRODUCT DESCRIPTION</h2>
+                <i
+                  className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? "rotate-180" : "rotate-0"
+                    } duration-300`}
+                ></i>
               </div>
-              <div ref={descriptionRef} className={`transition-height ${isDescriptionOpen ? 'h-auto' : 'h-0'}`}
-                style={{ height: isDescriptionOpen ? `${descriptionRef.current.scrollHeight}px` : '0px' }}
-              >
-                <div className="mt-2 text-gray-700 dark:text-white">
+              <div ref={descriptionRef} className={`transition-all duration-300 overflow-hidden`}
+                style={{ height: isDescriptionOpen ? contentHeight : "0px", }}  >
+                <div className=" text-gray-700 dark:text-white p-2 ">
                   <p dangerouslySetInnerHTML={{ __html: product.Product_Description }}></p>
                 </div>
               </div>

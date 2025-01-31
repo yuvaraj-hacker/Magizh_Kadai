@@ -1,4 +1,4 @@
- 
+
 import { useCallback, useEffect, useState } from 'react';
 import SavedItems from '../../shared/Components/SavedItems/SavedItems'
 import useCart from '../../shared/services/store/useCart';
@@ -81,24 +81,24 @@ function SavedItemPage() {
                 toast.error("Product is already in your cart!");
                 return;
             }
-    
+
             if (userdetails?.Email) {
                 const cartData = {
                     productId: item.productId._id,
                     Email: userdetails.Email,
                     Quantity: item.Quantity || 1
                 };
-                
+
                 await savecartitems(cartData);
-    
+
                 addToCart({
                     productId: item.productId,
                     Quantity: item.Quantity || 1,
                     _id: item.productId._id
                 });
-    
+
                 await removeWishlistSelectedItem(item);
-                
+
                 toast.success("Product added to cart successfully!");
             } else {
                 toast.error("Please login to add items to cart");
@@ -147,13 +147,13 @@ function SavedItemPage() {
     return (
         <>
             <section className=''>
-                <SavedItems  
-                    wishlist={wishlist} 
-                    clearWishlist={clearWishlist} 
-                    removeWishlistSelectedItem={removeWishlistSelectedItem} 
-                    handleIncreaseQuantity={handleIncreaseQuantity} 
-                    handleDecreaseQuantity={handleDecreaseQuantity} 
-                    handleAddToCart={handleAddToCart} 
+                <SavedItems
+                    wishlist={wishlist}     
+                    clearWishlist={clearWishlist}
+                    removeWishlistSelectedItem={removeWishlistSelectedItem}
+                    handleIncreaseQuantity={handleIncreaseQuantity}
+                    handleDecreaseQuantity={handleDecreaseQuantity}
+                    handleAddToCart={handleAddToCart}
                 />
             </section>
         </>

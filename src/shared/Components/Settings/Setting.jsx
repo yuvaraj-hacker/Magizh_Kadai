@@ -22,17 +22,17 @@ function Setting(props) {
     const { name: displayName, profileBg, verificationStatus } = getGuestDisplayInfo();
 
     return (
-        <div className="dark:bg-black">
+        <div className="dark:bg-black min-h-">
             <div className="container max-w-4xl px-4 py-12 mx-auto">
                 {/* Header */}
                 <div className="flex items-center mb-10 space-x-4">
-                    <Link 
-                        to='/profile' 
+                    <Link
+                        to='/profile'
                         className="p-2 transition-colors rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 md:hidden"
                     >
                         <Settings className="w-6 h-6 text-gray-600 dark:text-gray-300" />
                     </Link>
-                    <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#38031D] to-[#4e072a] dark:text-white">
+                    <h1 className="text-3xl font-extrabold text-transparent bg-clip-text  dark:text-white">
                         Account Settings
                     </h1>
                 </div>

@@ -15,21 +15,22 @@ export default function CartPage(props) {
     <>
       {cartItems.length === 0 ? (
         <div className="px-5   ">
-          <div className="flex flex-col items-center justify-center border  border-gray-300 rounded-lg min-h-screen">
+          <div className="flex flex-col items-center justify-center rounded-lg min-h-[60vh] my-5 ">
             <div className="text-center">
               <div className="mb-2 text-gray-400">
-                <i className="text-xl fi fi-rr-shopping-cart-add"></i>
+                <i class="fi fi-bs-person-dolly-empty text-2xl"></i>
               </div>
               <p className="mb-2 text-lg text-gray-500 dark:text-white">No cart Items To Show</p>
-              <Link to="/">
-                <button className="bg-[#540045] text-white px-4 py-2 rounded-md hover:bg-[#3a0030] transition-colors">Start Shopping</button>
+              <Link to="/products">
+                <button className="bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition-colors">Find Your Favourites</button>
               </Link>
             </div>
           </div>
         </div>
       ) : (
-        <div className="max-w-[100rem] mx-auto px-5 md:my-10 my-5">
-          {/* <div className="flex items-center justify-between max-w-2xl p-2 mb-5 shadow-lg lg:p-4 bg-gradient-to-r from-primary/70 to-primary rounded-2xl">
+        <div className="max-w-[100rem] mx-auto md:px-5 md:my-10 my-5 min-h-[60vh]">
+          <div className="grid grid-cols-1">
+            {/* <div className="flex items-center justify-between max-w-2xl p-2 mb-5 shadow-lg lg:p-4 bg-gradient-to-r from-primary/70 to-primary rounded-2xl">
             <div className="flex items-center space-x-4">
               <div className="p-3 bg-white rounded-full">
                 <ShoppingCart size={24} className="text-orange-700" />
@@ -48,11 +49,11 @@ export default function CartPage(props) {
               </button>
             </Link>
           </div> */}
-          {/* {renderDeliveryPrompt()} */}
-          <div className="grid md:grid-cols-12 relative gap-5">
-            <div className="col-span-9 p-4 border rounded-t-xl border-primary ">
-              <div className="">
-                {/* <div className="justify-between lg:flex">
+            {/* {renderDeliveryPrompt()} */}
+            <div className="grid xl:grid-cols-12  relative gap-5">
+              <div className="xl:col-span-9 md:p-4 p-2  border rounded-xl  bg-gray-50 ">
+                <div className="">
+                  {/* <div className="justify-between lg:flex">
                   <div className="flex gap-3">
                     <i className="inline-flex items-center justify-center w-5 h-5 p-5 mt-2 rounded-full fi fi-rs-shipping-timed bg-danger-50 dark:bg-gray-500"></i>
                     <div className="space-y-2">
@@ -105,321 +106,317 @@ export default function CartPage(props) {
                     {/* {deliveryType === 'delivery' && (
                                     <p><span className="text-gray-400">Delivery fee <s>$6.95</s></span> ${deliveryFee?.toFixed(2)}</p>
                                 )} */}
-                {/* {deliveryType === 'pickup' && (
+                  {/* {deliveryType === 'pickup' && (
                                 <p><span className="text-gray-400">Delivery fee <s>$6.95</s></span> ${deliveryFee.toFixed(2)}</p>
                             )} */}
-                {/*   </div>
+                  {/*   </div>
                 </div> */}
-                <div className="md:text-3xl text-center text-base">Your Cart ({cartItems.length} items)</div>
-                {cartItems
-                  .filter(
-                    (item) =>
-                      item.productId?.Category !==
-                      "Fresh Flowers & Leaves" &&
-                      item.Category !== "Fresh Flowers & Leaves"
-                  )
-                  .map((item) => (
-                    <div key={item._id} className="mt-10">
-                      <div>
-                        <div className="flex justify-end gap-10 my-5">
-                          {/* <button className="flex items-center gap-2 text-gray-500">  <i className="flex items-center fi fi-rs-bookmark"></i> <span>
+                  <div className="md:text-2xl text-center text-base">Your Cart ({cartItems.length} items)</div>
+                  {cartItems
+                    .filter(
+                      (item) =>
+                        item.productId?.Category !==
+                        "Fresh Flowers & Leaves" &&
+                        item.Category !== "Fresh Flowers & Leaves"
+                    )
+                    .map((item) => (
+                      <div key={item._id} className=" ">
+                        <div>
+                          <div className="flex justify-end   my-5">
+                            {/* <button className="flex items-center gap-2 text-gray-500">  <i className="flex items-center fi fi-rs-bookmark"></i> <span>
                                 </span></button> */}
-                          <button
-                            className={`text-[#CA2E43]   hover:border-[#CA2E43]  flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                            onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
-                            disabled={updatingItems.has(item._id)}
-                          >
-                            <i className="fi fi-sr-circle-xmark flex items-center md:text-2xl"></i>{" "}
-                            {/* <span className="hidden md:block dark:text-red-400"> Remove </span> */}
-                          </button>
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between gap-5">
-                          <div className="flex gap-3">
-                            <div className=" min-w-28">
-                              <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`}
-                                alt={item.productId?.Product_Name || item?.Product_Name}
-                                className="object-cover w-32 cursor-pointer h-28 p-2 border rounded-lg shadow-md"
-                                onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <h3 className="text-base font-medium md:text-xl dark:text-white">
-                                {item.productId?.Product_Name || item.Product_Name}
-                              </h3>
-                              <div className="flex items-center gap-3">
-                                {item.productId?.Discount > 0 ||
-                                  item.Discount > 0 ? (
-                                  <>
-                                    <h3 className="text-sm font-semibold text-green-600 md:text-lg dark:text-white">
+                            <button
+                              className={`  text-third   flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                              onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
+                              disabled={updatingItems.has(item._id)}
+                            >
+                              <i class="fi fi-sr-trash text-2xl"></i>{" "}
+                              {/* <span className="hidden md:block dark:text-red-400"> Remove </span> */}
+                            </button>
+                          </div>
+                          <div className=" grid 2xl:grid-cols-4 grid-cols-1 gap-4">
+                            <div className="flex gap-3 col-span-3 flex-wrap md:flex-nowrap">
+                              <div className=" min-w-28">
+                                <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`}
+                                  alt={item.productId?.Product_Name || item?.Product_Name}
+                                  className="object-cover w-32 cursor-pointer h-28 rounded-xl"
+                                  onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <h3 className="text-sm font-medium md:text-lg dark:text-white">
+                                  {item.productId?.Product_Name || item.Product_Name}
+                                </h3>
+                                <div className="flex items-center gap-3">
+                                  {item.productId?.Discount > 0 ||
+                                    item.Discount > 0 ? (
+                                    <>
+                                      <h3 className="text-sm font-semibold text-primary md:text-lg dark:text-white">
+                                        ₹
+                                        {(
+                                          item.productId?.Sale_Price *
+                                          (1 - item.productId?.Discount / 100) || item.Sale_Price *
+                                          (1 - item.Discount / 100)
+                                        ).toFixed(2)}
+                                      </h3>
+                                      <span className="text-xs   text-third line-through dark:text-white"> ₹
+                                        {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                      </span>
+                                      <span className="text-xs font-semibold text-white bg-secondary rounded-3xl px-2 py-1 dark:text-white">
+                                        {item.productId?.Discount || item.Discount}
+                                        % off
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
                                       ₹
-                                      {(
-                                        item.productId?.Sale_Price *
-                                        (1 - item.productId?.Discount / 100) || item.Sale_Price *
-                                        (1 - item.Discount / 100)
-                                      ).toFixed(2)}
-                                    </h3>
-                                    <span className="text-sm text-gray-400 line-through dark:text-white"> ₹
                                       {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
-                                    </span>
-                                    <span className="text-xs font-semibold text-white bg-[#F29D36] rounded-3xl px-2 py-1 dark:text-white">
-                                      {item.productId?.Discount || item.Discount}
-                                      % off
-                                    </span>
-                                  </>
-                                ) : (
-                                  <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
-                                    ₹
-                                    {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
-                                  </h3>
-                                )}
+                                    </h3>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-10 col-span-1">
+                              <div className="flex items-center gap-3 border rounded-lg shadow-sm">
+                                <button
+                                  className={`text-gray-500 hover:text-gray-700 p-2   hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                                  onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")} disabled={updatingItems.has(item._id)}  >
+                                  {item.Quantity == 1 ? (
+                                    <i class="fi fi-sr-trash  flex items-center text-third "></i>
+                                  ) : (
+                                    <Minus size={16} className="dark:text-white dark:hover:text-black" />
+                                  )}
+                                </button>
+                                <span className="w-8 text-center">
+                                  {updatingItems.has(item._id)
+                                    ? "..."
+                                    : item.Quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    !updatingItems.has(item._id) &&
+                                    handleQuantityChange(item._id, "increase")
+                                  }
+                                  disabled={
+                                    (updatingItems.has(item._id) ||
+                                      !updatingItems.has(item._id)) &&
+                                    (item?.Quantity >= item.productId?.QTY ||
+                                      item?.Quantity >= item?.QTY)
+                                  }
+                                  className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                    }`}
+                                >
+                                  <Plus size={16} className="dark:text-white dark:hover:text-black" />
+                                </button>
+                              </div>
+                              <div className="w-32 text-sm font-medium text-center md:text-lg">
+                                ₹
+                                {item.productId?.Discount || item.Discount > 0
+                                  ? // Discounted price calculation
+                                  (
+                                    (item.productId?.Sale_Price
+                                      ? item.productId.Sale_Price -
+                                      (item.productId.Sale_Price *
+                                        item.productId.Discount) /
+                                      100
+                                      : item.Sale_Price -
+                                      (item.Sale_Price * item.Discount) /
+                                      100) * (item.Quantity || 0)
+                                  ).toFixed(2)
+                                  : // Regular price calculation
+                                  (
+                                    (item.productId?.Sale_Price ||
+                                      item.Sale_Price ||
+                                      0) * (item.Quantity || 0)
+                                  ).toFixed(2)}
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-10">
-                            <div className="flex items-center gap-3 border rounded-lg shadow-sm">
-                              <button
-                                className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                                onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")}
-                                disabled={updatingItems.has(item._id)}
-                              >
-                                {item.Quantity == 1 ? (
-                                  <i className="fi fi-br-trash flex items-center text-[#CA2E43] hover:text-[#ca4557]"></i>
-                                ) : (
-                                  <Minus size={16} className="dark:text-white dark:hover:text-black" />
-                                )}
-                              </button>
-                              <span className="w-8 text-center">
-                                {updatingItems.has(item._id)
-                                  ? "..."
-                                  : item.Quantity}
-                              </span>
-                              <button
-                                onClick={() =>
-                                  !updatingItems.has(item._id) &&
-                                  handleQuantityChange(item._id, "increase")
-                                }
-                                disabled={
-                                  (updatingItems.has(item._id) ||
-                                    !updatingItems.has(item._id)) &&
-                                  (item?.Quantity >= item.productId?.QTY ||
-                                    item?.Quantity >= item?.QTY)
-                                }
-                                className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
-                                  ? "opacity-50 cursor-not-allowed"
-                                  : ""
-                                  }`}
-                              >
-                                <Plus size={16} className="dark:text-white dark:hover:text-black" />
-                              </button>
-                            </div>
-                            <div className="w-32 text-sm font-medium text-center md:text-lg">
-                              ₹
-                              {item.productId?.Discount || item.Discount > 0
-                                ? // Discounted price calculation
-                                (
-                                  (item.productId?.Sale_Price
-                                    ? item.productId.Sale_Price -
-                                    (item.productId.Sale_Price *
-                                      item.productId.Discount) /
-                                    100
-                                    : item.Sale_Price -
-                                    (item.Sale_Price * item.Discount) /
-                                    100) * (item.Quantity || 0)
-                                ).toFixed(2)
-                                : // Regular price calculation
-                                (
-                                  (item.productId?.Sale_Price ||
-                                    item.Sale_Price ||
-                                    0) * (item.Quantity || 0)
-                                ).toFixed(2)}
-                            </div>
+                        </div>
+                        <hr className="mt-4" />
+                      </div>
+                    ))}
+                  {/* Flower Products Section */}
+                  {cartItems.some(
+                    (item) =>
+                      item.productId?.Category ===
+                      "Fresh Flowers & Leaves" ||
+                      item.Category === "Fresh Flowers & Leaves"
+                  ) && (
+                      <div className="p-4 mt-5 mb-6 border-2 border-pink-200 rounded-lg dark:border-zinc-400 bg-pink-50 dark:bg-zinc-500">
+                        <div className="flex items-center mb-4">
+                          <i className="mr-3 text-2xl text-pink-600 fi fi-rs-flower dark:text-pink-300"></i>
+                          <h3 className="text-lg font-bold text-pink-800 dark:text-white">
+                            Fresh Flowers & Leaves
+                          </h3>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="p-3 bg-white rounded-lg shadow-sm">
+                            <p className="mb-2 text-sm text-pink-700">
+                              <strong>Special Delivery Note:</strong> Fresh flowers are delivered one week from order date.
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              We ensure the freshest flowers by scheduling delivery after careful preparation.
+                            </p>
                           </div>
                         </div>
 
-                      </div>
-                      <hr className="mt-4" />
-                    </div>
-                  ))}
-                {/* Flower Products Section */}
-                {cartItems.some(
-                  (item) =>
-                    item.productId?.Category ===
-                    "Fresh Flowers & Leaves" ||
-                    item.Category === "Fresh Flowers & Leaves"
-                ) && (
-                    <div className="p-4 mt-5 mb-6 border-2 border-pink-200 rounded-lg dark:border-zinc-400 bg-pink-50 dark:bg-zinc-500">
-                      <div className="flex items-center mb-4">
-                        <i className="mr-3 text-2xl text-pink-600 fi fi-rs-flower dark:text-pink-300"></i>
-                        <h3 className="text-lg font-bold text-pink-800 dark:text-white">
-                          Fresh Flowers & Leaves
-                        </h3>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="p-3 bg-white rounded-lg shadow-sm">
-                          <p className="mb-2 text-sm text-pink-700">
-                            <strong>Special Delivery Note:</strong> Fresh flowers are delivered one week from order date.
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            We ensure the freshest flowers by scheduling delivery after careful preparation.
-                          </p>
-                        </div>
-                      </div>
-
-                      {cartItems
-                        .filter((item) => {
-                          const category = item.productId?.Category || item.Category;
-                          return category === "Fresh Flowers & Leaves";
-                        })
-                        .map((item) => (
-                          <div key={item._id} className="pt-4 mt-4 border-t">
-                            <div className="flex flex-wrap items-center justify-between gap-5">
-                              <div className="flex gap-3">
-                                <div className="p-2 border rounded-lg shadow-md">
-                                  <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`}
-                                    alt={item.productId?.Product_Name || item?.Product_Name}
-                                    className="object-cover w-32 rounded cursor-pointer h-28"
-                                    onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)}
-                                  />
-                                </div>
-                                <div className="space-y-2">
-                                  <h3 className="text-base font-medium md:text-xl dark:text-white">
-                                    {item.productId?.Product_Name || item.Product_Name}
-                                  </h3>
-                                  <div className="flex items-center gap-3">
-                                    {item.productId?.Discount > 0 ||
-                                      item.Discount > 0 ? (
-                                      <>
-                                        <h3 className="text-sm font-semibold text-green-600 md:text-lg">
+                        {cartItems
+                          .filter((item) => {
+                            const category = item.productId?.Category || item.Category;
+                            return category === "Fresh Flowers & Leaves";
+                          })
+                          .map((item) => (
+                            <div key={item._id} className="pt-4 mt-4 border-t">
+                              <div className="flex flex-wrap items-center justify-between gap-5">
+                                <div className="flex gap-3">
+                                  <div className="p-2 border rounded-lg shadow-md">
+                                    <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`}
+                                      alt={item.productId?.Product_Name || item?.Product_Name}
+                                      className="object-cover w-32 rounded cursor-pointer h-28"
+                                      onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)}
+                                    />
+                                  </div>
+                                  <div className="space-y-2">
+                                    <h3 className="text-base font-medium md:text-xl dark:text-white">
+                                      {item.productId?.Product_Name || item.Product_Name}
+                                    </h3>
+                                    <div className="flex items-center gap-3">
+                                      {item.productId?.Discount > 0 ||
+                                        item.Discount > 0 ? (
+                                        <>
+                                          <h3 className="text-sm font-semibold text-green-600 md:text-lg">
+                                            $
+                                            {(item.productId?.Sale_Price * (1 - item.productId?.Discount / 100) || item.Sale_Price * (1 - item.Discount / 100)).toFixed(2)}
+                                          </h3>
+                                          <span className="text-sm text-gray-400 line-through">
+                                            $ {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                          </span>
+                                          <span className="text-xs font-semibold text-white bg-[#F29D36] rounded-3xl px-2 py-1">
+                                            {item.productId?.Discount ||
+                                              item.Discount}
+                                            % off
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
                                           $
-                                          {(item.productId?.Sale_Price * (1 - item.productId?.Discount / 100) || item.Sale_Price * (1 - item.Discount / 100)).toFixed(2)}
+                                          {item.productId?.Sale_Price?.toFixed(2) ||
+                                            item.Sale_Price?.toFixed(2)}
                                         </h3>
-                                        <span className="text-sm text-gray-400 line-through">
-                                          $ {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
-                                        </span>
-                                        <span className="text-xs font-semibold text-white bg-[#F29D36] rounded-3xl px-2 py-1">
-                                          {item.productId?.Discount ||
-                                            item.Discount}
-                                          % off
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
-                                        $
-                                        {item.productId?.Sale_Price?.toFixed(2) ||
-                                          item.Sale_Price?.toFixed(2)}
-                                      </h3>
-                                    )}
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-10">
+                                  <div className="flex items-center gap-3 border rounded-lg shadow-sm">
+                                    <button
+                                      className={`text-gray-500 hover:text-gray-700  p-2 rounded-lg hover:bg-gray-100  ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                                      onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")}
+                                      disabled={updatingItems.has(item._id)} >
+                                      {item.Quantity == 1 ? (
+                                        <i className="fi fi-br-trash flex items-center text-[#CA2E43] hover:text-[#ca4557]"></i>
+                                      ) : (
+                                        <Minus size={16} className="dark:text-white dark:hover:text-black" />
+                                      )}
+                                    </button>
+                                    <span className="w-8 text-center">
+                                      {updatingItems.has(item._id) ? "..." : item.Quantity}
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        !updatingItems.has(item._id) &&
+                                        handleQuantityChange(item._id, "increase")
+                                      }
+                                      disabled={
+                                        (updatingItems.has(item._id) ||
+                                          !updatingItems.has(item._id)) &&
+                                        (item?.Quantity >= item.productId?.QTY ||
+                                          item?.Quantity >= item?.QTY)
+                                      }
+                                      className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 ${updatingItems.has(item._id)
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : ""
+                                        }`}
+                                    >
+                                      <Plus size={16} className="dark:text-white dark:hover:text-black" />
+                                    </button>
+                                  </div>
+                                  <div className="w-32 text-sm font-medium text-center md:text-lg">
+                                    $
+                                    {item.productId?.Discount > 0
+                                      ? (
+                                        (item.productId?.Sale_Price -
+                                          (item.productId?.Sale_Price *
+                                            item.productId?.Discount) /
+                                          100) *
+                                        item.Quantity
+                                      ).toFixed(2)
+                                      : (
+                                        (item.productId?.Sale_Price ||
+                                          item.Sale_Price ||
+                                          0) * (item.Quantity || 0)
+                                      ).toFixed(2)}
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-10">
-                                <div className="flex items-center gap-3 border rounded-lg shadow-sm">
-                                  <button
-                                    className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                                    onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")}
-                                    disabled={updatingItems.has(item._id)}
-                                  >
-                                    {item.Quantity == 1 ? (
-                                      <i className="fi fi-br-trash flex items-center text-[#CA2E43] hover:text-[#ca4557]"></i>
-                                    ) : (
-                                      <Minus size={16} className="dark:text-white dark:hover:text-black" />
-                                    )}
-                                  </button>
-                                  <span className="w-8 text-center">
-                                    {updatingItems.has(item._id) ? "..." : item.Quantity}
-                                  </span>
-                                  <button
-                                    onClick={() =>
-                                      !updatingItems.has(item._id) &&
-                                      handleQuantityChange(item._id, "increase")
-                                    }
-                                    disabled={
-                                      (updatingItems.has(item._id) ||
-                                        !updatingItems.has(item._id)) &&
-                                      (item?.Quantity >= item.productId?.QTY ||
-                                        item?.Quantity >= item?.QTY)
-                                    }
-                                    className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 ${updatingItems.has(item._id)
-                                      ? "opacity-50 cursor-not-allowed"
-                                      : ""
-                                      }`}
-                                  >
-                                    <Plus size={16} className="dark:text-white dark:hover:text-black" />
-                                  </button>
-                                </div>
-                                <div className="w-32 text-sm font-medium text-center md:text-lg">
-                                  $
-                                  {item.productId?.Discount > 0
-                                    ? (
-                                      (item.productId?.Sale_Price -
-                                        (item.productId?.Sale_Price *
-                                          item.productId?.Discount) /
-                                        100) *
-                                      item.Quantity
-                                    ).toFixed(2)
-                                    : (
-                                      (item.productId?.Sale_Price ||
-                                        item.Sale_Price ||
-                                        0) * (item.Quantity || 0)
-                                    ).toFixed(2)}
-                                </div>
+                              <div className="flex justify-end gap-10 mt-3">
+                                <button className={`text-[#CA2E43] border p-1 rounded-lg hover:border-[#CA2E43] dark:hover:border-gray-400 flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                                  onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
+                                  disabled={updatingItems.has(item._id)}
+                                >
+                                  <i className="flex items-center fi fi-sr-circle-xmark dark:text-white"></i>
+                                  <i class="fi fi-sr-circle-xmark text-xl text-red-600"></i>
+                                  <span className="hidden md:block dark:text-white"> Remove </span>
+                                </button>
                               </div>
                             </div>
-                            <div className="flex justify-end gap-10 mt-3">
-                              <button className={`text-[#CA2E43] border p-1 rounded-lg hover:border-[#CA2E43] dark:hover:border-gray-400 flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                                onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
-                                disabled={updatingItems.has(item._id)}
-                              >
-                                <i className="flex items-center fi fi-sr-circle-xmark dark:text-white"></i>
-                                <i class="fi fi-sr-circle-xmark text-xl text-red-600"></i>
-                                <span className="hidden md:block dark:text-white"> Remove </span>
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  )}
+                          ))}
+                      </div>
+                    )}
+                </div>
               </div>
-            </div>
-            <div className="col-span-3 sticky top-28  h-fit border-2 rounded-t-xl border-primary">
-              <div className=" h-full ">
-                <div>
-                  <div className="p-3">
-                    <div>
-                      <p className="text-base font-semibold md:text-lg">Summary</p>
-                      <div className="flex justify-between mt-3">
-                        <p className="text-sm md:text-base">Price</p>
-                        <p className="text-xs md:text-sm"> ₹{subtotal?.toFixed(2)} </p>
-                      </div>
-                      <hr className="mt-3" />
-                      <div className="flex justify-between mt-3 b">
-                        <p className="text-sm md:text-base">Discount Price</p>
-                        <p className="text-xs text-red-500 md:text-sm">- ₹{totalDiscount.toFixed(2)} </p>
-                      </div>
-                      <hr className="mt-3" />
-                      <div className="flex justify-between mt-3">
-                        <p className="text-sm md:text-base">Items total</p>
-                        {/* <p className="text-xs md:text-sm">${subtotal?.toFixed(2)}</p> */}
-                        <p className="text-xs md:text-sm">{cartItems.length}</p>
-                      </div>
-                      {/* <div className="flex justify-between mt-3">
+              <div className="xl:col-span-3  rounded-xl  xl:sticky xl:top-28 sticky lg:bottom-0 bottom-[60px] h-fit bg-gray-100">
+                <div className=" h-full ">
+                  <div>
+                    <div className="p-3">
+                      <div>
+                        <p className="text-base font-semibold md:text-lg xl:block hidden">Summary</p>
+                        <div className="xl:flex justify-between mt-3 hidden">
+                          <p className="text-sm md:text-base">Price</p>
+                          <p className="text-xs md:text-sm"> ₹{subtotal?.toFixed(2)} </p>
+                        </div>
+                        <hr className="mt-3 xl:block hidden" />
+                        <div className="xl:flex justify-between mt-3 hidden">
+                          <p className="text-sm md:text-base">Discount Price</p>
+                          <p className="text-xs text-third md:text-sm">- ₹{totalDiscount.toFixed(2)} </p>
+                        </div>
+                        <hr className="mt-3 xl:block hidden" />
+                        <div className="xl:flex justify-between mt-3  hidden">
+                          <p className="text-sm md:text-base">Items total</p>
+                          {/* <p className="text-xs md:text-sm">${subtotal?.toFixed(2)}</p> */}
+                          <p className="text-xs md:text-sm">{cartItems.length}</p>
+                        </div>
+                        {/* <div className="flex justify-between mt-3">
                                         <p className="text-sm md:text-base">Delivery fee</p>
                                         <p className="text-xs md:text-sm">${deliveryFee?.toFixed(2)}</p>
                                     </div> */}
-                      <hr className="mt-3 text-primary " />
-                      <div className="flex justify-between mt-3 font-bold">
-                        <p className="text-sm md:text-base">Total</p>
-                        <p className="text-green-600">₹{finalTotal.toFixed(2)}</p>
-                      </div>
-                      <div className="flex items-center justify-end mt-3">
-                        <button className="bg-primary hover:bg-secondary text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>
-                          Checkout
-                        </button>
+                        <hr className="mt-3 text-primary  xl:block hidden" />
+                        <div className="flex justify-between xl:mt-3 font-bold">
+                          <p className="text-sm md:text-base flex gap-1">Total <span className="xl:hidden block "> ({cartItems.length})</span></p>
+                          <p className="text-green-600">₹{finalTotal.toFixed(2)}</p>
+                        </div>
+                        <div className="flex items-center justify-end mt-3">
+                          <button className="bg-primary hover:bg-secondary rounded-xl  text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>
+                            Checkout
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* <div>
+                    {/* <div>
                     <Link to="/">
                       <div className="flex items-center justify-end">
                         <button className="p-1 px-3 mt-5 text-sm font-semibold text-white transition-colors bg-secondary hover:bg-[#ffc445] md:text-base">
@@ -428,6 +425,7 @@ export default function CartPage(props) {
                       </div>
                     </Link>
                   </div> */}
+                  </div>
                 </div>
               </div>
             </div>

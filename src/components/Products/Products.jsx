@@ -228,9 +228,9 @@ const Products = () => {
     return (
         <>
             <section className='max-w-full mx-auto'>
-                <div className='max-w-[1900px] mx-auto flex  min-h-screen   relative dark:bg-black'>
+                <div className='max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black'>
                     {/* <Headpanel selectedCategory={selectedCategory} categories={categories} /> */}
-                    <div className={`lg:sticky lg:top-[101px] h-screen bg-gray-100  lg:left-0 fixed   z-40  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}>
+                    <div className={`lg:sticky lg:top-[101px] h-screen bg-gray-100  top-0   lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}>
                         <div className='lg:hidden block p-2'>
                             <div className='flex justify-end'>
                                 <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}></i>
@@ -265,7 +265,6 @@ const Products = () => {
                                 </ul>
                             </div>
                         </div>
-
                         <div className='space-y-2 p-4 border-b'>
                             <h1 className="  text-sm text-gray-600 uppercase ">Price</h1>
                             <div className=" flex justify-content-center">
@@ -275,7 +274,6 @@ const Products = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className='space-y-2 p-4 border-b'>
                             <h1 className="  text-sm text-gray-600 uppercase ">Discount</h1>
                             <div className='text-xs space-y-2'>
@@ -317,8 +315,6 @@ const Products = () => {
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <div>
                         <div>
