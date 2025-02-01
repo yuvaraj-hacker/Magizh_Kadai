@@ -20,6 +20,7 @@ import { InputText } from "primereact/inputtext";
 const Products = () => {
     const [value, setValue] = useState(50);
     const [categories, setCategories] = useState([]);
+    const [discount, setDiscount] = useState([]);
     const [isSidebaropen, setIssidebaropen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { userdetails } = useAuth();
@@ -28,30 +29,75 @@ const Products = () => {
     const [visible1, setVisible1] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [products, setProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("");
     const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") ? searchParams.get("category").split(",") : []);
     const queryParams = new URLSearchParams(location.search);
     const selectedSubcategory = queryParams.get('subcategory');
     const placements = ["inside", "outside", "outside-left"];
     const [wishlistData, setWishlistData] = useState([]);
     const [opencategories, setOpenCategories] = useState(false);
     const [Sort, setSort] = useState(null);
-
-
+    const selectedCategories = searchParams.get("category") ? searchParams.get("category").split(",") : [];
+    const selectedDiscount = searchParams.get("discount") ? searchParams.get("discount").split(",") : [];
+    // const selectedCategory = searchParams.get("category") || "All Categories";
 
     let isMounted = true;
 
+    // const getAllProducts = useCallback(async () => {
+    //     setIsLoading(true);
+    //     const res = await getallproducts({ Category: queryParams.get('category'), Sub_Category: queryParams.get('subcategory'), Sale_Price: Sort });
+    //     setProducts(res.resdata);
+    //     setIsLoading(false);
+    // }, [selectedCategories, queryParams, selectedSubcategory, Sort]);
     const getAllProducts = useCallback(async () => {
         setIsLoading(true);
-        const res = await getallproducts({ Category: queryParams.get('category'), Sub_Category: queryParams.get('subcategory'), Sale_Price: Sort });
-        setProducts(res.resdata);
-        setIsLoading(false);
-    }, [selectedCategory, queryParams, selectedSubcategory, Sort]);
-
+        try {
+            // Initialize base params
+            let params = {
+                globalfilter: ''
+            };
+            // Handle category filtering
+            const categoryParam = queryParams.get('category');
+            if (categoryParam) {
+                // For multiple categories, we need to use $in operator
+                const categories = categoryParam.split(',');
+                if (categories.length > 0) {
+                    params['Category'] = { $in: categories };
+                }
+            }
+            const discountParam = queryParams.get('discount');
+            if (discountParam) {
+                // For multiple categories, we need to use $in operator
+                const discount = discountParam.split(',');
+                if (discount.length > 0) {
+                    params['Discount'] = { $in: discount };
+                }
+            }
+            // Add subcategory if it exists
+            if (queryParams.get('subcategory')) {
+                params['Sub_Category'] = queryParams.get('subcategory');
+            }
+            // if (queryParams.get('discount')) {
+            //     params['Discount'] = queryParams.get('discount');
+            // }
+            // Add sort parameter if it exists
+            if (Sort) {
+                params['Sale_Price'] = Sort;
+            }
+            const res = await getallproducts(params);
+            setProducts(res.resdata);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            toast.error('Failed to fetch products');
+        } finally {
+            setIsLoading(false);
+        }
+    }, [selectedCategories, selectedDiscount, queryParams, selectedSubcategory, Sort]);
     const allCategories = useCallback(async () => {
         setIsLoading(true);
         try {
-            const res = await apigetallcategory();
+            const res = await getallproducts();
             setCategories(res.resdata);
         } catch (error) {
             console.error("Failed to fetch categories:", error);
@@ -59,16 +105,31 @@ const Products = () => {
             setIsLoading(false);
         }
     }, []);
+
     useEffect(() => {
         allCategories();
     }, [allCategories]);
 
+    const allDiscounts = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const res = await getallproducts();
+            setDiscount(res.resdata);
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        allDiscounts();
+    }, [allDiscounts]);
 
     const getWishlistItem = useCallback(async () => {
         var res = await getWishlistItems(userdetails?.Email);
         setWishlistData(res.response)
     }, [selectedCategory, selectedSubcategory, Sort]);
-
     useEffect(() => {
         if (isMounted) {
             getAllProducts();
@@ -167,7 +228,6 @@ const Products = () => {
                 toast.success(`Quantity increased! ${prod.Product_Name}: ${quantityDisplay}`);
             } else {
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
-
                 if (userdetails?.Email) {
                     const cartData = {
                         productId: prod._id,
@@ -176,9 +236,7 @@ const Products = () => {
                     };
                     await savecartitems(cartData);
                 }
-
                 addToCart({ ...prod, Quantity: initialQuantity });
-
                 const quantityDisplay = isFreshProduce ? "0.5 lb" : "1";
                 toast.success(`Product added to cart! ${prod.Product_Name} (${quantityDisplay})`);
                 updateTotalCartItems();
@@ -213,11 +271,10 @@ const Products = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    // const [selectedCategories, setSelectedCategories] = useState([]);
     // Function to toggle checkbox state
     const handleCategoryClick = (categoryName, e) => {
         e.preventDefault(); // Prevent <Link> from navigating immediately
-
         setSelectedCategories((prev) =>
             prev.includes(categoryName)
                 ? prev.filter((name) => name !== categoryName) // Uncheck
@@ -230,7 +287,7 @@ const Products = () => {
             <section className='max-w-full mx-auto'>
                 <div className='max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black'>
                     {/* <Headpanel selectedCategory={selectedCategory} categories={categories} /> */}
-                    <div className={`lg:sticky lg:top-[101px] h-screen bg-gray-100  top-0   lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}>
+                    <div className={`lg:sticky lg:top-[101px] h-screen bg-gray-100  top-0 lg:left-0 fixed lg:overflow-y-visible   overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}>
                         <div className='lg:hidden block p-2'>
                             <div className='flex justify-end'>
                                 <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}></i>
@@ -250,24 +307,42 @@ const Products = () => {
                             </div>
                             <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}>
                                 <ul className=" text-xs " >
-                                    {categories.map(
-                                        (category) => category.Category_Name !== "Everything" && (
+                                    {categories.map((category) => {
+                                        if (category.Category_Name === "Everything") return null;
+                                        // Handle "All Categories" case
+                                        const isAllCategories = category.Category_Name === "All Categories";
+                                        const isChecked = isAllCategories
+                                            ? !searchParams.get("category")
+                                            : selectedCategories.includes(category.Category_Name);
+                                        // Generate new URL with selected categories
+                                        let updatedCategories = [...selectedCategories];
+                                        if (isAllCategories) {
+                                            updatedCategories = []; // Reset filter
+                                        } else if (selectedCategories.includes(category.Category_Name)) {
+                                            updatedCategories = updatedCategories.filter(cat => cat !== category.Category_Name);
+                                        } else {
+                                            updatedCategories.push(category.Category_Name);
+                                        }
+                                        const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
+                                        const linkTo = `/products${queryString}`;
+                                        return (
                                             <li key={category._id} className="group py-1">
-                                                <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}  >
+                                                <Link to={linkTo}  >
                                                     <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
                                                         {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
-                                                        <input type="checkbox" className='cursor-pointer' readOnly />
+                                                        <input type="checkbox" className='cursor-pointer' checked={isChecked} readOnly />
                                                         <h5 className="whitespace-pre-wrap text-gray-500">{category.Category_Name}</h5>
                                                     </div>
                                                 </Link>
                                             </li>
-                                        ))}
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         </div>
                         <div className='space-y-2 p-4 border-b'>
-                            <h1 className="  text-sm text-gray-600 uppercase ">Price</h1>
-                            <div className=" flex justify-content-center">
+                            <h1 className="text-sm text-gray-600 uppercase">Price</h1>
+                            <div className="flex justify-content-center">
                                 <div className="card">
                                     <InputText value={value} onChange={(e) => setValue(e.target.value)} className="w-full text-center rounded-none py-2 focus:ring-0" />
                                     <Slider value={value} onChange={(e) => setValue(e.value)} className="w-full " />
@@ -276,45 +351,50 @@ const Products = () => {
                         </div>
                         <div className='space-y-2 p-4 border-b'>
                             <h1 className="  text-sm text-gray-600 uppercase ">Discount</h1>
-                            <div className='text-xs space-y-2'>
+                            {/* <div className='text-xs space-y-2'>
                                 <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden ">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
                                     <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">30 % or more</h5>
                                 </div>
                                 <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
                                     <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">40 % or more</h5>
                                 </div>
                                 <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
                                     <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">50 % or more</h5>
                                 </div>
                                 <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
                                     <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">60 % or more</h5>
                                 </div>
-                            </div>
+                            </div> */}
+                            {/* {discount.map((discounts, index) => {
+                                return (
+                                    <div key={index} className="group py-1">
+                                        <div className="flex gap-2 justify-start items-center  overflow-hidden">
+                                            <input type="checkbox" className='cursor-pointer' readOnly />
+                                            <h5 className="whitespace-pre-wrap text-gray-500">{discounts.Discount}</h5>
+                                        </div>
+
+                                    </div>
+                                );
+                            })} */}
+
                         </div>
-                        <div className='space-y-2 p-4 border-b'>
+                        {/* <div className='space-y-2 p-4 border-b'>
                             <h1 className="  text-sm text-gray-600 uppercase ">Customer Ratings</h1>
                             <div className='text-xs py-1'>
                                 <div className="flex gap-2 justify-start items-center  overflow-hidden ">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
-                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">3 <span><i class="fi fi-ss-star flex items-center"></i></span> & above</h1>
+                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">3 <span><i className="fi fi-ss-star flex items-center"></i></span> & above</h1>
                                 </div>
                                 <div className="flex gap-2 justify-start items-center  overflow-hidden">
-                                    {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />
-                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">4 <span> <i class="fi fi-ss-star flex items-center"></i> </span> & above</h1>
-
+                                    <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">4 <span> <i className="fi fi-ss-star flex items-center"></i> </span> & above</h1>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <div>

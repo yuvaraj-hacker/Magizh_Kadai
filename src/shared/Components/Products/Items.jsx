@@ -42,14 +42,10 @@ const Items = (prpos) => {
 
   if (!products || products.length === 0) {
     return (
-      <section>
-        <div className="w-full lg:pl-10 ">
-          <div className="flex items-center justify-center min-h-[calc(100vh_-_585px)]">
-            <h2 className="text-xl font-semibold text-gray-500 dark:text-white">
-              No products found
-            </h2>
-          </div>
-        </div>
+      <section className="max-w-[80rem] mx-auto px-5">
+        <h2 className="text-xl font-semibold  text-black">
+          No products found
+        </h2>
       </section>
     );
   }
@@ -63,7 +59,7 @@ const Items = (prpos) => {
           <div className=" flex  items-center gap-5  ">
             <div className="lg:hidden block text-end   bg-gray-50 rounded-lg  p-3 cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
               <div className="flex justify-end gap-4 items-center w-fit   ">
-                <i class="fi fi-rr-settings-sliders flex items-center "></i>
+                <i className="fi fi-rr-settings-sliders flex items-center "></i>
                 <p className="">Filter</p>
               </div>
             </div>
@@ -76,8 +72,8 @@ const Items = (prpos) => {
                     <span className="dark:text-black"> Sort By</span>
                   </div>
                 } className="w-40 max-w-xs lg:w-60 " classNames={{ trigger: " dark:bg-gray-100 dark:text-black", listbox: " dark:bg-gray-200 dark:text-black", popover: " dark:bg-gray-200 dark:text-black" }}  >
-                <SelectItem onClick={() => setSort(-1)}>Price: Low to High</SelectItem>
-                <SelectItem onClick={() => setSort(1)}>Price: High To Low</SelectItem>
+                <SelectItem onClick={() => setSort(1)}>Price: Low to High</SelectItem>
+                <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
               </Select>
             </div>
           </div>
@@ -85,7 +81,6 @@ const Items = (prpos) => {
       </div>
       <div className="relative p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-6 xl:grid-cols-5 gap-x-3 md:px-5 ">
         {products.map((prod, i) => (
-
           <div key={i} className="relative group ">
             <div className="w-full h-[300px]  sm:min-h-[380px] sm:max-h-[380px]  bg-white flex justify-between flex-col relative mb-5 shadow-md border rounded-2xl hover:shadow-md duration-300 hover:-translate-y-1 active:scale-95">
 
@@ -142,8 +137,6 @@ const Items = (prpos) => {
                   <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={`  object-contain group-hover:scale-110  group-hover:opacity-80 duration-300  rounded-lg`} />
                 </div>
               </Link>
-
-
               <div className=" pt-0  p-5">
                 <div className="">
                   <h2 className="mt-3 text-sm text-black dark:text-white md:text-base line-clamp-2 text-left">

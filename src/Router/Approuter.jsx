@@ -45,7 +45,7 @@ const Approuter = () => {
                     <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
                     <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                     <Route path="/saveditem" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
-                    <Route path="/setting" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SettingPage /></ProtectedRoute>} />  
+                    <Route path="/setting" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SettingPage /></ProtectedRoute>} />
                     <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} />
                     <Route path="/cart" element={<CartPageFunctions />} />
                     <Route path="/help-center" element={<HelpCenter />} />

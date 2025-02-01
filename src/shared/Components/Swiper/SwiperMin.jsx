@@ -83,15 +83,15 @@ const SwiperMin = ({ banners2 = [], minStyles }) => {
                     <div className=" rounded-2xl overflow-hidden flex flex-wrap-reverse lg:flex-nowrap justify-between !bg-primary" style={{ backgroundColor: prod.bgColor }}>
                       <div className=' flex flex-col justify-between whitespace-nowrap p-5 pr-0 2xl:pl-10 2xl:py-10' >
                         <div className="text-white w-fit  lg:space-y-2">
-                          <p className="hidden lg:block text-primary bg-white rounded-full w-fit text-[10px] lg:text-sm p-1">Trending <i class="fi fi-ss-fire-flame-curved"></i></p>
+                          <p className="hidden lg:block text-primary bg-white rounded-full w-fit text-[10px] lg:text-sm p-1">Trending <i className="fi fi-ss-fire-flame-curved"></i></p>
                           <h2 className="xl:text-xl text-sm font-semibold" > {prod.title}</h2>
                           <p className=" w-fit text-sm lg:text-base">Up to {prod?.subtitle}% off Catalog</p>
                         </div>
-                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green">Collection <i class="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
+                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green">Collection <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
                       </div>
                       <div className="p-3 overflow-hidden lg:p-5 relative h-[150px] lg:h-[200px]  2xl:h-[275px] rounded-lg ">
                         {/* <img src={`${apiurl()}/${prod.preview}`} alt={prod.title} className="object-cover w-full rounded-lg" /> */}
-                        <p className="lg:hidden absolute top-5 left-5 text-primary_green bg-black rounded-full w-fit text-sm p-1 px-2 inline-flex flex-nowrap">Trending <i class="fi fi-ss-fire-flame-curved pl-1"></i></p>
+                        <p className="lg:hidden absolute top-5 left-5 text-primary_green bg-black rounded-full w-fit text-sm p-1 px-2 inline-flex flex-nowrap">Trending <i className="fi fi-ss-fire-flame-curved pl-1"></i></p>
                         <img src={`${prod.preview}`} alt={prod.title} className="object-cover rounded-lg  w-full lg:h-full" />
                       </div>
                     </div>

@@ -5,21 +5,21 @@ export default function Checkout(props) {
     const {
         handlePaymentChange, purchaseType, selectedPaymentmethod, handlePlaceOrder, shippingdata, Openform, handleEditAddress, handleDeleteAddress, setSelectedAddress,
         selectedAddress, setIsDetailsOpen, setIsPaymentOpen, isDetailsOpen, detailsRef, couponRef, couponOpen, isCouponOpen, paymentRef, isPaymentOpen, cartItems, FeesandTax,
-        Total, finaltotal, loading,overallDiscountPercentage,discountAmount,finalPaymentAmount,deliveryFee
+        Total, finaltotal, loading, overallDiscountPercentage, discountAmount, finalPaymentAmount, deliveryFee
     } = props
 
 
     return (
         <>
-            <section className=' max-w-[90rem] mx-auto md:my-10 my-5 '>
+            <section className=' max-w-[90rem] mx-auto   min-h-[60vh]'>
                 <div className="flex flex-col gap-6 p-4 lg:flex-row lg:p-8">
                     <div className='flex-1 space-y-6'>
                         <div className="space-y-7">
-                            <div className='p-4 border rounded-lg shadow-sm dark:bg-gray-700'>
+                            <div className=' dark:bg-gray-700'>
                                 <div className="flex items-center justify-between mb-3 cursor-pointer " onClick={() => setIsDetailsOpen(!isDetailsOpen)}>
                                     <h2 className="text-sm font-semibold md:text-base">{purchaseType === 'pickup' ? 'Pickup Address' : 'Shipping Address'}</h2>
-                                    <div className="rounded-full px-3 py-2 bg-[#FFF6F4] ">
-                                        {isDetailsOpen ? <i className="text-sm text-black fi fi-rs-angle-down"></i> : <i className="text-sm text-black fi fi-rr-angle-up"></i>}
+                                    <div className="rounded-full px-3 py-2 bg-primary   ">
+                                        {isDetailsOpen ? <i className="text-sm text-white fi fi-rs-angle-down"></i> : <i className="text-sm text-white fi fi-rr-angle-up"></i>}
                                     </div>
                                 </div>
                                 <div ref={detailsRef} className={`transition-height  space-y-4 ${isDetailsOpen ? 'h-0 ' : 'h-auto'}`}
@@ -28,10 +28,10 @@ export default function Checkout(props) {
                                         {shippingdata && shippingdata.length > 0 ? (
                                             <>
                                                 {shippingdata.map((address, index) => (
-                                                    <div role="button" key={index} onClick={() => setSelectedAddress(address)} className={`flex items-center justify-between gap-2 p-4 w-full border-2 border-[#2E1216] rounded-lg mb-4 ${selectedAddress?._id === address._id ? 'border-[#00712D] bg-[#e9fff2] dark:bg-green-800 dark:border-green-600' : 'border-gray-200 hover:border-[#00712D] '}`} >
+                                                    <div role="button" key={index} onClick={() => setSelectedAddress(address)} className={`flex items-center justify-between gap-2 p-4 w-full border-2 border-[#2E1216] rounded-lg mb-4 ${selectedAddress?._id === address._id ? 'border-[#00712D]  dark:bg-green-800 dark:border-green-600' : 'border-gray-200 hover:border-[#00712D] '}`} >
                                                         <div className="flex items-center">
-                                                            <div className="p-2 bg-[#FFF6F4] rounded-full">
-                                                                <img src="/images/Checkout/Location.png" alt="Location Icon" />
+                                                            <div className="p-2  rounded-full">
+                                                                <i class="fi fi-bs-marker"></i>
                                                             </div>
                                                             <div className="ml-3">
                                                                 <p className="font-semibold dark:text-white">{address.First_Name} {address.Last_Name}</p>
@@ -41,11 +41,11 @@ export default function Checkout(props) {
                                                             </div>
                                                         </div>
                                                         <div className="flex gap-2">
-                                                            <div className="p-2 bg-[#FFF6F4] rounded-full cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleEditAddress(address); }} >
+                                                            <div className=" cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleEditAddress(address); }} >
                                                                 <i className="fi fi-rr-pen-circle dark:text-black"></i>
                                                             </div>
 
-                                                            <div className="p-2 bg-[#FFF6F4] rounded-full cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address._id); }}  >
+                                                            <div className=" cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address._id); }}  >
                                                                 <i className="fi fi-rr-trash dark:text-black"></i>
                                                             </div>
                                                         </div>
@@ -59,14 +59,15 @@ export default function Checkout(props) {
                                         )}
 
                                     </div>
-                                    {purchaseType === 'delivery' && <button className="mt-2 px-3 py-2 bg-[#2E1216] md:text-base text-sm text-white rounded-md" onClick={Openform}> + Add  Address</button>}
+                                    {/* {purchaseType === 'delivery' && <button className="mt-2 px-3 py-2 bg-[#2E1216] md:text-base text-sm text-white rounded-md" onClick={Openform}> + Add  Address</button>} */}
+                                    <button className="mt-2 px-3 py-2 bg-primary hover:bg-secondary duration-300 md:text-base text-sm text-white rounded-md" onClick={Openform}> + Add  Address</button>
                                 </div>
                             </div>
-                            <div className="p-4 border rounded-lg shadow-sm dark:bg-gray-700">
+                            <div className=" dark:bg-gray-700">
                                 <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsPaymentOpen(!isPaymentOpen)}>
                                     <h2 className="text-sm font-semibold md:text-base">Payment Method</h2>
-                                    <div className="rounded-full px-3 py-2 bg-[#FFF6F4] ">
-                                        {isPaymentOpen ? <i className="text-black fi fi-rs-angle-down"></i> : <i className="text-black fi fi-rr-angle-up"></i>}
+                                    <div className="rounded-full px-3 py-2 bg-primary ">
+                                        {isPaymentOpen ? <i className="text-white fi fi-rs-angle-down"></i> : <i className="text-white fi fi-rr-angle-up"></i>}
                                     </div>
                                 </div>
                                 <div ref={paymentRef}
@@ -103,7 +104,7 @@ export default function Checkout(props) {
                                         </label>
                                     </div>
                                     {/* <div>
-                                        
+
                                         <label className="flex items-center space-x-2">
                                             <input type="radio" name="paymentMethod" value="Zelle" checked={selectedPaymentmethod === 'Zelle'} onChange={handlePaymentChange} className="form-radio" />
                                             <span>Zelle</span>
@@ -111,11 +112,12 @@ export default function Checkout(props) {
                                     </div> */}
                                 </div>
                             </div>
-                            <div className=' items-center justify-between mt-5'>
-                                <p className='text-sm md:text-base block'>Want to purchase more items ?
+                            <div className=' flex justify-end mt-5 text-end  flex-col space-y-3'>
+                                <p className='text-sm md:text-base '>Want to purchase more items ?
                                 </p>
-                                  <Link to='/'> <Button className='font-bold text-white bg-blue-600'>Continue Shopping</Button> </Link> 
-                                {/* <p className="">${(
+                                <div>
+                                    <Link to='/products'> <Button className='font-bold text-white bg-primary'>Continue Shopping</Button> </Link>
+                                    {/* <p className="">${(
                                     Total * 1 +
                                     (purchaseType !== 'pickup' &&
                                         (finaltotal + (Total - finaltotal)) < FeesandTax?.Order_Price_Free_Delivery ?
@@ -124,6 +126,7 @@ export default function Checkout(props) {
                                     )-
                                     discountAmount
                                 )?.toFixed(2)}</p> */}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +138,7 @@ export default function Checkout(props) {
                             {loading ? (
                                 <i className="mr-2 fa-solid fa-spinner animate-spin"></i>
                             ) : (
-                                <i className="mr-2 text-red-500 fi fi-rr-file-pdf"></i>
+                                      <i className="mr-2 text-red-500 fi fi-rr-file-pdf"></i>
                             )}
                             {loading ? 'Placing Order...' : 'Place Order'}
                         </button>
@@ -160,29 +163,29 @@ export default function Checkout(props) {
                                 <p className="text-[#6C6C6C] dark:text-white">Purchase Summary</p>
                             </div>
                             <div className="space-y-4 text-sm">
-                            <div className="flex justify-between">
-                                <p className="text-[#6C6C6C] dark:text-white">Subtotal ({cartItems.length} items): </p>
-                                <p className="">₹{finaltotal.toFixed(2)}</p>
-                            </div>
-                            
-                            {Number(overallDiscountPercentage) > 0 && (
-                                <div className="flex items-center justify-between p-2 rounded-md bg-green-50 dark:bg-green-900">
-                                <div>
-                                    <p className="font-semibold text-green-600 dark:text-green-400">
-                                    Special Discount ({overallDiscountPercentage}% OFF)
-                                    </p>
-                                    <p className="text-xs text-green-500 dark:text-green-300">Limited time offer!</p>
+                                <div className="flex justify-between">
+                                    <p className="text-[#6C6C6C] dark:text-white">Subtotal ({cartItems.length} items): </p>
+                                    <p className="">₹{finaltotal.toFixed(2)}</p>
                                 </div>
-                                <p className="font-semibold text-green-600 dark:text-green-400">-₹{discountAmount}</p>
-                                </div>
-                            )}
-                            
-                            {/* <div className="flex justify-between">
+
+                                {Number(overallDiscountPercentage) > 0 && (
+                                    <div className="flex items-center justify-between p-2 rounded-md bg-green-50 dark:bg-green-900">
+                                        <div>
+                                            <p className="font-semibold text-green-600 dark:text-green-400">
+                                                Special Discount ({overallDiscountPercentage}% OFF)
+                                            </p>
+                                            <p className="text-xs text-green-500 dark:text-green-300">Limited time offer!</p>
+                                        </div>
+                                        <p className="font-semibold text-green-600 dark:text-green-400">-₹{discountAmount}</p>
+                                    </div>
+                                )}
+
+                                {/* <div className="flex justify-between">
                                 <p className="text-[#6C6C6C] dark:text-white">Taxes:</p>
                                 <p className="">₹{(Total - finaltotal)?.toFixed(2) || 0.00}</p>
                             </div> */}
 
-                            {/* {purchaseType !== 'pickup' && (
+                                {/* {purchaseType !== 'pickup' && (
                                 <div className="flex justify-between">
                                 <p className="text-[#6C6C6C] dark:text-white">
                                     Delivery fee:
@@ -198,28 +201,28 @@ export default function Checkout(props) {
                             </div>
                             )} */}
 
-                        {/* <div className="flex justify-between">
+                                {/* <div className="flex justify-between">
                         <p className="font-semibold">Total: </p>
                         <p className="">
-                            ${purchaseType === 'pickup' 
-                            ? (Number(Total) - discountAmount).toFixed(2) 
-                            : (Number(Total) + 
-                                (Number(TotalValue) >= Number(FeesandTax?.Order_Price_Free_Delivery) 
-                                    ? 0 
-                                    : Number(FeesandTax?.DeliveryFee)) - 
+                            ${purchaseType === 'pickup'
+                            ? (Number(Total) - discountAmount).toFixed(2)
+                            : (Number(Total) +
+                                (Number(TotalValue) >= Number(FeesandTax?.Order_Price_Free_Delivery)
+                                    ? 0
+                                    : Number(FeesandTax?.DeliveryFee)) -
                                 discountAmount).toFixed(2)
                             }
                         </p>
                         </div> */}
 
-                            <hr />
-                            
-                            <div className="flex justify-between">
-                        <p className="font-semibold">Final Payment Amount </p>
-                        <p className="">
-                        ₹{finalPaymentAmount}
-                        </p>
-                        </div>
+                                <hr />
+
+                                <div className="flex justify-between">
+                                    <p className="font-semibold">Final Payment Amount </p>
+                                    <p className="">
+                                        ₹{finalPaymentAmount}
+                                    </p>
+                                </div>
                             </div>
                             {/* <p className="text-xs  mt-4 text-[#6C6C6C] dark:text-white">To guarantee the quality of your food, please store food indoors or refrigerate if needed.</p> */}
                             <p className="text-xs  text-[#6C6C6C] dark:text-white" >By placing this order, you are agreeing to Magizh Kadai Terms and Conditions.</p>

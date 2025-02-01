@@ -140,7 +140,7 @@ const SearchBar = ({ categories, onclickcategories, opencategories, setOpenCateg
         ) : (
           <Search onClick={() => setExpandSearch(true)} className="lg:hidden w-10 h-10 bg-secondary dark:bg-red-800 !p-2 rounded-full text-white" />
         )}
-        <div onClick={onclickcategories} ref={categoryRef} className={`lg:inline-flex min-w-[170px] hidden whitespace-nowrap text-sm border-r relative items-center gap-1 cursor-pointer !px-4 select-none ${opencategories && 'bg-gray-200'} rounded-l-full`}> {opencategories ? 'Close Categories' : 'Select Categories'} <i class={`fi fi-br-angle-small-down pt-1 duration-300  ${opencategories ? 'rotate-180' : 'rotate-0'}`}></i>
+        <div onClick={onclickcategories} ref={categoryRef} className={`lg:inline-flex min-w-[170px] hidden whitespace-nowrap text-sm border-r relative items-center gap-1 cursor-pointer !px-4 select-none ${opencategories && 'bg-gray-200'} rounded-l-full`}> {opencategories ? 'Close Categories' : 'Select Categories'} <i className={`fi fi-br-angle-small-down pt-1 duration-300  ${opencategories ? 'rotate-180' : 'rotate-0'}`}></i>
           {<div className={`absolute top-[60px] left-0 transition-all ease-in overflow-hidden duration-300 ${opencategories ? ' max-h-[50vh]' : ' max-h-0'}`} ><AllCategories opencategories={opencategories} setOpenCategories={setOpenCategories} categories={categories} /></div>}
         </div>
         <input ref={searchRef} type="text" value={searchTerm} onChange={handleSearch} placeholder="Search for products.."

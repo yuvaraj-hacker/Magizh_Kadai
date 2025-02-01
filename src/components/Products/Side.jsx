@@ -81,12 +81,12 @@ function Side({ categories, }) {
                         <div className="flex gap-2 justify-start items-center  overflow-hidden ">
                             {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                             <input type="checkbox" className='text-white  border-none  ' readOnly />
-                            <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">3 <span><i class="fi fi-ss-star flex items-center"></i></span> & above</h1>
+                            <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">3 <span><i className="fi fi-ss-star flex items-center"></i></span> & above</h1>
                         </div>
                         <div className="flex gap-2 justify-start items-center  overflow-hidden">
                             {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
                             <input type="checkbox" className='text-white  border-none  ' readOnly />
-                            <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">4 <span> <i class="fi fi-ss-star flex items-center"></i> </span> & above</h1>
+                            <h1 className="whitespace-pre-wrap text-gray-500 flex items-center">4 <span> <i className="fi fi-ss-star flex items-center"></i> </span> & above</h1>
 
                         </div>
                     </div>

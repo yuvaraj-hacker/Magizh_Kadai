@@ -6,7 +6,6 @@ const storedcartCount = localStorage.getItem("cartCount");
 const initialCartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
 const initialWishlistItems = storedWishlistItems ? JSON.parse(storedWishlistItems) : [];
 const initialcartCount = storedcartCount ? storedcartCount : 0;
-
 const useCart = create((set) => ({
     cartItems: initialCartItems,
     wishlist: initialWishlistItems,
@@ -61,7 +60,7 @@ const useCart = create((set) => ({
             return { wishlist: updatedWishlist };
         });
     },
-    
+
     increaseQuantity: (productId) => {
       set((state) => {
           const updatedCartItems = state.cartItems.map(item => {
@@ -88,7 +87,7 @@ const useCart = create((set) => ({
             return { wishlist: updatedCartItems };
         });
     },
-  
+
     decreaseQuantity: (productId) => {
         set((state) => {
             const updatedCartItems = state.cartItems.map(item => {
@@ -126,7 +125,7 @@ const useCart = create((set) => ({
     deleteAllWishlist: () => {
         set({ wishlist: [] });
         localStorage.removeItem("wishlist");
-    },  
+    },
 
     removeItem: (productId) => {
         set((state) => {
@@ -143,7 +142,7 @@ const useCart = create((set) => ({
         localStorage.setItem("cartCount",0);
     },
 
-   
+
 
     getTotalCartItems: (response) => {
         localStorage.setItem("cartCount",response);

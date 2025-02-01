@@ -142,25 +142,25 @@ export default function Product() {
         if (isExporting) return;
         setIsExporting(true);
         try {
-          await exportToExcel();
+            await exportToExcel();
         } finally {
-          setIsExporting(false);
+            setIsExporting(false);
         }
-      };
-    
-      const handleImport = async (event) => {
+    };
+
+    const handleImport = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-    
+
         try {
-          await importFromExcel(file);
-          getallproduct();
+            await importFromExcel(file);
+            getallproduct();
         } catch (error) {
-          console.error('Import handler failed:', error);
+            console.error('Import handler failed:', error);
         }
         event.target.value = '';
-      };
-    
+    };
+
 
     const editfrom = (data) => {
         setFormdata(data);
@@ -225,7 +225,7 @@ export default function Product() {
                     } else {
                         updateFields = { [field]: value };
                     }
-                    
+
                     await handleBulkUpdateProducts(products.map(product => product._id), updateFields);
                     toast.success("Products updated successfully");
                     getallproduct();

@@ -57,7 +57,7 @@ function AllProducts({ groupedProducts }) {
         <div key={index} className="mb-6">
           <div className="flex justify-between items-center my-2">
             <h2 className=" text-2xl font-semibold text-secondary">{category}</h2>
-            <Link to={`products?category=${category}`} className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border group bg-primary text-white flex gap-2 justify-center items-center  group/vwbtn *:duration-300"><button className="text-sm lg:text-base flex gap-2 items-center">View All <i class="fi fi-sr-angle-circle-right flex items-center group-hover:translate-x-1 duration-300 "></i></button></Link>
+            <Link to={`products?category=${category}`} className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border group bg-primary text-white flex gap-2 justify-center items-center  group/vwbtn *:duration-300"><button className="text-sm lg:text-base flex gap-2 items-center">View All <i className="fi fi-sr-angle-circle-right flex items-center group-hover:translate-x-1 duration-300 "></i></button></Link>
           </div>
           <div className="">
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2 ">
@@ -81,7 +81,7 @@ function AllProducts({ groupedProducts }) {
                   <div className=" ">
                     <p className="line-clamp-2 text-gray-500 lg:text-base text-sm group-hover:text-gray-700">{product.Product_Name || 'No Name Available'}</p>
                     <div className="text-end ">
-                      <Link to={`/product-details/${product._id}`} className=" "><i class="fi fi-sr-angle-circle-right flex items-center justify-end text-3xl text-primary"></i></Link>
+                      <Link to={`/product-details/${product._id}`} className=" "><i className="fi fi-sr-angle-circle-right flex items-center justify-end text-3xl text-primary"></i></Link>
                     </div>
                   </div>
                 </div>

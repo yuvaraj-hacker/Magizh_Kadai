@@ -43,7 +43,7 @@ function SavedItems(props) {
                         <div className="flex flex-col items-center justify-center min-h-[60vh]">
                             <div className="text-center">
                                 <div className="mb-2 text-gray-400">
-                                    <i class="fi fi-ss-bookmark"></i>
+                                    <i className="fi fi-ss-bookmark"></i>
                                 </div>
                                 <p className="mb-2 text-lg text-gray-500 dark:text-white">Nothing Saved Yet</p>
                                 <Link to='/'>

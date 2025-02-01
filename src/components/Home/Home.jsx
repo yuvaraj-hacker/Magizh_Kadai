@@ -311,7 +311,7 @@ export default function Home() {
         {/* Render All Active Offers */}
         {/* {offers.map((offer) => renderOffer(offer))} */}
 
-        <div className='px-3'><SwiperMin Product={Product} /></div>
+        <div className='px-3'><SwiperMin Product={Product}   /></div>
         <NewArrivals products={Product} />
         <div className='px-3'><AllProducts groupedProducts={groupedProducts} /></div>
 

@@ -9,7 +9,7 @@ import moment from "moment-timezone";
 import { isLoggedIn } from "../../shared/services/Token/token";
 import toast from "react-hot-toast";
 
-export default function CartPageFunctions () {
+export default function CartPageFunctions() {
     const { removeItem, increaseQuantity, decreaseQuantity, setCartItem } = useCart();
     const [cartItems, setCartItems] = useState([]);
     const { userdetails } = useAuth();
@@ -457,20 +457,20 @@ export default function CartPageFunctions () {
     }
 
     const goToCheckout = () => {
-        if (!deliveryType) {
-            toast.error("Please select a delivery method");
-            return;
-        }
+        // if (!deliveryType) {
+        //     toast.error("Please select a delivery method");
+        //     return;
+        // }
 
-        if (deliveryType === 'delivery' && !selectedDeliveryDate) {
-            toast.error("Please select a delivery date");
-            return;
-        }
+        // if (deliveryType === 'delivery' && !selectedDeliveryDate) {
+        //     toast.error("Please select a delivery date");
+        //     return;
+        // }
 
-        if (deliveryType === 'pickup' && !selectedPickupDateTime) {
-            toast.error("Please select a pickup time");
-            return;
-        }
+        // if (deliveryType === 'pickup' && !selectedPickupDateTime) {
+        //     toast.error("Please select a pickup time");
+        //     return;
+        // }
         const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
         localStorage.setItem("subtotal", subtotal);
@@ -530,7 +530,7 @@ export default function CartPageFunctions () {
         return null;
     };
 
-    return(
+    return (
         <>
             <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
                 handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}

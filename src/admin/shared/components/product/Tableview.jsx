@@ -15,7 +15,7 @@ import moment from 'moment-timezone';
 import { Checkbox } from "@nextui-org/react";
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page,setSelectedProducts,selectedProducts } = props;
+  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setSelectedProducts, selectedProducts } = props;
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -80,7 +80,7 @@ const Tableview = (props) => {
       </span>
     );
   };
-  
+
 
   const CustomSelectionHeader = () => {
     const selectedLength = props.selectedProducts?.length || 0;
@@ -170,7 +170,7 @@ const Tableview = (props) => {
     return `${text?.substring(0, maxLength)}...`;
   };
 
-  
+
   const renderDescription = (rowData) => {
     const maxLength = 150;
     const isExpanded = expandedDescriptions[rowData._id];
@@ -181,7 +181,7 @@ const Tableview = (props) => {
       <div>
         <div dangerouslySetInnerHTML={{ __html: descriptionText }} />
         {rowData.Product_Description?.length > maxLength && (
-          <button 
+          <button
             onClick={() => toggleDescription(rowData._id)}
             className="mt-1 text-blue-600 hover:underline"
           >
@@ -202,7 +202,7 @@ const Tableview = (props) => {
       <div>
         <div>{highlightsText}</div>
         {rowData.Product_Highlights?.length > maxLength && (
-          <button 
+          <button
             onClick={() => toggleHighlights(rowData._id)}
             className="mt-1 text-blue-600 hover:underline"
           >
@@ -247,18 +247,18 @@ const Tableview = (props) => {
     { field: 'Product_Name', header: 'Product Name', filter: true },
     // { field: 'Product_Description', header: 'Description', body: renderDescription },
     // { field: 'Product_Highlights', header: 'Product Highlights', body: renderHighlights },
-    { field: 'Brand_Name', header: 'Brand Name' ,filter: true},
+    { field: 'Brand_Name', header: 'Brand Name', filter: true },
     { field: 'Category', header: 'Category', filter: true },
-    { field: 'Sub_Category', header: 'Sub Category',filter: true },
+    { field: 'Sub_Category', header: 'Sub Category', filter: true },
     // { field: 'Unit_of_Measurements', header: 'Units' },
     // { field: 'Measurement_Units', header: 'Measurement' },
     // { field: 'Made_In', header: 'Made In' },
     { field: 'QTY', header: 'Qty' },
     { field: 'Regular_Price', header: 'Regular Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
-    { field: 'Discount', header: 'Discount' },
+    { field: 'Discount', header: 'Discount', filter: true  },
     // { field: 'Tax_Type', header: 'Tax Type' },
-    { field: 'Status', header: 'Status', filter: true,body: statusTemplate }
+    { field: 'Status', header: 'Status', filter: true, body: statusTemplate }
   ];
 
   const FilterPanel = () => (
@@ -386,7 +386,7 @@ const Tableview = (props) => {
     </div>
   );
 
-  
+
 
   return (
     <div className="bg-white border shadow-sm rounded-xl">
@@ -402,10 +402,10 @@ const Tableview = (props) => {
         stripedRows
         responsiveLayout="scroll"
         selection={selectedProducts}
-  onSelectionChange={(e) => setSelectedProducts(e.value)}
-  selectionMode="checkbox"
+        onSelectionChange={(e) => setSelectedProducts(e.value)}
+        selectionMode="checkbox"
       >
-      <Column
+        <Column
           header={CustomSelectionHeader}
           body={CustomSelectionBody}
           headerClassName="text-gray-700 bg-gray-50 !w-16"
@@ -450,4 +450,4 @@ const Tableview = (props) => {
   );
 };
 
-      export default Tableview
+export default Tableview

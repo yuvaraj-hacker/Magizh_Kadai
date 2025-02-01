@@ -64,7 +64,7 @@ const SwiperMax = ({ banners }) => {
           {banners.map((banner) => (
             <SwiperSlide key={banner.id}>
               <div>
-                <div className={`relative overflow-hidden rounded-3xl h-[calc(50vh)] 2xl:h-[460px] `}
+                <div className={`relative overflow-hidden rounded-3xl my-5 `}
                   style={{
                     backgroundImage: window.innerWidth < 1024
                       ? `linear-gradient(to top left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), url(http://192.168.29.175:5173/${banner.image})`
@@ -73,21 +73,21 @@ const SwiperMax = ({ banners }) => {
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                   }} >
-                  <div className="lg:grid grid-cols-12 h-full">
-                    <div className="z-10 flex flex-col items-start justify-center col-span-7 gap-2 px-5 text-white lg:pt-7 lg:pl-40 sm:pl-14 pl-7 align-middle self-center h-full">
-                      <div
-                        className="text-[30px] xsm:text-[35px] sm:text-[35px] md:text-[40px] lg:text-[35px] leading-6 xl:text-[36px] 2xl:text-[48px] 3xl:text-[65px] 3xl:leading-10 font-jomhuria text-secondary lg:text-black" >
-                        {banner.title}
-                      </div>
-                      <div
-                        className="2xl:text-xl sm:text-base text-sm lg:text-gray-600 text-white" style={{ color: banner.textColor }}>{banner.subtitle}</div>
-                      <div
-                        className="text-secondary contrast-150 ">Starting From <span className=" text-xl font-semibold ">₹129</span> </div>
-                      <div
-                      ><Link to={banner.link} ><button className="p-5 border border-primary_green lg:border-primary rounded-full text-primary_green lg:text-primary mt-5">Shop Now <i class="fi fi-br-arrow-up-right text-sm pl-2"></i></button></Link>
+                  <div className="lg:grid grid-cols-2 h-full gap-10">
+                    <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="h-96 w-full object-cover " />
+                    <div className="z-10  flex justify-center items-center">
+                      <div>
+                        <div className=" font-jomhuria text-secondary lg:text-black md:text-7xl text-3xl" >
+                          {banner.title}
+                        </div>
+                        <div
+                          className="2xl:text-xl sm:text-base text-sm lg:text-gray-600 text-white" style={{ color: banner.textColor }}>{banner.subtitle}</div>
+                        <div
+                          className="text-secondary contrast-150 ">Starting From <span className=" text-xl font-semibold ">₹129</span> </div>
+                        <div><Link to={banner.link} ><button className="p-5 border border-primary_green lg:border-primary rounded-full text-primary_green lg:text-primary mt-5">Shop Now <i className="fi fi-br-arrow-up-right text-sm pl-2"></i></button></Link>
+                        </div>
                       </div>
                     </div>
-                    <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="w-full h-full object-cover col-span-5 " />
                   </div>
                 </div>
               </div>

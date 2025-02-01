@@ -193,10 +193,10 @@ export default function Header(props) {
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i>
                     <Link to='/'>
-                      <i class="fi fi-ss-house-chimney"></i>
+                      <i className="fi fi-ss-house-chimney"></i>
                     </Link>
                     <Link to='/products'>
-                      <i class="fi fi-rs-shop"></i>
+                      <i className="fi fi-rs-shop"></i>
                     </Link>
                     <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
