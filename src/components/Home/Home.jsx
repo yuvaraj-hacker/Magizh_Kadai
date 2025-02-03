@@ -310,11 +310,9 @@ export default function Home() {
         <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} />
         {/* Render All Active Offers */}
         {/* {offers.map((offer) => renderOffer(offer))} */}
-
-        <div className='px-3'><SwiperMin Product={Product}   /></div>
-        <NewArrivals products={Product} />
-        <div className='px-3'><AllProducts groupedProducts={groupedProducts} /></div>
-
+        <div className='px-3'><SwiperMin Product={Product} /></div>
+        {/* <NewArrivals products={Product} /> */}
+        <div className=''><AllProducts groupedProducts={groupedProducts} /></div>
         {/* <IngredientSwipe  title="Indian Cuisine Combo Ingredients" visible={visible} setVisible={setVisible} selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct} handleProductClick={handleProductClick} AddtoCartProduct={AddtoCartProduct} /> */}
         <Testimoni testimonials={testimonials} />

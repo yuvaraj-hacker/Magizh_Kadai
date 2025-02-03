@@ -16,7 +16,7 @@ function Testimoni({ testimonials }) {
             breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1320: { slidesPerView: 3 }, 1670: { slidesPerView: 3 }, 1680: { slidesPerView: 5 }, }}  >
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index}>
-                <div className="flex flex-col justify-between bg-white border shadow-sm  shadow-secondary space-y-4 my-5 text-center rounded-xl p-4 cursor-pointer">
+                <div className="flex flex-col justify-between bg-white border shadow-md   space-y-4 my-5 text-center rounded-xl p-4 cursor-pointer">
                   <div className="flex items-center gap-4">
                     <img className="w-14 h-14" src={testimonial.avata} />
                     <div className="text-start"> <h3 className="whitespace-nowrap mt-2 text-base lg:text-lg font-bold text-gray-700 text-start">

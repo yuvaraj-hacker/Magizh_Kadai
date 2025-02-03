@@ -49,22 +49,19 @@ const SwiperMax = ({ banners }) => {
   return (
     <div className="w-full swiper-container-wrapper">
       <div className="swiper-container">
-        <Swiper loop={true}
-          autoplay={{ delay: 5000 }}
-          spaceBetween={30}
-          speed={2000}
-          breakpoints={{
-            320: { slidesPerView: 1 },
-            600: { slidesPerView: 1 },
-            1224: { slidesPerView: 1 },
-          }}
+        <Swiper loop={true} autoplay={{ delay: 5000 }} spaceBetween={30} speed={2000}
+          breakpoints={{ 320: { slidesPerView: 1 }, 600: { slidesPerView: 1 }, 1224: { slidesPerView: 1 }, }}
           navigation={banners.length > 1 ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } : false}
           modules={[Navigation, Autoplay]}
-        >
+          pagination={{
+            el: ".swiper-pagination", clickable: true, renderBullet: function (index, className) {
+              return `<span class="${className}" style="width: 20px; height: 4px; border-radius: 2px;"></span>`;
+            },
+          }}  >
           {banners.map((banner) => (
             <SwiperSlide key={banner.id}>
               <div>
-                <div className={`relative overflow-hidden rounded-3xl my-5 `}
+                <div className={`relative overflow-hidden rounded-xl mt-5 `}
                   style={{
                     backgroundImage: window.innerWidth < 1024
                       ? `linear-gradient(to top left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), url(http://192.168.29.175:5173/${banner.image})`
@@ -74,8 +71,8 @@ const SwiperMax = ({ banners }) => {
                     backgroundRepeat: 'no-repeat',
                   }} >
                   <div className="lg:grid grid-cols-2 h-full gap-10">
-                    <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="h-96 w-full object-cover " />
-                    <div className="z-10  flex justify-center items-center">
+                    <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="h-96 w-full object-cover  md:block hidden" />
+                    <div className="z-10  flex justify-center items-center p-3">
                       <div>
                         <div className=" font-jomhuria text-secondary lg:text-black md:text-7xl text-3xl" >
                           {banner.title}
@@ -91,6 +88,7 @@ const SwiperMax = ({ banners }) => {
                   </div>
                 </div>
               </div>
+
             </SwiperSlide>
           ))}
         </Swiper>

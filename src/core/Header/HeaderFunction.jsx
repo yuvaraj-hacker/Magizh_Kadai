@@ -32,7 +32,7 @@ export default function HeaderFunction () {
     const handleLogout = async () => {
         await logout();
         deleteAllItems()
-        setWishlistData([]);  
+        setWishlistData([]);
         navigate('/');
     };
 
@@ -56,7 +56,7 @@ export default function HeaderFunction () {
 
     return(
         <>
-            <Header languages={languages} ScrollToTop={ScrollToTop} handleLogout={handleLogout} wishlistData={wishlistData} setWishlistData={setWishlistData} 
+            <Header languages={languages} ScrollToTop={ScrollToTop} handleLogout={handleLogout} wishlistData={wishlistData} setWishlistData={setWishlistData}
                 getDisplayLetter={getDisplayLetter} ToggleFn={ToggleFn} openform={openform} visible={visible} setVisible={setVisible} showUserDropdown={showUserDropdown}
                 setShowUserDropdown={setShowUserDropdown}   />
         </>

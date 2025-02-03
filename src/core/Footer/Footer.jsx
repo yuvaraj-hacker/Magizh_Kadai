@@ -61,7 +61,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
 
             </section> */}
             <section className='bg-black/90   pb-[60px] lg:pb-0'>
-               <div className='relative lg:px-10 py-10'>
+               <div className='relative lg:px-10 md:py-10 py-5'>
                   <div className='max-w-[80rem] mx-auto text-white'>
                      <div className='grid md:grid-cols-2 grid-cols-1 gap-5 px-5 lg:grid-cols-8 xl:gap-16'>
                         <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center mx-auto  flex  '>

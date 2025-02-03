@@ -4,13 +4,13 @@ import Approuter from './Router/Approuter';
 import useAuth from './shared/services/store/useAuth';
 
 function App() {
-  const { userdetails } = useAuth(); 
+  const { userdetails } = useAuth();
 
   return (
     <>
       <Approuter />
       {/* <LocationModal/> */}
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       {/* {userdetails?.Role !== 'Admin' && (
         <div className="fixed z-50 lg:bottom-8 right-3 bottom-20">
           <a

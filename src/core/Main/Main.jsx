@@ -7,6 +7,7 @@ import HeaderFunction from "../Header/HeaderFunction";
 
 
 const Main = () => {
+
     const isProfilePage = window.location.pathname === '/profile';
     const [TogSidecat, setTogSidecat] = useState(false);
 

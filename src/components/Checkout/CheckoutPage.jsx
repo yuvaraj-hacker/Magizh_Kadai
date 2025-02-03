@@ -43,20 +43,20 @@ function CheckoutPage() {
     const { userDetails,userdetails } = useAuth();
     const navigate = useNavigate();
     const [isElavonModalOpen, setIsElavonModalOpen] = useState(false);
-    const purchaseType = localStorage.getItem('purchaseType') || '';  
-    const purchaseDateandTime = localStorage.getItem('purchaseDateandTime') || new Date().toISOString(); 
+    const purchaseType = localStorage.getItem('purchaseType') || '';
+    const purchaseDateandTime = localStorage.getItem('purchaseDateandTime') || new Date().toISOString();
 
     const overallDiscountPercentage = FeesandTax?.Overall_Discount || 0;
     const discountAmount = (finaltotal * (overallDiscountPercentage / 100)).toFixed(2);
 
     const calculateDeliveryFee = () => {
         const amountAfterDiscount = finaltotal - discountAmount;
-        
+
         if (purchaseType === 'pickup') {
             return 0;
         } else {
-            return amountAfterDiscount >= Number(FeesandTax?.Order_Price_Free_Delivery) 
-                ? 0 
+            return amountAfterDiscount >= Number(FeesandTax?.Order_Price_Free_Delivery)
+                ? 0
                 : Number(FeesandTax?.DeliveryFee || 0);
         }
     };
@@ -65,15 +65,15 @@ function CheckoutPage() {
     const calculateFinalPaymentAmount = () => {
         const amountAfterDiscount = finaltotal - discountAmount;
         console.log(amountAfterDiscount)
-        
+
         if (purchaseType === 'pickup') {
             return (Number(Total) - discountAmount).toFixed(2);
         } else {
             return (Number(Total) - discountAmount).toFixed(2);
-            // return (Number(Total) + 
-            //     (amountAfterDiscount >= Number(FeesandTax?.Order_Price_Free_Delivery) 
-            //         ? 0 
-            //         : Number(FeesandTax?.DeliveryFee)) - 
+            // return (Number(Total) +
+            //     (amountAfterDiscount >= Number(FeesandTax?.Order_Price_Free_Delivery)
+            //         ? 0
+            //         : Number(FeesandTax?.DeliveryFee)) -
             //     discountAmount).toFixed(2);
         }
     };
@@ -99,7 +99,7 @@ function CheckoutPage() {
     };
 
     const loginType = localStorage.getItem('loginType');
-    
+
     const getLocationdata = useCallback(async()=>{
         const response = await getalllocation({});
         setLocation(response.resdata||[])
@@ -117,16 +117,16 @@ useEffect(() => {
     if (location && location.resdata) {
         const formattedCities = (location.resdata || []).map(loc => ({
             ...loc,
-            displayName: loc.Status === "Active" 
-                ? loc.City 
+            displayName: loc.Status === "Active"
+                ? loc.City
                 : `${loc.City} (Coming Soon)`
         }));
         setCityOptions(formattedCities);
     } else if (Array.isArray(location)) {
         const formattedCities = location.map(loc => ({
             ...loc,
-            displayName: loc.Status === "Active" 
-                ? loc.City 
+            displayName: loc.Status === "Active"
+                ? loc.City
                 : `${loc.City} (Coming Soon)`
         }));
         setCityOptions(formattedCities);
@@ -135,7 +135,7 @@ useEffect(() => {
 
 const handleCityChange = (e) => {
     const selectedCity = e.target.value;
-    const matchedLocation = cityOptions.find(loc => 
+    const matchedLocation = cityOptions.find(loc =>
         loc.City.toLowerCase() === selectedCity.toLowerCase()
     );
 
@@ -147,7 +147,7 @@ const handleCityChange = (e) => {
 
         const zipcodes = matchedLocation.Zipcode.split(',').map(zip => zip.trim());
         setAvailableZipcodes(zipcodes);
-        
+
         setFormdata(prevData => ({
             ...prevData,
             City: matchedLocation.City,
@@ -204,11 +204,11 @@ const handleCityChange = (e) => {
     //         );
     //     } else {
     //         SetTotalValue(
-    //             Number(res) + 
-    //             (Number(res) >= Number(products?.Order_Price_Free_Delivery) ? 
-    //                 0 : 
+    //             Number(res) +
+    //             (Number(res) >= Number(products?.Order_Price_Free_Delivery) ?
+    //                 0 :
     //                 Number(products?.DeliveryFee)
-    //             ) - 
+    //             ) -
     //             (finaltotal * ((products?.Overall_Discount || 0) / 100)).toFixed(2)
     //         );
     //     }
@@ -218,7 +218,7 @@ const handleCityChange = (e) => {
     const getLocationByCity = useCallback(async () => {
         const products = await getLocationbyCity({City: selectedAddress?.City});
         setFeesandTax(products);
-        
+
         // Calculate tax with proper decimal precision
         const res = cartItems.reduce((sum, item) => {
             if (item?.productId.Tax_Type === "Yes") {
@@ -226,11 +226,11 @@ const handleCityChange = (e) => {
                 const basePrice = Number(item?.Quantity) * Number(item?.productId.Sale_Price);
                 const discountAmount = (basePrice * Number(item?.productId.Discount)) / 100;
                 const priceAfterDiscount = basePrice - discountAmount;
-                
+
                 // Calculate tax amount with proper rounding
                 const taxRate = Number(products.Local_Tax) / 100;
                 const taxAmount = Number((priceAfterDiscount * taxRate).toFixed(2));
-                
+
                 return Number((sum + priceAfterDiscount + taxAmount).toFixed(2));
             } else {
                 const basePrice = Number(item?.Quantity) * Number(item?.productId.Sale_Price);
@@ -238,12 +238,12 @@ const handleCityChange = (e) => {
                 return Number((sum + (basePrice - discountAmount)).toFixed(2));
             }
         }, 0);
-    
+
         setTotal(Number(res.toFixed(2)));
-        
+
         // Calculate amount after discount for free delivery threshold check
         const amountAfterDiscount = Number((finaltotal - (finaltotal * ((products?.Overall_Discount || 0) / 100))).toFixed(2));
-        
+
         if (purchaseType === 'pickup') {
             SetTotalValue(
                 Number((res - (finaltotal * ((products?.Overall_Discount || 0) / 100))).toFixed(2))
@@ -252,11 +252,11 @@ const handleCityChange = (e) => {
             // Only apply free delivery if amount after discount meets threshold
             SetTotalValue(
                 Number((
-                    res + 
-                    (amountAfterDiscount >= Number(products?.Order_Price_Free_Delivery) ? 
-                        0 : 
+                    res +
+                    (amountAfterDiscount >= Number(products?.Order_Price_Free_Delivery) ?
+                        0 :
                         Number(products?.DeliveryFee)
-                    ) - 
+                    ) -
                     (finaltotal * ((products?.Overall_Discount || 0) / 100))
                 ).toFixed(2))
             );
@@ -266,7 +266,7 @@ const handleCityChange = (e) => {
     useEffect(() => {
         getLocationByCity();
     }, [selectedAddress,Total,finaltotal]);
-    
+
     const handleEditAddress = (address) => {
         setFormdata(address);
         setIsEditMode(true);
@@ -322,7 +322,7 @@ const handleCityChange = (e) => {
             const userLastName = userdetails?.Last_Name || '';
             const userEmail = userdetails?.Email || '';
             const userMobileNumber = userdetails?.Mobilenumber || '';
-            
+
             var orderdata = {
                 Billing_Name: `${userFirstName} ${userLastName}`.trim(),
                 Username: userFirstName,
@@ -341,7 +341,7 @@ const handleCityChange = (e) => {
                 City: selectedAddress.City,
                 Delivery_Address_id: selectedAddress._id,
                 Description: 'Order placed through website',
-                purchaseType: purchaseType, 
+                purchaseType: purchaseType,
                 purchaseDateandTime: purchaseDateandTime,
                 Payment_Type: selectedPaymentmethod,
             };
@@ -394,7 +394,7 @@ const handleCityChange = (e) => {
                     setLoading(true);
                     setIsProcessing(true)
                     setIsElavonModalOpen(true);
-                    var response = await apiSaveorder({orderdata, ordermasterdata}); 
+                    var response = await apiSaveorder({orderdata, ordermasterdata});
                     setLoading(false);
                     setPaymentStatus('success');
                     setIsProcessing(false)
@@ -427,7 +427,7 @@ const handleCityChange = (e) => {
           ssl_state:  selectedAddress.State,
           ssl_avs_zip:  selectedAddress.Zipcode
         };
-  
+
         const callback = {
           onError: function (error) {
             //console.log("error", error);
@@ -459,7 +459,7 @@ const handleCityChange = (e) => {
             setIsProcessing(false)
           }
         };
-  
+
         try {
           ConvergeEmbeddedPayment.pay(paymentData, callback);
         } catch (error) {
@@ -477,13 +477,13 @@ const handleCityChange = (e) => {
         setIsElavonModalOpen(false);
         navigate('/myorder')
     };
- 
-    
+
+
     const handlePaymentChange = (e) => {
         const selectedPayment = e.target.value;
         setSelectedPaymentmethod(selectedPayment);
     };
-    
+
     // Format price with 2 decimal places
     const formatPrice = (price) => {
         return price ? price.toFixed(2) : "0.00";
@@ -498,7 +498,6 @@ const handleCityChange = (e) => {
                 setIsPaymentOpen={setIsPaymentOpen} couponRef={couponRef} setIsDetailsOpen={setIsDetailsOpen} cartItems={cartItems} subtotal={subtotal} FeesandTax={FeesandTax}
                 handleOpenElavonModal={handleOpenElavonModal} formatPrice={formatPrice} handlePaymentChange={handlePaymentChange} purchaseType={purchaseType} Total={Total}
                 finaltotal={finaltotal} loading={loading} overallDiscountPercentage={overallDiscountPercentage} discountAmount={discountAmount} TotalValue={TotalValue} finalPaymentAmount={finalPaymentAmount} deliveryFee={deliveryFee} />
-
             <ShippingForm  availableZipcodes ={availableZipcodes } handleZipcodeChange={handleZipcodeChange }cityOptions={cityOptions}  handleCityChange ={handleCityChange} location={location} loginType={loginType} visible={showNewAddressModal} setVisible={setShowNewAddressModal} loading={loading} formdata={formdata} setFormdata={setFormdata}
                 handlechange={handleAddressChange} handlesave={handlesave} />
 
