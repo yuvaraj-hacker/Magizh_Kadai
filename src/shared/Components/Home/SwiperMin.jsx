@@ -57,9 +57,9 @@ const ProductImage = ({ images, productId }) => {
   const imageArray = Array.isArray(images) ? images : [images];
 
   return (
-    <div className="relative flex items-center justify-center p-3 overflow-hidden rounded-lg md:h-auto h-60 object-contain">
+    <div className="relative flex items-center justify-center p-3 overflow-hidden rounded-lg   object-contain">
       {imageArray.map((image, index) => (
-        <img key={`${productId}-${index}`} src={`${apiurl()}/${image}`} alt={`Product ${index + 1}`} className={`${index === 0 ? 'block' : 'hidden'}  object-contain   group-hover:opacity-80 duration-300  rounded-lg`} />
+        <img key={`${productId}-${index}`} src={`${apiurl()}/${image}`} alt={`Product ${index + 1}`} className={`${index === 0 ? 'block' : 'hidden'}  object-contain  h-48  group-hover:opacity-80 duration-300   rounded-lg`} />
       ))}
     </div>
   );
@@ -205,14 +205,17 @@ const SwiperMin = ({ Product, title }) => {
           <div className="lg:col-span-4 lg:row-span-12 row-span-5 order-1 lg:order-2 col-span-12 bg-primary h-full"></div>
         </div>
         <div className="relative z-10 flex justify-between items-center w-full max-w-screen-xl mx-auto py-5 lg:py-14 px-3 2xl:px-0">
-          <div className="flex ">
-            <p className="capitalize tracking-widest text-white lg:text-black md:text-2xl">New collection</p>
+          <div className=" ">
+            <div className="flex gap-2 items-center">
+              <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
+              <p className="capitalize text-white lg:text-black font-bold md:text-2xl ">New collection</p>
+            </div>
             {/* <p className="capitalize tracking-widest lg:text-4xl text-xl font-semibold lg:text-primary text-primary_green ">Trending Flash Sale</p> */}
           </div>
           <Link to='/products'><div className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border border-w flex gap-2 justify-center items-center text-white group/vwbtn *:duration-300"><button className="capitalize md:tracking-wider inline-flex gap-1.5">View {' '} <span className="hidden md:block"> All Collection</span> </button><i className="fi fi-rs-arrow-up-right rotate-45 group-hover/vwbtn:rotate-0"></i></div></Link>
           <div className="absolute h-[0.5px] w-full bg-slate-500/70 bottom-4"></div>
         </div>
-        <div className="w-full mx-auto swiper-container-wrapper py-4 px-3 2xl:px-0 2xl:-translate-x-[290px] ">
+        <div className="w-full mx-auto swiper-container-wrapper   px-3 2xl:px-0 2xl:-translate-x-[290px] ">
           <div className="swiper-container  "
             onMouseEnter={() => swiperRef.current?.swiper?.autoplay?.stop()}
             onMouseLeave={() => swiperRef.current?.swiper?.autoplay?.start()}
@@ -237,10 +240,10 @@ const SwiperMin = ({ Product, title }) => {
               {Product.slice(0, 7).map((prod, i) => (
                 <SwiperSlide key={prod._id || i} className="">
                   <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
-                    <div variants={slideVariants} className="relative group ">
+                    <div variants={slideVariants} className="relative group   ">
                       <div className="w-full   bg-white flex justify-between flex-col rounded-2xl relative mb-5 border shadow-md hover:shadow-lg duration-300 ">
                         {/* wishlist & cart */}
-                        <div className="relative top-2 right-2 lg:absolute z-30 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full lg:group-hover:-translate-y-1/2 duration-300">
+                        <div className="absolute top-2 right-2 lg:absolute z-30 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full lg:group-hover:-translate-y-1/2 duration-300">
                           {prod.QTY > 0 && prod.QTY !== null && (
                             <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center border-[1.5px] rounded-full bg-gray-100 hover:bg-white  group overflow-hidden shadow-md duration-300" >
                               <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
@@ -271,7 +274,7 @@ const SwiperMin = ({ Product, title }) => {
                           </button>
                         </div>
                         <div className="absolute z-10 top-4 left-2 md:top-5 lg:left-5 lg:text-xs text-[10px] ">
-                          {prod.QTY === 0  && (
+                          {prod.QTY === 0 && (
                             <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                               <p className="">Out of Stock</p>
                             </div>

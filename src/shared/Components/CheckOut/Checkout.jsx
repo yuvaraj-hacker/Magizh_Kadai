@@ -1,4 +1,5 @@
 import { Button } from "@nextui-org/react";
+import { div } from "framer-motion/m";
 import { Link } from "react-router-dom";
 
 export default function Checkout(props) {
@@ -45,7 +46,6 @@ export default function Checkout(props) {
                                                                 <div className=" cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleEditAddress(address); }} >
                                                                     <i className="fi fi-rr-pen-circle dark:text-black"></i>
                                                                 </div>
-
                                                                 <div className=" cursor-pointer hover:scale-105" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address._id); }}  >
                                                                     <i className="fi fi-rr-trash dark:text-black"></i>
                                                                 </div>
@@ -112,7 +112,7 @@ export default function Checkout(props) {
                                     <div className=" p-3 space-y-3">
                                         <label className="flex items-center space-x-2">
                                             <input type="radio" name="paymentMethod" value="Online Payment" checked={selectedPaymentmethod === 'Online Payment'} onChange={handlePaymentChange} className="form-radio" />
-                                            <span>Credit Card</span>
+                                            <span>Pay Now</span>
                                         </label>
                                         <label className="flex items-center space-x-2">
                                             <input type="radio" name="paymentMethod" value="Cash on Delivery" checked={selectedPaymentmethod === 'Cash on Delivery'}
@@ -135,7 +135,7 @@ export default function Checkout(props) {
                                 <p className='text-sm md:text-base '>Explore More Products ?
                                 </p>
                                 <div>
-                                    <Link to='/products'> <button className='font-bold text-white p-3 text-sm rounded-md bg-primary'>Continue Shopping</button> </Link>
+                                    <Link to='/products'> <button className='font-bold text-white p-3 text-sm rounded-3xl bg-primary'>Continue Shopping</button> </Link>
                                     {/* <p className="">${(
                                     Total * 1 +
                                     (purchaseType !== 'pickup' &&
@@ -233,14 +233,16 @@ export default function Checkout(props) {
                             </div>
                             {/* <p className="text-xs  mt-4 text-[#6C6C6C] dark:text-white">To guarantee the quality of your food, please store food indoors or refrigerate if needed.</p> */}
                             <p className="text-xs  text-[#6C6C6C] dark:text-white" >By placing this order, you are agreeing to Magizh Kadai Terms and Conditions.</p>
-                            <button className="flex items-center justify-center w-full py-2 gap-2  font-semibold text-white bg-primary   rounded-md"
+                            <button className="flex items-center justify-center w-full py-2 gap-2  font-semibold text-white bg-primary   rounded-3xl"
                                 onClick={handlePlaceOrder}
                                 disabled={loading}  >
                                 {loading ? 'Placing Order...' : 'Place Order'}
                                 {loading ? (
                                     <i className="mr-2 fa-solid fa-spinner animate-spin"></i>
                                 ) : (
-                                    <i className="mr-2 flex items-center   text-red-500 fi fi-rr-file-pdf"></i>
+                                    // <i className="mr-2 flex items-center   text-red-500 fi fi-rr-file-pdf"></i>
+                                    <>
+                                    </>
                                 )}
                             </button>
                         </div>

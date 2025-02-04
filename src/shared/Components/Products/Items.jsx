@@ -78,11 +78,11 @@ const Items = (prpos) => {
           </div>
         </div>
       </div>
-      <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-6 xl:grid-cols-5 gap-x-3 md:px-5 ">
+      <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-6 xl:grid-cols-4 gap-x-3 md:px-5 ">
         {products.map((prod, i) => (
           <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
             <div key={i} className="relative group ">
-              <div className="w-full  md:h-[420px]  bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300 ">
+              <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300 ">
                 {/* wishlist & cart */}
                 <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full lg:group-hover:-translate-y-1/2 duration-300">
                   {prod.QTY > 0 && prod.QTY !== null && (
@@ -137,7 +137,7 @@ const Items = (prpos) => {
                   )}
                 </div>
                 <div className="relative flex items-center justify-center    overflow-hidden rounded-lg md:p-3 p-1">
-                  <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={` object-contain group-hover:opacity-80 duration-300  rounded-lg`} />
+                  <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={` object-contain group-hover:opacity-80 duration-300 w-full max-h-48 md:h-48 h-32 rounded-lg`} />
                 </div>
                 <div className=" md:p-3  p-1 space-y-1">
                   <h2 className="mt-3 text-sm text-black dark:text-white md:text-base line-clamp-2 text-left">
@@ -166,7 +166,7 @@ const Items = (prpos) => {
                     )}
                   </div>
                   <div className="text-start  ">
-                    <button className="text-white md:p-2 p-1 w-full md:text-base text-xs bg-primary rounded-md">
+                    <button className="text-white md:p-2 p-1 w-full md:text-base text-xs bg-primary rounded-3xl">
                       View Details
                     </button>
                   </div>

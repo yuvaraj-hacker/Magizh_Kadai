@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import SwiperMin from "./SwiperMin";
 import { getallproducts } from "../../services/apiproducts/apiproduct";
 import { products1 } from '../../services/json/heroSection.js'
@@ -6,6 +6,25 @@ import { Link } from "react-router-dom";
 import apiurl from "../../services/apiendpoint/apiendpoint.js";
 
 function AllProducts({ groupedProducts }) {
+  const [productLimit, setProductLimit] = useState(6); // Default to 6
+
+  useEffect(() => {
+    const updateLimit = () => {
+      const width = window.innerWidth;
+
+      if (width >= 1280 && width < 1660) {
+        setProductLimit(5); // Show 5 products for 1280px to 1660px
+      } else {
+        setProductLimit(6); // Default to 6 for other screen sizes
+      }
+    };
+
+    updateLimit(); // Set initial value
+    window.addEventListener("resize", updateLimit);
+
+    return () => window.removeEventListener("resize", updateLimit);
+  }, []);
+
   // const [products, setProducts] = useState({});
   // const [isLoading, setIsLoading] = useState(false);
 
@@ -56,11 +75,14 @@ function AllProducts({ groupedProducts }) {
       {Object.keys(groupedProducts || {}).map((category, index) => (
         <div key={index} className="md:mb-10 mb-5">
           <div className="flex justify-between items-center my-2 px-3">
-            <h2 className=" md:text-2xl text-base font-semibold text-secondary">{category}</h2>
+            <div className="flex gap-2 items-center">
+              <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
+              <h2 className=" md:text-2xl text-sm  font-bold text-secondary">{category}</h2>
+            </div>
             <Link to={`products?category=${category}`} className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border group bg-primary text-white flex gap-2 justify-center items-center  group/vwbtn *:duration-300"><button className="text-xs lg:text-base flex gap-2 items-center">View All <i className="fi fi-sr-angle-circle-right flex items-center group-hover:translate-x-1 duration-300 "></i></button></Link>
           </div>
-          <div className=" relative pl-3 md:px-3">
-            <div className="md:grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2 flex  overflow-hidden overflow-x-auto scrollbar-hide ">
+          <div className="relative pl-3 md:px-3 ">
+            <div  className="lg:grid grid-cols-2 md:grid-cols-3 3xl:grid-cols-6 xl:grid-cols-5  gap-2 flex  overflow-hidden overflow-x-auto scrollbar-hide ">
               {/* {groupedProducts[category].slice(0, 6).map((product, idx) => (
               <div key={idx} className="flex flex-col group duration-300 p-2 lg:p-3 bg-gradient-to-tr from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] hover:via-primary hover:from-primary rounded-2xl">
               <div className="border h-40 md:h-60 overflow-hidden rounded-xl flex items-center justify-center bg-white">
@@ -73,7 +95,7 @@ function AllProducts({ groupedProducts }) {
                </div>
                </div>
                     ))} */}
-              {groupedProducts[category].slice(0, 6).map((product, idx) => (
+              {groupedProducts[category].slice(0, productLimit).map((product, idx) => (
                 <Link to={`/product-details/${product._id}`}>
                   <div key={idx} className="flex flex-col group relative duration-300 md:p-3 p-2 space-y-3 from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] shadow-sm hover:via-primary hover:from-primary rounded-xl border hover:border-primary hover:bg-gray-100">
                     <div className=" h-40 md:h-60  md:w-auto w-44 overflow-hidden rounded-xl flex items-center justify-center bg-white">
@@ -126,6 +148,10 @@ function AllProducts({ groupedProducts }) {
                 </Link>
               ))}
             </div>
+
+            {/* <div onClick={scrollRight} className=" p-3 absolute w-fit right-0 top-1/2 bg-gray-300 cursor-pointer">
+              <i class="fi fi-ts-angle-right"></i>
+            </div> */}
           </div>
           {/* <hr className="mt-5" /> */}
         </div>

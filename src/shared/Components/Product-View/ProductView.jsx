@@ -48,30 +48,30 @@ const ProductView = (props) => {
 
   return (
     <>
-      <div className='dark:bg-black  max-w-[80rem] mx-auto  md:my-10  my-5'>
-        <div className="grid xl:grid-cols-9 grid-cols-6 md:gap-10 gap-5 md:space-x-8 px-3 max-w-[120rem] ">
+      <div className='dark:bg-black  max-w-[80rem] mx-auto   md:my-10 my-5'>
+        <div className="grid xl:grid-cols-9 grid-cols-6 md:gap-10 gap-2  md:space-x-8 px-3 max-w-[120rem] ">
           <div className='order-2 col-span-6 gap-2 md:col-span-1 md:order-1 ' >
-            <div className="flex flex-row items-center overflow-x-auto overflow-y-hidden md:flex-col md:space-y-3 md:space-x-0 space-x-2 scrollbar-hide   place-items-center p-2 ">
-              <button onClick={scrollUp} className="p-1 bg-gray-200 rounded hover:bg-gray-300 md:w-full h-full md:h-auto  flex justify-center items-center focus:ring-2 ring-primary m-2 ">
-                {isMobile ? <ChevronLeftIcon className="w-6 h-6 text-gray-600" /> : <ChevronUpIcon className="w-6 h-6 text-gray-600" />}
+            <div className="flex flex-row items-center overflow-x-auto overflow-y-hidden md:flex-col px-1 md:space-y-3 md:space-x-0 space-x-2 scrollbar-hide   place-items-center p-2 ">
+              <button onClick={scrollUp} className="p-1 bg-gray-200 rounded hover:bg-gray-300 md:w-full h-full md:h-auto  flex justify-center items-center focus:ring-2 ring-primary  ">
+                {isMobile ? <ChevronLeftIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" /> : <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" />}
               </button>
               <div className=' md:max-h-96 md:h-96 overflow-hidden md:space-y-3 md:space-x-0 space-x-3 md:flex-col flex flex-row items-center overflow-x-auto scrollbar-hide  place-items-center ' ref={containerRef}>
                 {product.Images.map((img, index) => (
                   <img key={index} src={`${apiurl()}/${img}`} alt={`Thumbnail ${index + 1}`}
-                    ref={(el) => (tabRefs.current[index] = el)} className={`w-20 h-20 border  ${mainImage === img ? 'border-secondary' : 'border-gray-300 bg-primary'} rounded cursor-pointer p-2`}
+                    ref={(el) => (tabRefs.current[index] = el)} className={`w-20 h-20 border  ${mainImage === img ? 'border-secondary' : 'border-gray-300 '} rounded cursor-pointer p-2`}
                     // onClick={() => setMainImage(img)}
                     onMouseEnter={() => setMainImage(img)}
                   />
                 ))}
               </div>
-              <button onClick={scrollDown} className="p-1 bg-gray-200 rounded hover:bg-gray-300  md:w-full h-full flex justify-center items-center focus:ring-2 ring-primary m-2">
-                {isMobile ? <ChevronRightIcon className="w-6 h-6 text-gray-600" /> : <ChevronDownIcon className="w-6 h-6 text-gray-600" />}
+              <button onClick={scrollDown} className="p-1 bg-gray-200 rounded hover:bg-gray-300  md:w-full h-full flex justify-center items-center focus:ring-2 ring-primary ">
+                {isMobile ? <ChevronRightIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" /> : <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" />}
               </button>
             </div>
           </div>
-          <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 m-2 place-items-center "   >
+          <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 m-2 place-items-center w-full "   >
             <div className="relative" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
-              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="object-contain " />
+              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52  md:max-h-96" />
             </div>
           </div>
           {/* <div className="flex-1 order-1 col-span-6 mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 place-items-center ">
@@ -108,7 +108,7 @@ const ProductView = (props) => {
             </Swiper>
           )}
         </div> */}
-          <div className="order-3 col-span-6 mt-5 space-y-4 xl:col-span-4 md:col-span-3 md:order-3 sticky top-20 m-2 xl:mt-0 ">
+          <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-3 md:order-3  m-2 xl:mt-0 ">
             {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
               <p className="inline-block text-xs font-medium">
@@ -120,7 +120,15 @@ const ProductView = (props) => {
                 {product.Measurement_Units} per {product.Unit_of_Measurements}
               </span>
             )}
-          </div> */}
+            </div> */}
+            <div className="flex items-center space-x-4">
+              {product.Brand_Name && (
+                <p className="inline-block md:px-4 px-3 md:py-2 py-1 md:text-sm text-xs font-semibold text-black bg-green-500 rounded-3xl bg-opacity-20 dark:bg-green-300">{product.Brand_Name}</p>
+              )}
+              {product.Measurement_Units && product.Unit_of_Measurements && (
+                <span className="text-lg font-medium text-gray-600 dark:text-white">{product.Measurement_Units} per {product.Unit_of_Measurements}</span>
+              )}
+            </div>
             <div className='flex flex-wrap items-end justify-start'>
               <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
               {product.QTY == 0 || product.QTY < 0 && (
@@ -129,23 +137,16 @@ const ProductView = (props) => {
                 </div>
               )}
               {product.QTY <= 5 && product.QTY > 0 && (
-                <div className="bg-[#f1aa59] p-1 text-white rounded-lg mb-2">
+                <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2">
                   <p className="text-xs ">Limited Stock</p>
                 </div>
               )}
             </div>
-            <div className="flex items-center space-x-4">
-              {product.Brand_Name && (
-                <p className="inline-block px-4 py-2 text-sm font-semibold text-black bg-green-500 rounded-xl bg-opacity-20 dark:bg-green-300">{product.Brand_Name}</p>
-              )}
-              {product.Measurement_Units && product.Unit_of_Measurements && (
-                <span className="text-lg font-medium text-gray-600 dark:text-white">{product.Measurement_Units} per {product.Unit_of_Measurements}</span>
-              )}
-            </div>
+
 
             <div className="flex items-center space-x-2">
               {product.Discount > 0 && (
-                <span className="md:px-2 px-3 md:py-1 text-sm font-semibold text-white bg-secondary rounded-3xl">{product.Discount}% off</span>
+                <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{product.Discount}% off</span>
               )}
               {product.Sale_Price > 0 && (
                 <span className="text-base font-bold text-primary md:text-2xl">
@@ -157,27 +158,27 @@ const ProductView = (props) => {
               )}
             </div>
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 sticky bg-white md:bg-transparent py-2 md:py-0 bottom-[60px]">
               {product.QTY > 0 && product.QTY !== null && (
                 <>
                   {getCurrentCartQuantity() === 0 ? (
-                    <button className="flex items-center justify-center gap-2 w-full p-5 px-6 md:text-base text-sm font-semibold text-white rounded-xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
-                      <span>  <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />  </span>
+                    <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
+                      <span> <i class="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                       Add to Cart
                     </button>
                   ) : (
-                    <button className="flex items-center justify-center gap-2 w-full p-5 px-6 md:text-base text-sm font-semibold text-white rounded-xl bg-primary transition-colors">
-                      <span>  <img src="/images/Product-View/Shopping Cart.png" alt="Cart icon" />  </span>
+                    <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
+                      <span> <i class="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                       <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
                     </button>
                   )}
                   {getCurrentCartQuantity() >= 1 ? (
-                    <div className='flex flex-col justify-between gap-3'>
-                      <button className='bg-primary rounded-xl border-primary border cursor-pointer' onClick={handleIncreaseQuantity}>
-                        <ChevronUpIcon className="w-6 h-6 text-white" />
+                    <div className='flex flex-col justify-between md:gap-3 gap-1'>
+                      <button className='bg-primary rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                        <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-white " />
                       </button>
-                      <button className='bg-primary rounded-xl  cursor-pointer disabled:cursor-not-allowed  disabled:bg-primary/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
-                        <ChevronDownIcon className="w-6 h-6 text-white" />
+                      <button className='bg-primary rounded-3xl  cursor-pointer disabled:cursor-not-allowed  disabled:bg-primary/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
+                        <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-white" />
                       </button>
                     </div>
                   ) : (
@@ -191,7 +192,7 @@ const ProductView = (props) => {
               {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
-            </button> */}
+               </button> */}
               <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
                 {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
                   <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
@@ -217,7 +218,7 @@ const ProductView = (props) => {
                 </div>
               )}
             </div> */}
-              <p className="text-sm text-gray-500 dark:text-white">Weekly sold 100+</p>
+              {/* <p className="text-sm text-gray-500 dark:text-white">Weekly sold 100+</p> */}
             </div>
             {product?.Product_Highlights &&
               <div>
@@ -232,7 +233,7 @@ const ProductView = (props) => {
             <div className=" space-y-4">
               <div className="  ">
                 <div className="flex items-center justify-between cursor-pointer bg-gray-50 p-3" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
-                  <h2 className=" uppercase">PRODUCT DESCRIPTION</h2>
+                  <h2 className=" uppercase md:text-base">PRODUCT DESCRIPTION</h2>
                   <i
                     className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? "rotate-180" : "rotate-0"
                       } duration-300`}
@@ -240,7 +241,7 @@ const ProductView = (props) => {
                 </div>
                 <div ref={descriptionRef} className={`transition-all duration-300 overflow-hidden`}
                   style={{ height: isDescriptionOpen ? contentHeight : "0px", }}  >
-                  <div className=" text-gray-700 dark:text-white p-2 ">
+                  <div className=" text-gray-700 dark:text-white p-2  md:text-base text-sm">
                     <p dangerouslySetInnerHTML={{ __html: product.Product_Description }}></p>
                   </div>
                 </div>
@@ -248,7 +249,6 @@ const ProductView = (props) => {
             </div>
           </div>
         </div>
-
 
         {/* Sections for Similar Items, Reviews, and Bought Together */}
         {/* <section>

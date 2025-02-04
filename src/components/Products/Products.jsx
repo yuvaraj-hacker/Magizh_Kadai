@@ -297,7 +297,7 @@ const Products = () => {
                             <div className=' text-sm text-black '>
                                 FILTERS
                             </div>
-                            <div className=' text-sm cursor-pointer text-blue-400  bg-gray-300 p-2   '>
+                            <div className=' text-sm cursor-pointer text-blue-400  bg-white p-2   '>
                                 CLEAR ALL
                             </div>
                         </div>

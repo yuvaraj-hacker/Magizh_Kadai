@@ -29,7 +29,6 @@ const LoadingSkeleton = () => {
 
 const SwiperMax = ({ banners }) => {
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -48,8 +47,8 @@ const SwiperMax = ({ banners }) => {
 
   return (
     <div className="w-full swiper-container-wrapper">
-      <div className="swiper-container">
-        <Swiper loop={true} autoplay={{ delay: 5000 }} spaceBetween={30} speed={2000}
+      <div className="swiper-container rounded-3xl h-fit mt-3 md:mt-5  ">
+        <Swiper loop={true} autoplay={{ delay: 5000 }}  spaceBetween={10}  speed={2000}
           breakpoints={{ 320: { slidesPerView: 1 }, 600: { slidesPerView: 1 }, 1224: { slidesPerView: 1 }, }}
           navigation={banners.length > 1 ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } : false}
           modules={[Navigation, Autoplay]}
@@ -61,7 +60,7 @@ const SwiperMax = ({ banners }) => {
           {banners.map((banner) => (
             <SwiperSlide key={banner.id}>
               <div>
-                <div className={`relative overflow-hidden rounded-xl mt-5 `}
+                <div className={`relative overflow-hidden  rounded-3xl `}
                   style={{
                     backgroundImage: window.innerWidth < 1024
                       ? `linear-gradient(to top left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), url(http://192.168.29.175:5173/${banner.image})`
@@ -70,7 +69,7 @@ const SwiperMax = ({ banners }) => {
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                   }} >
-                  <div className="lg:grid grid-cols-2 h-full gap-10">
+                  {/* <div className="lg:grid grid-cols-2 h-full gap-10">
                     <img src={`http://192.168.29.175:5173/${banner.image}`} alt={banner.title} className="h-96 w-full object-cover  md:block hidden" />
                     <div className="z-10  flex justify-center items-center p-3">
                       <div>
@@ -85,13 +84,48 @@ const SwiperMax = ({ banners }) => {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                  <div
+                    className="relative  flex items-center justify-center text-center text-white   md:py-10 py-5 overflow-hidden"
+                    style={{
+                      backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(http://192.168.29.175:5173/${banner.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    <div className="z-10 px-5 max-w-2xl md:space-y-4 space-y-2">
+                      <div className="font-jomhuria text-white md:text-7xl text-5xl">
+                        {banner.title}
+                      </div>
+                      <div className="2xl:text-xl sm:text-base text-sm  text-white" style={{ color: banner.textColor }}  >
+                        {banner.subtitle}
+                      </div>
+                      {/* <div className="text-secondary contrast-150">
+                        Starting From <span className="text-xl font-semibold">₹129</span>
+                      </div> */}
+                      <div className="">
+                        <Link to={banner.link}>
+                          <button className="md:p-3 p-2 border border-white lg:border-white rounded-full text-white">
+                            Shop Now <i className="fi fi-br-arrow-up-right text-sm "></i>
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
             </SwiperSlide>
           ))}
         </Swiper>
+        {/* {banners.length > 1 && (
+          <>
+            <div className="swiper-button-prev absolute z-10   text-white cursor-pointer ">
+            </div>
+            <div className="swiper-button-next absolute z-10 text-white cursor-pointer ">
+            </div>
+          </>
+        )} */}
       </div>
     </div>
   );

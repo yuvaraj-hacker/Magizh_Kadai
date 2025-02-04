@@ -158,7 +158,7 @@ export default function CartPage(props) {
                                           {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
                                         </span>
                                         <span className="text-xs font-semibold text-white bg-secondary rounded-3xl px-2 py-1 dark:text-white">
-                                        {(item.productId?.Discount || item.Discount) && (
+                                          {(item.productId?.Discount || item.Discount) && (
                                             <>
                                               {Math.round(item.productId?.Discount || item.Discount)}% off
                                             </>
@@ -376,22 +376,15 @@ export default function CartPage(props) {
                       )}
                   </div>
                 </div>
-                <div className="w-full  sticky lg:bottom-0  bottom-[60px] bg-gray-100 px-2 p-4">
+                <div className="w-full  sticky lg:bottom-0  bottom-[60px] bg-gray-100  p-4">
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
                       Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    <div className="bg-primary p-2 cursor-pointer  rounded-md md:text-base sm:text-sm text-xs text-white" onClick={goToCheckout}>
+                    <div className="bg-primary p-2 cursor-pointer px-4  rounded-3xl md:text-base sm:text-sm text-xs text-white" onClick={goToCheckout}>
                       Proceed To Checkout
                     </div>
                   </div>
-                </div>
-                <div className="text-start">
-                  <Link to='/products'>
-                    <button className="bg-primary md:text-base text-sm text-white rounded-md p-2">
-                      Continue Shopping
-                    </button>
-                  </Link>
                 </div>
               </div>
               <div className="xl:col-span-3  px-1  xl:sticky xl:top-28 h-fit space-y-4 ">
@@ -423,6 +416,13 @@ export default function CartPage(props) {
                         <div className="flex justify-between xl:mt-3 font-bold">
                           <p className="text-sm md:text-base flex gap-1">Subtotal ({cartItems.length} items) <span className="xl:hidden block "> ({cartItems.length})</span></p>
                           <p className="text-primary">₹{finalTotal.toFixed(2)}</p>
+                        </div>
+                        <div className="text-center mt-3">
+                          <Link to='/products'>
+                            <button className="bg-primary md:text-base text-sm text-white rounded-3xl px-4 p-2">
+                              Continue Shopping
+                            </button>
+                          </Link>
                         </div>
                         {/* <div className="flex items-center justify-end mt-3">
                           <button className="bg-primary hover:bg-secondary rounded-xl  text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>

@@ -1,14 +1,10 @@
-
-
-
-export const mainCarouselBanners1 = [
-    {
+export const mainCarouselBanners1 = [{
         "id": 1,
         "title": "Home Utilities",
         "subtitle": "Upgrade Your Home with Innovative, Cost-Effective Solutions. Explore Now to Make Everyday Living Effortless and Stylish!",
         "image": "public/assets/herosection/home.jpg",
         "link": "/products?category=Home%20Utilities",
-        "bgColor":"#ede1d5"
+        "bgColor": "#ede1d5"
         // "bgColor":"#f0ffde"
 
     },
@@ -18,7 +14,7 @@ export const mainCarouselBanners1 = [
         "subtitle": "Elevate Your Culinary Experience with Cutting-Edge Accessories. Cook with Ease, Style, and Precision—Start Shopping Today!",
         "image": "public/assets/herosection/kitchen.jpg",
         "link": "/products?category=Kitchen%20Accessories",
-        "bgColor":"#f0f0f0"
+        "bgColor": "#f0f0f0"
     },
     {
         "id": 3,
@@ -26,43 +22,49 @@ export const mainCarouselBanners1 = [
         "subtitle": "Transform Your Bathroom into a Luxe Haven with Modern, Functional Touches. Refresh Your Space with Ease—Shop Now!",
         "image": "public/assets/herosection/bathroom.jpg",
         "link": "/products?category=Bathroom%20Accessories",
-        "bgColor":"#d1d6d0"
+        "bgColor": "#d1d6d0"
     }
 ]
 
 
-export const categoryDealsBanners1 = [
-        {
-            "id": 1,
-            "title": "Everything",
-            "subtitle": "30",
-            "preview": "http://192.168.29.175:5173//assets/herosection/everything.jpg",
-            "link": "/products?category=Everything",
-            "bgColor": "#f02954"
-        },
-        {
-            "id": 2,
-            "title": "Gadgets",
-            "subtitle": "22",
-            "preview": "http://192.168.29.175:5173/assets/herosection/laptop.jpeg",
-            "link": "/products?category=Laptop/Mobile%20Accessories",
-            "bgColor": "#f29f5e"
-        },
-        {
-            "id": 3,
-            "title": "Kitchen Accessories",
-            "subtitle": "27",
-            "preview": "http://192.168.29.175:5173/assets/herosection/kitchenn.jpg",
-            "link": "/products?category=Kitchen%20Accessories",
-            "bgColor": "#84acf5"
-        },
+export const categoryDealsBanners1 = [{
+        "id": 1,
+        "title": "Everything",
+        "subtitle": "30",
+        "preview": "http://192.168.29.175:5173//assets/herosection/everything.jpg",
+        "link": "/products?category=Everything",
+        "bgColor": "#f02954"
+    },
+    {
+        "id": 2,
+        "title": "Gadgets",
+        "subtitle": "22",
+        "preview": "http://192.168.29.175:5173/assets/herosection/laptop.jpeg",
+        "link": "/products?category=Laptop/Mobile%20Accessories",
+        "bgColor": "#f29f5e"
+    },
+    {
+        "id": 3,
+        "title": "Kitchen Accessories",
+        "subtitle": "27",
+        "preview": "http://192.168.29.175:5173/assets/herosection/kitchenn.jpg",
+        "link": "/products?category=Kitchen%20Accessories",
+        "bgColor": "#84acf5"
+    },
+    {
+        "id": 3,
+        "title": "Kitchen Accessories",
+        "subtitle": "27",
+        "preview": "http://192.168.29.175:5173/assets/herosection/kitchenn.jpg",
+        "link": "/products?category=Kitchen%20Accessories",
+        "bgColor": "#84acf5"
+    },
 
 ]
 
 
 
-export const products1 = [
-    {
+export const products1 = [{
         "_id": 1,
         "Product_Name": "Smart LED Bulbs",
         "QTY": "50",

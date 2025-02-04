@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import OrderReviewModal from './OrderReviewModal';
 
 
-function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, viewReorderProducts,
+function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, viewReorderProducts,
   onRatingChange, onReviewTextChange, onImageUpload, onSubmitReview, orderReviews, orderReviewImages
 }) {
   const [selectedTimeRange, setSelectedTimeRange] = useState('Last 30 days');
@@ -56,35 +56,37 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
 
   return (
     <>
-      <section className="md:my-5">
+      <section className="md:my-5 relative min-h-screen">
         <div className="px-4">
-          <div className="my-5">
-            <div className="flex items-center gap-3">
+          <div className="my-5  h-full">
+            {/* <div className="flex items-center gap-3">
               <Link to="/profile">
                 <i className="block mt-1 fi fi-rr-angle-left lg:hidden"></i>
               </Link>
               <h2 className="text-lg font-semibold md:text-2xl">My orders</h2>
-            </div>
-            <div className="relative flex items-center gap-2" ref={dropdownRef}>
-              <p className="mt-2 text-xs md:text-base ml-2">
-                {currentOrders.length} Order{currentOrders.length !== 1 ? 's' : ''} Placed In
-              </p>
-              <button onClick={toggleDropdown} className="flex items-center gap-3 bg-[#FFF6F4] dark:bg-gray-500 text-black px-3 py-1 mt-2 rounded-md" >
-                <i className="mt-1 fi fi-sr-clock"></i>
-                <p className="text-xs md:text-base dark:text-white">{selectedTimeRange}</p>
-                <i className="fi fi-rr-angle-small-down"></i>
-              </button>
-              {isLastOpen && (
-                <div className="absolute z-10 w-48 bg-white border border-gray-200 rounded-md shadow-lg dark:bg-gray-600 lg:left-36 md:left-28 top-10">
-                  <ul className="py-1">
-                    {['Last 30 days', 'Last 6 months', 'Last year'].map((range) => (
-                      <li key={range} onClick={() => handleTimeRangeSelect(range)} className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-400" >
-                        {range}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            </div> */}
+            <div className='sticky top-40 '>
+              <div className="relative flex items-center justify-end gap-2" ref={dropdownRef}>
+                <p className="mt-2 text-xs md:text-base ml-2">
+                  <span className=''>{currentOrders.length}</span>  Order{currentOrders.length !== 1 ? 's' : ''} Placed In
+                </p>
+                <button onClick={toggleDropdown} className="flex items-center gap-3 bg-primary dark:bg-gray-500 text-white px-3 py-1 mt-2  rounded-md" >
+                  <i className="mt-1 fi fi-sr-clock"></i>
+                  <p className="text-xs md:text-base dark:text-white w-32">{selectedTimeRange}</p>
+                  <i className="fi fi-rr-angle-small-down"></i>
+                </button>
+                {isLastOpen && (
+                  <div className="absolute z-10 w-48 bg-white border border-gray-200 rounded-md shadow-lg dark:bg-gray-600  top-11">
+                    <ul className="py-1">
+                      {['Last 30 days', 'Last 6 months', 'Last year'].map((range) => (
+                        <li key={range} onClick={() => handleTimeRangeSelect(range)} className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-400" >
+                          {range}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -92,10 +94,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
             {hasOrders ? (
               <div className="p-4 ">
                 {currentOrders.map((order) => (
-                  <div
-                      key={order.Order_id}
-                    className="mb-6 overflow-hidden transition-shadow duration-300 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md "
-                  >
+                  <div key={order.Order_id} className="mb-6 overflow-hidden transition-shadow duration-300 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md "  >
                     {/* Order Header */}
                     <div className="items-center justify-between block p-4 border-b md:flex flex-warp bg-gray-50 dark:bg-gray-700">
                       <div className="items-center block gap-4 md:flex">
@@ -146,12 +145,12 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
                         <div className="md:col-span-1">
                           <div className="flex flex-col gap-2">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm w-fit font-semibold ${order.Order_Status === "Payment Pending"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : order.Order_Status === "Delivered"
-                                  ? "bg-green-100 text-green-800"
-                                  : order.Order_Status === "Cancelled"
-                                    ? "bg-red-100 text-red-800"
-                                    : "bg-blue-100 text-blue-800"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : order.Order_Status === "Delivered"
+                                ? "bg-green-100 text-green-800"
+                                : order.Order_Status === "Cancelled"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-blue-100 text-blue-800"
                               }`}>
                               <span className="w-2 h-2 mr-2 bg-current rounded-full"></span>
                               {order.Order_Status}
@@ -196,7 +195,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
                     </div>
 
                     {/* Order Footer with Review Button */}
-                    {/* <div className="p-4 border-t bg-gray-50 dark:bg-gray-700">
+                    <div className="p-4 border-t bg-gray-50 dark:bg-gray-700">
                       <div className="flex justify-end">
                         <OrderReviewModal
                           order={order}
@@ -208,7 +207,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
                           orderReviewImages={orderReviewImages || {}}
                         />
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -219,7 +218,7 @@ function MyOrder({dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDe
                   <button className="bg-primary hover:bg-secondary duration-300 text-white px-4 py-2 rounded-md">Find Your Favourites</button>
                 </Link>
               </div>
-            )}  
+            )}
           </div>
         </div>
       </section>

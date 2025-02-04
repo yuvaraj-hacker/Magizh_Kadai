@@ -8,8 +8,8 @@ function Testimoni({ testimonials }) {
     <>
       <section className=" my-5 ">
         <div className="flex gap-2 flex-col items-center justify-center">
-          <h2 className="lg:text-3xl font-semibold text-secondary"> Product Reviews</h2>
-          <p className="text-sm">  Our references are very valuable, the result of a great effort...</p>
+          <h2 className="lg:text-3xl font-semibold text-secondary"> Testimonials</h2>
+          {/* <p className="text-sm px-3">  Our references are very valuable, the result of a great effort...</p> */}
         </div>
         <div className="relative  2xl:px-0 px-3">
           <Swiper spaceBetween={30} slidesPerView={1} autoplay loop={true} modules={[Pagination, Autoplay]}

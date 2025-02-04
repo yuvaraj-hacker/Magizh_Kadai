@@ -25,7 +25,7 @@ function CheckoutPage() {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [selectedPaymentmethod, setSelectedPaymentmethod] = useState(null);
     const [shippingdata, setshippingdata] = useState([]);
-    const [location,setLocation] = useState([])
+    const [location, setLocation] = useState([])
     const [cityOptions, setCityOptions] = useState([]);
     const [availableZipcodes, setAvailableZipcodes] = useState([]);
     const [showNewAddressModal, setShowNewAddressModal] = useState(false);
@@ -40,7 +40,7 @@ function CheckoutPage() {
     const [isCouponOpen, SetIsCouponOpen] = useState(false);
     const couponRef = useRef(null);
     const { deleteAllItems } = useCart();
-    const { userDetails,userdetails } = useAuth();
+    const { userDetails, userdetails } = useAuth();
     const navigate = useNavigate();
     const [isElavonModalOpen, setIsElavonModalOpen] = useState(false);
     const purchaseType = localStorage.getItem('purchaseType') || '';
@@ -85,7 +85,7 @@ function CheckoutPage() {
         const storedSubtotal = JSON.parse(localStorage.getItem('subtotal')) || 0;
         const storedFinalTotal = JSON.parse(localStorage.getItem('finalTotal')) || 0;
         const storedTotalItems = JSON.parse(localStorage.getItem('totalItems')) || 0;
-        if(storedCartItems.length ==0){
+        if (storedCartItems.length == 0) {
             navigate('/')
         }
         setCartItems(storedCartItems);
@@ -100,79 +100,79 @@ function CheckoutPage() {
 
     const loginType = localStorage.getItem('loginType');
 
-    const getLocationdata = useCallback(async()=>{
+    const getLocationdata = useCallback(async () => {
         const response = await getalllocation({});
-        setLocation(response.resdata||[])
-    } ,[])
+        setLocation(response.resdata || [])
+    }, [])
 
     var isMounted = true;
-    useEffect(()=>{
-        if(isMounted){
+    useEffect(() => {
+        if (isMounted) {
             getLocationdata();
         }
-        return ()=>(isMounted = false);
-    },[getLocationdata])
+        return () => (isMounted = false);
+    }, [getLocationdata])
 
-useEffect(() => {
-    if (location && location.resdata) {
-        const formattedCities = (location.resdata || []).map(loc => ({
-            ...loc,
-            displayName: loc.Status === "Active"
-                ? loc.City
-                : `${loc.City} (Coming Soon)`
-        }));
-        setCityOptions(formattedCities);
-    } else if (Array.isArray(location)) {
-        const formattedCities = location.map(loc => ({
-            ...loc,
-            displayName: loc.Status === "Active"
-                ? loc.City
-                : `${loc.City} (Coming Soon)`
-        }));
-        setCityOptions(formattedCities);
-    }
-}, [location]);
-
-const handleCityChange = (e) => {
-    const selectedCity = e.target.value;
-    const matchedLocation = cityOptions.find(loc =>
-        loc.City.toLowerCase() === selectedCity.toLowerCase()
-    );
-
-    if (matchedLocation) {
-        if (matchedLocation.Status !== "Active") {
-            e.preventDefault();
-            return;
+    useEffect(() => {
+        if (location && location.resdata) {
+            const formattedCities = (location.resdata || []).map(loc => ({
+                ...loc,
+                displayName: loc.Status === "Active"
+                    ? loc.City
+                    : `${loc.City} (Coming Soon)`
+            }));
+            setCityOptions(formattedCities);
+        } else if (Array.isArray(location)) {
+            const formattedCities = location.map(loc => ({
+                ...loc,
+                displayName: loc.Status === "Active"
+                    ? loc.City
+                    : `${loc.City} (Coming Soon)`
+            }));
+            setCityOptions(formattedCities);
         }
+    }, [location]);
 
-        const zipcodes = matchedLocation.Zipcode.split(',').map(zip => zip.trim());
-        setAvailableZipcodes(zipcodes);
+    const handleCityChange = (e) => {
+        const selectedCity = e.target.value;
+        const matchedLocation = cityOptions.find(loc =>
+            loc.City.toLowerCase() === selectedCity.toLowerCase()
+        );
 
-        setFormdata(prevData => ({
-            ...prevData,
-            City: matchedLocation.City,
-            State: matchedLocation.State,
-            Zipcode: zipcodes.length === 1 ? zipcodes[0] : '',
-            Country: "United States of America"
-        }));
-        setSelectedLocation(null);
-        setAvailableZipcodes([]);
-    }
-    handlechange(e);
-};
+        if (matchedLocation) {
+            if (matchedLocation.Status !== "Active") {
+                e.preventDefault();
+                return;
+            }
+
+            const zipcodes = matchedLocation.Zipcode.split(',').map(zip => zip.trim());
+            setAvailableZipcodes(zipcodes);
+
+            setFormdata(prevData => ({
+                ...prevData,
+                City: matchedLocation.City,
+                State: matchedLocation.State,
+                Zipcode: zipcodes.length === 1 ? zipcodes[0] : '',
+                Country: "United States of America"
+            }));
+            setSelectedLocation(null);
+            setAvailableZipcodes([]);
+        }
+        handlechange(e);
+    };
     const handleZipcodeChange = (e) => {
         setFormdata(prevData => ({ ...prevData, Zipcode: e.target.value }));
     };
 
     const getShippingdata = useCallback(async () => {
-        const products = await apigetallShipping({purchaseType});
-        if(purchaseType === 'delivery'){
+        const products = await apigetallShipping({ purchaseType });
+        if (purchaseType === 'delivery') {
             setshippingdata(products);
             if (products && products.length > 0 && !selectedAddress) {
                 setSelectedAddress(products[0]);
             }
         }
-        else{
+        else {
             setshippingdata(products);
         }
     }, []);
@@ -216,7 +216,7 @@ const handleCityChange = (e) => {
 
     // }, [selectedAddress,Total,finaltotal]);
     const getLocationByCity = useCallback(async () => {
-        const products = await getLocationbyCity({City: selectedAddress?.City});
+        const products = await getLocationbyCity({ City: selectedAddress?.City });
         setFeesandTax(products);
 
         // Calculate tax with proper decimal precision
@@ -265,7 +265,7 @@ const handleCityChange = (e) => {
 
     useEffect(() => {
         getLocationByCity();
-    }, [selectedAddress,Total,finaltotal]);
+    }, [selectedAddress, Total, finaltotal]);
 
     const handleEditAddress = (address) => {
         setFormdata(address);
@@ -314,10 +314,10 @@ const handleCityChange = (e) => {
             return;
         }
 
-        if ( ['Online Payment','Zelle'].includes(selectedPaymentmethod)&&!isElavonModalOpen) {
+        if (['Online Payment', 'Zelle'].includes(selectedPaymentmethod) && !isElavonModalOpen) {
             setIsElavonModalOpen(true);
         }
-        else{
+        else {
             const userFirstName = userdetails?.First_Name || '';
             const userLastName = userdetails?.Last_Name || '';
             const userEmail = userdetails?.Email || '';
@@ -369,17 +369,17 @@ const handleCityChange = (e) => {
                 Overall_Discount_Amount: discountAmount,
             }));
 
-            if(selectedPaymentmethod === 'Online Payment'){
-                var token = await apigenerateToken("orderdata78Order_ID",Number(orderdata?.Total_Amount*1))
-                pay(orderdata,ordermasterdata, data,token)
+            if (selectedPaymentmethod === 'Online Payment') {
+                var token = await apigenerateToken("orderdata78Order_ID", Number(orderdata?.Total_Amount * 1))
+                pay(orderdata, ordermasterdata, data, token)
             }
-            else{
-                if(selectedPaymentmethod === 'Zelle'){
-                    orderdata = {...data,...orderdata,Order_Status:"Admin Payment Confirmation Pending",Payment_Type:"Zelle"}
+            else {
+                if (selectedPaymentmethod === 'Zelle') {
+                    orderdata = { ...data, ...orderdata, Order_Status: "Admin Payment Confirmation Pending", Payment_Type: "Zelle" }
                     setIsElavonModalOpen(true);
                     setLoading(true);
                     setIsProcessing(true)
-                    var response = await apiSaveorder({orderdata,  ordermasterdata});
+                    var response = await apiSaveorder({ orderdata, ordermasterdata });
                     setPaymentStatus('success');
                     setIsProcessing(false)
                     toast.success('Order placed successfully!');
@@ -389,12 +389,12 @@ const handleCityChange = (e) => {
                     localStorage.removeItem('cartItems');
                     localStorage.removeItem('subtotal');
                 }
-                else{
-                    var orderdata = {...orderdata,Order_Status:"Order Placed",Payment_Type:purchaseType == 'pickup'?"Pay on Pickup":"Cash on Delivery"}
+                else {
+                    var orderdata = { ...orderdata, Order_Status: "Order Placed", Payment_Type: purchaseType == 'pickup' ? "Pay on Pickup" : "Cash on Delivery" }
                     setLoading(true);
                     setIsProcessing(true)
                     setIsElavonModalOpen(true);
-                    var response = await apiSaveorder({orderdata, ordermasterdata});
+                    var response = await apiSaveorder({ orderdata, ordermasterdata });
                     setLoading(false);
                     setPaymentStatus('success');
                     setIsProcessing(false)
@@ -410,61 +410,61 @@ const handleCityChange = (e) => {
 
     };
 
-    const pay = async (orderdatas,ordermasterdata, data,token)=> {
+    const pay = async (orderdatas, ordermasterdata, data, token) => {
         setIsProcessing(true)
         const paymentData = {
-          ssl_txn_auth_token: token.token,
-          ssl_card_number: data.cardNumber,
-          ssl_exp_date:  data.expiryDate.replace("/", ""),
-          ssl_get_token: "y",
-          ssl_add_token: "y",
-          ssl_invoice_number:  moment().format("YYMMDDHHmmss")+orderdatas.Total_Amount,
-          ssl_first_name:  orderdatas.userFirstName,
-          ssl_last_name:  orderdatas.userLastName,
-          ssl_cvv2cvc2:  data.cvv,
-          ssl_avs_address:  selectedAddress.Address,
-          ssl_city:  selectedAddress.City,
-          ssl_state:  selectedAddress.State,
-          ssl_avs_zip:  selectedAddress.Zipcode
+            ssl_txn_auth_token: token.token,
+            ssl_card_number: data.cardNumber,
+            ssl_exp_date: data.expiryDate.replace("/", ""),
+            ssl_get_token: "y",
+            ssl_add_token: "y",
+            ssl_invoice_number: moment().format("YYMMDDHHmmss") + orderdatas.Total_Amount,
+            ssl_first_name: orderdatas.userFirstName,
+            ssl_last_name: orderdatas.userLastName,
+            ssl_cvv2cvc2: data.cvv,
+            ssl_avs_address: selectedAddress.Address,
+            ssl_city: selectedAddress.City,
+            ssl_state: selectedAddress.State,
+            ssl_avs_zip: selectedAddress.Zipcode
         };
 
         const callback = {
-          onError: function (error) {
-            //console.log("error", error);
-            setPaymentStatus('failed')
-            setLoading(false);
-            setIsProcessing(false);
-           },
-          onDeclined: function (response) {
-            //console.log(response)
-            //console.log("Result Message=" + response['ssl_result_message']);
-            setLoading(false);
-            setPaymentStatus('failed')
-            setIsElavonModalOpen(true);
-          },
-          onApproval: async function (response) {
-            //console.log(response,"Approval Code=" , response['ssl_approval_code']);
-            var orderdata = {...orderdatas,Payment_ID:response['ssl_approval_code'],Payment_Status:"Paid",Order_Status:"Order Placed", Payment_Type:"Credit Card"}
-            const responses = await apiSaveorder({orderdata, ordermasterdata});
-            if (responses) {
-                toast.success('Order placed successfully!');
-                deleteAllItems();
-                await deleteAllcartItems(userDetails().Email);
-                // navigate('/myorder');
-                localStorage.removeItem('cartItems');
-                localStorage.removeItem('subtotal');
+            onError: function (error) {
+                //console.log("error", error);
+                setPaymentStatus('failed')
+                setLoading(false);
+                setIsProcessing(false);
+            },
+            onDeclined: function (response) {
+                //console.log(response)
+                //console.log("Result Message=" + response['ssl_result_message']);
+                setLoading(false);
+                setPaymentStatus('failed')
+                setIsElavonModalOpen(true);
+            },
+            onApproval: async function (response) {
+                //console.log(response,"Approval Code=" , response['ssl_approval_code']);
+                var orderdata = { ...orderdatas, Payment_ID: response['ssl_approval_code'], Payment_Status: "Paid", Order_Status: "Order Placed", Payment_Type: "Credit Card" }
+                const responses = await apiSaveorder({ orderdata, ordermasterdata });
+                if (responses) {
+                    toast.success('Order placed successfully!');
+                    deleteAllItems();
+                    await deleteAllcartItems(userDetails().Email);
+                    // navigate('/myorder');
+                    localStorage.removeItem('cartItems');
+                    localStorage.removeItem('subtotal');
+                }
+                setLoading(false);
+                setPaymentStatus('success');
+                setIsProcessing(false)
             }
-            setLoading(false);
-            setPaymentStatus('success');
-            setIsProcessing(false)
-          }
         };
 
         try {
-          ConvergeEmbeddedPayment.pay(paymentData, callback);
+            ConvergeEmbeddedPayment.pay(paymentData, callback);
         } catch (error) {
-          console.error('Error processing payment:', error);
-          showResult("error", "Payment processing failed.");
+            console.error('Error processing payment:', error);
+            showResult("error", "Payment processing failed.");
         }
         return false;
     }
@@ -498,7 +498,7 @@ const handleCityChange = (e) => {
                 setIsPaymentOpen={setIsPaymentOpen} couponRef={couponRef} setIsDetailsOpen={setIsDetailsOpen} cartItems={cartItems} subtotal={subtotal} FeesandTax={FeesandTax}
                 handleOpenElavonModal={handleOpenElavonModal} formatPrice={formatPrice} handlePaymentChange={handlePaymentChange} purchaseType={purchaseType} Total={Total}
                 finaltotal={finaltotal} loading={loading} overallDiscountPercentage={overallDiscountPercentage} discountAmount={discountAmount} TotalValue={TotalValue} finalPaymentAmount={finalPaymentAmount} deliveryFee={deliveryFee} />
-            <ShippingForm  availableZipcodes ={availableZipcodes } handleZipcodeChange={handleZipcodeChange }cityOptions={cityOptions}  handleCityChange ={handleCityChange} location={location} loginType={loginType} visible={showNewAddressModal} setVisible={setShowNewAddressModal} loading={loading} formdata={formdata} setFormdata={setFormdata}
+            <ShippingForm availableZipcodes={availableZipcodes} handleZipcodeChange={handleZipcodeChange} cityOptions={cityOptions} handleCityChange={handleCityChange} location={location} loginType={loginType} visible={showNewAddressModal} setVisible={setShowNewAddressModal} loading={loading} formdata={formdata} setFormdata={setFormdata}
                 handlechange={handleAddressChange} handlesave={handlesave} />
 
             <ElavonPaymentModal isOpen={isElavonModalOpen} onClose={handleCloseElavonModal} onPayNow={handlePlaceOrder} setIsElavonModalOpen={setIsElavonModalOpen}

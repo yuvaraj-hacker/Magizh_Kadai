@@ -17,6 +17,24 @@ html,body {
   font-family: "Inter", serif !important;
 }
 
+.light {
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(135deg, #000 0%, #000 40%, #ffffff 50%, #000 60%, #000 100%);
+  background-repeat: no-repeat;
+  background-position: 0%;
+  background-size: 300%;
+  animation: light 2s infinite 5s alternate;
+}
+
+@keyframes light {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
 
 
 
