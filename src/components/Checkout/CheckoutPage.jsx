@@ -49,6 +49,12 @@ function CheckoutPage() {
     const overallDiscountPercentage = FeesandTax?.Overall_Discount || 0;
     const discountAmount = (finaltotal * (overallDiscountPercentage / 100)).toFixed(2);
 
+    useEffect(() => {
+        if (shippingdata && shippingdata.length > 0) {
+            setSelectedAddress(shippingdata[0]);
+        }
+    }, [shippingdata]);
+
     const calculateDeliveryFee = () => {
         const amountAfterDiscount = finaltotal - discountAmount;
 
@@ -310,7 +316,7 @@ function CheckoutPage() {
             return;
         }
         if (!selectedPaymentmethod) {
-            toast('Please select a payment method.', { icon: '📢' });
+            toast('Kindly choose a payment option.', { icon: '💳' });
             return;
         }
 

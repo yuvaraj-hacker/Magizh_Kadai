@@ -3,7 +3,7 @@ import { CreditCard, Check, XIcon, ChevronRightIcon } from 'lucide-react';
 import PaymentMethodLoading from './PaymentLoading';
 
 const ElavonPaymentModal = (props) => {
-  const { isOpen, onClose, onPayNow, totalAmount, paymentStatus, setPaymentStatus,isProcessing,setIsElavonModalOpen,selectedPaymentmethod, purchaseType } = props;
+  const { isOpen, onClose, onPayNow, totalAmount, paymentStatus, setPaymentStatus, isProcessing, setIsElavonModalOpen, selectedPaymentmethod, purchaseType } = props;
   const [cardDetails, setCardDetails] = useState({ cardNumber: '', cardHolderName: '', expiryDate: '', cvv: '', Payment_id: '', Payment_Mobile: '' });
   const [cardType, setCardType] = useState(null);
   const [dateError, setdateError] = useState(false);
@@ -44,7 +44,7 @@ const ElavonPaymentModal = (props) => {
         formattedValue = `${formattedValue.slice(0, 2)}/${formattedValue.slice(2, 4)}`;
       }
 
-      !validateExpiryDate(formattedValue)?setdateError(true):setdateError(false);      
+      !validateExpiryDate(formattedValue) ? setdateError(true) : setdateError(false);
 
       setCardDetails(prev => ({ ...prev, [name]: formattedValue }));
       return;
@@ -65,12 +65,12 @@ const ElavonPaymentModal = (props) => {
   };
 
   const isFormValid = () => {
-    const { cardNumber, cardHolderName, expiryDate, cvv, Payment_id,Payment_Mobile } = cardDetails;
-    if(selectedPaymentmethod =="Online Payment"){
-      return ( cardNumber.replace(/\s/g, '').length === 16 && cardHolderName.trim().length > 3 && validateExpiryDate(expiryDate) && cvv.length === 3 );
+    const { cardNumber, cardHolderName, expiryDate, cvv, Payment_id, Payment_Mobile } = cardDetails;
+    if (selectedPaymentmethod == "Online Payment") {
+      return (cardNumber.replace(/\s/g, '').length === 16 && cardHolderName.trim().length > 3 && validateExpiryDate(expiryDate) && cvv.length === 3);
     }
-    else{
-      return ( Payment_id.trim().length >= 4 && Payment_Mobile.trim().length >= 10 );
+    else {
+      return (Payment_id.trim().length >= 4 && Payment_Mobile.trim().length >= 10);
     }
 
   };
@@ -97,114 +97,114 @@ const ElavonPaymentModal = (props) => {
     if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
       return false;
     }
-  
+
     // Extract month and year from the input
     const [month, year] = expiryDate.split('/').map(Number);
-  
+
     // Check if month is valid (01 to 12)
     if (month < 1 || month > 12) {
       return false;
     }
-  
+
     // Get the current month and year
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
     const currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
-  
+
     // Compare the entered expiry date with the current date
     if (year < currentYear || (year === currentYear && month < currentMonth)) {
       return false; // The expiry date is in the past
     }
-  
+
     return true;
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden transform transition-all duration-300 scale-100 hover:scale-[1.02]">
-      {isLoading ? (
-            <PaymentMethodLoading selectedPaymentmethod={selectedPaymentmethod} />
+        {isLoading ? (
+          <PaymentMethodLoading selectedPaymentmethod={selectedPaymentmethod} />
         ) : paymentStatus === null ? (
           <>
-           {selectedPaymentmethod =="Online Payment"&&(
-            <div className="gap-0 md:grid md:grid-cols-12">
-              <div className="relative flex flex-col justify-between col-span-5 p-6 overflow-hidden bg-[#EEEEEF] border border-white">
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-pattern"></div>
+            {selectedPaymentmethod == "Online Payment" && (
+              <div className="gap-0 md:grid md:grid-cols-12">
+                <div className="relative flex flex-col justify-between col-span-5 p-6 overflow-hidden bg-[#EEEEEF] border border-white">
+                  <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-pattern"></div>
 
-                <div className="z-10 flex flex-col items-center justify-center space-y-4 text-black">
-                  <div className="inline-block px-4 py-3 rounded-lg bg-white/80">
-                    <img src="/images/Checkout/logo-elavon-na.svg" alt="Elavon Payment" className="h-8 mx-auto" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-center">Secure Payment</h2>
-                  <p className="text-center text-black/80">Complete your transaction with peace of mind</p>
-                </div>
-              </div>
-
-              <div className="col-span-7 p-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-gray-800">Payment Details</h3>
-                  <button onClick={()=>setIsElavonModalOpen(false)} className="p-2 text-gray-500 rounded-full hover:text-gray-800 hover:bg-gray-100" >
-                    <XIcon />
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {/* Card Number */}
-                  <div className="relative">
-                    <div className="absolute transform -translate-y-1/2 left-3 top-1/2">
-                      {renderCardIcon()}
+                  <div className="z-10 flex flex-col items-center justify-center space-y-4 text-black">
+                    <div className="inline-block px-4 py-3 rounded-lg bg-white/80">
+                      <img src="/images/Checkout/logo-elavon-na.svg" alt="Elavon Payment" className="h-8 mx-auto" />
                     </div>
-                    <input type="text" name="cardNumber" placeholder="Card Number" value={cardDetails.cardNumber} onChange={handleInputChange} maxLength="19" className="w-full p-3.5 pl-16 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+                    <h2 className="text-3xl font-bold text-center">Secure Payment</h2>
+                    <p className="text-center text-black/80">Complete your transaction with peace of mind</p>
+                  </div>
+                </div>
+
+                <div className="col-span-7 p-8 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-2xl font-bold text-gray-800">Payment Details</h3>
+                    <button onClick={() => setIsElavonModalOpen(false)} className="p-2 text-gray-500 rounded-full hover:text-gray-800 hover:bg-gray-100" >
+                      <XIcon />
+                    </button>
                   </div>
 
-                  {/* Cardholder Name */}
-                  <input type="text" name="cardHolderName" placeholder="Cardholder Name" value={cardDetails.cardHolderName} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
-
-                  {/* Expiry and CVV */}
-                  <div className="grid items-start grid-cols-2 gap-4">
-                    <div>
-                      <input type="text" name="expiryDate" placeholder="MM/YY" value={cardDetails.expiryDate} onChange={handleInputChange} maxLength="5" className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
-                      {dateError&& <span className='text-red-400 text-small'>Invalid Date</span> }
+                  <div className="space-y-4">
+                    {/* Card Number */}
+                    <div className="relative">
+                      <div className="absolute transform -translate-y-1/2 left-3 top-1/2">
+                        {renderCardIcon()}
+                      </div>
+                      <input type="text" name="cardNumber" placeholder="Card Number" value={cardDetails.cardNumber} onChange={handleInputChange} maxLength="19" className="w-full p-3.5 pl-16 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
                     </div>
-                    
-                    <input type="password" name="cvv" placeholder="CVV" value={cardDetails.cvv} onChange={handleInputChange} maxLength="3" className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+
+                    {/* Cardholder Name */}
+                    <input type="text" name="cardHolderName" placeholder="Cardholder Name" value={cardDetails.cardHolderName} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+
+                    {/* Expiry and CVV */}
+                    <div className="grid items-start grid-cols-2 gap-4">
+                      <div>
+                        <input type="text" name="expiryDate" placeholder="MM/YY" value={cardDetails.expiryDate} onChange={handleInputChange} maxLength="5" className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+                        {dateError && <span className='text-red-400 text-small'>Invalid Date</span>}
+                      </div>
+
+                      <input type="password" name="cvv" placeholder="CVV" value={cardDetails.cvv} onChange={handleInputChange} maxLength="3" className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+                    </div>
+
+                    {/* Pay Button */}
+                    <button onClick={handlePayNow} disabled={!isFormValid() || isProcessing} className={`w-full py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center space-x-2 transition-all duration-300 ${isFormValid() && !isProcessing ? 'bg-gradient-to-r from-green-600 to-green-400 hover:from-red-700 hover:to-red-300 hover:shadow-xl' : 'bg-gray-400 cursor-not-allowed'}`} >
+                      <span>{isProcessing ? 'Processing...' : `Pay $${Number(totalAmount).toFixed(2)}`}</span>
+                      {!isProcessing && <ChevronRightIcon />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {selectedPaymentmethod == "Zelle" && (
+              <>
+                <div className="p-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-2xl font-bold text-gray-800">Payment Details</h3>
+                    <button onClick={() => setIsElavonModalOpen(false)} className="p-2 text-gray-500 rounded-full hover:text-gray-800 hover:bg-gray-100" >
+                      <XIcon />
+                    </button>
                   </div>
 
-                  {/* Pay Button */}
-                  <button onClick={handlePayNow} disabled={!isFormValid() || isProcessing} className={`w-full py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center space-x-2 transition-all duration-300 ${isFormValid() && !isProcessing ? 'bg-gradient-to-r from-green-600 to-green-400 hover:from-red-700 hover:to-red-300 hover:shadow-xl' : 'bg-gray-400 cursor-not-allowed' }`} >
-                    <span>{isProcessing ? 'Processing...' : `Pay $${Number(totalAmount).toFixed(2)}`}</span>
-                    {!isProcessing && <ChevronRightIcon />}
-                  </button>
+                  <div className='flex justify-center'>
+                    <img src="/assets/Payment/Zelle.png" className='h-96' alt="" />
+                  </div>
+                  <div>
+                    <input type="text" name="Payment_id" placeholder="Transaction_ID" value={cardDetails.Payment_id} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
+                  </div>
+                  <input type="number" name="Payment_Mobile" placeholder="Payment Mobile Number" value={cardDetails.Payment_Mobile} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
                 </div>
-              </div>
-            </div>
-          )}
-             {selectedPaymentmethod =="Zelle"&&(
-            <>
-              <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-gray-800">Payment Details</h3>
-                  <button onClick={()=>setIsElavonModalOpen(false)} className="p-2 text-gray-500 rounded-full hover:text-gray-800 hover:bg-gray-100" >
-                    <XIcon />
-                  </button>
-                </div>
-                
-                <div className='flex justify-center'>
-                  <img src="/assets/Payment/Zelle.png" className='h-96' alt="" />
-                </div>
-                <div>
-                  <input type="text" name="Payment_id" placeholder="Transaction_ID" value={cardDetails.Payment_id} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
-                </div>
-                <input type="number" name="Payment_Mobile" placeholder="Payment Mobile Number" value={cardDetails.Payment_Mobile} onChange={handleInputChange} className="w-full p-3.5 border-2 rounded-lg focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition" />
-              </div>
 
-              {/* Pay Button */}
-              <button onClick={handlePayNow} disabled={!isFormValid() || isProcessing} className={`w-full py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center space-x-2 transition-all duration-300 ${isFormValid() && !isProcessing ? 'bg-gradient-to-r from-green-600 to-green-400 hover:from-red-700 hover:to-red-300 hover:shadow-xl' : 'bg-gray-400 cursor-not-allowed' }`} >
-                <span>{isProcessing ? 'Processing...' : `Pay $${Number(totalAmount).toFixed(2)}`}</span>
-                {!isProcessing && <ChevronRightIcon />}
-              </button>
-            </>
-          )}
+                {/* Pay Button */}
+                <button onClick={handlePayNow} disabled={!isFormValid() || isProcessing} className={`w-full py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center space-x-2 transition-all duration-300 ${isFormValid() && !isProcessing ? 'bg-gradient-to-r from-green-600 to-green-400 hover:from-red-700 hover:to-red-300 hover:shadow-xl' : 'bg-gray-400 cursor-not-allowed'}`} >
+                  <span>{isProcessing ? 'Processing...' : `Pay $${Number(totalAmount).toFixed(2)}`}</span>
+                  {!isProcessing && <ChevronRightIcon />}
+                </button>
+              </>
+            )}
           </>
         ) : (
           <div className="p-12 text-center">
@@ -215,9 +215,9 @@ const ElavonPaymentModal = (props) => {
                     <Check className="text-green-600" size={64} />
                   </div>
                 </div>
-                <h3 className="text-4xl font-bold text-green-600">{["Pay on Pickup","Cash on Delivery"].includes(selectedPaymentmethod)?"Order Placed Successfully!":"Payment Successful!"}</h3>
+                <h3 className="text-4xl font-bold text-primary">{["Pay on Pickup", "Cash on Delivery"].includes(selectedPaymentmethod) ? "Order Placed Successfully!" : "Payment Successful!"}</h3>
                 <p className="text-xl text-gray-600">Your order has been confirmed.</p>
-                <button onClick={onClose} className="flex items-center justify-center w-full py-4 mt-6 space-x-2 text-lg text-white transition rounded-lg bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700" >
+                <button onClick={onClose} className="flex items-center justify-center w-full py-4 mt-6 space-x-2 text-lg text-white transition rounded-lg bg-gradient-to-r from-primary to-secondary" >
                   <span>Close</span>
                   <ChevronRightIcon />
                 </button>

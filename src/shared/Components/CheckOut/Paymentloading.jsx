@@ -5,7 +5,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
       switch (selectedPaymentmethod) {
         case "Cash on Delivery":
           return (
-            <div className="relative w-64 h-40 overflow-hidden shadow-lg bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
+            <div className="relative w-64 h-40 overflow-hidden shadow-lg bg-gradient-to-br from-primary to-secondary rounded-xl">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Truck className="w-20 h-20 text-white animate-bounce" />
               </div>
@@ -18,7 +18,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
               </div>
             </div>
           );
-  
+
         case "Zelle":
           return (
             <div className="p-3">
@@ -36,7 +36,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
             </div>
             </div>
           );
-  
+
         default: // Online Payment
           return (
             <div className="relative w-64 h-40 overflow-hidden shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
@@ -54,7 +54,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
           );
       }
     };
-  
+
     const getLoadingText = () => {
       switch (selectedPaymentmethod) {
         case "Cash on Delivery":
@@ -65,7 +65,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
           return "Preparing Secure Payment";
       }
     };
-  
+
     const getIcons = () => {
       switch (selectedPaymentmethod) {
         case "Cash on Delivery":
@@ -88,18 +88,18 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
           ];
       }
     };
-  
+
     return (
       <div className="flex flex-col items-center justify-center p-12 space-y-8">
         {/* Payment Method Specific Animation */}
         {renderLoadingContent()}
-  
+
         {/* Security Icons */}
         <div className="flex items-center justify-center space-x-8">
           {getIcons().map(({ icon: Icon, color, delay }, index) => (
-            <div 
-              key={index} 
-              className="flex flex-col items-center animate-bounce" 
+            <div
+              key={index}
+              className="flex flex-col items-center animate-bounce"
               style={{ animationDelay: delay, animationDuration: "2s" }}
             >
               <Icon className={`w-6 h-6 ${color}`} />
@@ -107,16 +107,16 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
             </div>
           ))}
         </div>
-  
+
         {/* Processing Text */}
         <div className="space-y-3 text-center">
           <div className="text-lg font-semibold text-gray-700">{getLoadingText()}</div>
           <div className="flex justify-center space-x-1">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div 
-                key={i} 
-                className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" 
-                style={{ 
+              <div
+                key={i}
+                className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+                style={{
                   animationDelay: `${i * 0.1}s`,
                   animationDuration: "1s"
                 }}
@@ -127,7 +127,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
       </div>
     );
   };
-  
+
   // Add this to your CSS or style block
   const styles = `
   @keyframes shimmer {
@@ -138,7 +138,7 @@ const PaymentMethodLoading = ({ selectedPaymentmethod }) => {
       transform: translateX(100%);
     }
   }
-  
+
   .animate-shimmer {
     animation: shimmer 2s infinite;
   }

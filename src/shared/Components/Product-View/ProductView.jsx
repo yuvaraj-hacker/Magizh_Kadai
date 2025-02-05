@@ -131,7 +131,7 @@ const ProductView = (props) => {
             </div>
             <div className='flex flex-wrap items-end justify-start'>
               <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
-              {product.QTY == 0 || product.QTY < 0 && (
+              {product.QTY == 0  && (
                 <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
                   <p className="text-xs ">Out of Stock</p>
                 </div>

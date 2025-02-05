@@ -180,7 +180,7 @@
 //   setSelectedImages={setSelectedImages}
 //   submitReview={submitReview}
 //   setSavedReviews={setSavedReviews}
-// /> 
+// />
 //         </div>
 //       );
 //     })
@@ -578,7 +578,7 @@
 //   const calculateTotalTax = (items) => {
 //     const subtotalAfterItemDiscounts = calculateSubtotalAfterItemDiscounts(items);
 //     const overallDiscountPercentage = items[0]?.Overall_Discount || 0;
-//     const subtotalAfterAllDiscounts = subtotalAfterItemDiscounts - 
+//     const subtotalAfterAllDiscounts = subtotalAfterItemDiscounts -
 //       (subtotalAfterItemDiscounts * overallDiscountPercentage / 100);
 
 //     return items.reduce((totalTax, item) => {
@@ -987,11 +987,11 @@ export default function OrderItems(props) {
           )}
         </div>
 
-        {/* Order Summary */}
-        {ViewProductData && ViewProductData.length > 0 && (
+
+        {/* {ViewProductData && ViewProductData.length > 0 && (
           <div className="mt-auto border-t dark:bg-gray-500">
             <div className="p-4 space-y-2">
-              {/* Original Subtotal */}
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600 dark:text-white">Original Subtotal</span>
                 <span className="font-medium dark:text-white">
@@ -999,7 +999,7 @@ export default function OrderItems(props) {
                 </span>
               </div>
 
-              {/* Item Discounts */}
+
               {calculateItemDiscounts(ViewProductData) > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-green-600 dark:text-green-300">Item Discounts</span>
@@ -1009,7 +1009,7 @@ export default function OrderItems(props) {
                 </div>
               )}
 
-              {/* Subtotal After Item Discounts */}
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600 dark:text-white">Subtotal After Item Discounts</span>
                 <span className="font-medium dark:text-white">
@@ -1017,7 +1017,7 @@ export default function OrderItems(props) {
                 </span>
               </div>
 
-              {/* Overall Discount */}
+
               {ViewProductData[0]?.Overall_Discount > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-green-600 dark:text-green-300">
@@ -1028,7 +1028,7 @@ export default function OrderItems(props) {
                   </span>
                 </div>
               )}
-              {/* Tax - Show if any item has Tax_Type="Yes" */}
+
               {ViewProductData.some(item => item.Tax_Type === "Yes") && (
                 <div className="flex justify-between text-sm dark:text-white">
                   <span className="text-gray-600 dark:text-white">Tax</span>
@@ -1038,13 +1038,13 @@ export default function OrderItems(props) {
                 </div>
               )}
 
-              {/* Shipping */}
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600 dark:text-white">Shipping</span>
                 <span className="font-medium dark:text-white">${shippingCost.toFixed(2)}</span>
               </div>
 
-              {/* Total Amount */}
+
               <div className="flex justify-between pt-2 text-base font-medium border-t">
                 <span className="text-gray-900 dark:text-white">Total Amount</span>
                 <span className="text-[#540045] dark:text-amber-300">
@@ -1053,7 +1053,7 @@ export default function OrderItems(props) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </Dialog>
   );

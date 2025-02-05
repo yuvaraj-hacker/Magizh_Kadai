@@ -28,7 +28,7 @@ export default function CartPage(props) {
           </div>
         </div>
       ) : (
-        <div className="max-w-[100rem] mx-auto md:px-5 md:my-10 my-5 min-h-[60vh]">
+        <div className="max-w-[100rem] mx-auto md:px-5 md:my-10 my-5 mt-0 min-h-[60vh]">
           <div className="grid grid-cols-1 ">
             {/* <div className="flex items-center justify-between max-w-2xl p-2 mb-5 shadow-lg lg:p-4 bg-gradient-to-r from-primary/70 to-primary rounded-2xl">
             <div className="flex items-center space-x-4">
@@ -52,8 +52,8 @@ export default function CartPage(props) {
             {/* {renderDeliveryPrompt()} */}
             <div className="grid xl:grid-cols-12  items-start   relative gap-5">
               <div className="xl:col-span-9 space-y-4">
-                <div className=" border rounded-md  bg-gray-50 ">
-                  <div className="md:text-2xl text-center text-base text-white py-4 rounded-t-md bg-primary">Your Cart ({cartItems.length} items)</div>
+                <div className=" border md:rounded-md  bg-gray-50 ">
+                  <div className="md:text-2xl text-center text-base text-white py-4 md:rounded-t-md bg-primary">Your Cart ({cartItems.length} items)</div>
                   <div className=" space-y-2 p-2 ">
                     {/* <div className="justify-between lg:flex">
                      <div className="flex gap-3">
@@ -381,8 +381,8 @@ export default function CartPage(props) {
                     <div className="font-bold md:text-base text-sm">
                       Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    <div className="bg-primary p-2 cursor-pointer px-4  rounded-3xl md:text-base sm:text-sm text-xs text-white" onClick={goToCheckout}>
-                      Proceed To Checkout
+                    <div className="bg-primary p-2 cursor-pointer px-4  flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToCheckout}>
+                      <span className="md:block hidden">Proceed To</span> <span> Checkout</span>
                     </div>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function CartPage(props) {
                                         <p className="text-xs md:text-sm">${deliveryFee?.toFixed(2)}</p>
                                     </div> */}
                         <div className="flex justify-between xl:mt-3 font-bold">
-                          <p className="text-sm md:text-base flex gap-1">Subtotal ({cartItems.length} items) <span className="xl:hidden block "> ({cartItems.length})</span></p>
+                          <p className="text-sm md:text-base flex gap-1">Total ({cartItems.length} items) <span className="xl:hidden block "></span></p>
                           <p className="text-primary">₹{finalTotal.toFixed(2)}</p>
                         </div>
                         <div className="text-center mt-3">

@@ -104,9 +104,9 @@ export default function HelpCenter() {
 
   return (
     <div className='dark:bg-black'>
-      <div className="max-w-[95rem] mx-auto lg:my-16 p-3">
+      <div className="max-w-[95rem] mx-auto  p-3">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <div className="p-6 bg-white border shadow-lg dark:shadow-slate-600 dark:border-gray-500 dark:bg-gray-600 rounded-xl">
+          <div className="p-6 bg-white border shadow-md dark:shadow-slate-600 dark:border-gray-500 dark:bg-gray-600 rounded-xl">
             <h2 className="flex items-center mb-4 text-xl font-semibold text-gray-800 dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
@@ -132,7 +132,7 @@ export default function HelpCenter() {
             </div>
           </div>
 
-          <div className="p-6 bg-white border shadow-lg dark:bg-gray-600 dark:shadow-slate-600 dark:border-gray-500 rounded-xl">
+          <div className="p-6 bg-white border shadow-md dark:bg-gray-600 dark:shadow-slate-600 dark:border-gray-500 rounded-xl">
             <h2 className="flex items-center mb-4 text-xl font-semibold text-gray-800 dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

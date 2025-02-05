@@ -9,6 +9,7 @@ import SearchBar from '../../shared/Components/searchbar/searchbar';
 // import DeliveryPickupModal from '../../shared/Components/Header/DeliveryPickupModal';
 import { getWishlistItems } from '../../shared/services/wishlist/wishlist';
 import { apigetallcategory } from '../../shared/services/apicategory/apicategory';
+import NewForm from '../../shared/Components/Register-ContiGoogle/NewFormGoogle';
 
 export default function Header(props) {
 
@@ -262,7 +263,6 @@ export default function Header(props) {
                               </div>
                             </div>
                           </div>
-
                           {/* Menu items */}
                           <div className="py-2">
                             {isLoggedIn && userdetails?.Role === 'Admin' && (
@@ -273,24 +273,27 @@ export default function Header(props) {
                             )}
                             {isLoggedIn && userdetails?.Role !== 'Admin' && (
                               <>
-                                <Link to="myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                {/* <Link to="myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-shopping-bag dark:text-white"></i>
                                   <span className="text-sm dark:text-white">My orders</span>
+                                </Link> */}
+                                <Link to="/myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                  <i class="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
+                                  <span className="text-sm dark:text-white">My Account</span>
                                 </Link>
-
                                 {/*
                                 <Link className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50">
                                   <i className="fi fi-rr-users"></i>
                                   <span className="text-sm">Refer Friends, Get $20</span>
                                 </Link> */}
-                                <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                {/* <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-settings dark:text-white"></i>
                                   <span className="text-sm dark:text-white">Settings</span>
                                 </Link>
                                 <Link to='/help-center' className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-interrogation dark:text-white"></i>
                                   <span className="text-sm dark:text-white">Help center</span>
-                                </Link>
+                                </Link> */}
                               </>
                             )}
                             <button onClick={handleLogout} className="flex items-center w-full gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400" >

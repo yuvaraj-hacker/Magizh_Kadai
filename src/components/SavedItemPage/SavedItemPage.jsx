@@ -10,7 +10,7 @@ import { savecartitems } from '../../shared/services/cart/cart';
 function SavedItemPage() {
     const [wishlist, setWishlist] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { addToCart, removeWishlistItem, deleteAllWishlist,cartItems } = useCart();
+    const { addToCart, removeWishlistItem, deleteAllWishlist, cartItems } = useCart();
     const { userdetails } = useAuth();
 
     const getallwishlist = useCallback(async () => {
@@ -147,14 +147,7 @@ function SavedItemPage() {
     return (
         <>
             <section className=''>
-                <SavedItems
-                    wishlist={wishlist}     
-                    clearWishlist={clearWishlist}
-                    removeWishlistSelectedItem={removeWishlistSelectedItem}
-                    handleIncreaseQuantity={handleIncreaseQuantity}
-                    handleDecreaseQuantity={handleDecreaseQuantity}
-                    handleAddToCart={handleAddToCart}
-                />
+                <SavedItems wishlist={wishlist} clearWishlist={clearWishlist} removeWishlistSelectedItem={removeWishlistSelectedItem} handleIncreaseQuantity={handleIncreaseQuantity} handleDecreaseQuantity={handleDecreaseQuantity} handleAddToCart={handleAddToCart} />
             </section>
         </>
     )

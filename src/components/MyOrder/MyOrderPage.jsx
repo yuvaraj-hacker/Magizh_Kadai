@@ -23,11 +23,11 @@ function MyOrderPage() {
     const statuses = ['All', 'Pending', 'Dispatched', 'Delivered', 'Cancelled'];
     const number = 0;
     const dropdownRef = useRef(null);
-    
+
     const toggleDropdown = () => { setLastOpen(prev => !prev); };
-    
+
     const buttonRefs = useRef([]);
-    
+
     const handleButtonClick = (status, index) => {
         setActiveStatus(status);
         buttonRefs.current[index].scrollIntoView({
@@ -105,7 +105,7 @@ function MyOrderPage() {
     const [activeReviews, setActiveReviews] = useState({});
     const [submitting, setSubmitting] = useState({});
     const [savedReviews, setSavedReviews] = useState({});
-  
+
     useEffect(() => {
         const fetchReviews = async () => {
           try {
@@ -121,35 +121,35 @@ function MyOrderPage() {
             console.error('Error fetching reviews:', error);
           }
         };
-    
+
         if (userdetails?.Email) {
           fetchReviews();
         }
       }, [ViewProductData, userdetails?.Email]);
-      
+
       const calculateTotal = (items) => {
         return items.reduce((total, item) => {
           return total + (item.Sale_Price * item.Quantity);
         }, 0);
       };
-    
+
       const handleRatingChange = (productId, value) => {
         setReviews(prev => ({...prev, [productId]: { ...prev[productId], rating: value }
         }));
       };
-    
+
       const handleReviewTextChange = (productId, text) => {
         setReviews(prev => ({...prev, [productId]: { ...prev[productId], text } }));
       };
-    
+
       const handleImageUpload = (productId, event) => {
         const files = Array.from(event.target.files);
         setSelectedImages(prev => ({...prev,[productId]: files }));
       };
-    
+
       const toggleReview = (productId) => {
         setActiveReviews(prev => ({...prev,[productId]: !prev[productId] }));
-        
+
         if (activeReviews[productId]) {
           setReviews(prev => {
             const newReviews = { ...prev };
@@ -163,14 +163,14 @@ function MyOrderPage() {
           });
         }
       };
-    
+
       const submitReview = async (item) => {
         if (!reviews[item.productId]?.rating) {
           toast.error('Please provide a rating');
           return;
         }
         setSubmitting(prev => ({ ...prev, [item.productId]: true }));
-    
+
         try {
           const formData = new FormData();
           formData.append('productId', item.productId);
@@ -178,15 +178,15 @@ function MyOrderPage() {
           formData.append('Email', userdetails._id);
           formData.append('Star_Rating', reviews[item.productId].rating?.toString());
           formData.append('Review_Description', reviews[item.productId].text || '');
-    
+
           if (selectedImages[item.productId]) {
             selectedImages[item.productId].forEach((file) => {
               formData.append('Images', file);
             });
           }
-    
+
           const response = await saveReview(formData);
-    
+
           if (response.resdata) {
             toast.success('Review submitted successfully');
             setSavedReviews(prev => ({...prev,[item.productId]: response.resdata }));
@@ -206,11 +206,10 @@ function MyOrderPage() {
         <>
             <MyOrder isLastOpen={isLastOpen} handleButtonClick={handleButtonClick} toggleDropdown={toggleDropdown} activeStatus={activeStatus} number={number} statuses={statuses}
                 buttonRefs={buttonRefs} dropdownRef={dropdownRef} orderDetails={orderDetails} downloadPDF={downloadPDF} downloadingPDF={downloadingPDF} viewProducts={viewProducts}
-                viewReorderProducts={viewReorderProducts}
-            />
+                viewReorderProducts={viewReorderProducts}  />
             <OrderItems ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} submitReview={submitReview} handleImageUpload={handleImageUpload}
             handleReviewTextChange={handleReviewTextChange} handleRatingChange={handleRatingChange} calculateTotal={calculateTotal} submitting={submitting} savedReviews={savedReviews}
-            reviews={reviews} activeReviews={activeReviews} setSavedReviews={setSavedReviews} selectedImages={selectedImages} setSelectedImages={setSelectedImages} 
+            reviews={reviews} activeReviews={activeReviews} setSavedReviews={setSavedReviews} selectedImages={selectedImages} setSelectedImages={setSelectedImages}
             toggleReview={toggleReview} />
 
             <ReorderItems setViewProduct1={setViewProduct1} ViewProduct1={ViewProduct1} ViewProductData1={ViewProductData1} />

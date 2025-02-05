@@ -6,7 +6,7 @@ const ProductImage = ({ images, productId }) => {
     const imageArray = Array.isArray(images) ? images : [images];
 
     return (
-        <div className="relative flex items-center justify-center w-full h-full group-hover:scale-105 duration-300">
+        <div className="relative flex items-center justify-center w-full h-full ">
             {imageArray.map((image, index) => (
                 <img key={`${productId}-${index}`} src={`${apiurl()}/${image}`} alt={`Product ${index + 1}`} className={`${index === 0 ? 'block' : 'hidden'} object-contain h-36`} />
             ))}
@@ -22,7 +22,7 @@ function SavedItems(props) {
                 <div className="p-4">
                     <div className="flex flex-wrap items-center justify-between mb-4">
                         {wishlist.length > 0 && (
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center">
                                 <Link to="/profile">
                                     <i className="block mt-1 fi fi-rr-angle-left lg:hidden"></i>
                                 </Link>
@@ -31,10 +31,10 @@ function SavedItems(props) {
                         )}
                         {wishlist.length > 0 && (
                             <button onClick={clearWishlist}
-                                className='flex items-center gap-2 p-2 text-sm text-red-400 duration-200 bg-red-100 border rounded-full cursor-pointer md:text-base hover:scale-105'
+                                className='flex items-center gap-2 p-2 text-sm text-third duration-200   border rounded-full cursor-pointer md:text-base  '
                             >
-                                <i className="fi fi-sr-trash"></i>
-                                <p>Clear Items</p>
+                                <i className="fi fi-sr-trash flex justify-center items-center"></i>
+                                <p>Clear All</p>
                             </button>
                         )}
                     </div>
@@ -54,13 +54,13 @@ function SavedItems(props) {
                             </div>
                         </div>
                     ) : (
-                        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
                             {wishlist?.map((item, index) => (
-                                <div key={item._id} className="relative p-3 bg-white group border rounded-xl shadow-md hover:shadow-xl duration-300 hover:-translate-y-1 active:scale-95">
+                                <div key={item._id} className="relative p-3 bg-white group border shadow-md rounded-xl   ">
 
                                     <div className="w-full h-full bg-cover  flex flex-col justify-center items-center dark:shadow-slate-500 dark:shadow-lg  relative ">
-                                        <button onClick={() => removeWishlistSelectedItem(item)} className="absolute z-10 text-red-500 transition-transform top-2 right-2 hover:scale-110" >
-                                            <i className="fi fi-sr-trash text-xl   bg-white hover:bg-red-100"></i>
+                                        <button onClick={() => removeWishlistSelectedItem(item)} className="absolute z-10 text-red-500 transition-transform top-2 right-2  " >
+                                            <i className="fi fi-sr-trash text-xl    "></i>
                                         </button>
 
                                         <Link to={`/product-details/${item.productId?._id}`} state={{ product: item.productId }}>

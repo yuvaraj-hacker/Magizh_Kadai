@@ -16,9 +16,12 @@ import { apigetallcategory } from '../../shared/services/apicategory/apicategory
 import { Link } from 'react-router-dom';
 import { Slider } from "primereact/slider";
 import { InputText } from "primereact/inputtext";
+import { Tooltip } from '@nextui-org/react';
 
 const Products = () => {
-    const [value, setValue] = useState(50);
+    const [value, setValue] = useState([20, 80]);
+    const min = 0;
+    const max = 100;
     const [categories, setCategories] = useState([]);
     const [discount, setDiscount] = useState([]);
     const [isSidebaropen, setIssidebaropen] = useState(false);
@@ -340,12 +343,12 @@ const Products = () => {
                                 </ul>
                             </div>
                         </div>
-                        <div className='space-y-2 p-4 border-b'>
+                        <div className='space-y-2 p-4 border-b grid grid-cols-1 w-full'>
                             <h1 className="text-sm text-gray-600 uppercase">Price</h1>
                             <div className="flex justify-content-center">
-                                <div className="card">
-                                    <InputText value={value} onChange={(e) => setValue(e.target.value)} className="w-full text-center rounded-none py-2 focus:ring-0" />
-                                    <Slider value={value} onChange={(e) => setValue(e.value)} className="w-full " />
+                                <div className="card flex justify-content-center relative">
+                                    <Tooltip target=".slider-tooltip" />
+                                    <Slider value={value} onChange={(e) => setValue(e.value)} className="w-32 slider-tooltip" range target min={min} max={max} data-pr-tooltip={`Min: ${value[0]} - Max: ${value[1]}`} />
                                 </div>
                             </div>
                         </div>

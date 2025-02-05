@@ -12,10 +12,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { savecartitems } from '../../services/cart/cart';
 import useCart from '../../services/store/useCart';
 
-const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
+const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
 
-  const { register, loginauth,userDetails,googleregister } = useAuth();
-  const {getTotalCartItems} = useCart();
+  const { register, loginauth, userDetails, googleregister } = useAuth();
+  const { getTotalCartItems } = useCart();
   const [formData, setFormData] = useState({ Email: '', Mobilenumber: '' });
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("Email");
@@ -84,10 +84,10 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
 
       const response = await apiverifyotp(verificationData);
       console.log('OTP verification response:', response);
-      
+
       // Check if the response indicates successful verification
-      if (response.status === 'OTP Verified for Mobile Number' || 
-          response.status === 'OTP Verified for Email') {
+      if (response.status === 'OTP Verified for Mobile Number' ||
+        response.status === 'OTP Verified for Email') {
         toast.success("OTP verification successful");
         setFormData({});
         setVisible(false);
@@ -106,25 +106,25 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
     } finally {
       setVerificationLoading(false);
     }
-};
+  };
 
   const saveCartData = async (userEmail) => {
     const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-    console.log("User email:", userEmail);  
+    console.log("User email:", userEmail);
     try {
-        for (let item of localCart) {
-            const cartData = {productId: item._id || item.productId,Email: userEmail,Quantity: item.Quantity  };
-            console.log("Cart Data to Save:", cartData);  
-            await savecartitems(cartData);
-        }
+      for (let item of localCart) {
+        const cartData = { productId: item._id || item.productId, Email: userEmail, Quantity: item.Quantity };
+        console.log("Cart Data to Save:", cartData);
+        await savecartitems(cartData);
+      }
 
-        toast.success("Cart saved successfully!");
-        navigate('/cart');
+      toast.success("Cart saved successfully!");
+      navigate('/cart');
     } catch (error) {
-        console.error("Error saving cart items:", error);  
-        toast.error("Failed to save cart items");
+      console.error("Error saving cart items:", error);
+      toast.error("Failed to save cart items");
     }
-};
+  };
 
   const login = useGoogleLogin({
     onSuccess: async (credentialResponse) => {
@@ -142,24 +142,24 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
         });
         loginauth(response.token)
         const email = userDetails()?.Email;
-        if (response.status === "Google registration successful"||"User logged in successfully") {
-            console.log('Response status is successful, proceeding to save cart data...');
-            if (checkoutlogin ) {
-                await saveCartData(email); 
-                console.log('Cart data saved successfully!');
-                navigate('/cart');  
-            } else if (response.Role === 'Admin' || response.Role === 'Employee') {
-                navigate('/admin/home');
-            } else {
-                navigate('/');
-            }
+        if (response.status === "Google registration successful" || "User logged in successfully") {
+          console.log('Response status is successful, proceeding to save cart data...');
+          if (checkoutlogin) {
+            await saveCartData(email);
+            console.log('Cart data saved successfully!');
+            navigate('/cart');
+          } else if (response.Role === 'Admin' || response.Role === 'Employee') {
+            navigate('/admin/home');
+          } else {
+            navigate('/');
+          }
 
-            setShowUserDetailsModal(false);  
-            setVisible(false); 
+          setShowUserDetailsModal(false);
+          setVisible(false);
 
-            toast.success("Google signin  successfully!");
+          toast.success("Google signin  successfully!");
         } else {
-            toast.error(response.message || "Failed to save user details.");
+          toast.error(response.message || "Failed to save user details.");
         }
         console.log('Google registration successful:', response);
         localStorage.removeItem('loginType');
@@ -177,34 +177,34 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
 
   const handleUserDetailsSubmit = async (userData) => {
     try {
-        const response = await apiSaveUserDetails(userData);
-        loginauth(response.token)
-        const email = userDetails()?.Email;
-        if (response.status === "Successfully registered") {
-            console.log('Response status is successful, proceeding to save cart data...');
-            if (checkoutlogin ) {
-                await saveCartData(email); 
-                console.log('Cart data saved successfully!');
-                navigate('/cart');  
-            } else if (response.Role === 'Admin' || response.Role === 'Employee') {
-                navigate('/admin/home');
-            } else {
-                navigate('/');
-            }
-
-            setShowUserDetailsModal(false);  
-            setFormData({})
-            setVisible(false); 
-
-            toast.success("User details saved successfully!");
+      const response = await apiSaveUserDetails(userData);
+      loginauth(response.token)
+      const email = userDetails()?.Email;
+      if (response.status === "Successfully registered") {
+        console.log('Response status is successful, proceeding to save cart data...');
+        if (checkoutlogin) {
+          await saveCartData(email);
+          console.log('Cart data saved successfully!');
+          navigate('/cart');
+        } else if (response.Role === 'Admin' || response.Role === 'Employee') {
+          navigate('/admin/home');
         } else {
-            toast.error(response.message || "Failed to save user details.");
+          navigate('/');
         }
+
+        setShowUserDetailsModal(false);
+        setFormData({})
+        setVisible(false);
+
+        toast.success("User details saved successfully!");
+      } else {
+        toast.error(response.message || "Failed to save user details.");
+      }
     } catch (error) {
-        console.error('Failed to save user details:', error);
-        toast.error("An error occurred while saving user details.");
+      console.error('Failed to save user details:', error);
+      toast.error("An error occurred while saving user details.");
     }
-};
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -247,7 +247,7 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
         } else {
           navigate('/');
         }
-     setFormData({})
+        setFormData({})
         setVisible(false);
         localStorage.removeItem('loginType');
         toast.success("Login successful!");
@@ -269,12 +269,12 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
       toast.error("Please enter a valid email.");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const response = await apiGuestRegister({ Email: guestEmail });
-  
+
       if (response.status === "Success") {
         loginauth(response.token);
         const email = userDetails()?.Email;
@@ -305,10 +305,10 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
       setLoading(false);
     }
   };
-  
-  
-  
-  const forgotpassword = ()=> {
+
+
+
+  const forgotpassword = () => {
     setVisible(false)
     navigate("/forgotpassword")
   }
@@ -316,16 +316,16 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
 
   return (
     <>
-      <Dialog visible={visible} onHide={() => { if (!visible) return; setFormData(''); setVisible(false);  }} style={{ width: "45vw" }} className="overflow-hidden h-[500px] dialog-dark"
-        breakpoints={{ "960px": "75vw", "641px": "100vw" }}  pt={{
+      <Dialog visible={visible} onHide={() => { if (!visible) return; setFormData(''); setVisible(false); }} style={{ width: "45vw" }} className="overflow-hidden h-[500px] px-5 dialog-dark"
+        breakpoints={{ "960px": "75vw", "641px": "100vw" }} pt={{
           root: { className: 'dark:bg-gray-600' },
           content: { className: 'dark:bg-gray-600' },
           header: { className: 'dark:bg-gray-600 dark:text-white' }
         }}  >
         <div className="relative">
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {/* <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <img src="/images/Logo/Logo.png" alt="" className="object-contain opacity-5" />
-          </div>
+          </div> */}
 
           <div className="relative z-10 px-6">
             <Tabs
@@ -335,12 +335,12 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
               aria-label="Authentication options"
               classNames={{
                 tabList: "gap-6",
-                cursor: "w-full bg-green-500",
+                cursor: "w-full bg-secondary",
                 tab: "flex-1",
-                tabContent: "group-data-[selected=true]:text-green-500"
+                tabContent: "group-data-[selected=true]:text-primary"
               }}
             >
-              <Tab key="register"  title={<span className="dark:text-white">Register</span>} >
+              <Tab key="register" title={<span className="dark:text-white">Register</span>} >
                 {activeTab === "register" && (
                   <form onSubmit={handleManualSubmit} className="mt-4">
                     <Tabs
@@ -350,9 +350,9 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
                       aria-label="Registration options"
                       classNames={{
                         tabList: "gap-6",
-                        cursor: "w-full bg-green-500",
+                        cursor: "w-full bg-secondary",
                         tab: "flex-1",
-                        tabContent: "group-data-[selected=true]:text-green-500"
+                        tabContent: "group-data-[selected=true]:text-primary"
                       }}
                     >
                       <Tab key="Email" title={<span className="dark:text-white">Email</span>} className="flex flex-col gap-4">
@@ -361,15 +361,15 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
                             isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "border-2 focus-within:border-green-500 dark:border-white dark:text-white" }} />
                         )}
                       </Tab>
-                      <Tab key="mobile" title={<span className="dark:text-white">Mobile</span>} className="flex flex-col gap-4">
+                      {/* <Tab key="mobile" title={<span className="dark:text-white">Mobile</span>} className="flex flex-col gap-4">
                         {selected === "mobile" && (
                           <Input type="tel" name="Mobilenumber" label="Mobile Number" placeholder="Enter your mobile number" value={formData.Mobilenumber}
                             onChange={handleInputChange} required isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "dark:border-white border-2 focus-within:border-green-500 dark:text-white" }} />
                         )}
-                      </Tab>
+                      </Tab> */}
                     </Tabs>
 
-                    <Button type="submit" className="w-full mt-6 text-white bg-green-500" size="lg" isLoading={loading} >
+                    <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={loading} >
                       {loading ? 'Sending OTP...' : 'Continue'}
                     </Button>
 
@@ -397,7 +397,7 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
                         <i className="fi fi-rr-circle-user"></i> Continue as Guest
                       </Button>
                     </div> */}
-                    
+
                     {/* <div className="flex justify-center py-6">
                       <Button variant="bordered" color="secondary" className="inline-flex items-center justify-center gap-2 p-6 dark:border-white dark:text-white" auto onClick={() => setShowGuestDialog(true)} >
                         <i className="fi fi-rr-circle-user"></i> Continue as Guest
@@ -406,23 +406,21 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
                   </form>
                 )}
               </Tab>
-              
 
-              <Tab key="login"  title={<span className="dark:text-white">Login</span>}>
+
+              <Tab key="login" title={<span className="dark:text-white">Login</span>}>
                 {activeTab === "login" && (
                   <form onSubmit={handleLogin} className="mt-4 space-y-4 ">
-                    <Input type="text" name="loginIdentifier" label="Email or Mobile Number" placeholder="Enter your email or mobile number" value={formData.loginIdentifier}
-                      onChange={handleInputChange} required isDisabled={loading} variant="bordered"  classNames={{ input: "text-base", inputWrapper: "dark:border-white border-2 focus-within:border-green-500 dark:text-white" }} />
-                    <Input type="password"  name="loginPassword" label="Password" placeholder="Enter your password" value={formData.loginPassword} onChange={handleInputChange}
+                    <Input type="text" name="loginIdentifier" label="Email" placeholder="Enter your email" value={formData.loginIdentifier}
+                      onChange={handleInputChange} required isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "dark:border-white border-2 focus-within:border-green-500 dark:text-white" }} />
+                    <Input type="password" name="loginPassword" label="Password" placeholder="Enter your password" value={formData.loginPassword} onChange={handleInputChange}
                       required isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "border-2 focus-within:border-green-500 dark:border-white dark:text-white" }} />
-                    <Button type="submit" className="w-full mt-6 text-white bg-green-500" size="lg" isLoading={loading} >
+                    <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={loading} >
                       {loading ? 'Logging in...' : 'Login'}
                     </Button>
-                      <div className='text-center dark:text-white'>
-                        <div role='button' onClick={forgotpassword}>Forgot Password?</div>
-                      </div>
-                    
-
+                    <div className='text-center dark:text-white'>
+                      <div role='button' onClick={forgotpassword}>Forgot Password?</div>
+                    </div>
                     {/* <div className="flex items-center justify-center mt-6">
                       <div className="flex-1 border-t border-gray-300"></div>
                       <span className="px-4 text-gray-500 dark:text-white">OR</span>
@@ -447,31 +445,31 @@ const RegisterContinueGoogle = ({ visible, setVisible,checkoutlogin}) => {
                         <i className="fi fi-rr-circle-user"></i> Continue as Guest
                       </Button>
                     </div> */}
-                     {/* <div className="flex justify-center py-6">
+                    {/* <div className="flex justify-center py-6">
                       <Button variant="bordered" color="secondary" className="inline-flex items-center justify-center gap-2 p-6 dark:border-white dark:text-white" auto onClick={() => setShowGuestDialog(true)} >
-                        <i className="fi fi-rr-circle-user"></i><p>Continue as Guest</p> 
+                        <i className="fi fi-rr-circle-user"></i><p>Continue as Guest</p>
                       </Button>
                     </div> */}
                   </form>
                 )}
               </Tab>
             </Tabs>
-            
+
           </div>
         </div>
       </Dialog>
-      
+
       {/* Guest Login Dialog */}
-      <Dialog visible={showGuestDialog} onHide={() => setShowGuestDialog(false)} header="Continue as Guest" style={{ width: "30vw" }}  breakpoints={{ "960px": "50vw", "641px": "100vw" }} >
+      <Dialog visible={showGuestDialog} onHide={() => setShowGuestDialog(false)} header="Continue as Guest" style={{ width: "30vw" }} breakpoints={{ "960px": "50vw", "641px": "100vw" }} >
         <form onSubmit={handleGuestSubmit} className="space-y-4">
           <Input type="email" label="Email Address" placeholder="Enter your email" value={guestEmail} onChange={(e) => setGuestEmail(e.target.value)} required variant="bordered" classNames={{ input: "text-base", inputWrapper: "border-2 focus-within:border-green-500" }} />
-          <Button type="submit" className="w-full text-white bg-green-500" size="lg" isLoading={loading} >
+          <Button type="submit" className="w-full text-white bg-secondary" size="lg" isLoading={loading} >
             {loading ? 'Proceeding...' : 'Continue'}
           </Button>
         </form>
       </Dialog>
 
-      <OtpVerificationModal loading={loading} showOtpModal={showOtpModal} setShowOtpModal={setShowOtpModal}  handleVerifyOtp={handleVerifyOtp} formData={formData}
+      <OtpVerificationModal loading={loading} showOtpModal={showOtpModal} setShowOtpModal={setShowOtpModal} handleVerifyOtp={handleVerifyOtp} formData={formData}
         selected={selected} otp={otp} handleOtpChange={handleOtpChange} verificationLoading={verificationLoading} handleManualSubmit={handleManualSubmit} />
 
       <SaveUserDetails visible={showUserDetailsModal} setVisible={setShowUserDetailsModal} initialEmail={formData.Email} initialPhone={formData.Mobilenumber} onSubmit={handleUserDetailsSubmit} />
