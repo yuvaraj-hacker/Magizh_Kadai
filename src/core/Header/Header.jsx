@@ -277,9 +277,17 @@ export default function Header(props) {
                                   <i className="fi fi-rr-shopping-bag dark:text-white"></i>
                                   <span className="text-sm dark:text-white">My orders</span>
                                 </Link> */}
-                                <Link to="/myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i class="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
                                   <span className="text-sm dark:text-white">My Account</span>
+                                </Link>
+                                <Link to="/myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                  <i className="fi fi-rr-shopping-bag dark:text-white  flex justify-center items-center"></i>
+                                  <span className="text-sm dark:text-white">My Orders</span>
+                                </Link>
+                                <Link to='/help-center' className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                  <i className="fi fi-rr-interrogation dark:text-white  flex justify-center items-center"></i>
+                                  <span className="text-sm dark:text-white">Help center</span>
                                 </Link>
                                 {/*
                                 <Link className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50">

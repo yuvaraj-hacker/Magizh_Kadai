@@ -103,8 +103,8 @@ export default function HelpCenter() {
   };
 
   return (
-    <div className='dark:bg-black'>
-      <div className="max-w-[95rem] mx-auto  p-3">
+    <div className='dark:bg-black md:py-10 py-5'>
+      <div className="max-w-[80rem] mx-auto  px-3">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <div className="p-6 bg-white border shadow-md dark:shadow-slate-600 dark:border-gray-500 dark:bg-gray-600 rounded-xl">
             <h2 className="flex items-center mb-4 text-xl font-semibold text-gray-800 dark:text-white">
@@ -150,7 +150,7 @@ export default function HelpCenter() {
             {isFormOpen && renderFeedbackForm()}
           </div>
         </div>
-        <div className="py-5">
+        <div className="pt-5">
           <Faqsection />
         </div>
       </div>

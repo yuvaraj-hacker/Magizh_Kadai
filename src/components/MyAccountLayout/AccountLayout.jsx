@@ -7,8 +7,8 @@ function AccountLayout() {
     const { isLoggedIn, userdetails } = useAuth();
     const location = useLocation();
     const navLinks = [
+        { to: "/setting", label: "My Profile" },
         { to: "/myorder", label: "My Orders" },
-        { to: "/setting", label: "Profile" },
         { to: "/help-center", label: "Help Center" },
     ];
 

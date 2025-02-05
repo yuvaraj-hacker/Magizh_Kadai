@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import OrderReviewModal from './OrderReviewModal';
 import OrderItems from './OrderItems';
 
-
 function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, viewReorderProducts,
   onRatingChange, onReviewTextChange, onImageUpload, onSubmitReview, orderReviews, orderReviewImages
 }) {
@@ -24,7 +23,6 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
     return orders.filter(order => {
       const orderDate = new Date(order.Order_Date);
       const diffInDays = (now - orderDate) / (1000 * 60 * 60 * 24);
-
       switch (selectedTimeRange) {
         case 'Last 30 days':
           return diffInDays <= 30;
@@ -57,9 +55,9 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
 
   return (
     <>
-      <section className="  relative min-h-screen">
+      <section className="relative min-h-screen max-w-[80rem] px-3 mx-auto md:py-10 py-5">
         <div className="">
-          <div className="   h-full">
+          <div className="h-full">
             {/* <div className="flex items-center gap-3">
               <Link to="/profile">
                 <i className="block mt-1 fi fi-rr-angle-left lg:hidden"></i>
@@ -71,7 +69,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                 <p className="mt-2 text-sm   ml-2">
                   <span className=''>{currentOrders.length}</span>  Order{currentOrders.length !== 1 ? 's' : ''} Placed In
                 </p>
-                <button onClick={toggleDropdown} className="flex items-center  bg-primary dark:bg-gray-500 text-white px-3 py-1 mt-2 text-sm  rounded-md" >
+                <button onClick={toggleDropdown} className="flex items-center  bg-primary dark:bg-gray-500 text-white px-3 py-1  text-sm  rounded-md" >
                   <i className="mt-1 fi fi-sr-clock"></i>
                   <p className="text-xs   dark:text-white w-32">{selectedTimeRange}</p>
                   <i className="fi fi-rr-angle-small-down"></i>
@@ -91,11 +89,11 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
             </div>
           </div>
 
-          <div className=" rounded-lg min-h-[500px] overflow-auto ">
+          <div className=" rounded-lg min-h-[500px] overflow-auto">
             {hasOrders ? (
-              <div className="">
+              <div className=" space-y-4">
                 {currentOrders.map((order) => (
-                  <div key={order.Order_id} className="mb-6 overflow-hidden transition-shadow duration-300 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md "  >
+                  <div key={order.Order_id} className=" overflow-hidden transition-shadow duration-300 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md "  >
                     {/* Order Header */}
                     <div className="items-center justify-between block p-4 border-b md:flex flex-warp   dark:bg-gray-700">
                       <div className="items-center block gap-4 md:flex">
@@ -129,7 +127,6 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                     <div>
                       <OrderItems />
                     </div>
-
                     {/* <div className="overflow-x-auto">
                       <table className="w-full border-collapse border border-gray-200">
                         <thead>

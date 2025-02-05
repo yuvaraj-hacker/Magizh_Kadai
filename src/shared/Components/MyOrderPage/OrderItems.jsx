@@ -912,11 +912,7 @@ export default function OrderItems(props) {
                     <div className="col-span-5">
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0 w-12 h-12">
-                          <img
-                            src={`${apiurl()}/${Array.isArray(item.Images) ? item.Images[0] : item.Images}`}
-                            alt={item.Product_Name}
-                            className="object-cover w-full h-full rounded"
-                          />
+                          <img src={`${apiurl()}/${Array.isArray(item.Images) ? item.Images[0] : item.Images}`} alt={item.Product_Name} className="object-cover w-full h-full rounded" />
                         </div>
                         <div>
                           <h4 className="font-medium text-gray-900 dark:text-white">{item.Product_Name}</h4>
