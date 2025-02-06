@@ -4,13 +4,19 @@ import RegisterContinueGoogle from '../../shared/Components/Register-ContiGoogle
 import useAuth from '../../shared/services/store/useAuth';
 import useCart from '../../shared/services/store/useCart';
 import { useNavigate } from "react-router-dom";
+import { useSidebar } from '../../Router/SidebarProvider';
 
 
 export default function Footer({ setTogSidecat, TogSidecat }) {
+   const { toggleSidebar } = useSidebar(); // Access toggle function
    const [visible, setVisible] = useState(false);
    const { isLoggedIn, userdetails, logout } = useAuth();
    const { cartItems, cartCount } = useCart();
    const navigate = useNavigate()
+   const handleClick = (e) => {
+      e.preventDefault(); // Prevent navigation from overriding click
+      toggleSidebar();
+  };
 
 
    const handleWishlistClick = (e) => {
@@ -176,12 +182,10 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                   <div onClick={() => { setTogSidecat(true) }} className="cursor-pointer"><i className="flex flex-col items-center fi fi-rs-category"></i><p className='text-xs '>Categories</p></div>
 
                   {isLoggedIn ? (
-                     <div className="cursor-pointer">
+                     <div className="cursor-pointer"  onClick={handleClick}>
                         {/* <Link to='/profile'> */}
-                        <Link to='/setting'>
                            <i className="flex flex-col items-center fi fi-sr-user"></i>
                            <p className='text-xs'>Account</p>
-                        </Link>
                      </div>
                   ) : (
                      <div

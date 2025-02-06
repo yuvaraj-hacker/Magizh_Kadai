@@ -33,7 +33,7 @@ export default function Checkout(props) {
                                                         <div role="button" key={index} onClick={() => setSelectedAddress(address)} className={`flex items-center bg-white justify-between rounded-md gap-2 p-4 w-full    ${selectedAddress?._id === address._id ? 'bg-gray-400 border  border-secondary' : ' bg-gray-400 border '}`} >
                                                             <div className="flex items-center">
                                                                 <div className="p-2  rounded-full">
-                                                                    <i class="fi fi-bs-marker"></i>
+                                                                    <i className="fi fi-bs-marker"></i>
                                                                 </div>
                                                                 <div className="ml-3">
                                                                     <p className="font-semibold dark:text-white">{address.First_Name} {address.Last_Name}</p>

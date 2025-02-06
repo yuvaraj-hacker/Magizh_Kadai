@@ -1,4 +1,4 @@
-// // export default function Tableheadpanel(props){
+// // export default function   bleheadpanel(props){
 // //   const {newform,setglobalfilter}=props;
 // //     return(
 // //         <div className="flex items-center justify-between px-6 py-4">
@@ -46,14 +46,14 @@
 //       </div>
 
 //       <div className="flex items-center gap-3">
-//         <input 
-//           type="text" 
-//           placeholder="Search..." 
+//         <input
+//           type="text"
+//           placeholder="Search..."
 //           className="px-4 py-2 border outline-none rounded-xl"
 //           onChange={(e) => setglobalfilter(e.target.value)}
 //         />
-//         <button 
-//           onClick={newform} 
+//         <button
+//           onClick={newform}
 //           className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 border border-transparent rounded-lg bg-secondary hover:bg-primary disabled:opacity-50 disabled:pointer-events-none gap-x-2"
 //         >
 //           <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
@@ -73,7 +73,7 @@ import { exportToExcel, importFromExcel } from './excelServices';
 
 export default function Tableheadpanel({newform,setglobalfilter,selectedProducts,onBulkUpdateClick,getallproduct ,isExporting,setIsExporting,handleExport,handleImport}) {
 
-  
+
   return (
     <div className="flex items-center justify-between px-6 py-4">
       <div className="flex items-center gap-4">
@@ -96,13 +96,13 @@ export default function Tableheadpanel({newform,setglobalfilter,selectedProducts
       </div>
 
       <div className="flex items-center gap-3">
-        <input 
-          type="text" 
-          placeholder="Search..." 
+        <input
+          type="text"
+          placeholder="Search..."
           className="px-4 py-2 border outline-none rounded-xl"
           onChange={(e) => setglobalfilter(e.target.value)}
         />
-        
+
         {/* Import Button */}
         {/* <label className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 bg-white border rounded-lg cursor-pointer hover:bg-gray-50">
           <Upload className="w-4 h-4 mr-2" />
@@ -116,12 +116,12 @@ export default function Tableheadpanel({newform,setglobalfilter,selectedProducts
         </label> */}
 
        {/* Export Button with Loading State */}
-       <button 
+       <button
           onClick={handleExport}
           disabled={isExporting}
           className={`inline-flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 bg-white border rounded-lg
-            ${isExporting 
-              ? 'text-gray-400 cursor-not-allowed' 
+            ${isExporting
+              ? 'text-gray-400 cursor-not-allowed'
               : 'text-gray-700 hover:bg-gray-50'
             }`}
         >
@@ -138,8 +138,8 @@ export default function Tableheadpanel({newform,setglobalfilter,selectedProducts
           )}
         </button>
 
-        <button 
-          onClick={newform} 
+        <button
+          onClick={newform}
           className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 border border-transparent rounded-lg bg-primary disabled:opacity-50 disabled:pointer-events-none gap-x-2"
         >
           <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">

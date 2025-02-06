@@ -78,7 +78,7 @@ const Tableview = (props) => {
       </span>
     );
   };
-  
+
 
 
 
@@ -104,7 +104,7 @@ const Tableview = (props) => {
   const image = (rowData) => {
     if (!rowData.Image) return null;
     const imageUrl = Array.isArray(rowData.Image) ? rowData.Image[0] : rowData.Image;
-  
+
     return (
       <div className="flex justify-center">
         <img
@@ -115,7 +115,7 @@ const Tableview = (props) => {
       </div>
     );
   };
-  
+
   const renderProductsCount = (rowData) => {
     const productCount = rowData.Products ? rowData.Products.length : 0;
     return `${productCount} ${productCount === 1 ? 'product' : 'products'}`;
@@ -124,9 +124,9 @@ const Tableview = (props) => {
 
   const columns = [
     { field: 'IngredientName', header: 'Ingredient Name', filter: true },
-    { field: 'IngredientDescription', header: 'Ingredient Description'},
-    { field: 'Products', header: 'Products',body: renderProductsCount },
-    { field: 'Status', header: 'Status', filter: true,body: statusTemplate }
+    { field: 'IngredientDescription', header: 'Ingredient Description' },
+    { field: 'Products', header: 'Products', body: renderProductsCount },
+    { field: 'Status', header: 'Status', filter: true, body: statusTemplate }
   ];
 
   const FilterPanel = () => (

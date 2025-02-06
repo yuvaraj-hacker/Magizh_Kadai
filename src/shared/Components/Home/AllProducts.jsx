@@ -150,7 +150,7 @@ function AllProducts({ groupedProducts }) {
             </div>
 
             {/* <div onClick={scrollRight} className=" p-3 absolute w-fit right-0 top-1/2 bg-gray-300 cursor-pointer">
-              <i class="fi fi-ts-angle-right"></i>
+              <iclassName="fi fi-ts-angle-right"></i>
             </div> */}
           </div>
           {/* <hr className="mt-5" /> */}

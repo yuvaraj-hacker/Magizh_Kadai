@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getcategory } from "../../shared/services/apicategory/apicategory";
 import apiurl from "../../../shared/services/apiendpoint/apiendpoint";
-import {getproducts } from "../../shared/services/apiproducts/apiproducts";
+import { getproducts } from "../../shared/services/apiproducts/apiproducts";
 
 
 export default function Home() {
@@ -41,9 +41,9 @@ export default function Home() {
         fetchCategories();
     }, []);
 
-    if (loading) return   <div className="flex items-center justify-center h-[70vh]">
-    <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-</div>;;
+    if (loading) return <div className="flex items-center justify-center h-[70vh]">
+        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
+    </div>;;
     if (error) return <div className="p-4 text-center text-red-500">Error loading datas</div>;
 
     return (
@@ -54,7 +54,7 @@ export default function Home() {
                         Welcome to Magizh Kadai
                     </h1>
                     <p className="mb-4 text-white">
-                    Everything you need for a modern and comfortable lifestyle!.
+                        Everything you need for a modern and comfortable lifestyle!.
                     </p>
                 </div>
                 <div className="flex justify-center mt-6 lg:w-1/2 lg:mt-0">
@@ -99,7 +99,7 @@ export default function Home() {
                     </a>
                 </div>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-                    {products.slice(0,6).map((product) => (
+                    {products.slice(0, 6).map((product) => (
                         <div
                             key={product._id}
                             className="flex flex-col items-center p-4 bg-white shadow rounded-2xl hover:shadow-lg"

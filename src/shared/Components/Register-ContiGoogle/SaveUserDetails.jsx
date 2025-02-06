@@ -14,7 +14,7 @@ export default function SaveUserDetails({ visible, setVisible, initialEmail, ini
     Address: '',
     City: '',
     State: '',
-    Country: 'United States of America',
+    Country: 'India',
     Zipcode: '',
   });
 
@@ -34,34 +34,34 @@ export default function SaveUserDetails({ visible, setVisible, initialEmail, ini
   }, []);
 
   var isMounted = true;
-  useEffect(()=>{
-      if(isMounted){
-        getLocationData();
-      }
-      return ()=>(isMounted = false);
-  },[getLocationData])
+  useEffect(() => {
+    if (isMounted) {
+      getLocationData();
+    }
+    return () => (isMounted = false);
+  }, [getLocationData])
 
   // Update city options when location changes
   useEffect(() => {
     if (location && location.resdata) {
-        // Filter and format city options
-        const formattedCities = (location.resdata || []).map(loc => ({
-            ...loc,
-            displayName: loc.Status === "Active" 
-                ? loc.City 
-                : `${loc.City} (Coming Soon)`
-        }));
-        setCityOptions(formattedCities);
+      // Filter and format city options
+      const formattedCities = (location.resdata || []).map(loc => ({
+        ...loc,
+        displayName: loc.Status === "Active"
+          ? loc.City
+          : `${loc.City} (Coming Soon)`
+      }));
+      setCityOptions(formattedCities);
     } else if (Array.isArray(location)) {
-        const formattedCities = location.map(loc => ({
-            ...loc,
-            displayName: loc.Status === "Active" 
-                ? loc.City 
-                : `${loc.City} (Coming Soon)`
-        }));
-        setCityOptions(formattedCities);
+      const formattedCities = location.map(loc => ({
+        ...loc,
+        displayName: loc.Status === "Active"
+          ? loc.City
+          : `${loc.City} (Coming Soon)`
+      }));
+      setCityOptions(formattedCities);
     }
-}, [location]);
+  }, [location]);
 
   // Update initial email/phone
   useEffect(() => {
@@ -97,33 +97,33 @@ export default function SaveUserDetails({ visible, setVisible, initialEmail, ini
   // };
 
   // Modified handleCityChange
-const handleCityChange = (e) => {
-  const selectedCity = e.target.value;
-  const matchedLocation = cityOptions.find(loc => 
+  const handleCityChange = (e) => {
+    const selectedCity = e.target.value;
+    const matchedLocation = cityOptions.find(loc =>
       loc.City.toLowerCase() === selectedCity.toLowerCase()
-  );
+    );
 
-  if (matchedLocation) {
+    if (matchedLocation) {
       if (matchedLocation.Status !== "Active") {
-          e.preventDefault();
-          return;
+        e.preventDefault();
+        return;
       }
 
       const zipcodes = matchedLocation.Zipcode.split(',').map(zip => zip.trim());
       setAvailableZipcodes(zipcodes);
-      
+
       setFormData(prevData => ({
-          ...prevData,
-          City: matchedLocation.City,
-          State: matchedLocation.State,
-          Zipcode: zipcodes.length === 1 ? zipcodes[0] : '',
-          Country: "United States of America"
+        ...prevData,
+        City: matchedLocation.City,
+        State: matchedLocation.State,
+        Zipcode: zipcodes.length === 1 ? zipcodes[0] : '',
+        Country: "United States of America"
       }));
       setSelectedLocation(null);
       setAvailableZipcodes([]);
-  }
-  handlechange(e);
-};
+    }
+    handlechange(e);
+  };
   // Handle zipcode selection
   const handleZipcodeChange = (e) => {
     setFormData((prevData) => ({
@@ -165,14 +165,14 @@ const handleCityChange = (e) => {
             <div>
               <label>Email</label>
             </div>
-            <input type="email" name="Email" value={formData.Email} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required  />
+            <input type="email" name="Email" value={formData.Email} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required />
           </div>
 
           <div>
             <div>
               <label>Password</label>
             </div>
-            <input type="password" name="Password" value={formData.Password} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required  />
+            <input type="password" name="Password" value={formData.Password} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required />
           </div>
 
           <div>
@@ -216,8 +216,8 @@ const handleCityChange = (e) => {
 >
     <option value="" disabled>Select City</option>
     {cityOptions.map((loc) => (
-        <option 
-            key={loc._id} 
+        <option
+            key={loc._id}
             value={loc.City}
             disabled={loc.Status !== "Active"}
             className={loc.Status !== "Active" ? 'text-gray-400' : ''}
@@ -232,7 +232,7 @@ const handleCityChange = (e) => {
             <div>
               <label>State</label>
             </div>
-            <input type="text" name="State" value={formData.State} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required 
+            <input type="text" name="State" value={formData.State} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required
             />
           </div>
 
@@ -240,7 +240,7 @@ const handleCityChange = (e) => {
             <div>
               <label>Country</label>
             </div>
-            <input type="text" name="Country" value={formData.Country} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required disabled 
+            <input type="text" name="Country" value={formData.Country} className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" onChange={handleInputChange} required disabled
             />
           </div>
 
@@ -264,19 +264,19 @@ const handleCityChange = (e) => {
                     ))}
                 </select>
             ) : (
-                <input 
-                    type="text" 
-                    name="Zipcode" 
-                    value={formData?.Zipcode || ''} 
-                    onChange={handleInputChange} 
-                    className="w-full px-4 py-2 mt-1 border outline-none rounded-xl" 
+                <input
+                    type="text"
+                    name="Zipcode"
+                    value={formData?.Zipcode || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 mt-1 border outline-none rounded-xl"
                     pattern="[0-9]*"
-                    required 
+                    required
                     readOnly={availableZipcodes.length === 1}
                 />
             )}
           </div> */}
-          
+
         </div>
 
         <Button type="submit" className="w-full mt-6 text-white bg-green-500" size="lg" isLoading={loading}>

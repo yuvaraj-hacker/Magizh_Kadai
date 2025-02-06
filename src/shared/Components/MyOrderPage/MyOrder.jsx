@@ -55,7 +55,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
 
   return (
     <>
-      <section className="relative min-h-screen max-w-[80rem] px-3 mx-auto md:py-10 py-5">
+      <section className="relative min-h-screen w-full md:py-10 py-5">
         <div className="">
           <div className="h-full">
             {/* <div className="flex items-center gap-3">
@@ -240,7 +240,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                             <i className="mr-2 text-blue-600 fi fi-rr-file-pdf  flex justify-center items-center"></i>
                           )}
                           <span className="text-sm">Download Invoice</span>
-                          <i class="fi fi-br-angle-right flex justify-center items-center"></i>
+                          <i className="fi fi-br-angle-right flex justify-center items-center"></i>
                         </button>
                       </div>
                     </div>

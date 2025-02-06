@@ -409,7 +409,7 @@ const Tableview = (props) => {
           header={CustomSelectionHeader}
           body={CustomSelectionBody}
           headerClassName="text-gray-700 bg-gray-50 !w-16"
-          className="!w-16"
+           className="!w-16"
           alignHeader="center"
         />
         <Column

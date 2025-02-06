@@ -48,13 +48,13 @@ const SwiperMax = ({ banners }) => {
   return (
     <div className="w-full swiper-container-wrapper">
       <div className="swiper-container rounded-3xl h-fit mt-3 md:mt-5  ">
-        <Swiper loop={true} autoplay={{ delay: 5000 }}  spaceBetween={10}  speed={2000}
+        <Swiper loop={true} autoplay={{ delay: 5000 }} spaceBetween={10} speed={2000}
           breakpoints={{ 320: { slidesPerView: 1 }, 600: { slidesPerView: 1 }, 1224: { slidesPerView: 1 }, }}
           navigation={banners.length > 1 ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } : false}
           modules={[Navigation, Autoplay]}
           pagination={{
             el: ".swiper-pagination", clickable: true, renderBullet: function (index, className) {
-              return `<span class="${className}" style="width: 20px; height: 4px; border-radius: 2px;"></span>`;
+              return `<spanclassName="${className}" style="width: 20px; height: 4px; border-radius: 2px;"></span>`;
             },
           }}  >
           {banners.map((banner) => (
@@ -106,8 +106,8 @@ const SwiperMax = ({ banners }) => {
                       </div> */}
                       <div className="">
                         <Link to={banner.link}>
-                          <button className="md:p-3 p-2 border border-white lg:border-white rounded-full text-white">
-                            Shop Now <i className="fi fi-br-arrow-up-right text-sm "></i>
+                          <button className="md:p-3 p-2 border border-white lg:border-secondary rounded-full group   text-secondary">
+                            <p className="group-hover:text-secondary"> Shop Now <i className="fi fi-br-arrow-up-right text-sm  group-hover:text-secondary"></i></p>
                           </button>
                         </Link>
                       </div>

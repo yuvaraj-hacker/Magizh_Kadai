@@ -191,7 +191,6 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
         } else {
           navigate('/');
         }
-
         setShowUserDetailsModal(false);
         setFormData({})
         setVisible(false);

@@ -15,6 +15,7 @@ import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../servi
 import RegisterContinueGoogle from "../Register-ContiGoogle/RegisterContiGoogle";
 import { containerVariants, slideVariants } from "../../../framerMotion";
 import { motion } from "framer-motion";
+import { getallNewCollection } from "../../services/apiproducts/apiproduct";
 
 const LoadingSkeleton = () => {
   return (
@@ -72,8 +73,29 @@ const SwiperMin = ({ Product, title }) => {
   const { addToCart, cartItems, increaseQuantity, updateTotalCartItems } = useCart(); // decreaseQuantity, addToWishlist, wishlist
   const [wishlistData, setWishlistData] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [collection, setCollection] = useState([]);
 
   let isMounted = true;
+
+
+  const newCollection = useCallback(async () => {
+    try {
+      const res = await getallNewCollection();
+
+      console.log("API Response:", res); // Debugging log
+
+      // Ensure response is valid and set trending safely
+      setCollection(Array.isArray(res?.response) ? res.response : []);
+    } catch (error) {
+      console.error("Failed to fetch trending products:", error);
+      setCollection([]); // Set empty array on error to avoid crashes
+    }
+  }, []);
+
+  useEffect(() => {
+    newCollection();
+  }, [newCollection]);
+
 
   const getWishlistItem = useCallback(async () => {
     var res = await getWishlistItems(userdetails?.Email);
@@ -229,15 +251,10 @@ const SwiperMin = ({ Product, title }) => {
               loop={true}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               breakpoints={{
-                320: { slidesPerView: 1, spaceBetween: 10 },
-                460: { slidesPerView: 2, spaceBetween: 10 },
-                768: { slidesPerView: 3, spaceBetween: 10 },
-                1024: { slidesPerView: 4, spaceBetween: 10 },
-                1500: { slidesPerView: 6, spaceBetween: 20 },
-              }}
-              modules={[Navigation, Autoplay]}
-            >
-              {Product.slice(0, 7).map((prod, i) => (
+                320: { slidesPerView: 1, spaceBetween: 10 }, 460: { slidesPerView: 2, spaceBetween: 10 }, 768: { slidesPerView: 3, spaceBetween: 10 },
+                1024: { slidesPerView: 4, spaceBetween: 10 }, 1500: { slidesPerView: 6, spaceBetween: 20 },
+              }} modules={[Navigation, Autoplay]}  >
+              {collection.map((prod, i) => (
                 <SwiperSlide key={prod._id || i} className="">
                   <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
                     <div variants={slideVariants} className="relative group   ">

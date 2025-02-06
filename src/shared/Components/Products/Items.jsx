@@ -114,7 +114,7 @@ const Items = (prpos) => {
                   </button>
                 </div>
                 <div className="absolute z-10 top-4 left-2 lg:top-5 lg:left-5 text-[10px] lg:text-xs ">
-                  {prod.QTY === 0  &&(
+                  {prod.QTY === 0 && (
                     <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                       <p className="">Out of Stock</p>
                     </div>

@@ -10,6 +10,7 @@ import SearchBar from '../../shared/Components/searchbar/searchbar';
 import { getWishlistItems } from '../../shared/services/wishlist/wishlist';
 import { apigetallcategory } from '../../shared/services/apicategory/apicategory';
 import NewForm from '../../shared/Components/Register-ContiGoogle/NewFormGoogle';
+import { useSidebar } from '../../Router/SidebarProvider';
 
 export default function Header(props) {
 
@@ -17,7 +18,7 @@ export default function Header(props) {
     openform } = props;
 
   const { cartItems, cartCount } = useCart();
-
+  const { toggleSidebar } = useSidebar(); // Access toggle function
   const [currentLang, setCurrentLang] = useState('English');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -277,8 +278,8 @@ export default function Header(props) {
                                   <i className="fi fi-rr-shopping-bag dark:text-white"></i>
                                   <span className="text-sm dark:text-white">My orders</span>
                                 </Link> */}
-                                <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
-                                  <i class="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
+                                <Link to="/dashboard" onClick={toggleSidebar} className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                  <i className="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
                                   <span className="text-sm dark:text-white">My Account</span>
                                 </Link>
                                 <Link to="/myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">

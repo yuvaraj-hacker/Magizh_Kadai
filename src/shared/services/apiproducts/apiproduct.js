@@ -6,6 +6,20 @@ export const getallproducts = async(params)=>{
     return res.data;
   }
 
+  export const getallTrendingProducts = async()=>{
+    var res=await axios.get(`${apiurl()}/products/apigetTrendingProducts`);
+    return res.data;
+  }
+
+  export const getallNewCollection = async()=>{
+    var res=await axios.get(`${apiurl()}/products/apigetNewCollection`);
+    return res.data;
+  }
+
+
+
+
+
 export  const searchProducts = async (query) => {
     try {
         const res = await axios.post(`${apiurl()}/products/searchproducts`, { query });

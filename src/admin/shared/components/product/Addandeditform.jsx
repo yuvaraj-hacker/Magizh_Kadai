@@ -8,6 +8,8 @@ export default function Addandeditform(props) {
     const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate, filteredSubcategories, selectedCategory, handleCategoryChange, categories, imageDataUrl, handleImageChange, unitsOfMeasurement, setFormdata } = props;
     const [showCustomInput, setShowCustomInput] = useState(false);
     const tagsOptions = [
+        { label: "Trending", value: "Trending" },
+        { label: "New Collection", value: "Collection" },
         { label: "Editor's Pick", value: "Editor's Pick" },
         { label: "Lightning Deals", value: "Lightning Deals" },
         { label: "New Arrivals", value: "New Arrivals" },
@@ -23,7 +25,6 @@ export default function Addandeditform(props) {
                         onChange={(images) => handlechange({ target: { name: "Images", files: images } })}
                         apiUrl={apiurl()}
                     />
-
                 </div>
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                     <div className="mb-2">
@@ -91,7 +92,7 @@ export default function Addandeditform(props) {
                             </select>
                         </div>
 
-                      
+
                         {showCustomInput && (
                             <div className="mt-2">
                                 <input
@@ -251,7 +252,7 @@ export default function Addandeditform(props) {
                         </div>
                         <input type="text" name="Tax_Percentage" value={formdata?.Tax_Percentage} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
                     </div> */}
-                    {/* <div className="mb-2">
+                    <div className="mb-2">
                         <div className="mb-2 ">
                             <label>Tags</label>
                             <MultiSelect
@@ -263,7 +264,7 @@ export default function Addandeditform(props) {
                                 className="w-full"
                             />
                         </div>
-                    </div> */}
+                    </div>
                     <div className="mb-2">
                         <div className="mb-2">
                             <label>Stock</label>

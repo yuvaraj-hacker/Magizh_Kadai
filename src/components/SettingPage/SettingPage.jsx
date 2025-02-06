@@ -58,7 +58,7 @@ function SettingPage() {
             const response = await apigetallCustomers({ email: userdetails?.Email });
             console.log(response)
             setUser(response.resdata[0]);
-          
+
         } catch (error) {
             console.error("Error fetching user emails:", error);
             // toast.error("Failed to fetch user emails");
@@ -144,20 +144,8 @@ function SettingPage() {
     return (
         <>
             <section>
-                <Setting reason={reason}
-                    error={error}
-                    user={user}
-                    customReason={customReason}
-                    setIsEditing={setIsEditing}
-                    isEditing={isEditing}
-                    modalOpen={modalOpen}
-                    name={name}
-                    mobileNumber={mobileNumber}
-                    code={code}
-                    err={err}
-                    address={address}
-                    password={password}
-                    handleSaveClick={handleSaveClick}
+                <Setting reason={reason} error={error} user={user} getallcustomers={getallcustomers} customReason={customReason} setIsEditing={setIsEditing}
+                    isEditing={isEditing} modalOpen={modalOpen} name={name} mobileNumber={mobileNumber} code={code} err={err} address={address} password={password} handleSaveClick={handleSaveClick}
                     handleNameChange={handleNameChange}
                     handleCustomReasonChange={handleCustomReasonChange}
                     handleReasonChange={handleReasonChange}

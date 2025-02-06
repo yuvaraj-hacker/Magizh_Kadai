@@ -163,12 +163,12 @@ const ProductView = (props) => {
                 <>
                   {getCurrentCartQuantity() === 0 ? (
                     <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
-                      <span> <i class="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                      <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                       Add to Cart
                     </button>
                   ) : (
                     <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
-                      <span> <i class="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                      <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                       <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
                     </button>
                   )}

@@ -22,12 +22,12 @@ const useAuth = create((set) => ({
 
   loginauth: (token) => {
     localStorage.setItem(tokenname, token);
-    const userDetails = JSON.parse(window.atob(token.split('.')[1]));
+    const userDetails = JSON.parse(window.atob(token?.split('.')[1]));
     //console.log('Decoded User Details:', userDetails);
     localStorage.setItem('userDetails', JSON.stringify(userDetails));
     set({ isLoggedIn: true, userdetails: userDetails });
   },
-  
+
   login: (token) => {
     localStorage.setItem(tokenname, token);
     set({ isLoggedIn: true, token });

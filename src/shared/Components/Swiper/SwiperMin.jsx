@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -7,6 +7,8 @@ import { Navigation, Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
 import apiurl from "../../services/apiendpoint/apiendpoint";
 import { containerVariants, fadeIn, slideVariants, } from "../../../framerMotion";
+import { getallTrendingProducts } from "../../services/apiproducts/apiproduct";
+import { Link } from "react-router-dom";
 
 const LoadingSkeleton = () => {
   return (
@@ -38,66 +40,101 @@ const LoadingSkeleton = () => {
 
 
 
-const SwiperMin = ({ banners2 = [], minStyles }) => {
+const SwiperMin = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [trending, setTrending] = useState([]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
 
-    return () => clearTimeout(timer);
+  // const trendingProducts = useCallback(async () => {
+  //   try {
+  //     const res = await getallTrendingProducts();
+  //     console.log(res)
+  //       setTrending(Array.isArray(res?.response) ? res.response : []);
+
+  //   } catch (error) {
+  //     console.error("Failed to fetch categories:", error);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   trendingProducts();
+  // }, [trendingProducts]);
+
+  const trendingProducts = useCallback(async () => {
+    try {
+      const res = await getallTrendingProducts();
+
+      console.log("API Response:", res); // Debugging log
+
+      // Ensure response is valid and set trending safely
+      setTrending(Array.isArray(res?.response) ? res.response : []);
+    } catch (error) {
+      console.error("Failed to fetch trending products:", error);
+      setTrending([]); // Set empty array on error to avoid crashes
+    }
   }, []);
 
-  if (!banners2 || banners2.length === 0) {
-    return <LoadingSkeleton />;
-  }
+  useEffect(() => {
+    trendingProducts();
+  }, [trendingProducts]);
 
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
+
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  // if (!banners2 || banners2.length === 0) {
+  //   return <LoadingSkeleton />;
+  // }
+
+  // if (isLoading) {
+  //   return <LoadingSkeleton />;
+  // }
 
   return (
     <>
-      <div className="w-full overflow-hidden swiper-container-wrapper group">
-        <div className="swiper-container "  >
+      <div className="w-full overflow-hidden swiper-container-wrapper group  ">
+        <div className="swiper-container text-black"  >
           <Swiper loop={true} speed={500}
             breakpoints={{
               350: { slidesPerView: 2, spaceBetween: 10 },
               600: { slidesPerView: 2, spaceBetween: 15 },
-              724: { slidesPerView: 3, spaceBetween: 15 },
+              724: { slidesPerView: 2, spaceBetween: 15 },
               1500: { slidesPerView: 3, spaceBetween: 20 },
             }}
-            navigation={{
-              nextEl: ".swiper-button-next5",
-              prevEl: ".swiper-button-prev5",
-            }}
-            modules={[Navigation, Autoplay]}
-          >
-            {banners2.map((prod, i) => {
+            navigation={{ nextEl: ".swiper-button-next5", prevEl: ".swiper-button-prev5", }}
+            modules={[Navigation, Autoplay]}  >
+            {trending.map((trend, index) => {
               return (
-                <SwiperSlide key={prod.id} >
-                  <div variants={slideVariants} href={prod.link} target="_blank" rel="noopener noreferrer">
-                    <div className=" rounded-2xl overflow-hidden flex flex-wrap-reverse lg:flex-nowrap justify-between md:!bg-primary">
-                      <div className=' md:flex flex-col justify-between whitespace-nowrap p-5 pr-0 2xl:pl-10 2xl:py-10  hidden' >
-                        <div className="text-white w-fit  lg:space-y-2 ">
-                          <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 light ">Trending <i className="fi fi-ss-fire-flame-curved"></i></p>
-                          <h2 className="xl:text-xl text-sm font-semibold" > {prod.title}</h2>
-                          <p className=" w-fit text-sm lg:text-base">Up to {prod?.subtitle}% off Catalog</p>
+                <SwiperSlide key={index} >
+                  <>  <Link to={`/product-details/${trend._id}`} state={{ product: trend }}>
+                    <div key={index} target="_blank" rel="noopener noreferrer">
+                      <div className=" rounded-2xl grid lg:grid-cols-2   lg:p-4  lg:!bg-primary">
+                        <div className=' lg:flex flex-col justify-between   hidden' >
+                          <div className="text-white w-fit  lg:space-y-2 ">
+                            <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 light ">Trending <i className="fi fi-ss-fire-flame-curved"></i></p>
+                            <h2 className="xl:text-xl text-sm font-semibold line-clamp-2  " >{trend.Product_Name}</h2>
+                            <p className=" w-fit text-sm lg:text-base">Up to {trend.Discount}% offer</p>
+                          </div>
+                          <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green lg:block hidden">Grab Yours <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
                         </div>
-                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green md:block hidden">Collection <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
-                      </div>
-                      <div className="p-3 overflow-hidden lg:p-5 relative h-[150px] lg:h-[200px]  2xl:h-[275px] rounded-lg ">
-                        {/* <img src={`${apiurl()}/${prod.preview}`} alt={prod.title} className="object-cover w-full rounded-lg" /> */}
-                        <p className="lg:hidden absolute top-5 left-5  bg-black rounded-full w-fit md:text-sm text-xs p-1 px-2 inline-flex flex-nowrap text-[#FFD700] gap-1  light">Trending <i className="fi fi-ss-fire-flame-curved flex justify-center items-center "></i></p>
-                        <img src={`${prod.preview}`} alt={prod.title} className="object-cover rounded-lg  w-full lg:h-full" />
+                        <div className="  overflow-hidden  rounded-lg ">
+                          <p className="lg:hidden absolute top-5 left-5  bg-black rounded-full w-fit lg:text-sm text-xs   px-2 inline-flex flex-nowrap text-[#FFD700] gap-1 py-1  light">Trending <i className="fi fi-ss-fire-flame-curved flex justify-center items-center "></i></p>
+                          {/* <img src={`${prod.preview}`} alt={prod.title} className="object-cover rounded-lg  w-full lg:h-full" /> */}
+                          <img className="rounded-lg lg:h-56 w-full" key={`${index}`} src={`${apiurl()}/${trend?.Images[0]}`} alt={`Product ${index + 1}`} />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+                  </>
                 </SwiperSlide>
-              );
+              )
             })}
           </Swiper>
         </div>
