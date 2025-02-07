@@ -33,22 +33,22 @@ const SignInPage = () => {
   return (
     <>
       <Helmet>
-        <title>Log In | Kiranaa Bazaar</title>
-        <meta name="description" content="Log in to your Kiranaa Bazaar account to access your shopping cart, wishlists, and account settings. Secure and fast login." />
-        <meta name="keywords" content="Kiranaa Bazaar, login, sign in, user account, e-commerce, secure login, account access" />
+        <title>Log In | Magizh Kadai</title>
+        <meta name="description" content="Log in to your Magizh Kadai account to access your shopping cart, wishlists, and account settings. Secure and fast login." />
+        <meta name="keywords" content="Magizh Kadai, login, sign in, user account, e-commerce, secure login, account access" />
         <meta name="robots" content="noindex, follow" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Log In | Kiranaa Bazaar" />
-        <meta property="og:description" content="Access your Kiranaa Bazaar account and manage your orders, wishlists, and more. Secure login to ensure your privacy." />
+        <meta property="og:title" content="Log In | Magizh Kadai" />
+        <meta property="og:description" content="Access your Magizh Kadai account and manage your orders, wishlists, and more. Secure login to ensure your privacy." />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:image" content="https://www.kiranaabazaar.com/images/og-image.jpg" /> 
+        <meta property="og:image" content="https://www.Magizhkadai.com/images/og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Log In | Kiranaa Bazaar" />
-        <meta name="twitter:description" content="Log in to manage your orders, shopping cart, and more. Secure access to your Kiranaa Bazaar account." />
-        <meta name="twitter:image" content="https://www.kiranaabazaar.com/images/og-image.jpg" /> 
+        <meta name="twitter:title" content="Log In | Magizh Kadai" />
+        <meta name="twitter:description" content="Log in to manage your orders, shopping cart, and more. Secure access to your Magizh Kadai account." />
+        <meta name="twitter:image" content="https://www.Magizhkadai.com/images/og-image.jpg" />
       </Helmet>
 
-     
+
       <SignIn handlechange={handlechange} handlelogin={handlelogin} />
     </>
   );

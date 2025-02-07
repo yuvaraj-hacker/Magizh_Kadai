@@ -20,7 +20,7 @@ const OtpVerificationModal = ({loading,showOtpModal,setShowOtpModal,handleVerify
           }}
         />
 
-        <Button type="submit" className="w-full mt-6 text-white bg-green-500" size="lg" isLoading={verificationLoading} >
+        <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={verificationLoading} >
           {verificationLoading ? 'Verifying...' : 'Verify OTP'}
         </Button>
 

@@ -12,11 +12,11 @@ export default function PrivacyPolicy() {
                 <meta property="og:description" content="Learn how Kiraana Bazaar collects, uses, and protects your personal information. Read our privacy policy to understand your data rights and security." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={window.location.href} />
-                <meta property="og:image" content="https://www.kiranaabazaar.com/images/og-image.jpg" />
+                <meta property="og:image" content="https://www.Magizhkadai.com/images/og-image.jpg" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Privacy Policy | Kiraana Bazaar" />
                 <meta name="twitter:description" content="Learn how Kiraana Bazaar collects, uses, and protects your personal information. Read our privacy policy to understand your data rights and security." />
-                <meta name="twitter:image" content="https://www.kiranaabazaar.com/images/og-image.jpg" />
+                <meta name="twitter:image" content="https://www.Magizhkadai.com/images/og-image.jpg" />
                 <link rel="canonical" href={window.location.href} />
             </Helmet>
 
@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 <div className="my-5">
-                    <p className="text-lg text-justify">At Kiranaa Bazaar, your privacy is our priority. Here’s how we handle your information:</p>
+                    <p className="text-lg text-justify">At Magizh Kadai, your privacy is our priority. Here’s how we handle your information:</p>
 
                     <h1 className="my-2 text-xl font-semibold">1. Information We Collect</h1>
                     <p className="my-3 text-lg text-justify">&#x2022; Personal details (name, email, address, payment info).</p>
@@ -49,10 +49,10 @@ export default function PrivacyPolicy() {
                     <p className="my-3 text-lg text-justify">You can update, delete, or request a copy of your data anytime. Opt out of promotional emails by clicking “unsubscribe.”</p>
 
                     <h1 className="text-xl font-semibold">7. Contact Us</h1>
-                    <p className="my-3 text-lg text-justify">For privacy-related concerns, email us at support @kiranaabazaar.com or write to us at:
+                    <p className="my-3 text-lg text-justify">For privacy-related concerns, email us at support @Magizhkadai.com or write to us at:
                     10415 Old Placerville Rd, Unit 235, Rancho Cordova, CA 95827.</p>
-                    
-                
+
+
                 </div>
             </div>
         </section>

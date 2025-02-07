@@ -41,6 +41,17 @@ const updateOrder = async(datas)=>{
     }
 }
 
+const deleteOrder = async(datas)=>{
+    try {
+       var res=await axios.put(`${apiurl()}/orders/apideleteorder`,datas,{params:{_id:datas._id}, headers: {"Authorization" : `Bearer ${gettoken()}`}});
+       return res.data;
+    }
+    catch(err){
+       console.log(err);
+    }
+}
+
+
 const apigetallCustomers = async(params) => {
     try {
         const res = await axios.get(`${apiurl()}/customers/apigetallcustomers`,{params:params, headers: {"Authorization" : `Bearer ${gettoken()}`}});
@@ -54,7 +65,7 @@ export const updateCustomers = async (params) => {
     try {
         const res = await axios.put(`${apiurl()}/customers/updatecustomer`, params, { headers: {Authorization: `Bearer ${gettoken()}` }
         });
-        return res.data;  
+        return res.data;
     } catch (error) {
         console.error('Error updating customer:', error);
         throw error;
@@ -71,7 +82,7 @@ export const apidownloadPDF = async(datas)=>{
         return res.data;
     } catch (err) {
         console.log(err);
-        throw err; 
+        throw err;
     }
 };
 
@@ -99,8 +110,8 @@ export const apigenerateToken = async (Order_ID,amount) => {
         return res.data;
     } catch (err) {
         console.log(err);
-        throw err; 
+        throw err;
     }
 };
 
-export {apigetallOrder, updateOrder,apigetallCustomers, GenerateHash, PaymentRespomse}
+export {apigetallOrder, updateOrder,apigetallCustomers, GenerateHash, PaymentRespomse , deleteOrder}

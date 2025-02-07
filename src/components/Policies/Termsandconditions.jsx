@@ -6,43 +6,43 @@ export default function TermsandConditions() {
         <section>
             <Helmet>
                 <title>Terms and Conditions | Kiraana Bazaar</title>
-                <meta 
-                    name="description" 
-                    content="Read the Terms and Conditions for using Kiraana Bazaar's website and services, including product availability, pricing, orders, payments, and intellectual property." 
+                <meta
+                    name="description"
+                    content="Read the Terms and Conditions for using Kiraana Bazaar's website and services, including product availability, pricing, orders, payments, and intellectual property."
                 />
-                <meta 
-                    name="keywords" 
-                    content="terms and conditions, Kiraana Bazaar, product availability, pricing, orders, payments, returns, intellectual property" 
+                <meta
+                    name="keywords"
+                    content="terms and conditions, Kiraana Bazaar, product availability, pricing, orders, payments, returns, intellectual property"
                 />
                 <meta name="robots" content="index, follow" />
                 <meta property="og:title" content="Terms and Conditions | Kiraana Bazaar" />
-                <meta 
-                    property="og:description" 
-                    content="Find out the terms and conditions for using Kiraana Bazaar's website, including product availability, payments, intellectual property, and liability." 
+                <meta
+                    property="og:description"
+                    content="Find out the terms and conditions for using Kiraana Bazaar's website, including product availability, payments, intellectual property, and liability."
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={window.location.href} />
-                <meta 
-                    property="og:image" 
-                    content="https://www.kiranaabazaar.com/images/og-image.jpg" 
-                />  
+                <meta
+                    property="og:image"
+                    content="https://www.Magizhkadai.com/images/og-image.jpg"
+                />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Terms and Conditions | Kiraana Bazaar" />
-                <meta 
-                    name="twitter:description" 
-                    content="Learn about Kiraana Bazaar's terms and conditions, including how to use our website, place orders, and your rights and responsibilities as a customer." 
+                <meta
+                    name="twitter:description"
+                    content="Learn about Kiraana Bazaar's terms and conditions, including how to use our website, place orders, and your rights and responsibilities as a customer."
                 />
-                <meta 
-                    name="twitter:image" 
-                    content="https://www.kiranaabazaar.com/images/og-image.jpg" 
-                /> 
+                <meta
+                    name="twitter:image"
+                    content="https://www.Magizhkadai.com/images/og-image.jpg"
+                />
                 <link rel="canonical" href={window.location.href} />
             </Helmet>
             <div className="px-4 py-5 mx-auto my-5 md:my-10 max-w-[75rem]">
                 <div className="flex items-start justify-start">
                     <h1 className="text-2xl font-bold text-regal-blue">Terms and Conditions</h1>
                 </div>
-                <div className="mt-3 text-lg">Welcome to Kiranaa Bazaar! By using our website, you agree to the following terms:</div>
+                <div className="mt-3 text-lg">Welcome to Magizh Kadai! By using our website, you agree to the following terms:</div>
                 <div className="my-5">
                     <h1 className="text-xl font-semibold">1. Eligibility</h1>
                     <p className="my-3 text-lg text-justify">
@@ -57,35 +57,35 @@ export default function TermsandConditions() {
                         &#x2022; Keep your account details secure and do not misuse our website.
                     </p>
 
-                    <h1 className="text-xl font-semibold">3. Orders and Payments</h1> 
+                    <h1 className="text-xl font-semibold">3. Orders and Payments</h1>
                     <p className="my-3 text-lg text-justify">
                         &#x2022; All orders are subject to availability and must be paid at checkout.
                     </p>
                     <p className="my-3 text-lg text-justify">
-                        &#x2022; Prices may change without prior notice. 
+                        &#x2022; Prices may change without prior notice.
                     </p>
 
                     <h1 className="text-xl font-semibold">4. Return and Refund Policy</h1>
                     <p className="my-3 text-lg text-justify">
-                        Refer to our Return and Refund Policy for details on eligible returns, refunds, and replacements. 
+                        Refer to our Return and Refund Policy for details on eligible returns, refunds, and replacements.
                     </p>
-                   
+
                     <h1 className="text-xl font-semibold">5. Privacy Policy</h1>
                     <p className="my-3 text-lg text-justify">
                         &#x2022; We collect personal information to process orders and improve your experience.
                     </p>
                     <p className="my-3 text-lg text-justify">
-                        &#x2022; Your data is secure and not shared without consent. For more, read our Privacy Policy. 
+                        &#x2022; Your data is secure and not shared without consent. For more, read our Privacy Policy.
                     </p>
 
                     <h1 className="text-xl font-semibold">6. Prohibited Activities</h1>
                     <p className="my-3 text-lg text-justify">
-                        Do not use our website for illegal activities or attempt to disrupt its functionality. 
+                        Do not use our website for illegal activities or attempt to disrupt its functionality.
                     </p>
 
                     <h1 className="text-xl font-semibold">7. Limitation of Liability</h1>
                     <p className="my-3 text-lg text-justify">
-                        Kiranaa Bazaar is not liable for delays or issues caused by circumstances beyond our control.
+                        Magizh Kadai is not liable for delays or issues caused by circumstances beyond our control.
                     </p>
 
                     <h1 className="text-xl font-semibold">8. Changes to Terms</h1>
@@ -95,10 +95,10 @@ export default function TermsandConditions() {
 
                     <h1 className="text-xl font-semibold">9. Contact Us</h1>
                     <p className="my-3 text-lg text-justify">
-                        For questions, email us at support@kiranaabazaar.com or write to:
+                        For questions, email us at support@Magizhkadai.com or write to:
                         10415 Old Placerville Rd, Unit 235, Rancho Cordova, CA 95827, USA.
                     </p>
-                   
+
                 </div>
             </div>
         </section>

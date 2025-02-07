@@ -2,14 +2,14 @@ import axios from "axios";
 import apiurl from "../apiendpoint/apiendpoint";
 import { gettoken } from "../Token/token";
 
-export const apigetallShipping = async(params) => {
-    try {
-        const res = await axios.get(`${apiurl()}/shipping/apigetallshippingAddress`,{params:params, headers: {"Authorization" : `Bearer ${gettoken()}`}});
-        return res.data
-    } catch (error) {
-        console.error(error);
+    export const apigetallShipping = async(params) => {
+        try {
+            const res = await axios.get(`${apiurl()}/shipping/apigetallshippingAddress`,{params:params, headers: {"Authorization" : `Bearer ${gettoken()}`}});
+            return res.data
+        } catch (error) {
+            console.error(error);
+        }
     }
-}
 
 export const saveShipping = async(datas)=>{
     try {

@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import OrderReviewModal from './OrderReviewModal';
 import OrderItems from './OrderItems';
 
-function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, viewReorderProducts,
+function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, isModalOpen, handleOpenModal,
+  setCancelReason, handleConfirmCancel, handleCloseModal, viewReorderProducts,prepareOrderCancellation,
   onRatingChange, onReviewTextChange, onImageUpload, onSubmitReview, orderReviews, orderReviewImages
 }) {
   const [selectedTimeRange, setSelectedTimeRange] = useState('Last 30 days');
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -17,6 +17,9 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
       day: 'numeric'
     });
   };
+
+
+
 
   const filterOrdersByTimeRange = (orders) => {
     const now = new Date();
@@ -53,6 +56,11 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
     toggleDropdown(); // Close dropdown after selection
   };
 
+
+
+
+
+
   return (
     <>
       <section className="relative min-h-screen w-full md:py-10 py-5">
@@ -87,9 +95,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                 )}
               </div>
             </div>
-          </div>
-
-          <div className=" rounded-lg min-h-[500px] overflow-auto">
+          </div>          <div className=" rounded-lg min-h-[500px] overflow-auto">
             {hasOrders ? (
               <div className=" space-y-4">
                 {currentOrders.map((order) => (
@@ -116,14 +122,50 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                           <button className='p-2 text-sm font-semibold text-white bg-red-500 rounded-3xl' onClick={() => viewReorderProducts(order?.Order_id)}>Reorder</button>
                         </div> */}
                       </div>
-                      <div className='flex gap-4 mt-2 md:mt-0'>
-                        <button onClick={() => viewProducts(order?.Order_id)} className="flex items-center px-3 py-1 text-primary border border-primary rounded-full">
-                          <i className="mr-2 fi fi-rr-shopping-bag"></i>
-                          <span className="text-sm">View Products</span>
-                        </button>
+                      <div className='flex gap-4 items-center'>
+                        <div className='flex gap-4 mt-2 md:mt-0'>
+                          <button onClick={() => viewProducts(order?.Order_id)} className="flex items-center px-3 py-1 text-primary border border-primary rounded-full">
+                            <i className="mr-2 fi fi-rr-shopping-bag"></i>
+                            <span className="text-sm">View Products</span>
+                          </button>
+                        </div>
+                        <div className='flex gap-4 mt-2 md:mt-0' onClick={handleOpenModal} >
+                          <button className="flex items-center px-3 py-2 text-third border border-third  rounded-full">
+                            {/* <i className="mr-2 fi fi-rr-shopping-bag"></i> */}
+                            <span className="text-sm">Cancel Order</span>
+                          </button>
+                        </div>
+                        {isModalOpen && (
+                          <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 z-50">
+                            <div className="bg-white p-6 rounded-lg border border-black   w-96">
+                              <h2 className="text-lg font-semibold">Cancel Order</h2>
+                              <p className="text-sm text-gray-600 mt-2">
+                                Please select a reason for cancellation:
+                              </p>
+                              <div className="mt-3 space-y-2">
+                                {["Ordered by mistake", "Found a better price", "Financial reasons", "Other",].map((reason) => (
+                                  <label key={reason} className="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="cancelReason" value={reason} onChange={(e) => setCancelReason(e.target.value)} className="accent-red-500" />
+                                    <span>{reason}</span>
+                                  </label>
+                                ))}
+                              </div>
+                              <div className="mt-4 flex justify-end space-x-3">
+                                <button onClick={handleCloseModal} className="px-4 py-2 text-gray-600 border border-gray-300 rounded-full hover:bg-gray-100" >
+                                  Close
+                                </button>
+                                <button
+  onClick={() => prepareOrderCancellation(order)}
+  className="px-4 py-2 bg-third text-white rounded-full hover:bg-red-800"
+>
+  Confirm Cancellation
+</button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
-
                     <div>
                       <OrderItems />
                     </div>

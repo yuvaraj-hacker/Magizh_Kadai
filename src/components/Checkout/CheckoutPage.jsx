@@ -478,7 +478,6 @@ function CheckoutPage() {
     const handleOpenElavonModal = () => {
         setIsElavonModalOpen(true);
     };
-
     const handleCloseElavonModal = () => {
         setIsElavonModalOpen(false);
         navigate('/myorder')

@@ -6,40 +6,9 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 function Setting(props) {
-    const { user, getallcustomers } = props;
+    const { user, getallcustomers, setFirstName, handleSaveChanges, handleEditClick, loading, firstName, isEditing, address, addresss, isLoading, handleSaveChangeAddress, handleEditAddress, isEditAddress, setFirstAddress } = props;
     const { isLoggedIn, userdetails } = useAuth();
-    const [firstName, setFirstName] = useState(user?.First_Name || '');
-    const [lastName, setLastName] = useState(user?.Last_Name || '');
-    const [isEditing, setIsEditing] = useState(false);
-    const [loading, setLoading] = useState(false);
 
-    const handleEditClick = () => {
-        setIsEditing(true); // Enable editing when the edit icon is clicked
-    };
-
-    const handleSaveChanges = async () => {
-        try {
-            setLoading(true);
-            await handleUpdate();
-            setIsEditing(false); // Disable editing after saving changes
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            toast.error('Failed to update profile');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleUpdate = async () => {
-        try {
-            const res = await updateCustomers({ Email: user.Email, First_Name: firstName, Last_Name: lastName });
-            await getallcustomers();
-            toast.success('Profile Updated Successfully');
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            throw new Error('Failed to update profile');
-        }
-    };
 
     const getGuestDisplayInfo = () => {
         if (user?.Role === 'Guest') {
@@ -58,14 +27,12 @@ function Setting(props) {
     const { name: displayName, profileBg, verificationStatus } = getGuestDisplayInfo();
 
     return (
-        <div className="dark:bg-black min-h-[60vh] max-w-[50rem] mx-auto">
+        <div className="dark:bg-black min-h-[60vh] max-w-[30rem]   mx-auto">
             <div className="flex flex-col items-center md:py-5 py-3 relative ">
                 <div className="w-16 h-16 flex items-center justify-center bg-white border text-[#DBA737] rounded-full text-lg font-bold">
                     {user?.First_Name?.charAt(0).toUpperCase()}
                 </div>
-                {isLoggedIn && (
-                    <p className="text-lg font-semibold mt-3">Hello, {user?.First_Name} <span>{user?.Last_Name}</span></p>
-                )}
+                {isLoggedIn && (<p className="text-lg font-semibold mt-3">Hello, {user?.First_Name} <span>{user?.Last_Name}</span></p>)}
             </div>
             <div className="">
                 {/* Header */}
@@ -77,7 +44,6 @@ function Setting(props) {
                         Account Settings
                     </h1>
                 </div> */}
-
                 {/* Profile Card */}
                 <div className="relative overflow-hidden transition-colors duration-300   dark:bg-gray-700">
                     <div className="absolute top-0 left-0 w-full h-32  "></div>
@@ -107,7 +73,7 @@ function Setting(props) {
                                         value={firstName}
                                         placeholder={user.First_Name}
                                         onChange={(e) => setFirstName(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md  focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                                         disabled={!isEditing} // Disable input if not in edit mode
                                     />
                                     {isEditing ? (
@@ -119,27 +85,56 @@ function Setting(props) {
                                     )}
                                 </div>
                             </div>
-                            {/* <div className='space-y-2'>
-                                <label htmlFor="" className=' font-bold'>Last Name</label>
-                                <div className="relative flex items-center mx-1">
-                                    <UserCircle className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    <input type="text" value={user?.Last_Name || 'No Last Name'} placeholder="Last Name" className="  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
-                                </div>
-                            </div> */}
                             <div className='space-y-2'>
                                 <label htmlFor="" className=' font-bold'>Phone Number</label>
                                 <div className="relative flex items-center mx-1">
                                     <Phone className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    <input type="text" value={user?.Mobilenumber || 'No phone number'} placeholder="Phone Number" className="  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                                    <input type="text" value={user?.Mobilenumber || 'No phone number'} placeholder="Phone Number" className=" bg-gray-50  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
                                 </div>
                             </div>
                             <div className='space-y-2'>
                                 <label htmlFor="" className=' font-bold'>Email</label>
                                 <div className="relative flex items-center mx-1">
                                     <Mail className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    <input type="text" value={user?.Email || 'No email provided'} placeholder="Email" className="  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                                    <input type="text" value={user?.Email || 'No email provided'} placeholder="Email" className=" bg-gray-50  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
                                 </div>
                             </div>
+                            <div className='space-y-2'>
+                                <label htmlFor="address" className=' font-bold'>Address</label>
+                                <div className="relative flex items-center mx-1">
+                                    <MapPin className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <input type="text" id="address" value={addresss} placeholder={address?.Address || ''}
+                                        onChange={(e) => setFirstAddress(e.target.value)} disabled={!isEditAddress} className="  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                                    {isEditAddress ? (
+                                        <button onClick={handleSaveChangeAddress} className="ml-2 bg-primary text-white px-4 py-2 rounded-md" disabled={isLoading}  >
+                                            {isLoading ? 'Saving...' : 'Save'}
+                                        </button>
+                                    ) : (
+                                        <EditIcon onClick={handleEditAddress} className="absolute right-3 w-5 h-5 text-gray-500 cursor-pointer" />
+                                    )}
+                                </div>
+                                {/* <div className="relative flex items-center mx-1">
+
+                                    <input
+                                        id="first-name"
+                                        type="text"
+                                        value={firstName}
+                                        placeholder={user.First_Name}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                                        disabled={!isEditing} // Disable input if not in edit mode
+                                    />
+                                    {isEditing ? (
+                                        <button onClick={handleSaveChanges} className="ml-2 bg-primary text-white px-4 py-2 rounded-md" disabled={loading}  >
+                                            {loading ? 'Saving...' : 'Save'}
+                                        </button>
+                                    ) : (
+                                        <EditIcon onClick={handleEditClick} className="absolute right-3 w-5 h-5 text-gray-500 cursor-pointer" />
+                                    )}
+                                </div> */}
+                            </div>
+
+
                             {/* <div className='text-center'>
                                 <button onClick={handleUpdate} className="mt-4 px-4 py-2 bg-primary text-white rounded-md text-center" disabled={loading}   >
                                     {loading ? "Updating..." : "Update Profile"}
@@ -148,14 +143,14 @@ function Setting(props) {
                             {/* <div>
                                 <p className="">Edit</p>
                             </div> */}
-
                             {/* <div className='space-y-2'>
-                                <label htmlFor="" className=' font-bold'>Address</label>
-                                    <div className="relative flex items-center mx-1">
-                                    <MapPin  className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    <input type="text" value={user?.Mobilenumber || 'No phone number'} placeholder="Address" className="lg:w-1/2 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
+                                <label htmlFor="" className=' font-bold'>Last Name</label>
+                                <div className="relative flex items-center mx-1">
+                                    <UserCircle className="absolute left-3 w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <input type="text" value={user?.Last_Name || 'No Last Name'} placeholder="Last Name" className="  w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none  dark:bg-gray-800 dark:border-gray-700 dark:text-white" />
                                 </div>
                             </div> */}
+
                             <div className="mt-4 space-y-2">
                                 {/* <label htmlFor="">Phone Number</label>
                                 <p className="flex items-center justify-center text-gray-600 transition-colors duration-300 dark:text-gray-200 md:justify-start">
@@ -193,8 +188,6 @@ function Setting(props) {
                                     </>
                                 )}
                             </div>
-
-
                         </div>
                     </div>
                 </div>

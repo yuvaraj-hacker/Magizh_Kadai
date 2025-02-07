@@ -2,23 +2,33 @@ import { useCallback, useEffect, useState } from 'react'
 import Setting from '../../shared/Components/Settings/Setting'
 import useAuth from '../../shared/services/store/useAuth';
 import toast from 'react-hot-toast';
-import { apigetallShipping } from '../../shared/services/apishipping/apishipping';
-import { apigetallCustomers } from '../../shared/services/APIOrder/apiorder';
+import { apigetallShipping, updateShipping } from '../../shared/services/apishipping/apishipping';
+import { apigetallCustomers, updateCustomers } from '../../shared/services/APIOrder/apiorder';
 
 function SettingPage() {
 
     const { userdetails } = useAuth();
     const [reason, setReason] = useState('');
     const [customReason, setCustomReason] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
-    const [address, setAddress] = useState({});
+    // const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState({});
+    const [firstName, setFirstName] = useState(user?.First_Name || '');
+    const [lastName, setLastName] = useState(user?.Last_Name || '');
+    const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [address, setAddress] = useState({});
+    const [addresss, setFirstAddress] = useState(address?.Address || '');
+    const [isEditAddress, setIsEditAddress] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+
     let isMounted = true;
     const getShippingDetails = useCallback(async () => {
         try {
             const response = await apigetallShipping({});
             if (response?.[0]) {
                 setAddress(response[0]);
+                setFirstAddress(response[0].Address || '');
             }
         } catch (error) {
             console.error("Error fetching shipping details:", error);
@@ -141,10 +151,74 @@ function SettingPage() {
         setErr('');
         closeModal();
     };
+
+
+
+
+    const handleEditClick = () => {
+        setIsEditing(true); // Enable editing when the edit icon is clicked
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            setLoading(true);
+            await handleUpdate();
+            setIsEditing(false); // Disable editing after saving changes
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            toast.error('Failed to update profile');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const res = await updateCustomers({ Email: user.Email, First_Name: firstName, Last_Name: lastName });
+            await getallcustomers();
+            toast.success('Profile Updated Successfully');
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            throw new Error('Failed to update profile');
+        }
+    };
+
+
+
+
+    const handleEditAddress = () => {
+        setIsEditAddress(true); // Enable editing when the edit icon is clicked
+    };
+
+    const handleSaveChangeAddress = async () => {
+        try {
+            setIsLoading(true);
+            await handleUpdateAddress();
+            setIsEditAddress(false); // Disable editing after saving changes
+        } catch (error) {
+            console.error('Error updating Address:', error);
+            toast.error('Failed to update Address');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleUpdateAddress = async () => {
+        try {
+            const res = await updateShipping({ _id: address._id, Address: addresss });
+            await getShippingDetails(); // Refresh after update
+            toast.success('Address Updated Successfully');
+        } catch (error) {
+            console.error('Error updating Address:', error);
+            throw new Error('Failed to update Address');
+        }
+    };
+
+
     return (
         <>
             <section>
-                <Setting reason={reason} error={error} user={user} getallcustomers={getallcustomers} customReason={customReason} setIsEditing={setIsEditing}
+                <Setting reason={reason} setLastName={setLastName} handleEditAddress={handleEditAddress} handleSaveChangeAddress={handleSaveChangeAddress} isLoading={isLoading} isEditAddress={isEditAddress} setFirstAddress={setFirstAddress} handleEditClick={handleEditClick} handleSaveChanges={handleSaveChanges} loading={loading} setFirstName={setFirstName} error={error} user={user} getallcustomers={getallcustomers} customReason={customReason} setIsEditing={setIsEditing}
                     isEditing={isEditing} modalOpen={modalOpen} name={name} mobileNumber={mobileNumber} code={code} err={err} address={address} password={password} handleSaveClick={handleSaveClick}
                     handleNameChange={handleNameChange}
                     handleCustomReasonChange={handleCustomReasonChange}

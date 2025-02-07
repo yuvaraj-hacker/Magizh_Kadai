@@ -5,7 +5,7 @@ export default function Addandeditform(props) {
     const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate } = props;
     return (
         <Dialog header="Product Details" visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[40rem]">
-            <form onSubmit={ handleupdate }>
+            <form onSubmit={handleupdate}>
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                     <div className="mb-2">
                         <div className="mb-2">
@@ -36,8 +36,8 @@ export default function Addandeditform(props) {
                     </div>
                 </div>
                 <div className="mb-2">
-                    <button type="submit" className="w-full px-4 py-2 text-white bg-green-400 border rounded-md" >
-                        {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>}  {formdata._id ? "Update":"Save" }
+                    <button type="submit" className="w-full px-4 py-2 text-white bg-primary border rounded-md" >
+                        {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>}  {formdata._id ? "Update" : "Save"}
                     </button>
                 </div>
             </form>

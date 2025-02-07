@@ -38,8 +38,6 @@ const LoadingSkeleton = () => {
   );
 };
 
-
-
 const SwiperMin = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -52,7 +50,6 @@ const SwiperMin = () => {
   //     const res = await getallTrendingProducts();
   //     console.log(res)
   //       setTrending(Array.isArray(res?.response) ? res.response : []);
-
   //   } catch (error) {
   //     console.error("Failed to fetch categories:", error);
   //   }
@@ -118,7 +115,7 @@ const SwiperMin = () => {
                       <div className=" rounded-2xl grid lg:grid-cols-2   lg:p-4  lg:!bg-primary">
                         <div className=' lg:flex flex-col justify-between   hidden' >
                           <div className="text-white w-fit  lg:space-y-2 ">
-                            <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 light ">Trending <i className="fi fi-ss-fire-flame-curved"></i></p>
+                            <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">Trending <i className="fi fi-ss-fire-flame-curved "></i></p>
                             <h2 className="xl:text-xl text-sm font-semibold line-clamp-2  " >{trend.Product_Name}</h2>
                             <p className=" w-fit text-sm lg:text-base">Up to {trend.Discount}% offer</p>
                           </div>

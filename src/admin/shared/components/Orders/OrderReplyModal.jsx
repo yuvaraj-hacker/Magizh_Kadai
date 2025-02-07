@@ -70,7 +70,7 @@ const OrderReplyModal = ({ isOpen, onClose, orderDetails }) => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="font-medium text-gray-700">Order Details</p>
-                                <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-gray-500">
                                     Total Amount: ${orderDetails.Total_Amount} |
                                     Status: {orderDetails.Order_Status}
                                 </p>

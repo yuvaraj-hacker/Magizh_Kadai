@@ -234,8 +234,7 @@ export default function Checkout(props) {
                             {/* <p className="text-xs  mt-4 text-[#6C6C6C] dark:text-white">To guarantee the quality of your food, please store food indoors or refrigerate if needed.</p> */}
                             <p className="text-xs  text-[#6C6C6C] dark:text-white" >By placing this order, you are agreeing to Magizh Kadai Terms and Conditions.</p>
                             <button className="flex items-center justify-center w-full py-2 gap-2  font-semibold text-white bg-primary   rounded-3xl"
-                                onClick={handlePlaceOrder}
-                                disabled={loading}  >
+                                onClick={handlePlaceOrder} disabled={loading}  >
                                 {loading ? 'Placing Order...' : 'Place Order'}
                                 {loading ? (
                                     <i className="mr-2 fa-solid fa-spinner animate-spin"></i>

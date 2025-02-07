@@ -6,36 +6,36 @@ export default function ShippingPolicy() {
         <section>
             <Helmet>
                 <title>Shipping Policy | Kiraana Bazaar</title>
-                <meta 
-                    name="description" 
-                    content="Learn about Kiraana Bazaar's shipping policy, including order processing times, shipping methods, costs, and delivery times. Contact us for more information." 
+                <meta
+                    name="description"
+                    content="Learn about Kiraana Bazaar's shipping policy, including order processing times, shipping methods, costs, and delivery times. Contact us for more information."
                 />
-                <meta 
-                    name="keywords" 
-                    content="shipping policy, Kiraana Bazaar, order processing, delivery times, shipping methods, shipping costs, lost packages" 
+                <meta
+                    name="keywords"
+                    content="shipping policy, Kiraana Bazaar, order processing, delivery times, shipping methods, shipping costs, lost packages"
                 />
                 <meta name="robots" content="index, follow" />
                 <meta property="og:title" content="Shipping Policy | Kiraana Bazaar" />
-                <meta 
-                    property="og:description" 
-                    content="Find out how Kiraana Bazaar processes and ships your orders. Learn about available shipping methods, costs, and how to track your packages." 
+                <meta
+                    property="og:description"
+                    content="Find out how Kiraana Bazaar processes and ships your orders. Learn about available shipping methods, costs, and how to track your packages."
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={window.location.href} />
-                <meta 
-                    property="og:image" 
-                    content="https://www.kiranaabazaar.com/images/og-image.jpg" 
-                /> 
+                <meta
+                    property="og:image"
+                    content="https://www.Magizhkadai.com/images/og-image.jpg"
+                />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Shipping Policy | Kiraana Bazaar" />
-                <meta 
-                    name="twitter:description" 
-                    content="Find out how Kiraana Bazaar processes and ships your orders. Learn about available shipping methods, costs, and how to track your packages." 
+                <meta
+                    name="twitter:description"
+                    content="Find out how Kiraana Bazaar processes and ships your orders. Learn about available shipping methods, costs, and how to track your packages."
                 />
-                <meta 
-                    name="twitter:image" 
-                    content="https://www.kiranaabazaar.com/images/og-image.jpg" 
-                /> 
+                <meta
+                    name="twitter:image"
+                    content="https://www.Magizhkadai.com/images/og-image.jpg"
+                />
                 <link rel="canonical" href={window.location.href} />
             </Helmet>
             <div className="px-4 py-5 mx-auto my-5 md:my-10">
@@ -70,7 +70,7 @@ export default function ShippingPolicy() {
                     <p className="my-3 text-lg text-justify">We do not ship to P.O. boxes or military addresses (APO/FPO).</p>
 
                     <h1 className="text-xl font-semibold">7. Lost or Damaged Packages</h1>
-                    <p className="my-3 text-lg text-justify">If your package is lost or arrives damaged, please contact us at support@kiranaabazaar.com within [7] days of the delivery date.</p>
+                    <p className="my-3 text-lg text-justify">If your package is lost or arrives damaged, please contact us at support@Magizhkadai.com within [7] days of the delivery date.</p>
                     <p className="my-3 text-lg text-justify">We will assist in filing a claim with the shipping carrier and may offer a replacement or refund depending on the situation.</p>
 
                     <h1 className="text-xl font-semibold">8. Undeliverable Packages</h1>
@@ -85,7 +85,7 @@ export default function ShippingPolicy() {
                     <h1 className="text-xl font-semibold">11. Contact Us</h1>
                     <p className="my-3 text-lg text-justify">If you have any questions about this Shipping Policy, please contact us at:</p>
                     <ol className="space-y-1">
-                        <li>Email: support@kiranaabazaar.com</li>
+                        <li>Email: support@Magizhkadai.com</li>
                         <li>Mobile: +1 916-507-4320</li>
                         <li>Address: 10415 Old Placerville Rd, Suite 235, Rancho Cordova, CA, United States, California.</li>
                     </ol>

@@ -276,10 +276,8 @@ export default function SaveUserDetails({ visible, setVisible, initialEmail, ini
                 />
             )}
           </div> */}
-
         </div>
-
-        <Button type="submit" className="w-full mt-6 text-white bg-green-500" size="lg" isLoading={loading}>
+        <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={loading}>
           {loading ? 'Saving...' : 'Save'}
         </Button>
       </form>

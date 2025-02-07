@@ -10,11 +10,11 @@ import { SidebarProvider } from './Router/SidebarProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-     <DarkModeProvider>
+    <DarkModeProvider>
       <SidebarProvider>
-      <GoogleOAuthProvider clientId="487802395249-ued587ou52mb0gl4o1n55a7brjs66dh3.apps.googleusercontent.com">
-        <App/>
-      </GoogleOAuthProvider>
+        <GoogleOAuthProvider clientId="487802395249-ued587ou52mb0gl4o1n55a7brjs66dh3.apps.googleusercontent.com">
+          <App />
+        </GoogleOAuthProvider>
       </SidebarProvider>
     </DarkModeProvider>
   </React.StrictMode>

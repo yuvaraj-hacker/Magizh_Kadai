@@ -26,6 +26,7 @@ import ProductViewFunctions from "../components/ProductViewFunctions/ProductView
 import AccountLayout from "../components/MyAccountLayout/AccountLayout";
 import Dashboard from "../shared/Components/Dashboard/DFashboard";
 import { SidebarProvider } from "./SidebarProvider";
+import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
 
 const Approuter = () => {
     return (
@@ -49,6 +50,7 @@ const Approuter = () => {
                         <Route path="/saveditem" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
                         <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} />
                         <Route path="/cart" element={<CartPageFunctions />} />
+                        <Route path="/new" element={<NewForm />} />
                         <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
@@ -58,7 +60,6 @@ const Approuter = () => {
                         </Route>
                     </Route>
                     <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
-
                 </Routes>
             </SidebarProvider>
             <PrelineScript />

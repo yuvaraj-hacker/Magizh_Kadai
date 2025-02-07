@@ -26,7 +26,7 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
   const [showGuestDialog, setShowGuestDialog] = useState(false); // Controls guest dialog visibility
   const [guestEmail, setGuestEmail] = useState('');
-  const [activeTab, setActiveTab] = useState("register");
+  const [activeTab, setActiveTab] = useState("login");
   const navigate = useNavigate();
   const location = useLocation();
   const validateEmail = (email) => {
@@ -41,6 +41,15 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const registe = () => {
+    setActiveTab("register");
+  };
+
+  const registee = () => {
+    setActiveTab("login");
+  };
+
 
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -315,7 +324,7 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
 
   return (
     <>
-      <Dialog visible={visible} onHide={() => { if (!visible) return; setFormData(''); setVisible(false); }} style={{ width: "45vw" }} className="overflow-hidden h-[500px] px-5 dialog-dark"
+      <Dialog visible={visible} onHide={() => { if (!visible) return; setFormData(''); setVisible(false); }} style={{ width: "45vw" }} className="overflow-hidden h-[520px] px-5 dialog-dark"
         breakpoints={{ "960px": "75vw", "641px": "100vw" }} pt={{
           root: { className: 'dark:bg-gray-600' },
           content: { className: 'dark:bg-gray-600' },
@@ -326,34 +335,13 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
             <img src="/images/Logo/Logo.png" alt="" className="object-contain opacity-5" />
           </div> */}
 
-          <div className="relative z-10 px-6">
-            <Tabs
-              selectedKey={activeTab}
-              onSelectionChange={setActiveTab}
-              variant="underlined"
-              aria-label="Authentication options"
-              classNames={{
-                tabList: "gap-6",
-                cursor: "w-full bg-secondary",
-                tab: "flex-1",
-                tabContent: "group-data-[selected=true]:text-primary"
-              }}
-            >
+          <div className="relative z-10">
+            <Tabs selectedKey={activeTab} onSelectionChange={setActiveTab} variant="underlined" aria-label="Authentication options" classNames={{ tabList: "gap-6", cursor: "w-full bg-secondary", tab: "flex-1", tabContent: "group-data-[selected=true]:text-primary" }}  >
               <Tab key="register" title={<span className="dark:text-white">Register</span>} >
                 {activeTab === "register" && (
-                  <form onSubmit={handleManualSubmit} className="mt-4">
-                    <Tabs
-                      selectedKey={selected}
-                      onSelectionChange={setSelected}
-                      variant="underlined"
-                      aria-label="Registration options"
-                      classNames={{
-                        tabList: "gap-6",
-                        cursor: "w-full bg-secondary",
-                        tab: "flex-1",
-                        tabContent: "group-data-[selected=true]:text-primary"
-                      }}
-                    >
+                  <form onSubmit={handleManualSubmit} className=" ">
+                    <Tabs selectedKey={selected} onSelectionChange={setSelected} variant="underlined" aria-label="Registration options"
+                      classNames={{ tabList: "gap-6", cursor: "w-full bg-secondary", tab: "flex-1", tabContent: "group-data-[selected=true]:text-primary" }}  >
                       <Tab key="Email" title={<span className="dark:text-white">Email</span>} className="flex flex-col gap-4">
                         {selected === "Email" && (
                           <Input type="email" name="Email" label="Email Address" placeholder="Enter your email" value={formData.Email} onChange={handleInputChange} required
@@ -371,22 +359,24 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
                     <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={loading} >
                       {loading ? 'Sending OTP...' : 'Continue'}
                     </Button>
-
+                    <div className='my-5 text-center'>
+                      <p className="">Already Have an Account ? <span style={{ color: '#ff6600', fontWeight: 'bold', cursor: 'pointer' }} onClick={registee} > Login</span></p>
+                    </div>
                     {/* <div className="flex items-center justify-center mt-6">
                       <div className="flex-1 border-t border-gray-300"></div>
                       <span className="px-4 text-gray-500 dark:text-white">OR</span>
                       <div className="flex-1 border-t border-gray-300"></div>
                     </div> */}
-
-                    {/* <div className="flex items-center justify-center py-6">
-                      <Button variant="bordered" className="inline-flex items-center justify-center gap-2 p-6 dark:border-white" onClick={() => !loading && login()} isDisabled={loading} size="lg" >
-                        <img src="/images/google.png" alt="" className="w-10 h-10" />
-                        <span className="font-semibold">
-                          {loading ? 'Processing...' : 'Continue with Google'}
-                        </span>
-                      </Button>
-                    </div> */}
-                    {/* <div className="flex justify-center py-6">
+                    <div className='flex flex-col  gap-4  '>
+                      <div className="flex items-center justify-center">
+                        <button className="inline-flex items-center justify-center gap-2 p-2  dark:border-white" onClick={() => !loading && login()} isDisabled={loading} size="lg" >
+                          <img src="/images/Design/google-final.png" alt="" className="w-5 h-5" />
+                          <span className="font-semibold">
+                            {loading ? 'Processing...' : 'Continue with Google'}
+                          </span>
+                        </button>
+                      </div>
+                      {/* <div className="flex justify-center py-6">
                       <Button
                         variant="bordered"
                         color="secondary"
@@ -396,16 +386,15 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
                         <i className="fi fi-rr-circle-user"></i> Continue as Guest
                       </Button>
                     </div> */}
-
-                    {/* <div className="flex justify-center py-6">
-                      <Button variant="bordered" color="secondary" className="inline-flex items-center justify-center gap-2 p-6 dark:border-white dark:text-white" auto onClick={() => setShowGuestDialog(true)} >
-                        <i className="fi fi-rr-circle-user"></i> Continue as Guest
-                      </Button>
-                    </div> */}
+                      <div className="flex justify-center items-center ">
+                        <button color="secondary" className="inline-flex items-center justify-center gap-2  dark:border-white dark:text-white" auto onClick={() => setShowGuestDialog(true)} >
+                          <i className="fi fi-rr-circle-user flex justify-center items-center "></i> Continue as Guest
+                        </button>
+                      </div>
+                    </div>
                   </form>
                 )}
               </Tab>
-
 
               <Tab key="login" title={<span className="dark:text-white">Login</span>}>
                 {activeTab === "login" && (
@@ -419,6 +408,9 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
                     </Button>
                     <div className='text-center dark:text-white'>
                       <div role='button' onClick={forgotpassword}>Forgot Password?</div>
+                    </div>
+                    <div>
+                      <p className=" text-center">New to MagizhKadai ? <span style={{ color: '#ff6600', fontWeight: 'bold', cursor: 'pointer' }} onClick={registe} > Register</span></p>
                     </div>
                     {/* <div className="flex items-center justify-center mt-6">
                       <div className="flex-1 border-t border-gray-300"></div>
@@ -446,14 +438,13 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
                     </div> */}
                     {/* <div className="flex justify-center py-6">
                       <Button variant="bordered" color="secondary" className="inline-flex items-center justify-center gap-2 p-6 dark:border-white dark:text-white" auto onClick={() => setShowGuestDialog(true)} >
-                        <i className="fi fi-rr-circle-user"></i><p>Continue as Guest</p>
+                          <i className="fi fi-rr-circle-user"></i><p>Continue as Guest</p>
                       </Button>
                     </div> */}
                   </form>
                 )}
               </Tab>
             </Tabs>
-
           </div>
         </div>
       </Dialog>
@@ -462,7 +453,7 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
       <Dialog visible={showGuestDialog} onHide={() => setShowGuestDialog(false)} header="Continue as Guest" style={{ width: "30vw" }} breakpoints={{ "960px": "50vw", "641px": "100vw" }} >
         <form onSubmit={handleGuestSubmit} className="space-y-4">
           <Input type="email" label="Email Address" placeholder="Enter your email" value={guestEmail} onChange={(e) => setGuestEmail(e.target.value)} required variant="bordered" classNames={{ input: "text-base", inputWrapper: "border-2 focus-within:border-green-500" }} />
-          <Button type="submit" className="w-full text-white bg-secondary" size="lg" isLoading={loading} >
+          <Button type="submit" className="w-full text-white bg-primary" size="lg" isLoading={loading} >
             {loading ? 'Proceeding...' : 'Continue'}
           </Button>
         </form>
@@ -470,7 +461,6 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
 
       <OtpVerificationModal loading={loading} showOtpModal={showOtpModal} setShowOtpModal={setShowOtpModal} handleVerifyOtp={handleVerifyOtp} formData={formData}
         selected={selected} otp={otp} handleOtpChange={handleOtpChange} verificationLoading={verificationLoading} handleManualSubmit={handleManualSubmit} />
-
       <SaveUserDetails visible={showUserDetailsModal} setVisible={setShowUserDetailsModal} initialEmail={formData.Email} initialPhone={formData.Mobilenumber} onSubmit={handleUserDetailsSubmit} />
     </>
   );

@@ -10,11 +10,11 @@ export default function Addandeditform(props) {
     const tagsOptions = [
         { label: "Trending", value: "Trending" },
         { label: "New Collection", value: "Collection" },
-        { label: "Editor's Pick", value: "Editor's Pick" },
-        { label: "Lightning Deals", value: "Lightning Deals" },
-        { label: "New Arrivals", value: "New Arrivals" },
-        { label: "Best Seller", value: "Best Seller" },
-        { label: "Recommendations", value: "Recommendations" }
+        // { label: "Editor's Pick", value: "Editor's Pick" },
+        // { label: "Lightning Deals", value: "Lightning Deals" },
+        // { label: "New Arrivals", value: "New Arrivals" },
+        // { label: "Best Seller", value: "Best Seller" },
+        // { label: "Recommendations", value: "Recommendations" }
     ];
     return (
         <Dialog header="Product Details" visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[40rem]  ">
