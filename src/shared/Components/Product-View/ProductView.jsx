@@ -69,7 +69,7 @@ const ProductView = (props) => {
               </button>
             </div>
           </div>
-          <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 m-2 place-items-center w-full "   >
+          <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
             <div className="relative" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
               <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52  md:max-h-96" />
             </div>
@@ -108,7 +108,7 @@ const ProductView = (props) => {
             </Swiper>
           )}
         </div> */}
-          <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-3 md:order-3  m-2 xl:mt-0 ">
+          <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-4 md:order-3  m-2 xl:mt-0 ">
             {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
               <p className="inline-block text-xs font-medium">
@@ -131,7 +131,7 @@ const ProductView = (props) => {
             </div>
             <div className='flex flex-wrap items-end justify-start'>
               <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
-              {product.QTY == 0  && (
+              {product.QTY == 0 && (
                 <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
                   <p className="text-xs ">Out of Stock</p>
                 </div>
@@ -158,7 +158,7 @@ const ProductView = (props) => {
               )}
             </div>
 
-            <div className="flex items-center gap-5 sticky bg-white md:bg-transparent py-2 md:py-0 bottom-[60px]">
+            <div className="flex items-center gap-5 sticky bg-white    py-2 md:py-2  lg:bottom-0 bottom-[60px]">
               {product.QTY > 0 && product.QTY !== null && (
                 <>
                   {getCurrentCartQuantity() === 0 ? (

@@ -873,20 +873,8 @@ export default function OrderItems(props) {
   const shippingCost = ViewProductData.length > 0 ? parseFloat(ViewProductData[0].Shipping_Cost || 0) : 0;
 
   return (
-    <Dialog
-      header="Order Items"
-      visible={ViewProduct}
-      onHide={() => setViewProduct(false)}
-      style={{ width: '50vw' }}
-      breakpoints={{ '960px': '75vw', '641px': '100vw' }}
-      maximizable
-      className="p-0 dialog-dark"
-      pt={{
-        root: { className: 'dark:bg-gray-600' },
-        content: { className: 'dark:bg-gray-600' },
-        header: { className: 'dark:bg-gray-600 dark:text-white' }
-      }}
-    >
+    <Dialog header="Order Items" visible={ViewProduct} onHide={() => setViewProduct(false)} style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+      maximizable className="p-0 dialog-dark" pt={{ root: { className: 'dark:bg-gray-600' }, content: { className: 'dark:bg-gray-600' }, header: { className: 'dark:bg-gray-600 dark:text-white' } }}  >
       <div className="flex flex-col bg-white">
         {/* Header */}
         <div className="grid grid-cols-12 gap-4 p-4 text-sm font-medium text-gray-600 border-b bg-gray-50 dark:bg-gray-500 dark:text-white">
@@ -920,7 +908,6 @@ export default function OrderItems(props) {
                         </div>
                       </div>
                     </div>
-
                     <div className="col-span-2 text-center ">
                       {item.Discount > 0 ? (
                         <div>

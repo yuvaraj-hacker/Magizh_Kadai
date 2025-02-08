@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OrderReviewModal from './OrderReviewModal';
 import OrderItems from './OrderItems';
+import OrderShow from '../../../components/MyOrder/OrderShow';
 
-function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, viewProducts, isModalOpen, handleOpenModal,
-  setCancelReason, handleConfirmCancel, handleCloseModal, viewReorderProducts,prepareOrderCancellation,
+function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, ViewProductData = [], viewProducts, cancelReason, showModal, setShowModal, selectedOrder, Order,
+  setCancelReason, handleConfirmCancel, handleCloseModal, viewReorderProducts, prepareOrderCancellation,
   onRatingChange, onReviewTextChange, onImageUpload, onSubmitReview, orderReviews, orderReviewImages
 }) {
   const [selectedTimeRange, setSelectedTimeRange] = useState('Last 30 days');
@@ -18,7 +19,14 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
     });
   };
 
+  // const [isCanceled, setIsCanceled] = useState(false); // Track order cancellation
 
+  // const handleConfirmCancel = () => {
+  //   // Perform cancellation logic here...
+
+  //   setIsCanceled(true); // Hide the cancel button after cancellation
+  //   setShowModal(false); // Close the modal
+  // };
 
 
   const filterOrdersByTimeRange = (orders) => {
@@ -38,7 +46,6 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
       }
     });
   };
-
   const ordersData = {
     All: filterOrdersByTimeRange(orderDetails),
     Pending: filterOrdersByTimeRange(orderDetails).filter(order => order.Order_Status === "Payment Pending"),
@@ -46,19 +53,13 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
     Dispatched: filterOrdersByTimeRange(orderDetails).filter(order => order.Order_Status === "Order Dispatched"),
     Cancelled: filterOrdersByTimeRange(orderDetails).filter(order => order.Order_Status === "Order Cancelled"),
   };
-
   const currentOrders = ordersData[activeStatus] || [];
   const hasOrders = currentOrders.length > 0;
-
   // Handle time range selection
   const handleTimeRangeSelect = (range) => {
     setSelectedTimeRange(range);
     toggleDropdown(); // Close dropdown after selection
   };
-
-
-
-
 
 
   return (
@@ -129,46 +130,44 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                             <span className="text-sm">View Products</span>
                           </button>
                         </div>
-                        <div className='flex gap-4 mt-2 md:mt-0' onClick={handleOpenModal} >
+                        <div className='flex gap-4 mt-2 md:mt-0' onClick={() => prepareOrderCancellation(order)} >
                           <button className="flex items-center px-3 py-2 text-third border border-third  rounded-full">
                             {/* <i className="mr-2 fi fi-rr-shopping-bag"></i> */}
                             <span className="text-sm">Cancel Order</span>
                           </button>
                         </div>
-                        {isModalOpen && (
-                          <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 z-50">
-                            <div className="bg-white p-6 rounded-lg border border-black   w-96">
-                              <h2 className="text-lg font-semibold">Cancel Order</h2>
-                              <p className="text-sm text-gray-600 mt-2">
-                                Please select a reason for cancellation:
-                              </p>
-                              <div className="mt-3 space-y-2">
-                                {["Ordered by mistake", "Found a better price", "Financial reasons", "Other",].map((reason) => (
-                                  <label key={reason} className="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="cancelReason" value={reason} onChange={(e) => setCancelReason(e.target.value)} className="accent-red-500" />
-                                    <span>{reason}</span>
-                                  </label>
-                                ))}
+                        {showModal && (
+                          <div className="fixed inset-0 flex items-center z-50 justify-center bg-black bg-opacity-50">
+                            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                              <h2 className="text-lg font-semibold mb-4">Confirm Cancellation</h2>
+                              <p className="text-sm text-gray-600 mb-2">Please provide a reason for cancellation:</p>
+                              <div className='space-y-4'>
+                                <div className="mt-3 space-y-2">
+                                  {["Ordered by mistake", "Found a better price", "Financial reasons", "Other",].map((reason) => (
+                                    <label key={reason} className="flex items-center space-x-2 cursor-pointer">
+                                      <input type="radio" name="cancelReason" value={reason} onChange={(e) => setCancelReason(e.target.value)} className="accent-red-500" />
+                                      <span>{reason}</span>
+                                    </label>
+                                  ))}
+                                </div>
+                                <textarea className="w-full border rounded p-2 mb-4" rows="3" placeholder="Enter reason..." value={cancelReason} onChange={(e) => setCancelReason(e.target.value)}  ></textarea>
                               </div>
-                              <div className="mt-4 flex justify-end space-x-3">
-                                <button onClick={handleCloseModal} className="px-4 py-2 text-gray-600 border border-gray-300 rounded-full hover:bg-gray-100" >
-                                  Close
+                              <div className="flex justify-end gap-2">
+                                <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setShowModal(false)}  >
+                                  Cancel
                                 </button>
-                                <button
-  onClick={() => prepareOrderCancellation(order)}
-  className="px-4 py-2 bg-third text-white rounded-full hover:bg-red-800"
->
-  Confirm Cancellation
-</button>
+                                <button className="px-4 py-2 bg-red-500 text-white rounded" onClick={handleConfirmCancel}  >
+                                  Confirm
+                                </button>
                               </div>
                             </div>
                           </div>
                         )}
                       </div>
                     </div>
-                    <div>
+                    {/* <div>
                       <OrderItems />
-                    </div>
+                    </div> */}
                     {/* <div className="overflow-x-auto">
                       <table className="w-full border-collapse border border-gray-200">
                         <thead>
@@ -208,6 +207,12 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                         </tbody>
                       </table>
                     </div> */}
+                    {/*
+                    <div className='p-4'>
+                      <>
+                        <OrderShow />
+                      </>
+                    </div> */}
 
                     {/* Order Content */}
                     <div className="p-4 dark:bg-gray-600">
@@ -244,7 +249,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                           <div className="flex flex-col gap-2">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm w-fit font-semibold ${order.Order_Status === "Payment Pending"
                               ? "bg-yellow-100 text-yellow-800"
-                              : order.Order_Status === "Delivered"
+                              : order.Order_Status === "Order Delivered"
                                 ? "bg-green-100 text-green-800"
                                 : order.Order_Status === "Cancelled"
                                   ? "bg-red-100 text-red-800"

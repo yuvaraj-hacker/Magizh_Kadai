@@ -137,10 +137,8 @@ export default function Orders() {
         <div>
             <div className="bg-white border rounded-3xl">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-
                 <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                     cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
-
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />

@@ -34,7 +34,7 @@ function AccountLayout() {
                         {isLoggedIn && (
                             <p className="text-lg font-semibold mt-3">Hello, {userdetails?.First_Name} <span> {userdetails?.Last_Name} </span></p>
                         )}
-                        <i class="fi fi-ts-circle-xmark absolute top-0 right-0 cursor-pointer text-2xl lg:hidden block" onClick={toggleSidebar}></i>
+                        <i className="fi fi-ts-circle-xmark absolute top-0 right-0 cursor-pointer text-2xl lg:hidden block" onClick={toggleSidebar}></i>
                     </div>
 
                     {/* Navigation Links */}
