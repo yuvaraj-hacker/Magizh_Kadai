@@ -211,7 +211,7 @@ const ElavonPaymentModal = (props) => {
             {paymentStatus === 'success' ? (
               <div className="space-y-6">
                 <div className="flex justify-center mb-4">
-                  <div className="p-6 bg-green-100 rounded-full animate-bounce">
+                  <div className="p-6 bg-green-100 rounded-full animate-bounce animate-once">
                     <Check className="text-green-600" size={64} />
                   </div>
                 </div>

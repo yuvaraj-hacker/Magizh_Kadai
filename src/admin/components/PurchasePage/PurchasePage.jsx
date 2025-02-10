@@ -15,7 +15,7 @@ export default function PurchasePage() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
-    const [formdata,setFormdata]=useState({PurchaseMaster:[{}],total:0});
+    const [formdata,setFormdata]=useState({PurchaseMaster:[],total:0});
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata]=useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -26,7 +26,7 @@ export default function PurchasePage() {
     const [searchResults,setSearchResults] = useState([])
     const [RowIndex,setRowIndex] = useState(null)
     const [ViewProductLoading, setViewProductLoading] = useState(false);
- 
+
     let isMounted = true;
 
     const getallpurchase = useCallback(async ()=>{
@@ -34,7 +34,7 @@ export default function PurchasePage() {
         setTabledata(res?.resdata);
         setTotalRecords(res?.totallength);
     },[first,rows,globalfilter,colfilter]);
-    
+
     useEffect(()=>{
         if(isMounted){
             getallpurchase();
@@ -71,12 +71,12 @@ export default function PurchasePage() {
         setVisible(false);
         setLoading(false);
     };
-    
+
     const newform=()=>{
         setFormdata({PurchaseMaster:[{QTY: 0,Discount:0,Disc_Amount:0,Tax_Percentage:5.5,}], Total_Quantity:0,Total_Amount:0});
         setVisible(true)
     }
-    
+
     const editfrom = async (data)=>{
         var res = await getpurchaseitemsbyid(data.Purchase_id);
         setFormdata({...data, PurchaseMaster:res});
@@ -115,7 +115,7 @@ export default function PurchasePage() {
         setViewProductData(res);
         setViewProduct(true)
     }
-    
+
     const handleSearchChange = async (e,rowIndex)=>{
         formdata['PurchaseMaster'][rowIndex['rowIndex']] = {...formdata['PurchaseMaster'][rowIndex['rowIndex']],Product_Name:e.target.value};
         setFormdata(formdata)
@@ -164,16 +164,16 @@ export default function PurchasePage() {
         setFormdata({...formdata,Total_Amount:Total_Amount,Total_Quantity:Total_Quantity});
         setSearchResults([]);
     }
-    
+
     return(
         <div>
             <div className="bg-white border rounded-3xl">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
 
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} 
+                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                     cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
 
-                <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} /> 
+                <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} handlechange={handlechange}
                     handlesave={handlesave} handleupdate={handleupdate} addRow={addRow} handleSearchChange={handleSearchChange} searchResults={searchResults}
                     RowIndex={RowIndex} handlechangeProduct={handlechangeProduct} handledeleteField={handledeleteField} loadData={loadData} />
@@ -182,7 +182,7 @@ export default function PurchasePage() {
 
                 <ConfirmDialog />
             </div>
-    
+
         </div>
     )
 }

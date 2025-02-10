@@ -406,6 +406,13 @@ body {
 
 
 
+input[type="checkbox"] {
+  accent-color: #024A34; /* Change to any color */
+}
+
+
+
+
 
 
 /*
@@ -439,15 +446,6 @@ overflow-content */
   background-color: #dba737;
   color: #ffffff;
 }
-
-
-
-
-
-
-
-
-
 
 
 

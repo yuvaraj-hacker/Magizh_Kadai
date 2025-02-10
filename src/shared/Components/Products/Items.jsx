@@ -124,7 +124,6 @@ const Items = (prpos) => {
                       <p className="">Limited Stock</p>
                     </div>
                   )}
-
                   {/* {prod.Discount > 0 && (
                     <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
                       <p className=""> {Math.round(prod?.Discount)}% off</p>
@@ -151,11 +150,11 @@ const Items = (prpos) => {
                   <div className=" flex items-center gap-3">
                     {prod.Discount > 0 && (
                       <>  <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
-                        {((prod?.Sale_Price - (prod?.Sale_Price * prod?.Discount) / 100))?.toFixed(2)}
+                          {parseFloat(prod?.Sale_Price).toFixed(2)}
                       </h3>
                         {/* Original Price */}
                         <h3 className="text-sm text-third line-through  dark:text-white">
-                          {parseFloat(prod?.Sale_Price).toFixed(2)}
+                          {parseFloat(prod?.Regular_Price).toFixed(2)}
                         </h3>
                       </>
                     )}

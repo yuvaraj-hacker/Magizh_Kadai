@@ -26,6 +26,7 @@
     "preline": "^2.4.0",
     "primereact": "^10.9.2",
     "quill": "^2.0.2",
+    "rc-slider": "^11.1.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",

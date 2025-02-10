@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Headpanel from '../../shared/Components/Products/Headpanel'
 import Items from '../../shared/Components/Products/Items'
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { getallcategory } from '../../admin/shared/services/apicategory/apicategory';
 import toast from 'react-hot-toast';
 import { savecartitems, updatecartItem } from '../../shared/services/cart/cart';
@@ -19,9 +19,7 @@ import { InputText } from "primereact/inputtext";
 import { Tooltip } from '@nextui-org/react';
 
 const Products = () => {
-    const [value, setValue] = useState([20, 80]);
-    const min = 0;
-    const max = 100;
+    const [value, setValue] = useState([0, 8000]);
     const [categories, setCategories] = useState([]);
     const [discount, setDiscount] = useState([]);
     const [isSidebaropen, setIssidebaropen] = useState(false);
@@ -45,48 +43,29 @@ const Products = () => {
     const selectedDiscount = searchParams.get("discount") ? searchParams.get("discount").split(",") : [];
     // const selectedCategory = searchParams.get("category") || "All Categories";
 
-    let isMounted = true;
 
-    // const getAllProducts = useCallback(async () => {
-    //     setIsLoading(true);
-    //     const res = await getallproducts({ Category: queryParams.get('category'), Sub_Category: queryParams.get('subcategory'), Sale_Price: Sort });
-    //     setProducts(res.resdata);
-    //     setIsLoading(false);
-    // }, [selectedCategories, queryParams, selectedSubcategory, Sort]);
+    let isMounted = true;
     const getAllProducts = useCallback(async () => {
         setIsLoading(true);
         try {
-            // Initialize base params
-            let params = {
-                globalfilter: ''
-            };
-            // Handle category filtering
+            let params = { globalfilter: '' };
             const categoryParam = queryParams.get('category');
             if (categoryParam) {
-                // For multiple categories, we need to use $in operator
                 const categories = categoryParam.split(',');
-                if (categories.length > 0) {
-                    params['Category'] = { $in: categories };
-                }
+                if (categories.length > 0) { params['Category'] = { $in: categories }; }
             }
             const discountParam = queryParams.get('discount');
             if (discountParam) {
-                // For multiple categories, we need to use $in operator
                 const discount = discountParam.split(',');
-                if (discount.length > 0) {
-                    params['Discount'] = { $in: discount };
-                }
+                if (discount.length > 0) { params['Discount'] = { $in: discount }; }
             }
-            // Add subcategory if it exists
-            if (queryParams.get('subcategory')) {
-                params['Sub_Category'] = queryParams.get('subcategory');
-            }
-            // if (queryParams.get('discount')) {
-            //     params['Discount'] = queryParams.get('discount');
-            // }
-            // Add sort parameter if it exists
-            if (Sort) {
-                params['Sale_Price'] = Sort;
+            if (queryParams.get('subcategory')) { params['Sub_Category'] = queryParams.get('subcategory'); }
+            if (Sort) { params['Sale_Price'] = Sort; }
+            if (value.length === 2) {
+                params['Sale_Price'] = {
+                    $gte: Number(value[0]),
+                    $lte: Number(value[1])
+                };
             }
             const res = await getallproducts(params);
             setProducts(res.resdata);
@@ -96,11 +75,17 @@ const Products = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [selectedCategories, selectedDiscount, queryParams, selectedSubcategory, Sort]);
+    }, [selectedCategories, selectedDiscount, queryParams, selectedSubcategory, Sort, value]);
+
+    useEffect(() => {
+        getAllProducts();
+    }, [value]);
+
+
     const allCategories = useCallback(async () => {
         setIsLoading(true);
         try {
-            const res = await getallproducts();
+            const res = await getAllCategories();
             setCategories(res.resdata);
         } catch (error) {
             console.error("Failed to fetch categories:", error);
@@ -300,7 +285,7 @@ const Products = () => {
                             <div className=' text-sm text-black '>
                                 FILTERS
                             </div>
-                            <div className=' text-sm cursor-pointer text-blue-400  bg-white p-2   '>
+                            <div className=' text-sm cursor-pointer text-blue-400  bg-white p-2' >
                                 CLEAR ALL
                             </div>
                         </div>
@@ -311,49 +296,38 @@ const Products = () => {
                             <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}>
                                 <ul className=" text-xs " >
                                     {categories.map((category) => {
-                                        if (category.Category_Name === "Everything") return null;
-                                        // Handle "All Categories" case
-                                        const isAllCategories = category.Category_Name === "All Categories";
-                                        const isChecked = isAllCategories
-                                            ? !searchParams.get("category")
-                                            : selectedCategories.includes(category.Category_Name);
-                                        // Generate new URL with selected categories
+                                        if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
+                                        const isChecked = selectedCategories.includes(category.Category_Name);
                                         let updatedCategories = [...selectedCategories];
-                                        if (isAllCategories) {
-                                            updatedCategories = []; // Reset filter
-                                        } else if (selectedCategories.includes(category.Category_Name)) {
-                                            updatedCategories = updatedCategories.filter(cat => cat !== category.Category_Name);
-                                        } else {
-                                            updatedCategories.push(category.Category_Name);
-                                        }
+                                        if (isChecked) { updatedCategories = updatedCategories.filter(cat => cat !== category.Category_Name); }
+                                        else { updatedCategories.push(category.Category_Name); }
                                         const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
                                         const linkTo = `/products${queryString}`;
                                         return (
                                             <li key={category._id} className="group py-1">
-                                                <Link to={linkTo}  >
+                                                <Link to={linkTo}>
                                                     <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
-                                                        {/* <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" /> */}
-                                                        <input type="checkbox" className='cursor-pointer' checked={isChecked} readOnly />
+                                                        <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
                                                         <h5 className="whitespace-pre-wrap text-gray-500">{category.Category_Name}</h5>
                                                     </div>
                                                 </Link>
                                             </li>
                                         );
                                     })}
+
                                 </ul>
                             </div>
                         </div>
                         <div className='space-y-2 p-4 border-b grid grid-cols-1 w-full'>
                             <h1 className="text-sm text-gray-600 uppercase">Price</h1>
-                            <div className="flex justify-content-center">
-                                <div className="card flex justify-content-center relative">
-                                    <Tooltip target=".slider-tooltip" />
-                                    <Slider value={value} onChange={(e) => setValue(e.value)} className="w-32 slider-tooltip" range target min={min} max={max} data-pr-tooltip={`Min: ${value[0]} - Max: ${value[1]}`} />
+                            <div className="flex justify-content-center py-5">
+                                <div className="flex justify-center items-center w-full">
+                                    <Slider value={value} onChange={(e) => setValue(e.value)} className="w-40" range />
                                 </div>
                             </div>
                         </div>
                         <div className='space-y-2 p-4 border-b'>
-                            <h1 className="  text-sm text-gray-600 uppercase ">Discount</h1>
+                            <h1 className="text-sm text-gray-600 uppercase">Discount</h1>
                             {/* <div className='text-xs space-y-2'>
                                 <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden ">
                                     <input type="checkbox" className='text-white  border-none  ' readOnly />

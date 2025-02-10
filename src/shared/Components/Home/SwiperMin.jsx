@@ -234,7 +234,7 @@ const SwiperMin = ({ Product, title }) => {
             </div>
             {/* <p className="capitalize tracking-widest lg:text-4xl text-xl font-semibold lg:text-primary text-primary_green ">Trending Flash Sale</p> */}
           </div>
-          <Link to='/products'><div className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border border-w flex gap-2 justify-center items-center text-white group/vwbtn *:duration-300"><button className="capitalize md:tracking-wider inline-flex gap-1.5">View {' '} <span className="hidden md:block"> All Collection</span> </button><i className="fi fi-rs-arrow-up-right rotate-45 group-hover/vwbtn:rotate-0"></i></div></Link>
+          {/* <Link to='/products'><div className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border border-w flex gap-2 justify-center items-center text-white group/vwbtn *:duration-300"><button className="capitalize md:tracking-wider inline-flex gap-1.5">View {' '} <span className="hidden md:block"> All Collection</span> </button><i className="fi fi-rs-arrow-up-right rotate-45 group-hover/vwbtn:rotate-0"></i></div></Link> */}
           <div className="absolute h-[0.5px] w-full bg-slate-500/70 bottom-4"></div>
         </div>
         <div className="w-full mx-auto swiper-container-wrapper   px-3 2xl:px-0 2xl:-translate-x-[290px] ">

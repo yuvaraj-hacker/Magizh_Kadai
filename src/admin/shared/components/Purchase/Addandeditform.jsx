@@ -148,10 +148,10 @@ export default function Addandeditform(props) {
                     </div>
                     <div className='justify-end col-span-3 md:flex'>
                         <div>
-                            {/* <div>
+                            <div>
                                 <label className="block mb-2 text-sm font-medium dark:text-white">Invoice ID <span className='text-red-500'>*</span></label>
                                 <input type="text" name="Invoice_ID" value={formdata?.Invoice_ID} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" required />
-                            </div> */}
+                            </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium dark:text-white">Order Date <span className='text-red-500'>*</span></label>
                                 <input type="date" name="Order_Date" value={formdata?.Order_Date} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" required />

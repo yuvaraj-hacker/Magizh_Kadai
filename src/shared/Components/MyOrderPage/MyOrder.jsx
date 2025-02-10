@@ -137,7 +137,7 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                           </button>
                         </div>
                         {showModal && (
-                          <div className="fixed inset-0 flex items-center z-50 justify-center bg-black bg-opacity-50">
+                          <div className="fixed inset-0 flex items-center z-50 justify-center bg-black bg-opacity-60">
                             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                               <h2 className="text-lg font-semibold mb-4">Confirm Cancellation</h2>
                               <p className="text-sm text-gray-600 mb-2">Please provide a reason for cancellation:</p>
