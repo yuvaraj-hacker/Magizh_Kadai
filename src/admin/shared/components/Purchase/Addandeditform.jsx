@@ -166,10 +166,10 @@ export default function Addandeditform(props) {
                         <Column header="Brand" body={Brand_Name} style={{ minWidth: '200px' }} />
                         <Column header="QTY" body={QTY} style={{ minWidth: '130px' }} />
                         <Column header="Price" body={Price} style={{ minWidth: '100px' }} />
-                        <Column header="Disc%" body={Disc} style={{ minWidth: '100px' }} />
-                        {/* <Column header="Tax%" body={Tax_Percentage} style={{ minWidth: '100px' }} />
                         <Column header="Disc" body={DiscAmount} style={{ minWidth: '100px' }} />
-                        <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} />
+                        <Column header="Disc%" body={Disc} style={{ minWidth: '100px' }} />
+                        <Column header="Tax%" body={Tax_Percentage} style={{ minWidth: '100px' }} />
+                        {/* <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} />
                         <Column header="#" body={action} style={{ minWidth: '80px' }} /> */}
                     </DataTable>
                 </div>

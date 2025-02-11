@@ -96,7 +96,7 @@ const Tableview = (props) => {
     { field: 'Mobilenumber', header: 'Mobile Number', width: "150px" },
     { field: 'City', header: 'City', filter: true, width: "150px" },
     { field: 'Delivery_Address', header: 'Delivery Address', width: "200px" },
-    { field: 'purchaseType', header: 'Purchase Type', width: "200px", filter: true },
+    // { field: 'purchaseType', header: 'Purchase Type', width: "200px", filter: true },
     { field: 'purchaseDateandTime', header: 'Purchase DateandTime', width: "200px", filter: true },
     { field: 'Total_Amount', header: 'Total Amount', width: "150px" },
     { field: 'Payment_Status', header: 'Payment Status', width: "150px", filter: true },
@@ -205,21 +205,10 @@ const Tableview = (props) => {
               const value = tempFilterValues[key];
               if (value && value.length > 0) {
                 return value.map((v, i) => (
-                  <span
-                    key={`${key}-${i}`}
-                    className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
-                  >
+                  <span key={`${key}-${i}`} className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"  >
                     {col.header}: {v}
-                    <button
-                      onClick={() => {
-                        setTempFilterValues(prev => ({
-                          ...prev,
-                          [key]: prev[key].filter(item => item !== v)
-                        }));
-                        handleApplyFilters(key);
-                      }}
-                      className="ml-2 hover:text-blue-900"
-                    >
+                    <button onClick={() => { setTempFilterValues(prev => ({ ...prev, [key]: prev[key].filter(item => item !== v) })); handleApplyFilters(key); }}
+                      className="ml-2 hover:text-blue-900"  >
                       <i className="fi fi-rr-cross-small"></i>
                     </button>
                   </span>

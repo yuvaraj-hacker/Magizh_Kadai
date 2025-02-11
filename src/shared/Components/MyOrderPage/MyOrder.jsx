@@ -130,12 +130,13 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                             <span className="text-sm">View Products</span>
                           </button>
                         </div>
-                        <div className='flex gap-4 mt-2 md:mt-0' onClick={() => prepareOrderCancellation(order)} >
-                          <button className="flex items-center px-3 py-2 text-third border border-third  rounded-full">
-                            {/* <i className="mr-2 fi fi-rr-shopping-bag"></i> */}
-                            <span className="text-sm">Cancel Order</span>
-                          </button>
-                        </div>
+                        {order.Order_Status !== "Cancelled" && (
+                          <div className='flex gap-4 mt-2 md:mt-0' onClick={() => prepareOrderCancellation(order)}>
+                            <button className="flex items-center px-3 py-2 text-third border border-third rounded-full">
+                              <span className="text-sm">Cancel Order</span>
+                            </button>
+                          </div>
+                        )}
                         {showModal && (
                           <div className="fixed inset-0 flex items-center z-50 justify-center bg-black bg-opacity-60">
                             <div className="bg-white p-6 rounded-lg shadow-lg w-96">

@@ -303,7 +303,7 @@ const SwiperMin = ({ Product, title }) => {
                           )}
                           {prod.QTY > 0 && prod.Discount > 0 && (
                             <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
-                              <p className="">  {prod?.Discount}% off</p>
+                              <p className="">  {Math.round(prod?.Discount)}% off</p>
                             </div>
                           )}
                         </div>

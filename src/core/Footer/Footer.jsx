@@ -16,7 +16,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
    const handleClick = (e) => {
       e.preventDefault(); // Prevent navigation from overriding click
       toggleSidebar();
-  };
+   };
 
 
    const handleWishlistClick = (e) => {
@@ -154,10 +154,11 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
             <div className='bg-primary'>
                <div className="grid grid-cols-5 justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
                   <div className="cursor-pointer "> <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney "></i><p className='text-xs '>Home</p> </Link></div>
-                  <div className="cursor-pointer" onClick={handleWishlistClick}>
-                     <i className="flex flex-col items-center fi fi-rr-heart"></i><p className='text-xs '>Wishlist</p>
-
-                  </div>
+                  <Link to='/products'>
+                     <div className="cursor-pointer" >
+                        <i className="fi fi-rs-shop flex flex-col items-center"></i><p className='text-xs '>Products</p>
+                     </div>
+                  </Link>
                   <div className="relative cursor-pointer">
                      <Link to="/cart" className="relative inline-block">
                         <div className="relative">
@@ -182,10 +183,10 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                   <div onClick={() => { setTogSidecat(true) }} className="cursor-pointer"><i className="flex flex-col items-center fi fi-rs-category"></i><p className='text-xs '>Categories</p></div>
 
                   {isLoggedIn ? (
-                     <div className="cursor-pointer"  onClick={handleClick}>
+                     <div className="cursor-pointer" onClick={handleClick}>
                         {/* <Link to='/profile'> */}
-                           <i className="flex flex-col items-center fi fi-sr-user"></i>
-                           <p className='text-xs'>Account</p>
+                        <i className="flex flex-col items-center fi fi-sr-user"></i>
+                        <p className='text-xs'>Account</p>
                      </div>
                   ) : (
                      <div

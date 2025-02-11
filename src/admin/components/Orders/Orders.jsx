@@ -145,11 +145,7 @@ export default function Orders() {
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />
                 <ConfirmDialog />
                 {selectedOrder && (
-                    <OrderReplyModal
-                        isOpen={isReplyModalOpen}
-                        onClose={handleCloseReplyModal}
-                        orderDetails={selectedOrder}
-                    />
+                    <OrderReplyModal isOpen={isReplyModalOpen} onClose={handleCloseReplyModal} orderDetails={selectedOrder} />
                 )}
             </div>
 

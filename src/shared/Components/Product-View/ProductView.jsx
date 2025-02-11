@@ -146,7 +146,7 @@ const ProductView = (props) => {
 
             <div className="flex items-center space-x-2">
               {product.Discount > 0 && (
-                <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{product.Discount}% off</span>
+                <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{Math.round(product.Discount)}% off</span>
               )}
               {product.Sale_Price > 0 && (
                 <span className="text-base font-bold text-primary md:text-2xl">
@@ -174,11 +174,11 @@ const ProductView = (props) => {
                   )}
                   {getCurrentCartQuantity() >= 1 ? (
                     <div className='flex flex-col justify-between md:gap-3 gap-1'>
-                      <button className='bg-primary rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
-                        <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-white " />
+                      <button className=' rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                        <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
                       </button>
-                      <button className='bg-primary rounded-3xl  cursor-pointer disabled:cursor-not-allowed  disabled:bg-primary/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
-                        <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-white" />
+                      <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed border-primary border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
+                        <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
                       </button>
                     </div>
                   ) : (

@@ -140,7 +140,7 @@ function AllProducts({ groupedProducts }) {
                       )}
                       {product.QTY > 0 && product.Discount > 0 && (
                         <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
-                          <p className="">  {product?.Discount}% off</p>
+                          <p className="">  {Math.round(product?.Discount)}% off</p>
                         </div>
                       )}
                     </div>
