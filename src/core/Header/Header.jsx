@@ -82,7 +82,7 @@ export default function Header(props) {
     if (!isLoggedIn) {
       setVisible(true);
     } else {
-      navigate('/saveditem');
+      navigate('/wishlist');
     }
   };
 

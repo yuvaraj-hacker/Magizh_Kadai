@@ -77,18 +77,18 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                     <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
                                  </Link>
                               </div>
-                              <div className=' space-y-2'>
+                              <div className='space-y-2'>
                                  <div>
                                     <h1 className='text-secondary md:text-base'>Connect With Us</h1>
                                  </div>
                                  <div className='flex gap-3 justify-center'>
-                                    <a href='https://www.facebook.com/profile.php?id=61569764904097&mibextid=7B2xQ4' target='_blank'  >
+                                    <a href='https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F' target='_blank'  >
                                        <i className="fi fi-brands-facebook md:text-xl"></i>
                                     </a>
-                                    <a href='https://www.instagram.com/kiranaa_bazaar/profilecard/?igsh=d24xNHZud2d4ejB3' target='_blank'>
+                                    <a href='https://www.instagram.com/' target='_blank'>
                                        <i className="fi fi-brands-instagram md:text-xl"></i>
                                     </a>
-                                    <a href='https://wa.me/19165074320' target='_blank'>
+                                    <a href='https://web.whatsapp.com/' target='_blank'>
                                        <i className="fi fi-brands-whatsapp md:text-xl"></i>
                                     </a>
                                  </div>

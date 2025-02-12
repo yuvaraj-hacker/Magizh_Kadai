@@ -7,6 +7,7 @@ import { useState } from 'react';
 export default function Addandeditform(props) {
     const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate, filteredSubcategories, selectedCategory, handleCategoryChange, categories, imageDataUrl, handleImageChange, unitsOfMeasurement, setFormdata } = props;
     const [showCustomInput, setShowCustomInput] = useState(false);
+
     const tagsOptions = [
         { label: "Trending", value: "Trending" },
         { label: "New Collection", value: "Collection" },
@@ -210,7 +211,7 @@ export default function Addandeditform(props) {
                         <div className="mb-2">
                             <label>Qty</label>
                         </div>
-                        <input type="text" name="QTY" value={formdata?.QTY} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
+                        <input type="text" name="QTY" value={formdata?.QTY} onChange={handlechange} min="0" className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
                     </div>
                     <div className="mb-2">
                         <div className="mb-2">

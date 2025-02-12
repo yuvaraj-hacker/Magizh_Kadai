@@ -47,8 +47,8 @@ const Approuter = () => {
                         <Route path="/products" element={<Products />} />
                         <Route path="/product-details/:id" element={<ProductViewFunctions />} />
                         <Route path="/checkout" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><CheckoutPage /></ProtectedRoute>} />
-                        <Route path="/saveditem" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
-                        <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} />
+                        <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
+                        {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
                         <Route path="/cart" element={<CartPageFunctions />} />
                         <Route path="/new" element={<NewForm />} />
                         <Route element={<AccountLayout />}>

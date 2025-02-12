@@ -314,11 +314,11 @@ const Products = () => {
                             </div>
                             <div className=" border-b p-4 flex justify-between items-center">
                                 <div className=" text-sm text-black ">FILTERS</div>
-                                <div className=" text-sm cursor-pointer text-blue-400  bg-white p-2" onClick={clearFilters}>
+                                <div className=" text-sm cursor-pointer text-blue-400  bg-white hover:bg-gray-50 p-2" onClick={clearFilters}>
                                     CLEAR ALL
                                 </div>
                             </div>
-                            <div className="space-y-2 p-4 border-b">
+                            <div className="space-y-2 p-4 border-b ">
                                 <div className=" text-sm text-gray-600 ">CATEGORIES</div>
                                 <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
                                     <ul className=" text-xs ">

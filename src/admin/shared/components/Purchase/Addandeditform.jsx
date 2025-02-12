@@ -57,6 +57,12 @@ export default function Addandeditform(props) {
             </div>
         )
     }
+    const TaxType = (rowData, rowIndex) => (
+        <select name="Tax_Type" type="text" value={rowData?.Tax_Type} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required>
+            <option value="Inclusive">Inclusive</option>
+            <option value="Exclusive">Exclusive</option>
+        </select>
+    );
 
     const Tax_Percentage = (rowData, rowIndex) => {
         return (
@@ -65,6 +71,15 @@ export default function Addandeditform(props) {
             </div>
         )
     }
+
+    const Subtotal = (rowData, rowIndex) => {
+        return (
+            <div>
+                <input type="number" name="Subtotal" readOnly value={formdata?.Total_Amount} className="w-full px-4 py-2   outline-none" required />
+            </div>
+        )
+    }
+
 
     const Price = (rowData, rowIndex) => {
         return (
@@ -144,6 +159,20 @@ export default function Addandeditform(props) {
                                     </ul>
                                 } */}
                             </div>
+                            <div>
+                                <label className="block mb-2 text-sm font-medium dark:text-white">GST NO</label>
+                                <input type="text" name="Mobilenumber" value={formdata?.number} pattern="\d{10}" onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" />
+                                {/* <input type="number" name="Mobilenumber" id="Mobilenumber" value={formdata?.Mobilenumber} onChange={(event) => handleAutoChange(event)} autoComplete="off" className="w-full px-4 py-2 border rounded-md outline-none" />
+                                { ClientData&&ClientData.length > 0 &&
+                                    <ul className="hs-dropdown-menu transition-[opacity,margin] absolute z-[2] duration min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full">
+                                        {ClientData.map((result, index) => (
+                                            <li role='button' onClick={() => loadClient(index)} key={index} className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700" href="#">
+                                                {result['Mobilenumber'] +' - '+ result['First_Name']}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                } */}
+                            </div>
                         </div>
                     </div>
                     <div className='justify-end col-span-3 md:flex'>
@@ -166,11 +195,13 @@ export default function Addandeditform(props) {
                         <Column header="Brand" body={Brand_Name} style={{ minWidth: '200px' }} />
                         <Column header="QTY" body={QTY} style={{ minWidth: '130px' }} />
                         <Column header="Price" body={Price} style={{ minWidth: '100px' }} />
-                        <Column header="Disc" body={DiscAmount} style={{ minWidth: '100px' }} />
-                        <Column header="Disc%" body={Disc} style={{ minWidth: '100px' }} />
-                        <Column header="Tax%" body={Tax_Percentage} style={{ minWidth: '100px' }} />
-                        {/* <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} />
-                        <Column header="#" body={action} style={{ minWidth: '80px' }} /> */}
+                        <Column header="Tax Type" body={TaxType} style={{ minWidth: '190px' }} />
+                        <Column header="Discount (%)" body={Disc} style={{ minWidth: '100px' }} />
+                        <Column header="Discount Amount" body={DiscAmount} style={{ minWidth: '100px' }} />
+                        <Column header="Tax (%)" body={Tax_Percentage} style={{ minWidth: '100px' }} />
+                        <Column header="Subtotal" body={Subtotal} style={{ minWidth: '100px' }} />
+                        {/* <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} /> */}
+                        <Column header="Delete" body={action} style={{ minWidth: '80px' }} />
                     </DataTable>
                 </div>
                 <div className="flex justify-between mt-3">

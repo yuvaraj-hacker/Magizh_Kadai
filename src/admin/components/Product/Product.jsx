@@ -71,14 +71,33 @@ export default function Product() {
     const predefinedValues = ["0.5Lb", "1Lb", "2Lb"];
 
 
+    // const handlechange = (e) => {
+    //     if (e.target.files) {
+    //         const filesArray = Array.from(e.target.files);
+    //         setFormdata({ ...formdata, [e.target.name]: filesArray });
+    //     } else {
+    //         setFormdata({ ...formdata, [e.target.name]: e.target.value });
+    //     }
+    // };
+
     const handlechange = (e) => {
-        if (e.target.files) {
-            const filesArray = Array.from(e.target.files);
-            setFormdata({ ...formdata, [e.target.name]: filesArray });
+        const { name, value, files } = e.target;
+        if (files) {
+            const filesArray = Array.from(files);
+            setFormdata({ ...formdata, [name]: filesArray });
         } else {
-            setFormdata({ ...formdata, [e.target.name]: e.target.value });
+            if (name === "QTY") {
+                let qty = parseInt(value, 10);
+                if (isNaN(qty) || qty < 0) {
+                    qty = 0;
+                }
+                setFormdata({ ...formdata, [name]: qty });
+                return;
+            }
+            setFormdata({ ...formdata, [name]: value });
         }
     };
+
 
     useEffect(() => {
         if (formdata.Tags && !Array.isArray(formdata.Tags)) {
