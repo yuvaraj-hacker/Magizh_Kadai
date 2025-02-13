@@ -5,7 +5,7 @@ import OrderReviewModal from './OrderReviewModal';
 import OrderItems from './OrderItems';
 import OrderShow from '../../../components/MyOrder/OrderShow';
 
-function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, downloadingPDF, ViewProductData = [], viewProducts, cancelReason, showModal, setShowModal, selectedOrder, Order,
+function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderDetails = [], downloadPDF, reasons, setOtherReason, otherReason, downloadingPDF, setSelectedOrder, ViewProductData = [], viewProducts, cancelReason, showModal, setShowModal, selectedOrder, Order,
   setCancelReason, handleConfirmCancel, handleCloseModal, viewReorderProducts, prepareOrderCancellation,
   onRatingChange, onReviewTextChange, onImageUpload, onSubmitReview, orderReviews, orderReviewImages
 }) {
@@ -18,7 +18,6 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
       day: 'numeric'
     });
   };
-
   // const [isCanceled, setIsCanceled] = useState(false); // Track order cancellation
 
   // const handleConfirmCancel = () => {
@@ -131,8 +130,8 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                           </button>
                         </div>
                         {order.Order_Status !== "Cancelled" && (
-                          <div className='flex gap-4 mt-2 md:mt-0' onClick={() => prepareOrderCancellation(order)}>
-                            <button className="flex items-center px-3 py-2 text-third border border-third rounded-full">
+                          <div className='flex gap-4 mt-2 md:mt-0'>
+                            <button className="flex items-center px-3 py-2 text-third border border-third rounded-full" onClick={() => prepareOrderCancellation(order)}>
                               <span className="text-sm">Cancel Order</span>
                             </button>
                           </div>
@@ -142,24 +141,28 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                               <h2 className="text-lg font-semibold mb-4">Confirm Cancellation</h2>
                               <p className="text-sm text-gray-600 mb-2">Please provide a reason for cancellation:</p>
-                              <div className='space-y-4'>
+                              <div className="space-y-4">
                                 <div className="mt-3 space-y-2">
-                                  {["Ordered by mistake", "Found a better price", "Financial reasons", "Other",].map((reason) => (
+                                  {reasons.map((reason) => (
                                     <label key={reason} className="flex items-center space-x-2 cursor-pointer">
-                                      <input type="radio" name="cancelReason" value={reason} onChange={(e) => setCancelReason(e.target.value)} className="accent-red-500" />
+                                      <input  type="radio"  name="cancelReason" value={reason} checked={cancelReason === reason}  onChange={(e) => setCancelReason(e.target.value)}
+                                        className={cancelReason === reason ? 'accent-red-500' : ''}
+                                      />
                                       <span>{reason}</span>
                                     </label>
                                   ))}
                                 </div>
-                                <textarea className="w-full border rounded p-2 mb-4" rows="3" placeholder="Enter reason..." value={cancelReason} onChange={(e) => setCancelReason(e.target.value)}  ></textarea>
-                              </div>
-                              <div className="flex justify-end gap-2">
-                                <button className="px-4 py-2 bg-gray-300 rounded" onClick={() => setShowModal(false)}  >
-                                  Cancel
-                                </button>
-                                <button className="px-4 py-2 bg-red-500 text-white rounded" onClick={handleConfirmCancel}  >
-                                  Confirm
-                                </button>
+                                {cancelReason === 'Other' && (
+                                  <textarea className="w-full border rounded p-2 mb-4" rows="3" placeholder="Enter reason..." value={otherReason} onChange={(e) => setOtherReason(e.target.value)} />
+                                )}
+                                <div className="flex justify-end space-x-2">
+                                  <button onClick={() => { setShowModal(false); setSelectedOrder(null); setCancelReason(''); setOtherReason(''); }} className="px-4 py-2 border rounded hover:bg-gray-100"  >
+                                    Cancel
+                                  </button>
+                                  <button onClick={handleConfirmCancel} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"   >
+                                    Confirm
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>

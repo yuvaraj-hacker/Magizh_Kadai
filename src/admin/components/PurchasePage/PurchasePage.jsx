@@ -15,7 +15,7 @@ export default function PurchasePage() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ PurchaseMaster: [], total: 0, Total_Quantity: 0, Total_Amount: 0 });
+    const [formdata, setFormdata] = useState({ PurchaseMaster: [], total: 0, Total_Quantity: 0, Sub_Total: 0 });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -28,26 +28,22 @@ export default function PurchasePage() {
     const [ViewProductLoading, setViewProductLoading] = useState(false);
 
     let isMounted = true;
-
     const getallpurchase = useCallback(async () => {
         const res = await getallpurchases({ first, rows, globalfilter, colfilter });
         setTabledata(res?.resdata);
         setTotalRecords(res?.totallength);
     }, [first, rows, globalfilter, colfilter]);
-
     useEffect(() => {
         if (isMounted) {
             getallpurchase();
         }
         return (() => isMounted = false);
     }, [first, rows, globalfilter, colfilter])
-
     const onPage = (page) => {
         setPage(page)
         setFirst(rows * (page - 1));
         setRows(rows);
     };
-
     const handlechange = (e) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
@@ -56,12 +52,10 @@ export default function PurchasePage() {
             setFormdata({ ...formdata, [e.target.name]: e.target.value });
         }
     }
-
     const cusfilter = (field, value) => {
         setcolFilter(prev => ({ ...prev, [field]: { $in: value } }));
         setFirst(0)
     };
-
     const handlesave = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -71,18 +65,15 @@ export default function PurchasePage() {
         setVisible(false);
         setLoading(false);
     };
-
     const newform = () => {
-        setFormdata({ PurchaseMaster: [{ QTY: 0, Discount: 0, Disc_Amount: 0, Tax_Percentage: 0,  Tax_Type: "", }], Total_Quantity: 0, Total_Amount: 0 });
+        setFormdata({ PurchaseMaster: [{ Tax_Type: "" }] });
         setVisible(true)
     }
-
     const editfrom = async (data) => {
         var res = await getpurchaseitemsbyid(data.Purchase_id);
         setFormdata({ ...data, PurchaseMaster: res });
         setVisible(true)
     }
-
     const handleupdate = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -92,7 +83,6 @@ export default function PurchasePage() {
         setVisible(false)
         setLoading(false)
     }
-
     const handledelete = (id) => {
         confirmDialog({
             message: 'Do you want to delete this record?',
@@ -108,18 +98,15 @@ export default function PurchasePage() {
             }
         });
     };
-
     const viewProducts = async (Purchase_id) => {
         console.log(Purchase_id)
         var res = await getpurchaseitemsbyid(Purchase_id);
         setViewProductData(res);
         setViewProduct(true)
     }
-
     const handleSearchChange = async (e, rowIndex) => {
         formdata['PurchaseMaster'][rowIndex['rowIndex']] = { ...formdata['PurchaseMaster'][rowIndex['rowIndex']], Product_Name: e.target.value };
         setFormdata(formdata)
-
         if (e.target.value) {
             var data = await searchproducts({ data: e.target.value });
             setSearchResults(data);
@@ -129,47 +116,68 @@ export default function PurchasePage() {
         }
         setRowIndex(rowIndex['rowIndex']);
     }
-
-    // const addRow = () => {
-    //     const newObject = {Product_Name: formdata.Product_Name,QTY:0,Discount:0,Disc_Amount:0,Tax_Percentage:0 };
-    //     setFormdata(prevData => ({ ...prevData, PurchaseMaster: [...prevData.PurchaseMaster, newObject] }));
-    // };
-
     const addRow = () => {
-        const newObject = { Product_Name: "", Brand_Name: "", QTY: 0, Price: 0, Discount: 0, Disc_Amount: 0, Tax_Percentage: 0, Tax_Type: "", Subtotal: 0};
+        const newObject = { Tax_Type: "" };
         setFormdata(prevData => ({
             ...prevData,
             PurchaseMaster: [...prevData.PurchaseMaster, newObject]
         }));
     };
-
     const handledeleteField = (event, rowIndex) => {
         if (formdata['PurchaseMaster'].length > 1) {
             var datas = formdata;
             const updatedProducts = datas.PurchaseMaster.filter((_, index) => index !== rowIndex['rowIndex']).map((res, index) => ({ ...res }));
-            var Total_Amount = updatedProducts.reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
+            var Sub_Total = updatedProducts.reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
             var Total_Quantity = updatedProducts.reduce((sum, item) => sum + parseInt(item.QTY), 0);
-            setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity });
+            setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
         }
     };
-
-    const handlechangeProduct = (value, rowData) => {
+    const handlechangeProduct = (event, rowData) => {
         const updatedProducts = [...formdata.PurchaseMaster];
-        updatedProducts[rowData['rowIndex']][value.target.name] = value.target.value;
-        var route = updatedProducts[rowData['rowIndex']];
-        updatedProducts[rowData['rowIndex']].Amount = ((((((route.QTY * 1) * (route.Price * 1)) - (((route.QTY * 1) * (route.Price * 1)) * (route.Discount * 1)) / 100) - (route.Disc_Amount * 1)) * (route.Tax_Percentage * 1) / 100) + (((((route.QTY * 1) * (route.Price * 1)) - (((route.QTY * 1) * (route.Price * 1)) * (route.Discount * 1)) / 100) - (route.Disc_Amount * 1)))).toFixed(2);
-        var Total_Amount = updatedProducts.reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
-        var Total_Quantity = formdata['PurchaseMaster'].reduce((sum, item) => sum + parseInt(item.QTY), 0);
-        setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity });
-    }
+        const index = rowData['rowIndex'];
+        const field = event.target.name;
+        const value = event.target.value;
+        updatedProducts[index][field] = value;
 
+        // Extract values
+        let { QTY, Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+        QTY = parseFloat(QTY) || 0;
+        Price = parseFloat(Price) || 0;
+        Discount = parseFloat(Discount) || 0;
+        Disc_Amount = parseFloat(Disc_Amount) || 0;
+        Tax_Percentage = parseFloat(Tax_Percentage) || 0;
+
+        // Calculate subtotal before tax
+        let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount / 100)) - Disc_Amount;
+
+        let Sub_Total = 0;
+
+        if (Tax_Type === "Inclusive") {
+            // Tax is already included in the price, extract the base price
+            let taxFactor = 1 + (Tax_Percentage / 100);
+            let baseAmount = subtotalBeforeTax / taxFactor;
+            let taxAmount = subtotalBeforeTax - baseAmount;
+            Sub_Total = subtotalBeforeTax.toFixed(2);
+        } else {
+            // Exclusive tax is added on top
+            let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
+            Sub_Total = (subtotalBeforeTax + taxAmount).toFixed(2);
+        }
+
+        updatedProducts[index].Sub_Total = parseFloat(Sub_Total);
+
+        // Calculate total amount and total quantity
+        let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
+        let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
+        setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity , Sub_Total:Sub_Total });
+    };
 
     const loadData = (i, index) => {
         formdata['PurchaseMaster'][index['rowIndex']] = { ...formdata['PurchaseMaster'][index['rowIndex']], ...searchResults[i] }
         formdata['PurchaseMaster'][index['rowIndex']] = { ...formdata['PurchaseMaster'][index['rowIndex']], ...searchResults[i], QTY: 1 };
-        var Total_Amount = formdata['PurchaseMaster'].reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
+        var Sub_Total = formdata['PurchaseMaster'].reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
         var Total_Quantity = formdata['PurchaseMaster'].reduce((sum, item) => sum + parseInt(item.QTY), 0);
-        setFormdata({ ...formdata, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity });
+        setFormdata({ ...formdata, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
         setSearchResults([]);
     }
 
@@ -177,8 +185,7 @@ export default function PurchasePage() {
         <div>
             <div className="bg-white border rounded-3xl">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
-                    cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
+                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} handlechange={handlechange}
                     handlesave={handlesave} handleupdate={handleupdate} addRow={addRow} handleSearchChange={handleSearchChange} searchResults={searchResults}

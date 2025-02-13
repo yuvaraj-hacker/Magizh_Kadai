@@ -107,32 +107,31 @@ const SwiperMin = () => {
             }}
             navigation={{ nextEl: ".swiper-button-next5", prevEl: ".swiper-button-prev5", }}
             modules={[Navigation, Autoplay]}  >
-            {trending.map((trend, index) => {
-              return (
-                <SwiperSlide key={index} >
-                  <>  <Link to={`/product-details/${trend._id}`} state={{ product: trend }}>
-                    <div key={index} target="_blank" rel="noopener noreferrer">
-                      <div className=" rounded-2xl grid lg:grid-cols-2   lg:p-4  lg:!bg-primary">
-                        <div className=' lg:flex flex-col justify-between   hidden' >
-                          <div className="text-white w-fit  lg:space-y-2 ">
-                            <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">Trending <i className="fi fi-ss-fire-flame-curved "></i></p>
-                            <h2 className="xl:text-xl text-sm font-semibold line-clamp-2  " >{trend.Product_Name}</h2>
-                            <p className=" w-fit text-sm lg:text-base">Up to {Math.round(trend.Discount)}% offer</p>
-                          </div>
-                          <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green lg:block hidden">Grab Yours <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
+            {trending.filter((trend) => trend.QTY > 0).map((trend, index) => (
+              <SwiperSlide key={index} >
+                <>  <Link to={`/product-details/${trend._id}`} state={{ product: trend }}>
+                  <div key={index} target="_blank" rel="noopener noreferrer">
+                    <div className=" rounded-2xl grid lg:grid-cols-2   lg:p-4  lg:!bg-primary">
+                      <div className=' lg:flex flex-col justify-between   hidden' >
+                        <div className="text-white w-fit  lg:space-y-2 ">
+                          <p className="hidden lg:block text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">Trending <i className="fi fi-ss-fire-flame-curved "></i></p>
+                          <h2 className="xl:text-xl text-sm font-semibold line-clamp-2  " >{trend.Product_Name}</h2>
+                          <p className=" w-fit text-sm lg:text-base">Up to {Math.round(trend.Discount)}% offer</p>
                         </div>
-                        <div className="  overflow-hidden  rounded-lg ">
-                          <p className="lg:hidden absolute top-5 left-5  bg-black rounded-full w-fit lg:text-sm text-xs   px-2 inline-flex flex-nowrap text-[#FFD700] gap-1 py-1  light">Trending <i className="fi fi-ss-fire-flame-curved flex justify-center items-center "></i></p>
-                          {/* <img src={`${prod.preview}`} alt={prod.title} className="object-cover rounded-lg  w-full lg:h-full" /> */}
-                          <img className="rounded-lg lg:h-56 w-full" key={`${index}`} src={`${apiurl()}/${trend?.Images[0]}`} alt={`Product ${index + 1}`} />
-                        </div>
+                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green lg:block hidden">Grab Yours <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
+                      </div>
+                      <div className="  overflow-hidden  rounded-lg ">
+                        <p className="lg:hidden absolute top-5 left-5  bg-black rounded-full w-fit lg:text-sm text-xs   px-2 inline-flex flex-nowrap text-[#FFD700] gap-1 py-1  light">Trending <i className="fi fi-ss-fire-flame-curved flex justify-center items-center "></i></p>
+                        {/* <img src={`${prod.preview}`} alt={prod.title} className="object-cover rounded-lg  w-full lg:h-full" /> */}
+                        <img className="rounded-lg lg:h-56 w-full" key={`${index}`} src={`${apiurl()}/${trend?.Images[0]}`} alt={`Product ${index + 1}`} />
                       </div>
                     </div>
-                  </Link>
-                  </>
-                </SwiperSlide>
-              )
-            })}
+                  </div>
+                </Link>
+                </>
+              </SwiperSlide>
+            )
+            )}
           </Swiper>
         </div>
         {/* <div ref={prevRef} className="swiper-button-prev5 hidden lg:flex opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-0 bg-white/70 absolute z-10 top-[30%] left-0 cursor-pointer h-[30%]  items-center rounded-r-full duration-300 group/bg"><img src="/assets/megaoffers/swiperbtn2.svg" alt="" className=" w-3 xsm:w-auto cursor-pointer !rotate-180  px-2 group-active/bg:-translate-x-2 duration-200" /></div>

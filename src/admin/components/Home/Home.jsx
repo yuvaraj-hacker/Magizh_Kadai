@@ -75,21 +75,13 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                     {categories.map((category) => (
-                        <div
-                            key={category._id}
-                            className="flex flex-col items-center p-4 bg-white shadow rounded-2xl hover:shadow-lg"
-                        >
-                            <img
-                                src={`${apiurl()}/${category.Images[0]}`}
-                                alt={category.Category_Name}
-                                className="object-contain w-16 h-16 mb-2"
-                            />
+                        <div key={category._id} className="flex flex-col items-center p-4 bg-white shadow rounded-2xl hover:shadow-lg"  >
+                            <img src={`${apiurl()}/${category.Images[0]}`} alt={category.Category_Name} className="object-contain w-16 h-16 mb-2" />
                             <p className="font-medium text-gray-800">{category.Category_Name}</p>
                         </div>
                     ))}
                 </div>
             </div>
-
             {/* Menu Products Section */}
             <div className="py-6">
                 <div className="flex items-center justify-between mb-6">
@@ -100,15 +92,8 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                     {products.slice(0, 6).map((product) => (
-                        <div
-                            key={product._id}
-                            className="flex flex-col items-center p-4 bg-white shadow rounded-2xl hover:shadow-lg"
-                        >
-                            <img
-                                src={`${apiurl()}/${product.Images[0]}`}
-                                alt={product.Product_Name}
-                                className="object-contain w-16 h-16 mb-2"
-                            />
+                        <div key={product._id} className="flex flex-col items-center p-4 bg-white shadow rounded-2xl hover:shadow-lg"   >
+                            <img src={`${apiurl()}/${product.Images[0]}`} alt={product.Product_Name} className="object-contain w-16 h-16 mb-2" />
                             <p className="font-medium text-gray-800">{product.Product_Name}</p>
                         </div>
                     ))}

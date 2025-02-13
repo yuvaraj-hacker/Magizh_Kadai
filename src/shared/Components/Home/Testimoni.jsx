@@ -13,7 +13,7 @@ function Testimoni({ testimonials }) {
         </div>
         <div className="relative  2xl:px-0 px-3">
           <Swiper spaceBetween={30} slidesPerView={1} autoplay loop={true} modules={[Pagination, Autoplay]}
-            breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1320: { slidesPerView: 3 }, 1670: { slidesPerView: 3 }, 1680: { slidesPerView: 5 }, }}  >
+            breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 3 }, 1320: { slidesPerView: 3 }, 1670: { slidesPerView: 3 }, 1680: { slidesPerView: 5 }, }}  >
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index}>
                 <div className="flex flex-col justify-between bg-white border shadow-md   space-y-4 my-5 text-center rounded-xl p-4 cursor-pointer">

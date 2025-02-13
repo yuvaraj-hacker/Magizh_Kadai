@@ -113,10 +113,9 @@ const SearchBar = ({ categories, onclickcategories, opencategories, setOpenCateg
   const AllCategories = () => (
     <>  <div className={` max-h-[50vh] w-64 bg-white rounded-xl border cursor-default overflow-auto`}>
       <ul className="divide-y p-2 hover:*:bg-gray-100 *:rounded-lg" >
-        {console.log(categories)}
-        {categories.map(
-          (category) =>
-            category.Category_Name !== "Everything" && (
+      {categories
+        .filter((category) => category.Category_Name !== "All Categories" && category.Category_Name !== "Everything")
+        .map((category) => (
               <li key={category._id} className="group py-1">
                 <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}>
                   <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">

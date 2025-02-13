@@ -128,17 +128,17 @@ function AllProducts({ groupedProducts }) {
                       </div>
                     </div>
                     <div className="absolute z-10 top-0 left-2 md:top-5 lg:left-5 lg:text-xs text-[10px] ">
-                      {product.QTY === 0 && (
+                      {product.QTY === 0 &&  (
                         <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                           <p className="">Out of Stock</p>
                         </div>
                       )}
-                      {product.QTY <= 5 && product.QTY > 0 && (
+                      {  product.QTY <= 5 && product.QTY > 0 &&  (
                         <div className="bg-[#f1aa59] p-1 text-white rounded-full px-1.5 mb-2">
                           <p className="">Limited Stock</p>
                         </div>
                       )}
-                      {product.QTY > 0 && product.Discount > 0 && (
+                      {  product.QTY > 0 && product.Discount > 0 &&   (
                         <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
                           <p className="">  {Math.round(product?.Discount)}% off</p>
                         </div>

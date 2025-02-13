@@ -254,7 +254,7 @@ const SwiperMin = ({ Product, title }) => {
                 320: { slidesPerView: 1, spaceBetween: 10 }, 460: { slidesPerView: 2, spaceBetween: 10 }, 768: { slidesPerView: 3, spaceBetween: 10 },
                 1024: { slidesPerView: 4, spaceBetween: 10 }, 1500: { slidesPerView: 6, spaceBetween: 20 },
               }} modules={[Navigation, Autoplay]}  >
-              {collection.map((prod, i) => (
+              {collection.filter((prod) => prod.QTY > 0).map((prod, i) => (
                 <SwiperSlide key={prod._id || i} className="">
                   <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
                     <div variants={slideVariants} className="relative group   ">

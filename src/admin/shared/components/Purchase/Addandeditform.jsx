@@ -8,7 +8,20 @@ export default function Addandeditform(props) {
     const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate, handlechangeProduct, handleSearchChange, RowIndex, searchResults, addRow,
         handledeleteField, loadData } = props;
 
-
+    const sno = (rowData, rowIndex) => {
+        return (
+            <div>
+                {rowIndex['rowIndex'] + 1}
+            </div>
+        )
+    }
+    const HSN = (rowData, rowIndex) => {
+        return (
+            <div>
+                <input type="text" name="HSN" value={rowData?.HSN} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
+            </div>
+        )
+    }
     const Product_Name = (rowData, rowIndex) => {
         return (
             <div>
@@ -25,7 +38,6 @@ export default function Addandeditform(props) {
             </div>
         )
     }
-
     const Brand_Name = (rowData, rowIndex) => {
         return (
             <div>
@@ -33,7 +45,6 @@ export default function Addandeditform(props) {
             </div>
         )
     }
-
     const QTY = (rowData, rowIndex) => {
         return (
             <div>
@@ -41,46 +52,6 @@ export default function Addandeditform(props) {
             </div>
         )
     }
-
-    const DiscAmount = (rowData, rowIndex) => {
-        return (
-            <div>
-                <input type="number" name="Disc_Amount" defaultValue={rowData?.Disc_Amount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
-            </div>
-        )
-    }
-
-    const Disc = (rowData, rowIndex) => {
-        return (
-            <div>
-                <input type="number" name="Discount" value={rowData?.Discount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
-            </div>
-        )
-    }
-    const TaxType = (rowData, rowIndex) => (
-        <select name="Tax_Type" type="text" value={rowData?.Tax_Type} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required>
-            <option value="Inclusive">Inclusive</option>
-            <option value="Exclusive">Exclusive</option>
-        </select>
-    );
-
-    const Tax_Percentage = (rowData, rowIndex) => {
-        return (
-            <div>
-                <input type="number" name="Tax_Percentage" value={rowData?.Tax_Percentage} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
-            </div>
-        )
-    }
-
-    const Subtotal = (rowData, rowIndex) => {
-        return (
-            <div>
-                <input type="number" name="Subtotal" readOnly value={formdata?.Total_Amount} className="w-full px-4 py-2   outline-none" required />
-            </div>
-        )
-    }
-
-
     const Price = (rowData, rowIndex) => {
         return (
             <div>
@@ -88,23 +59,41 @@ export default function Addandeditform(props) {
             </div>
         )
     }
-
-    const Amount = (rowData, rowIndex) => {
+    const TaxType = (rowData, rowIndex) => (
+        <select name="Tax_Type" type="text" value={rowData?.Tax_Type} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required>
+            <option value="">--Select Tax Type--</option>
+            <option value="Inclusive">Inclusive</option>
+            <option value="Exclusive">Exclusive</option>
+        </select>
+    );
+    const Disc = (rowData, rowIndex) => {
         return (
             <div>
-                <input type="number" name="Amount" value={rowData?.Amount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
+                <input type="number" name="Discount" value={rowData?.Discount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
             </div>
         )
     }
-
-    const sno = (rowData, rowIndex) => {
+    const DiscAmount = (rowData, rowIndex) => {
         return (
             <div>
-                {rowIndex['rowIndex'] + 1}
+                <input type="number" name="Disc_Amount" defaultValue={rowData?.Disc_Amount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" />
             </div>
         )
     }
-
+    const Tax_Percentage = (rowData, rowIndex) => {
+        return (
+            <div>
+                <input type="number" name="Tax_Percentage" value={rowData?.Tax_Percentage} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
+            </div>
+        )
+    }
+    const Sub_Total = (rowData) => {
+        return (
+            <div>
+                <input type="number" name="Sub_Total" readOnly value={rowData?.Sub_Total || 0} className="w-full px-4 py-2 outline-none" />
+            </div>
+        );
+    };
     const action = (rowData, rowIndex) => {
         return (
             <div className='flex'>
@@ -114,7 +103,6 @@ export default function Addandeditform(props) {
             </div>
         )
     }
-
     return (
         <Dialog header={formdata?._id ? "Purchase Update" : "Purchase Add"} visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[95vw]" maximizable>
             <form onSubmit={formdata?._id ? handleupdate : handlesave}>
@@ -161,17 +149,7 @@ export default function Addandeditform(props) {
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium dark:text-white">GST NO</label>
-                                <input type="text" name="Mobilenumber" value={formdata?.number} pattern="\d{10}" onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" />
-                                {/* <input type="number" name="Mobilenumber" id="Mobilenumber" value={formdata?.Mobilenumber} onChange={(event) => handleAutoChange(event)} autoComplete="off" className="w-full px-4 py-2 border rounded-md outline-none" />
-                                { ClientData&&ClientData.length > 0 &&
-                                    <ul className="hs-dropdown-menu transition-[opacity,margin] absolute z-[2] duration min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full">
-                                        {ClientData.map((result, index) => (
-                                            <li role='button' onClick={() => loadClient(index)} key={index} className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700" href="#">
-                                                {result['Mobilenumber'] +' - '+ result['First_Name']}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                } */}
+                                <input type="text" name="GST_Number" value={formdata?.GST_Number} onChange={handlechange} pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" placeholder="e.g., 33ABCDE1234F1Z5" title="Enter a valid 15-character GSTIN (e.g., 33ABCDE1234F1Z5)" className="w-full px-4 py-2 border rounded-md outline-none" required />
                             </div>
                         </div>
                     </div>
@@ -191,6 +169,7 @@ export default function Addandeditform(props) {
                 <div>
                     <DataTable value={formdata['PurchaseMaster']} showGridlines>
                         <Column header="S.No" body={sno} style={{ minWidth: '50px' }} />
+                        <Column header="HSN No" body={HSN} style={{ minWidth: '120px' }} />
                         <Column header="Product" body={Product_Name} style={{ minWidth: '200px' }} />
                         <Column header="Brand" body={Brand_Name} style={{ minWidth: '200px' }} />
                         <Column header="QTY" body={QTY} style={{ minWidth: '130px' }} />
@@ -199,15 +178,17 @@ export default function Addandeditform(props) {
                         <Column header="Discount (%)" body={Disc} style={{ minWidth: '100px' }} />
                         <Column header="Discount Amount" body={DiscAmount} style={{ minWidth: '100px' }} />
                         <Column header="Tax (%)" body={Tax_Percentage} style={{ minWidth: '100px' }} />
-                        <Column header="Subtotal" body={Subtotal} style={{ minWidth: '100px' }} />
+                        <Column header="Subtotal" body={Sub_Total} style={{ minWidth: '100px' }} />
                         {/* <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} /> */}
                         <Column header="Delete" body={action} style={{ minWidth: '80px' }} />
                     </DataTable>
                 </div>
                 <div className="flex justify-between mt-3">
-                    <button onClick={addRow} type='button'><i className="fi fi-rr-plus"></i> Add Row</button>
-                    <div>QTY : {formdata?.Total_Quantity}</div>
-                    <div>Total : {formdata?.Total_Amount}</div>
+                    <button onClick={addRow} type='button'>
+                        <i className="fi fi-rr-plus"></i> Add Row
+                    </button>
+                    {/* <div>QTY: {formdata?.Total_Quantity}</div> */}
+                    <div>Total: ₹{formdata?.Total_Amount}</div>
                 </div>
                 <div className="mt-2 text-center">
                     <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md" >

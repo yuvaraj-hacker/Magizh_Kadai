@@ -401,9 +401,7 @@ export default function CartPageFunctions() {
     const handleRemoveItem = async (productId) => {
         const item = cartItems.find((cartItem) => cartItem._id === productId);
         if (!item) return;
-
         setUpdatingItems((prev) => new Set([...prev, productId]));
-
         try {
             if (userdetails?.Email) {
                 await deletecartItem(item._id);

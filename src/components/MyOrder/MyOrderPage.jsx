@@ -1,5 +1,5 @@
 // MyOrderPage.jsx
-import { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import MyOrder from '../../shared/Components/MyOrderPage/MyOrder'
 import useAuth from '../../shared/services/store/useAuth';
 import { apidownloadPDF, apigetallOrder, updateOrder } from '../../shared/services/APIOrder/apiorder';
@@ -24,7 +24,15 @@ function MyOrderPage() {
   const statuses = ['All', 'Pending', 'Dispatched', 'Delivered', 'Cancelled'];
 
   const [showModal, setShowModal] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
+  const [cancelReason, setCancelReason] = React.useState('');
+  const [otherReason, setOtherReason] = useState('');
+
+  const reasons = [
+    "Ordered by mistake",
+    "Found a better price",
+    "Financial reasons",
+    "Other"
+  ];
   const number = 0;
   const dropdownRef = useRef(null);
 
@@ -210,8 +218,43 @@ function MyOrderPage() {
     setShowModal(true); // Open the modal
   };
 
+  // const handleConfirmCancel = async () => {
+  //   if (!cancelReason.trim()) {
+  //     toast.error("Please provide a reason for cancellation.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const updatedOrder = await updateOrder({
+  //       _id: selectedOrder._id,
+  //       Order_Status: "Cancelled",
+  //       Reason: cancelReason,
+  //     });
+
+  //     if (updatedOrder) {
+  //       setOrderDetails((prev) =>
+  //         prev.map((order) =>
+  //           order._id === selectedOrder._id
+  //             ? { ...order, Order_Status: "Cancelled", Reason: cancelReason }
+  //             : order
+  //         )
+  //       );
+  //       toast.success("Order cancelled successfully");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error cancelling order:", error);
+  //     toast.error("Failed to cancel order");
+  //   }
+
+  //   setShowModal(false);
+  //   setSelectedOrder(null);
+  //   setCancelReason("");
+  // };
   const handleConfirmCancel = async () => {
-    if (!cancelReason.trim()) {
+    // Get the final reason (either selected reason or other reason)
+    const finalReason = cancelReason === 'Other' ? otherReason : cancelReason;
+
+    if (!finalReason.trim()) {
       toast.error("Please provide a reason for cancellation.");
       return;
     }
@@ -220,34 +263,36 @@ function MyOrderPage() {
       const updatedOrder = await updateOrder({
         _id: selectedOrder._id,
         Order_Status: "Cancelled",
-        Reason: cancelReason,
+        Reason: finalReason,
       });
 
       if (updatedOrder) {
         setOrderDetails((prev) =>
           prev.map((order) =>
             order._id === selectedOrder._id
-              ? { ...order, Order_Status: "Cancelled", Reason: cancelReason }
+              ? { ...order, Order_Status: "Cancelled", Reason: finalReason }
               : order
           )
         );
         toast.success("Order cancelled successfully");
+
+        // Reset form and close modal
+        setShowModal(false);
+        setSelectedOrder(null);
+        setCancelReason('');
+        setOtherReason('');
       }
     } catch (error) {
       console.error("Error cancelling order:", error);
       toast.error("Failed to cancel order");
     }
-
-    setShowModal(false);
-    setSelectedOrder(null);
-    setCancelReason("");
   };
 
 
 
   return (
     <>
-      <MyOrder isLastOpen={isLastOpen} handleButtonClick={handleButtonClick} showModal={showModal} ViewProductData={ViewProductData} setShowModal={setShowModal} handleConfirmCancel={handleConfirmCancel} prepareOrderCancellation={prepareOrderCancellation} setCancelReason={setCancelReason} toggleDropdown={toggleDropdown} activeStatus={activeStatus} number={number} statuses={statuses}
+      <MyOrder isLastOpen={isLastOpen} handleButtonClick={handleButtonClick} setOtherReason={setOtherReason} otherReason={otherReason} cancelReason={cancelReason}     reasons={reasons} setSelectedOrder={setSelectedOrder} showModal={showModal} ViewProductData={ViewProductData} setShowModal={setShowModal} handleConfirmCancel={handleConfirmCancel} prepareOrderCancellation={prepareOrderCancellation} setCancelReason={setCancelReason} toggleDropdown={toggleDropdown} activeStatus={activeStatus} number={number} statuses={statuses}
         buttonRefs={buttonRefs} dropdownRef={dropdownRef} orderDetails={orderDetails} downloadPDF={downloadPDF} downloadingPDF={downloadingPDF} viewProducts={viewProducts}
         viewReorderProducts={viewReorderProducts} />
       <OrderItems ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} submitReview={submitReview} handleImageUpload={handleImageUpload}
