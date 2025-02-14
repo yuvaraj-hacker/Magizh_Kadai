@@ -54,7 +54,7 @@ const Items = (prpos) => {
                         <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
                       </button>
                     )}
-                    <button onClick={(e) => { e.preventDefault(); handleAddToWishlist(prod); }} className="  group">
+                    {/* <button onClick={(e) => { e.preventDefault(); handleAddToWishlist(prod); }} className="  group">
                       <div className="relative flex items-center justify-center w-10 h-10">
                         {wishlistData?.map(resp => resp.productId?._id).includes(prod._id) ? (
                           <div className="absolute inset-0 duration-300 bg-red-100 rounded-full opacity-50 animate-ping"></div>
@@ -62,7 +62,7 @@ const Items = (prpos) => {
                         <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out border
                                 ${wishlistData?.map(resp => resp.productId?._id).includes(prod._id)
                             ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-300/50 '
-                            : 'bg-gray-100 hover:bg-white shadow-xl shadow-black/10'}
+                             : 'bg-gray-100 hover:bg-white shadow-xl shadow-black/10'}
                                 `}>
                           {wishlistData?.map(resp => resp.productId?._id).includes(prod._id) ? (
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current animate-heart-pop">
@@ -75,7 +75,7 @@ const Items = (prpos) => {
                           )}
                         </div>
                       </div>
-                    </button>
+                    </button> */}
                   </div>
                   <div className="absolute z-10 top-4 left-2 lg:top-5 lg:left-5 text-[10px] lg:text-xs ">
                     {prod.QTY === 0 && (

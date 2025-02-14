@@ -266,7 +266,7 @@ const SwiperMin = ({ Product, title }) => {
                               <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
                             </button>
                           )}
-                          <button onClick={(e) => { e.preventDefault(); handleAddToWishlist(prod); }} className="  group">
+                          {/* <button onClick={(e) => { e.preventDefault(); handleAddToWishlist(prod); }} className="  group">
                             <div className="relative flex items-center justify-center w-10 h-10">
                               {wishlistData?.map(resp => resp.productId?._id).includes(prod._id) ? (
                                 <div className="absolute inset-0 duration-300 bg-red-100 rounded-full opacity-50 animate-ping"></div>
@@ -288,7 +288,7 @@ const SwiperMin = ({ Product, title }) => {
                                 )}
                               </div>
                             </div>
-                          </button>
+                          </button> */}
                         </div>
                         <div className="absolute z-10 top-4 left-2 md:top-5 lg:left-5 lg:text-xs text-[10px] ">
                           {prod.QTY === 0 && (

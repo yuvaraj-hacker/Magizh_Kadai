@@ -195,12 +195,12 @@ export default function Header(props) {
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i>
                     <Link to='/'>
-                      <i className="fi fi-ss-house-chimney"></i>
+                      <i className="fi fi-ss-house-chimney" title='Home'></i>
                     </Link>
                     <Link to='/products'>
-                      <i className="fi fi-rs-shop"></i>
+                      <i className="fi fi-rs-shop" title='Shop'></i>
                     </Link>
-                    <div onClick={handleWishlistClick} className="relative cursor-pointer">
+                    {/* <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
                         {isWishlistAnimating && (
                           <div className="absolute inset-0 duration-300 bg-red-100 rounded-full opacity-50 animate-ping"></div>
@@ -208,23 +208,19 @@ export default function Header(props) {
                         <div className={`relative flex items-center justify-center transition-all duration-300 ease-in-out
                           ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}
                         >
-                          <i className={`fi fi-bs-heart ${isWishlistAnimating ? 'text-red-500' : ''
+                          <i title='WIshlist' className={`fi fi-bs-heart ${isWishlistAnimating ? 'text-red-500' : ''
                             }`}></i>
-                          {/* <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
-                          { wishlistData && wishlistData?.length > 0 ? wishlistData.length : '0' }
-                        </span> */}
-                        </div>
 
+                        </div>
                       </div>
-                    </div>
+                    </div> */}
                     <Link to="/cart">
                       <div className='relative'>
-                        <i className="fi fi-sr-shopping-cart"></i>
+                        <i className="fi fi-sr-shopping-cart" title='Cart'></i>
                         <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
                           {cartItems && cartItems?.length > 0 ? cartItems?.length : cartCount}
                         </span>
                       </div>
-
                     </Link>
                     <button onClick={toggleDarkMode} className="p-2  rounded-full hover:bg-primary-dark dark:hover:bg-gray-700" aria-label="Toggle dark mode" >
                       {isDarkMode ? (
@@ -234,7 +230,7 @@ export default function Header(props) {
                       )}
                     </button>
                     <div className="relative" ref={userDropdownRef}>
-                      <Link onClick={openform}>
+                      {/* <Link onClick={openform}>
                         {userdetails ? (
                           <div className="inline-flex items-center justify-center w-[38px] h-[38px] rounded-full bg-secondary ring-2 ring-white">
                             <span className="text-lg font-bold text-white">
@@ -247,7 +243,7 @@ export default function Header(props) {
                           </div>
                         )}
 
-                      </Link>
+                      </Link> */}
 
                       {showUserDropdown && isLoggedIn && (
                         <div className="absolute right-0 z-50 mt-2 bg-white rounded-lg shadow-lg dark:bg-gray-600 w-72">

@@ -143,18 +143,19 @@ function MyOrder({ dropdownRef, toggleDropdown, isLastOpen, activeStatus, orderD
                               <p className="text-sm text-gray-600 mb-2">Please provide a reason for cancellation:</p>
                               <div className="space-y-4">
                                 <div className="mt-3 space-y-2">
-                                  {reasons.map((reason) => (
-                                    <label key={reason} className="flex items-center space-x-2 cursor-pointer">
-                                      <input  type="radio"  name="cancelReason" value={reason} checked={cancelReason === reason}  onChange={(e) => setCancelReason(e.target.value)}
-                                        className={cancelReason === reason ? 'accent-red-500' : ''}
-                                      />
-                                      <span>{reason}</span>
-                                    </label>
-                                  ))}
+                                  {reasons.map((reason) => {
+                                    const isCheck = cancelReason === reason;
+                                    return (
+                                      <label key={reason} className="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="cancelReason" value={reason} checked={isCheck} onChange={(e) => setCancelReason(e.target.value)} className={isCheck ? 'accent-red-500' : ''} />
+                                        <span>{reason}</span>
+                                      </label>
+                                    );
+                                  })}
                                 </div>
-                                {cancelReason === 'Other' && (
-                                  <textarea className="w-full border rounded p-2 mb-4" rows="3" placeholder="Enter reason..." value={otherReason} onChange={(e) => setOtherReason(e.target.value)} />
-                                )}
+                                <div className={`overflow-hidden transition-all duration-500 ${cancelReason === 'Other' ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}   >
+                                  <textarea className="w-full border rounded p-2 mb-4 mt-2" rows="3" placeholder="Enter reason..." value={otherReason} onChange={(e) => setOtherReason(e.target.value)} />
+                                </div>
                                 <div className="flex justify-end space-x-2">
                                   <button onClick={() => { setShowModal(false); setSelectedOrder(null); setCancelReason(''); setOtherReason(''); }} className="px-4 py-2 border rounded hover:bg-gray-100"  >
                                     Cancel

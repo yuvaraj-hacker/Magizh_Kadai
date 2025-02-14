@@ -45,7 +45,7 @@ export default function CartPage(props) {
                 <span className="text-sm lg:text-lg font-semibold">Shop Now</span>
                 <span className="transition-transform group-hover:translate-x-1">
                   →
-                </span>
+                  </span>
               </button>
             </Link>
           </div> */}
@@ -120,8 +120,7 @@ export default function CartPage(props) {
                           item.productId?.Category !==
                           "Fresh Flowers & Leaves" &&
                           item.Category !== "Fresh Flowers & Leaves"
-                      )
-                      .map((item) => (
+                      ).map((item) => (
                         <div key={item._id} className=" ">
                           <div className="bg-white p-2  rounded-md ">
                             <div className="flex justify-end">
@@ -328,17 +327,20 @@ export default function CartPage(props) {
                                           !updatingItems.has(item._id) &&
                                           handleQuantityChange(item._id, "increase")
                                         }
+                                        // disabled={
+                                        //   (updatingItems.has(item._id) ||
+                                        //     !updatingItems.has(item._id)) &&
+                                        //   (item?.Quantity >= item.productId?.QTY ||
+                                        //     item?.Quantity >= item?.QTY)
+                                        // }
                                         disabled={
-                                          (updatingItems.has(item._id) ||
-                                            !updatingItems.has(item._id)) &&
-                                          (item?.Quantity >= item.productId?.QTY ||
-                                            item?.Quantity >= item?.QTY)
+                                          updatingItems.has(item._id) ||
+                                          (item?.Quantity >= (item?.productId?.QTY ?? item?.QTY ?? Infinity))
                                         }
                                         className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 ${updatingItems.has(item._id)
                                           ? "opacity-50 cursor-not-allowed"
                                           : ""
-                                          }`}
-                                      >
+                                          }`}  >
                                         <Plus size={16} className="dark:text-white dark:hover:text-black" />
                                       </button>
                                     </div>
@@ -381,8 +383,9 @@ export default function CartPage(props) {
                     <div className="font-bold md:text-base text-sm">
                       Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    <div className="bg-primary p-2 cursor-pointer px-4  flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToCheckout}>
-                      <span className="md:block hidden">Proceed To</span> <span> Checkout</span>
+                    <div className="bg-[#6EBC40]   cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToCheckout}>
+                      <img className="w-14" src="/assets/herosection/10464266.png" alt="" />
+                      <span className="md:block hidden md:text-lg">Send a</span> <span className="pr-4 md:text-lg">  Quote</span>
                     </div>
                   </div>
                 </div>

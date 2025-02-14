@@ -340,21 +340,21 @@ const RegisterContinueGoogle = ({ visible, setVisible, checkoutlogin }) => {
               <Tab key="register" title={<span className="dark:text-white">Register</span>} >
                 {activeTab === "register" && (
                   <form onSubmit={handleManualSubmit} className=" ">
-                    <Tabs selectedKey={selected} onSelectionChange={setSelected} variant="underlined" aria-label="Registration options"
+                    <div selectedKey={selected} onSelectionChange={setSelected} variant="underlined" aria-label="Registration options"
                       classNames={{ tabList: "gap-6", cursor: "w-full bg-secondary", tab: "flex-1", tabContent: "group-data-[selected=true]:text-primary" }}  >
-                      <Tab key="Email" title={<span className="dark:text-white">Email</span>} className="flex flex-col gap-4">
+                        <div key="Email" title={<span className="dark:text-white"> </span>} className="flex flex-col gap-4">
                         {selected === "Email" && (
                           <Input type="email" name="Email" label="Email Address" placeholder="Enter your email" value={formData.Email} onChange={handleInputChange} required
                             isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "border-2 focus-within:border-green-500 dark:border-white dark:text-white" }} />
                         )}
-                      </Tab>
+                      </div>
                       {/* <Tab key="mobile" title={<span className="dark:text-white">Mobile</span>} className="flex flex-col gap-4">
                         {selected === "mobile" && (
                           <Input type="tel" name="Mobilenumber" label="Mobile Number" placeholder="Enter your mobile number" value={formData.Mobilenumber}
                             onChange={handleInputChange} required isDisabled={loading} variant="bordered" classNames={{ input: "text-base", inputWrapper: "dark:border-white border-2 focus-within:border-green-500 dark:text-white" }} />
                         )}
                       </Tab> */}
-                    </Tabs>
+                    </div>
 
                     <Button type="submit" className="w-full mt-6 text-white bg-primary" size="lg" isLoading={loading} >
                       {loading ? 'Sending OTP...' : 'Continue'}

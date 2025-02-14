@@ -454,33 +454,61 @@ export default function CartPageFunctions() {
         );
     }
 
+    // const goToCheckout = () => {
+    //     if (!deliveryType) {
+    //         toast.error("Please select a delivery method");
+    //         return;
+    //     }
+
+    //     if (deliveryType === 'delivery' && !selectedDeliveryDate) {
+    //         toast.error("Please select a delivery date");
+    //         return;
+    //     }
+
+    //     if (deliveryType === 'pickup' && !selectedPickupDateTime) {
+    //         toast.error("Please select a pickup time");
+    //         return;
+    //     }
+    //     const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+    //     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    //     localStorage.setItem("subtotal", subtotal);
+    //     localStorage.setItem("finalTotal", finalTotal);
+    //     localStorage.setItem("totalItems", totalItems);
+
+    //     if (isLoggedIn() || localStorage.getItem('loginType') === 'Guest') {
+    //         navigate("/checkout");
+    //     } else {
+    //     setCheckoutlogin(true)
+    //     setShowLoginModal(true);
+    //     }
+    // };
+
     const goToCheckout = () => {
-        // if (!deliveryType) {
-        //     toast.error("Please select a delivery method");
-        //     return;
-        // }
-
-        // if (deliveryType === 'delivery' && !selectedDeliveryDate) {
-        //     toast.error("Please select a delivery date");
-        //     return;
-        // }
-
-        // if (deliveryType === 'pickup' && !selectedPickupDateTime) {
-        //     toast.error("Please select a pickup time");
-        //     return;
-        // }
+        // Save cart details in localStorage
         const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+        const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
+        const finalTotal = subtotal - totalDiscount;
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
         localStorage.setItem("subtotal", subtotal);
         localStorage.setItem("finalTotal", finalTotal);
         localStorage.setItem("totalItems", totalItems);
-
-        if (isLoggedIn() || localStorage.getItem('loginType') === 'Guest') {
-            navigate("/checkout");
-        } else {
-            setCheckoutlogin(true)
-            setShowLoginModal(true);
-        }
+        let message = "New Quote Request:\n\n";
+        // Generate message for each product
+        cartItems.forEach((product, index) => {
+            const productTotal = product.Discount > 0
+                ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * product.Quantity).toFixed(2)
+                : (product.Sale_Price * product.Quantity).toFixed(2);
+            message += `${index + 1}.${product.Product_Name}\n`;
+            message += `Quantity: ${product.Quantity}\n`;
+            message += `Price: ₹${productTotal}\n`;
+            message += `Link: http://192.168.29.175:5173/product-details/${product._id}\n\n`;
+        });
+        message += `Order Summary:\n`;
+        message += `Total Items: ${totalItems}\n`;
+        message += `Final Total: ₹${finalTotal.toFixed(2)}\n`;
+        // Open WhatsApp with the encoded message
+        const whatsappUrl = `https://wa.me/+918754720718?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
     };
 
     const handleDeliveryDateClick = () => {
