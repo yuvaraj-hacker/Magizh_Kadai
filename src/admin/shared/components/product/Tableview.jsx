@@ -262,7 +262,7 @@ const Tableview = (props) => {
     { field: '', header: 'Base Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
     { field: 'Status', header: 'Status', filter: true, body: statusTemplate }
-  ];  
+  ];
 
   const FilterPanel = () => (
     <div className={`fixed inset-y-0 right-0 w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${showFilterPanel ? 'translate-x-0' : 'translate-x-full'}`}>
