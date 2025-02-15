@@ -240,29 +240,57 @@ export default function Addandeditform(props) {
                             <option>Yes</option>
                             <option>No</option>
                         </select>
-                    </div> */}
-                    {/* <div className="mb-2">
+                    </div>
+                    <div className="mb-2">
                         <div className="mb-2">
                             <label>Tax Type</label>
                         </div>
-                        <input type="text" name="Tax_Type" value={formdata?.Tax_Type} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary"  />
-                    </div>  */}
-                    {/* <div className="mb-2">
+                        <select name="Tax_Type" value={formdata?.Tax_Type} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary"  >
+                            <option selected disabled>---Select ---</option>
+                            <option>Inclusive</option>
+                            <option>Exclusive</option>
+                        </select>
+                    </div>
+                    <div className="mb-2">
                         <div className="mb-2">
                             <label>Tax Percentage</label>
                         </div>
                         <input type="text" name="Tax_Percentage" value={formdata?.Tax_Percentage} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
                     </div> */}
                     <div className="mb-2">
+                        <div className="mb-2">
+                            <label>Tax</label>
+                        </div>
+                        <select name="Tax" value={formdata?.Tax || ""} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary"  >
+                            <option value="" disabled>---Select---</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    {formdata?.Tax === "Yes" && (
+                        <>
+                            <div className="mb-2">
+                                <div className="mb-2">
+                                    <label>Tax Type</label>
+                                </div>
+                                <select name="Tax_Type" value={formdata?.Tax_Type || ""} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary"  >
+                                    <option value="" disabled>---Select---</option>
+                                    <option value="Inclusive">Inclusive</option>
+                                    <option value="Exclusive">Exclusive</option>
+                                </select>
+                            </div>
+                            <div className="mb-2">
+                                <div className="mb-2">
+                                    <label>Tax Percentage</label>
+                                </div>
+                                <input type="text" name="Tax_Percentage" value={formdata?.Tax_Percentage || ""} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
+                            </div>
+                        </>
+                    )}
+                    <div className="mb-2">
                         <div className="mb-2 ">
                             <label>Tags</label>
-                            <MultiSelect
-                                value={formdata?.Tags || []}
-                                options={tagsOptions}
-                                onChange={(e) => handlechange({ target: { name: 'Tags', value: e.value } })}
-                                placeholder="Select Tags"
-                                display="chip"
-                                className="w-full"
+                            <MultiSelect value={formdata?.Tags || []} options={tagsOptions} onChange={(e) => handlechange({ target: { name: 'Tags', value: e.value } })} placeholder="Select Tags" display="chip" className="w-full"
                             />
                         </div>
                     </div>

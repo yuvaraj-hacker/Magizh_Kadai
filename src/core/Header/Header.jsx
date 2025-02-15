@@ -230,7 +230,7 @@ export default function Header(props) {
                       )}
                     </button>
                     <div className="relative" ref={userDropdownRef}>
-                      {/* <Link onClick={openform}>
+                      <Link onClick={openform}>
                         {userdetails ? (
                           <div className="inline-flex items-center justify-center w-[38px] h-[38px] rounded-full bg-secondary ring-2 ring-white">
                             <span className="text-lg font-bold text-white">
@@ -242,8 +242,7 @@ export default function Header(props) {
                             <i className="text-xl text-gray-500 fi fi-rr-user"></i>
                           </div>
                         )}
-
-                      </Link> */}
+                      </Link>
 
                       {showUserDropdown && isLoggedIn && (
                         <div className="absolute right-0 z-50 mt-2 bg-white rounded-lg shadow-lg dark:bg-gray-600 w-72">

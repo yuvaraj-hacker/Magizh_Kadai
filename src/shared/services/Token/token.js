@@ -11,7 +11,7 @@ const settoken=(token)=>{
 }
 const getuserdetails = () => {
     var token = gettoken();
-   
+
     if (gettoken() != null) {
         try{
           var userData = JSON.parse(window.atob(token.split(".")[1]));

@@ -13,8 +13,6 @@ import useCart from "../../services/store/useCart";
 import { savecartitems, updatecartItem } from "../../services/cart/cart";
 import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../services/wishlist/wishlist"; // deleteWishlistItem
 import RegisterContinueGoogle from "../Register-ContiGoogle/RegisterContiGoogle";
-import { containerVariants, slideVariants } from "../../../framerMotion";
-import { motion } from "framer-motion";
 import { getallNewCollection } from "../../services/apiproducts/apiproduct";
 
 const LoadingSkeleton = () => {
@@ -257,7 +255,7 @@ const SwiperMin = ({ Product, title }) => {
               {collection.filter((prod) => prod.QTY > 0).map((prod, i) => (
                 <SwiperSlide key={prod._id || i} className="">
                   <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
-                    <div variants={slideVariants} className="relative group   ">
+                    <div  className="relative group   ">
                       <div className="w-full   bg-white flex justify-between flex-col rounded-2xl relative mb-5 border shadow-md hover:shadow-lg duration-300 ">
                         {/* wishlist & cart */}
                         <div className="absolute top-2 right-2 lg:absolute z-30 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full lg:group-hover:-translate-y-1/2 duration-300">

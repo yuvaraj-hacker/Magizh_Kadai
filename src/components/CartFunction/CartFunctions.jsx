@@ -454,37 +454,59 @@ export default function CartPageFunctions() {
         );
     }
 
+    const goToCheckout = () => {
+        // if (!deliveryType) {
+        //     toast.error("Please select a delivery method");
+        //     return;
+        // }
+        // if (deliveryType === 'delivery' && !selectedDeliveryDate) {
+        //     toast.error("Please select a delivery date");
+        //     return;
+        // }
+        // if (deliveryType === 'pickup' && !selectedPickupDateTime) {
+        //     toast.error("Please select a pickup time");
+        //     return;
+        // }
+        const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        localStorage.setItem("subtotal", subtotal);
+        localStorage.setItem("finalTotal", finalTotal);
+        localStorage.setItem("totalItems", totalItems);
+        if (isLoggedIn() || localStorage.getItem('loginType') === 'Guest') {
+            navigate("/checkout");
+        } else {
+        setCheckoutlogin(true)
+        setShowLoginModal(true);
+        }
+    };
+
+    // after login
     // const goToCheckout = () => {
-    //     if (!deliveryType) {
-    //         toast.error("Please select a delivery method");
-    //         return;
-    //     }
-
-    //     if (deliveryType === 'delivery' && !selectedDeliveryDate) {
-    //         toast.error("Please select a delivery date");
-    //         return;
-    //     }
-
-    //     if (deliveryType === 'pickup' && !selectedPickupDateTime) {
-    //         toast.error("Please select a pickup time");
-    //         return;
-    //     }
+    //     console.log("Cart Items:", cartItems);
     //     const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+    //     const subtotal = cartItems.reduce((total, item) => total + item.productId.Sale_Price * item.Quantity, 0);
+    //     const finalTotal = subtotal - totalDiscount;
     //     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     //     localStorage.setItem("subtotal", subtotal);
     //     localStorage.setItem("finalTotal", finalTotal);
     //     localStorage.setItem("totalItems", totalItems);
-
-    //     if (isLoggedIn() || localStorage.getItem('loginType') === 'Guest') {
-    //         navigate("/checkout");
-    //     } else {
-    //     setCheckoutlogin(true)
-    //     setShowLoginModal(true);
-    //     }
+    //     let message = "New Quote Request:\n\n";
+    //     cartItems.forEach((product, index) => {
+    //         const productTotal = product.productId.Discount > 0 ? ((product.productId.Sale_Price - (product.productId.Sale_Price * product.productId.Discount) / 100) * product.Quantity).toFixed(2) : (product.productId.Sale_Price * product.Quantity).toFixed(2);
+    //         message += `${index + 1}.${product.productId.Product_Name}\n`;
+    //         message += `Quantity: ${product.Quantity}\n`;
+    //         message += `Price: ₹${productTotal}\n`;
+    //         message += `Link: http://192.168.29.175:5173/product-details/${product._id}\n\n`;
+    //     });
+    //     message += `Order Summary:\n`;
+    //     message += `Total Items: ${totalItems}\n`;
+    //     message += `Final Total: ₹${finalTotal.toFixed(2)}\n`;
+    //     const whatsappUrl = `https://wa.me/+918754720718?text=${encodeURIComponent(message)}`;
+    //     window.open(whatsappUrl, "_blank");
     // };
 
-    const goToCheckout = () => {
-        // Save cart details in localStorage
+    // before login
+    const goToQuote = () => {
         const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
         const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
         const finalTotal = subtotal - totalDiscount;
@@ -493,11 +515,8 @@ export default function CartPageFunctions() {
         localStorage.setItem("finalTotal", finalTotal);
         localStorage.setItem("totalItems", totalItems);
         let message = "New Quote Request:\n\n";
-        // Generate message for each product
         cartItems.forEach((product, index) => {
-            const productTotal = product.Discount > 0
-                ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * product.Quantity).toFixed(2)
-                : (product.Sale_Price * product.Quantity).toFixed(2);
+            const productTotal = product.Discount > 0 ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * product.Quantity).toFixed(2) : (product.Sale_Price * product.Quantity).toFixed(2);
             message += `${index + 1}.${product.Product_Name}\n`;
             message += `Quantity: ${product.Quantity}\n`;
             message += `Price: ₹${productTotal}\n`;
@@ -506,7 +525,6 @@ export default function CartPageFunctions() {
         message += `Order Summary:\n`;
         message += `Total Items: ${totalItems}\n`;
         message += `Final Total: ₹${finalTotal.toFixed(2)}\n`;
-        // Open WhatsApp with the encoded message
         const whatsappUrl = `https://wa.me/+918754720718?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
@@ -558,10 +576,10 @@ export default function CartPageFunctions() {
 
     return (
         <>
-            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
+            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
                 handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
                 updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
-                goToCheckout={goToCheckout} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
+                goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
                 isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
                 handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
         </>

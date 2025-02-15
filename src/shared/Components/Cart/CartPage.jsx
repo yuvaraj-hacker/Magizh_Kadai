@@ -6,7 +6,7 @@ import DeliveryDate from "../Header/DeliveryDate";
 import PickupTimeModal from "../Header/PickupTimeModal";
 
 export default function CartPage(props) {
-  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems,
+  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote,
     handleQuantityChange, handleRemoveItem, subtotal, totalDiscount, goToCheckout, finalTotal, timevisible, setTimevisible, handlePickupTimeChange, isPickupTimeSelected,
     datevisible, setDatevisible, thisWeekDates, nextWeekDates, handleDateClick, isSelected, showLoginModal, setShowLoginModal, checkoutlogin,
   } = props;
@@ -114,127 +114,121 @@ export default function CartPage(props) {
                     {/*   </div>
                    </div> */}
 
-                    {cartItems
-                      .filter(
-                        (item) =>
-                          item.productId?.Category !==
-                          "Fresh Flowers & Leaves" &&
-                          item.Category !== "Fresh Flowers & Leaves"
-                      ).map((item) => (
-                        <div key={item._id} className=" ">
-                          <div className="bg-white p-2  rounded-md ">
-                            <div className="flex justify-end">
-                              {/* <button className="flex items-center gap-2 text-gray-500">  <i className="flex items-center fi fi-rs-bookmark"></i> <span>
+                    {cartItems.filter((item) => item.productId?.Category !== "Fresh Flowers & Leaves" && item.Category !== "Fresh Flowers & Leaves").map((item) => (
+                      <div key={item._id} className=" ">
+                        <div className="bg-white p-2  rounded-md ">
+                          <div className="flex justify-end">
+                            {/* <button className="flex items-center gap-2 text-gray-500">  <i className="flex items-center fi fi-rs-bookmark"></i> <span>
                                 </span></button> */}
-                              <button className={`  text-third   flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
-                                disabled={updatingItems.has(item._id)}  >
-                                <i className="fi fi-sr-trash text-2xl"></i>{" "}
-                                {/* <span className="hidden md:block dark:text-red-400"> Remove </span> */}
-                              </button>
-                            </div>
-                            <div className=" grid 2xl:grid-cols-4 grid-cols-1 gap-4">
-                              <div className="flex gap-3 col-span-3 flex-wrap md:flex-nowrap">
-                                <div className=" min-w-28">
-                                  <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`} alt={item.productId?.Product_Name || item?.Product_Name} className="object-cover w-32 cursor-pointer h-28 rounded-xl" onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)} />
-                                </div>
-                                <div className="space-y-2">
-                                  <h3 className="text-sm font-medium md:text-lg dark:text-white line-clamp-1">
-                                    {item.productId?.Product_Name || item.Product_Name}
-                                  </h3>
-                                  <div className="flex items-center gap-3">
-                                    {item.productId?.Discount > 0 ||
-                                      item.Discount > 0 ? (
-                                      <>
-                                        <h3 className="text-sm font-semibold text-primary md:text-lg dark:text-white">
-                                          ₹
-                                          {(
-                                            item.productId?.Sale_Price *
-                                            (1 - item.productId?.Discount / 100) || item.Sale_Price *
-                                            (1 - item.Discount / 100)
-                                          ).toFixed(2)}
-                                        </h3>
-                                        <span className="text-xs   text-third line-through dark:text-white"> ₹
-                                          {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
-                                        </span>
-                                        <span className="text-xs font-semibold text-white bg-secondary rounded-3xl px-2 py-1 dark:text-white">
-                                          {(item.productId?.Discount || item.Discount) && (
-                                            <>
-                                              {Math.round(item.productId?.Discount || item.Discount)}% off
-                                            </>
-                                          )}
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
+                            <button className={`  text-third   flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
+                              disabled={updatingItems.has(item._id)}  >
+                              <i className="fi fi-sr-trash text-2xl"></i>{" "}
+                              {/* <span className="hidden md:block dark:text-red-400"> Remove </span> */}
+                            </button>
+                          </div>
+                          <div className=" grid 2xl:grid-cols-4 grid-cols-1 gap-4">
+                            <div className="flex gap-3 col-span-3 flex-wrap md:flex-nowrap">
+                              <div className=" min-w-28">
+                                <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`} alt={item.productId?.Product_Name || item?.Product_Name} className="object-cover w-32 cursor-pointer h-28 rounded-xl" onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)} />
+                              </div>
+                              <div className="space-y-2">
+                                <h3 className="text-sm font-medium md:text-lg dark:text-white line-clamp-1">
+                                  {item.productId?.Product_Name || item.Product_Name}
+                                </h3>
+                                <div className="flex items-center gap-3">
+                                  {item.productId?.Discount > 0 ||
+                                    item.Discount > 0 ? (
+                                    <>
+                                      <h3 className="text-sm font-semibold text-primary md:text-lg dark:text-white">
                                         ₹
-                                        {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                        {(
+                                          item.productId?.Sale_Price *
+                                          (1 - item.productId?.Discount / 100) || item.Sale_Price *
+                                          (1 - item.Discount / 100)
+                                        ).toFixed(2)}
                                       </h3>
-                                    )}
-                                  </div>
+                                      <span className="text-xs   text-third line-through dark:text-white"> ₹
+                                        {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                      </span>
+                                      <span className="text-xs font-semibold text-white bg-secondary rounded-3xl px-2 py-1 dark:text-white">
+                                        {(item.productId?.Discount || item.Discount) && (
+                                          <>
+                                            {Math.round(item.productId?.Discount || item.Discount)}% off
+                                          </>
+                                        )}
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
+                                      ₹
+                                      {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                    </h3>
+                                  )}
                                 </div>
                               </div>
-                              <div className="flex items-center gap-10 col-span-1">
-                                <div className="flex items-center gap-3 border rounded-lg shadow-sm">
-                                  <button
-                                    className={`text-gray-500 hover:text-gray-700 p-2   hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                                    onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")} disabled={updatingItems.has(item._id)}  >
-                                    {item.Quantity == 1 ? (
-                                      <i className="fi fi-sr-trash  flex items-center text-third "></i>
-                                    ) : (
-                                      <Minus size={16} className="dark:text-white dark:hover:text-black" />
-                                    )}
-                                  </button>
-                                  <span className="w-8 text-center">
-                                    {updatingItems.has(item._id)
-                                      ? "..."
-                                      : item.Quantity}
-                                  </span>
-                                  <button
-                                    onClick={() =>
-                                      !updatingItems.has(item._id) &&
-                                      handleQuantityChange(item._id, "increase")
-                                    }
-                                    disabled={
-                                      (updatingItems.has(item._id) ||
-                                        !updatingItems.has(item._id)) &&
-                                      (item?.Quantity >= item.productId?.QTY ||
-                                        item?.Quantity >= item?.QTY)
-                                    }
-                                    className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
-                                      ? "opacity-50 cursor-not-allowed"
-                                      : ""
-                                      }`}
-                                  >
-                                    <Plus size={16} className="dark:text-white dark:hover:text-black" />
-                                  </button>
-                                </div>
-                                <div className="w-32 text-sm font-medium text-center md:text-lg">
-                                  ₹
-                                  {item.productId?.Discount || item.Discount > 0
-                                    ? // Discounted price calculation
-                                    (
-                                      (item.productId?.Sale_Price
-                                        ? item.productId.Sale_Price -
-                                        (item.productId.Sale_Price *
-                                          item.productId.Discount) /
-                                        100
-                                        : item.Sale_Price -
-                                        (item.Sale_Price * item.Discount) /
-                                        100) * (item.Quantity || 0)
-                                    ).toFixed(2)
-                                    : // Regular price calculation
-                                    (
-                                      (item.productId?.Sale_Price ||
-                                        item.Sale_Price ||
-                                        0) * (item.Quantity || 0)
-                                    ).toFixed(2)}
-                                </div>
+                            </div>
+                            <div className="flex items-center gap-10 col-span-1">
+                              <div className="flex items-center gap-3 border rounded-lg shadow-sm">
+                                <button
+                                  className={`text-gray-500 hover:text-gray-700 p-2   hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                                  onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")} disabled={updatingItems.has(item._id)}  >
+                                  {item.Quantity == 1 ? (
+                                    <i className="fi fi-sr-trash  flex items-center text-third "></i>
+                                  ) : (
+                                    <Minus size={16} className="dark:text-white dark:hover:text-black" />
+                                  )}
+                                </button>
+                                <span className="w-8 text-center">
+                                  {updatingItems.has(item._id)
+                                    ? "..."
+                                    : item.Quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    !updatingItems.has(item._id) &&
+                                    handleQuantityChange(item._id, "increase")
+                                  }
+                                  disabled={
+                                    (updatingItems.has(item._id) ||
+                                      !updatingItems.has(item._id)) &&
+                                    (item?.Quantity >= item.productId?.QTY ||
+                                      item?.Quantity >= item?.QTY)
+                                  }
+                                  className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                                    }`}
+                                >
+                                  <Plus size={16} className="dark:text-white dark:hover:text-black" />
+                                </button>
+                              </div>
+                              <div className="w-32 text-sm font-medium text-center md:text-lg">
+                                ₹
+                                {item.productId?.Discount || item.Discount > 0
+                                  ? // Discounted price calculation
+                                  (
+                                    (item.productId?.Sale_Price
+                                      ? item.productId.Sale_Price -
+                                      (item.productId.Sale_Price *
+                                        item.productId.Discount) /
+                                      100
+                                      : item.Sale_Price -
+                                      (item.Sale_Price * item.Discount) /
+                                      100) * (item.Quantity || 0)
+                                  ).toFixed(2)
+                                  : // Regular price calculation
+                                  (
+                                    (item.productId?.Sale_Price ||
+                                      item.Sale_Price ||
+                                      0) * (item.Quantity || 0)
+                                  ).toFixed(2)}
                               </div>
                             </div>
                           </div>
-
                         </div>
-                      ))}
+
+                      </div>
+                    ))}
                     {/* Flower Products Section */}
                     {cartItems.some(
                       (item) =>
@@ -322,11 +316,7 @@ export default function CartPage(props) {
                                       <span className="w-8 text-center">
                                         {updatingItems.has(item._id) ? "..." : item.Quantity}
                                       </span>
-                                      <button
-                                        onClick={() =>
-                                          !updatingItems.has(item._id) &&
-                                          handleQuantityChange(item._id, "increase")
-                                        }
+                                      <button onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "increase")}
                                         // disabled={
                                         //   (updatingItems.has(item._id) ||
                                         //     !updatingItems.has(item._id)) &&
@@ -383,9 +373,12 @@ export default function CartPage(props) {
                     <div className="font-bold md:text-base text-sm">
                       Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    <div className="bg-[#6EBC40]   cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToCheckout}>
-                      <img className="w-14" src="/assets/herosection/10464266.png" alt="" />
-                      <span className="md:block hidden md:text-lg">Send a</span> <span className="pr-4 md:text-lg">  Quote</span>
+                    {/* <div className="bg-[#27A737] cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
+                      <img className="w-14" src="/images/Testimonial/whatsapp.png" alt="" />
+                      <span className="md:block hidden md:text-lg">Send a</span> <span className="pr-4 md:text-lg"> Quote</span>
+                    </div> */}
+                    <div className="bg-primary cursor-pointer items-center flex gap-1 rounded-3xl px-3 py-2 md:text-base text-base text-white" onClick={goToCheckout}>
+                      <span className="md:block hidden md:text-lg">Proceed to </span> <span className="  md:text-lg"> Checkout</span>
                     </div>
                   </div>
                 </div>
@@ -398,7 +391,6 @@ export default function CartPage(props) {
                         <p className="text-base font-semibold md:text-lg ">Price Details</p>
                         {/* <div className="xl:flex justify-between mt-3  ">
                           <p className="text-sm md:text-base">Items total</p>
-
                           <p className="text-xs md:text-sm">{cartItems.length}</p>
                         </div> */}
                         <hr className="mt-3 text-primary  " />
@@ -413,9 +405,9 @@ export default function CartPage(props) {
                         </div>
                         <hr className="mt-3 " />
                         {/* <div className="flex justify-between mt-3">
-                                        <p className="text-sm md:text-base">Delivery fee</p>
-                                        <p className="text-xs md:text-sm">${deliveryFee?.toFixed(2)}</p>
-                                    </div> */}
+                          <p className="text-sm md:text-base">Delivery fee</p>
+                          <p className="text-xs md:text-sm">${deliveryFee?.toFixed(2)}</p>
+                        </div> */}
                         <div className="flex justify-between xl:mt-3 font-bold">
                           <p className="text-sm md:text-base flex gap-1">Total ({cartItems.length} items) <span className="xl:hidden block "></span></p>
                           <p className="text-primary">₹{finalTotal.toFixed(2)}</p>

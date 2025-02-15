@@ -1,4 +1,4 @@
-import flower from "/assets/herosection/flower.svg";
+
 import SwiperMax from "../Swiper/SwiperMax";
 import SwiperMin from "../Swiper/SwiperMin";
 import "./MegaOffer.css";

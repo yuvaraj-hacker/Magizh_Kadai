@@ -2,7 +2,7 @@ export const mainCarouselBanners1 = [{
         "id": 1,
         "title": "Home Utilities",
         "subtitle": "Upgrade Your Home with Innovative, Cost-Effective Solutions. Explore Now to Make Everyday Living Effortless and Stylish!",
-        "image": "public/assets/herosection/home.jpg",
+        "image": "/assets/herosection/home.jpg",
         "link": "/products?category=Home%20Utilities",
         "bgColor": "#ede1d5"
         // "bgColor":"#f0ffde"
@@ -12,7 +12,7 @@ export const mainCarouselBanners1 = [{
         "id": 2,
         "title": "Kitchen Accessories",
         "subtitle": "Elevate Your Culinary Experience with Cutting-Edge Accessories. Cook with Ease, Style, and Precision—Start Shopping Today!",
-        "image": "public/assets/herosection/kitchen.jpg",
+        "image": "/assets/herosection/kitchen.jpg",
         "link": "/products?category=Kitchen%20Accessories",
         "bgColor": "#f0f0f0"
     },
@@ -20,7 +20,7 @@ export const mainCarouselBanners1 = [{
         "id": 3,
         "title": "Bathroom Accessories",
         "subtitle": "Transform Your Bathroom into a Luxe Haven with Modern, Functional Touches. Refresh Your Space with Ease—Shop Now!",
-        "image": "public/assets/herosection/bathroom.jpg",
+        "image": "/assets/herosection/bathroom.jpg",
         "link": "/products?category=Bathroom%20Accessories",
         "bgColor": "#d1d6d0"
     }

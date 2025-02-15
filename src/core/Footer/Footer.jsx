@@ -106,14 +106,14 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         </div>
                         <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
                            <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
-                           <div className=" space-y-3">
-                              <p className="text-sm">
+                           <div className=" space-y-3 text-sm">
+                               <p className="">
                                  <Link to="/privacy-policy">  Privacy Policy  </Link>
                               </p>
-                              <p className="text-sm md:text-base">
+                              <p className=" ">
                                  <Link to="terms-and-conditions" > Terms & Conditions  </Link>
                               </p>
-                              <p className="text-sm md:text-base">
+                              <p className=" ">
                                  <Link to="return-and-refund-policy" >  Return and Refund Policy  </Link>
                               </p>
 
@@ -122,7 +122,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
 
                         <div className='lg:col-span-2 space-y-4 lg:text-left text-center' >
                            <p className="md:text-xl text-lg  text-secondary">Contact Information</p>
-                           <div className=' space-y-3 text-sm'>
+                           <div className='space-y-3 text-sm'>
                               <p className=""> <span className=''>
                                  Mobile Number: </span> xxxxxxxxxx</p>
                               <p className=""> <span className=''>

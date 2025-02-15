@@ -1,4 +1,4 @@
-import flower from '/assets/herosection/flower.svg'
+
 import { SubCatSwiper } from '../Swiper/SubCatSwiper'
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -19,7 +19,7 @@ const LoadingSkeleton = () => {
 function Headpanel(props) {
 
   const { selectedCategory, categories } = props;
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,7 +38,7 @@ function Headpanel(props) {
     const matchedCategory = categories.find(
       (category) =>
         category.Category_Name &&
-        category.Category_Name.trim().toLowerCase() === 
+        category.Category_Name.trim().toLowerCase() ===
         decodeURIComponent(categoryFromParam).trim().toLowerCase()
     );
     if (!matchedCategory) {
@@ -46,8 +46,8 @@ function Headpanel(props) {
       return;
     }
     const subcategoryIndex = (matchedCategory.Subcategories || []).findIndex(
-      subcategory => 
-        subcategory.name?.trim().toLowerCase() === 
+      subcategory =>
+        subcategory.name?.trim().toLowerCase() ===
         decodeURIComponent(subcategoryFromParam).trim().toLowerCase()
     );
     setActiveIndex(subcategoryIndex !== -1 ? subcategoryIndex : null);

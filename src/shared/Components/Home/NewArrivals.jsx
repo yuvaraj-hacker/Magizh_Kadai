@@ -1,8 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import apiurl from "../../services/apiendpoint/apiendpoint";
-import { containerVariants, slideVariants } from "../../../framerMotion";
 
 export const NewArrivals = ({ products }) => {
 
@@ -21,7 +19,7 @@ export const NewArrivals = ({ products }) => {
           </div>
           <div variants={containerVariants} className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 lg:gap-5">
             {products && products?.slice(0, 12).map((product) => (
-              <div key={product._id} variants={slideVariants}>
+              <div key={product._id}>
                 <Link to={`/product-details/${product._id}`} state={{ product }} className="block" >
                   <div key={product._id} className="flex w-full bg-white rounded-xl duration-300" >
                     <div className="p-3 rounded-lg overflow-hidden w-1/3 h-[125px]"><img src={`${apiurl()}/${product.Images}`.split(',')[0]} alt={product.Product_Name} className="rounded-lg h-full w-full object-cover border" /></div>

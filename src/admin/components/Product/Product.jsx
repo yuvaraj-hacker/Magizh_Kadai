@@ -17,7 +17,7 @@ export default function Product() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
-    const [formdata, setFormdata] = useState({});
+    const [formdata, setFormdata] = useState({ Tax: "", Tax_Type: "", Tax_Percentage: "" });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});

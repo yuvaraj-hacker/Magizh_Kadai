@@ -4,9 +4,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import { motion } from "framer-motion";
 import apiurl from "../../services/apiendpoint/apiendpoint";
-import { containerVariants, fadeIn, slideVariants, } from "../../../framerMotion";
 import { getallTrendingProducts } from "../../services/apiproducts/apiproduct";
 import { Link } from "react-router-dom";
 

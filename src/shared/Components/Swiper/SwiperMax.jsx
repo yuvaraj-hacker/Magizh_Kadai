@@ -6,8 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import apiurl from "../../services/apiendpoint/apiendpoint";
 import { Link } from "react-router-dom";
-import { delay, motion } from "framer-motion";
-import { fadeIn } from "../../../framerMotion";
 
 const LoadingSkeleton = () => {
   return (

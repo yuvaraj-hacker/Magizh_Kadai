@@ -7,11 +7,9 @@ import apiurl from "../../services/apiendpoint/apiendpoint.js";
 
 function AllProducts({ groupedProducts }) {
   const [productLimit, setProductLimit] = useState(6); // Default to 6
-
   useEffect(() => {
     const updateLimit = () => {
       const width = window.innerWidth;
-
       if (width >= 1280 && width < 1660) {
         setProductLimit(5); // Show 5 products for 1280px to 1660px
       } else {
