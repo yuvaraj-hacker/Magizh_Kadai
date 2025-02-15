@@ -241,8 +241,6 @@ const Tableview = (props) => {
     );
   };
 
-
-
   const columns = [
     { field: 'Product_Name', header: 'Product Name', filter: true },
     // { field: 'Product_Description', header: 'Description', body: renderDescription },
