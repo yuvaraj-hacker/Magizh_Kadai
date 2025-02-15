@@ -373,13 +373,13 @@ export default function CartPage(props) {
                     <div className="font-bold md:text-base text-sm">
                       Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    {/* <div className="bg-[#27A737] cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
+                    <div className="bg-[#27A737] cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
                       <img className="w-14" src="/images/Testimonial/whatsapp.png" alt="" />
                       <span className="md:block hidden md:text-lg">Send a</span> <span className="pr-4 md:text-lg"> Quote</span>
-                    </div> */}
-                    <div className="bg-primary cursor-pointer items-center flex gap-1 rounded-3xl px-3 py-2 md:text-base text-base text-white" onClick={goToCheckout}>
-                      <span className="md:block hidden md:text-lg">Proceed to </span> <span className="  md:text-lg"> Checkout</span>
                     </div>
+                    {/* <div className="bg-primary cursor-pointer items-center flex gap-1 rounded-3xl px-3 py-2 md:text-base text-base text-white" onClick={goToCheckout}>
+                      <span className="md:block hidden md:text-lg">Proceed to </span> <span className="  md:text-lg"> Checkout</span>
+                    </div> */}
                   </div>
                 </div>
               </div>
