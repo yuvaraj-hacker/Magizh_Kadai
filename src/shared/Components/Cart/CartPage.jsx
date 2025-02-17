@@ -371,11 +371,11 @@ export default function CartPage(props) {
                 <div className="w-full  sticky lg:bottom-0  bottom-[60px] bg-gray-100  p-4">
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
-                      Subtotal ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
+                      Total ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
                     </div>
-                    <div className="bg-[#27A737] cursor-pointer  items-center   flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
-                      <img className="w-14" src="/images/Testimonial/whatsapp.png" alt="" />
-                      <span className="md:block hidden md:text-lg">Send a</span> <span className="pr-4 md:text-lg"> Quote</span>
+                    <div className="bg-[#27A737] cursor-pointer  items-center  px-2 py-1  flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
+                      <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
+                      <span className="  md:text-lg text-xs px-1 pr-3">Buy Now</span>
                     </div>
                     {/* <div className="bg-primary cursor-pointer items-center flex gap-1 rounded-3xl px-3 py-2 md:text-base text-base text-white" onClick={goToCheckout}>
                       <span className="md:block hidden md:text-lg">Proceed to </span> <span className="  md:text-lg"> Checkout</span>

@@ -8,6 +8,8 @@ import { deletecartItem, getcartItems, updatecartItem } from "../../shared/servi
 import moment from "moment-timezone";
 import { isLoggedIn } from "../../shared/services/Token/token";
 import toast from "react-hot-toast";
+import { HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 export default function CartPageFunctions() {
     const { removeItem, increaseQuantity, decreaseQuantity, setCartItem } = useCart();
@@ -475,8 +477,8 @@ export default function CartPageFunctions() {
         if (isLoggedIn() || localStorage.getItem('loginType') === 'Guest') {
             navigate("/checkout");
         } else {
-        setCheckoutlogin(true)
-        setShowLoginModal(true);
+            setCheckoutlogin(true)
+            setShowLoginModal(true);
         }
     };
 
@@ -514,18 +516,18 @@ export default function CartPageFunctions() {
         localStorage.setItem("subtotal", subtotal);
         localStorage.setItem("finalTotal", finalTotal);
         localStorage.setItem("totalItems", totalItems);
-        let message = "New Quote Request:\n\n";
+        let message = "New Order Request:\n\n";
         cartItems.forEach((product, index) => {
             const productTotal = product.Discount > 0 ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * product.Quantity).toFixed(2) : (product.Sale_Price * product.Quantity).toFixed(2);
             message += `${index + 1}.${product.Product_Name}\n`;
             message += `Quantity: ${product.Quantity}\n`;
             message += `Price: ₹${productTotal}\n`;
-            message += `Link: http://192.168.29.175:5173/product-details/${product._id}\n\n`;
+            message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
         });
         message += `Order Summary:\n`;
         message += `Total Items: ${totalItems}\n`;
         message += `Final Total: ₹${finalTotal.toFixed(2)}\n`;
-        const whatsappUrl = `https://wa.me/+918754720718?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
 
@@ -576,6 +578,20 @@ export default function CartPageFunctions() {
 
     return (
         <>
+            <HelmetProvider>
+                <Helmet>
+                    <title>Magizh Kadai - Your one-stop shop for quality products online.</title>
+                    <meta name="keywords" content="Magizh Kadai, online shopping, best deals, quality products, affordable prices, buy online, e-commerce store" />
+                    <meta name="description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+                    <meta name="author" content="Magizh Kadai" />
+                    <meta name="robots" content="index, follow" />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
+                    <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+                    <meta property="og:url" content="https://magizhkadai.com/" />
+                    <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+                </Helmet>
+            </HelmetProvider>
             <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
                 handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
                 updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}

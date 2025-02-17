@@ -10,7 +10,7 @@ export default function Addandeditform(props) {
 
     const tagsOptions = [
         { label: "Trending", value: "Trending" },
-        { label: "New Collection", value: "Collection" },
+        { label: "New Collection", value: "New Collection" },
         // { label: "Editor's Pick", value: "Editor's Pick" },
         // { label: "Lightning Deals", value: "Lightning Deals" },
         // { label: "New Arrivals", value: "New Arrivals" },
@@ -21,11 +21,7 @@ export default function Addandeditform(props) {
         <Dialog header="Product Details" visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[40rem]  ">
             <form onSubmit={!formdata?._id ? handlesave : handleupdate}>
                 <div className="mb-3">
-                    <DynamicImageUpload
-                        images={formdata?.Images || []}
-                        onChange={(images) => handlechange({ target: { name: "Images", files: images } })}
-                        apiUrl={apiurl()}
-                    />
+                    <DynamicImageUpload images={formdata?.Images || []} onChange={(images) => handlechange({ target: { name: "Images", files: images } })} apiUrl={apiurl()} />
                 </div>
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                     <div className="mb-2">

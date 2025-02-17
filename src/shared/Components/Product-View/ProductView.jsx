@@ -71,7 +71,12 @@ const ProductView = (props) => {
           </div>
           <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
             <div className="relative" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
-              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52  md:max-h-96" />
+              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52 h-80  md:max-h-96" />
+              <div className='absolute top-2 left-2 '>
+                {product.Tags && (
+                  <p className=" text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">{product.Tags} <i className="fi fi-ss-fire-flame-curved "></i></p>
+                )}
+              </div>
             </div>
           </div>
           {/* <div className="flex-1 order-1 col-span-6 mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 place-items-center ">
@@ -143,7 +148,6 @@ const ProductView = (props) => {
               )}
             </div>
 
-
             <div className="flex items-center space-x-2">
               {product.Discount > 0 && (
                 <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{Math.round(product.Discount)}% off</span>
@@ -158,7 +162,7 @@ const ProductView = (props) => {
               )}
             </div>
 
-            <div className="flex items-center gap-5 sticky bg-white    py-2 md:py-2  lg:bottom-0 bottom-[60px]">
+            <div className={`flex items-center   sticky bg-white   ${getCurrentCartQuantity() >0  ? 'gap-5' : 'gap-0'}  py-2 md:py-2  lg:bottom-0 bottom-[60px]`}>
               {product.QTY > 0 && product.QTY !== null && (
                 <>
                   {getCurrentCartQuantity() === 0 ? (
@@ -193,13 +197,13 @@ const ProductView = (props) => {
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
                </button> */}
-              <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
+              {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
                 {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
                   <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
                 ) : (
                   <i className="text-2xl transition-colors fi-bs-heart text-black/60 dark:text-white"></i>
                 )}
-              </button>
+              </button> */}
             </div>
 
             <div className="flex items-center gap-4">

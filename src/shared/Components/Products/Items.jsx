@@ -9,7 +9,8 @@ const Items = (prpos) => {
 
   if (!products || products.length === 0) {
     return (
-      <section className="h-screen flex items-center md:w-[80vw] w-[100vw]  justify-center px-5">
+      <section className="h-screen flex items-center flex-col md:w-[80vw] w-[100vw]  justify-center px-5">
+        <img   className="w-28" src="/images/Design/nofound.png" alt="" />
         <h2 className="text-xl font-semibold text-black">No products found</h2>
       </section>
     );
@@ -21,10 +22,10 @@ const Items = (prpos) => {
           <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-5 px-2">
             <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">{`${products.length} results`}</div>
             <div className=" flex  items-center md:gap-5 gap-2  ">
-              <div className="lg:hidden block text-end   bg-gray-50 rounded-md  p-3 cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+              <div className="lg:hidden block text-end   bg-gray-50 rounded-md  p-4 cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
                 <div className="flex justify-end gap-4 items-center w-fit   ">
-                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm"></i>
-                  <p className="md:text-base text-sm">Filter</p>
+                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-gray-500"></i>
+                  <p className="md:text-base text-sm  text-gray-500">Filter</p>
                 </div>
               </div>
               <div className='inline-flex items-center gap-2 md:block '>
@@ -34,7 +35,7 @@ const Items = (prpos) => {
                       <i className="fi fi-br-bars-sort md:text-base text-sm"></i>
                       <span className="dark:text-black md:text-base text-sm"> Sort By</span>
                     </div>
-                  } className="w-40 max-w-xs lg:w-60 " classNames={{ trigger: " dark:bg-gray-100 dark:text-black", listbox: " dark:bg-gray-200 dark:text-black", popover: " dark:bg-gray-200 dark:text-black" }}  >
+                  } className="w-40 max-w-xs lg:w-60" classNames={{ trigger: " dark:bg-gray-100 dark:text-black bg-gray-50", listbox: " dark:bg-gray-200 dark:text-black bg-gray-50", popover: " dark:bg-gray-200 dark:text-black bg-gray-50" }}  >
                   <SelectItem onClick={() => setSort(1)}>Price: Low to High</SelectItem>
                   <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
                 </Select>
@@ -129,7 +130,7 @@ const Items = (prpos) => {
                       )}
                     </div>
                     <div className="text-start  ">
-                      <button className="text-white md:p-2 p-1 w-full md:text-base text-xs bg-primary rounded-3xl">
+                      <button className="text-white md:p-2 p-1 py-2 w-full md:text-base text-xs bg-primary rounded-3xl">
                         View Details
                       </button>
                     </div>

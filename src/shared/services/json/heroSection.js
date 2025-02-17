@@ -31,7 +31,7 @@ export const categoryDealsBanners1 = [{
         "id": 1,
         "title": "Everything",
         "subtitle": "30",
-        "preview": "http://192.168.29.175:5173//assets/herosection/everything.jpg",
+        "preview": "https://www.magizhkadai.com/assets/herosection/everything.jpg",
         "link": "/products?category=Everything",
         "bgColor": "#f02954"
     },
@@ -39,7 +39,7 @@ export const categoryDealsBanners1 = [{
         "id": 2,
         "title": "Gadgets",
         "subtitle": "22",
-        "preview": "http://192.168.29.175:5173/assets/herosection/laptop.jpeg",
+        "preview": "https://www.magizhkadai.com/assets/herosection/laptop.jpeg",
         "link": "/products?category=Laptop/Mobile%20Accessories",
         "bgColor": "#f29f5e"
     },
@@ -47,7 +47,7 @@ export const categoryDealsBanners1 = [{
         "id": 3,
         "title": "Kitchen Accessories",
         "subtitle": "27",
-        "preview": "http://192.168.29.175:5173/assets/herosection/kitchenn.jpg",
+        "preview": "https://www.magizhkadai.com/assets/herosection/kitchenn.jpg",
         "link": "/products?category=Kitchen%20Accessories",
         "bgColor": "#84acf5"
     },
@@ -55,7 +55,7 @@ export const categoryDealsBanners1 = [{
         "id": 3,
         "title": "Kitchen Accessories",
         "subtitle": "27",
-        "preview": "http://192.168.29.175:5173/assets/herosection/kitchenn.jpg",
+        "preview": "https://www.magizhkadai.com/assets/herosection/kitchenn.jpg",
         "link": "/products?category=Kitchen%20Accessories",
         "bgColor": "#84acf5"
     },

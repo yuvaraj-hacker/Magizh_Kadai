@@ -61,7 +61,7 @@ const SwiperMax = ({ banners }) => {
                 <div className={`relative overflow-hidden  rounded-3xl `}
                   style={{
                     backgroundImage: window.innerWidth < 1024
-                      ? `linear-gradient(to top left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), url(http://192.168.29.175:5173/${banner.image})`
+                      ? `linear-gradient(to top left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), url(https://www.magizhkadai.com/${banner.image})`
                       : `linear-gradient(to bottom left, ${banner.bgColor}, ${banner.bgColor}70)`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -86,7 +86,7 @@ const SwiperMax = ({ banners }) => {
                   <div
                     className="relative  flex items-center justify-center text-center text-white   md:py-10 py-5 overflow-hidden"
                     style={{
-                      backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(http://192.168.29.175:5173/${banner.image})`,
+                      backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://www.magizhkadai.com/${banner.image})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",

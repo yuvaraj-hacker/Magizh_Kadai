@@ -23,6 +23,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
 import { SyncLoader } from "react-spinners"
+import { HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const Products = () => {
     const [price, setPrice] = useState([50, 12000]);
@@ -298,7 +300,20 @@ const Products = () => {
     }, []);
     return (
         <>
-
+            <HelmetProvider>
+                <Helmet>
+                    <title>Magizh Kadai - Your one-stop shop for quality products online.</title>
+                    <meta name="keywords" content="Magizh Kadai, online shopping, best deals, quality products, affordable prices, buy online, e-commerce store" />
+                    <meta name="description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+                    <meta name="author" content="Magizh Kadai" />
+                    <meta name="robots" content="index, follow" />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
+                    <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+                    <meta property="og:url" content="https://magizhkadai.com/" />
+                    <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+                </Helmet>
+            </HelmetProvider>
             {isLoading ? (
                 <div className="flex justify-center items-center min-h-screen">
                     <SyncLoader color="#024A34" />
@@ -306,7 +321,7 @@ const Products = () => {
             ) : (
                 <section className="max-w-full mx-auto" >
                     <div className="max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black">
-                        <div className={`lg:sticky lg:top-[101px] bg-gray-100 h-screen  top-0 lg:left-0 fixed lg:overflow-y-visible overflow-y-scroll    lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} `}  >
+                        <div className={`lg:sticky lg:top-[101px] bg-gray-100 lg:min-h-screen h-screen top-0 lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} custom-scrollbar `}  >
                             <div className="lg:hidden block p-2">
                                 <div className="flex justify-end">
                                     <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}   ></i>

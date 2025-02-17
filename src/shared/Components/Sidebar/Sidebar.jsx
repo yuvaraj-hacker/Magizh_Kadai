@@ -202,8 +202,10 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
               <Link to='/'><img src="/images/Logo/Logo.png" alt="" className='mt-2 z-[56]' /></Link>
             </div>
             <div className='flex items-center justify-between px-5 lg:hidden'>
-              <div></div>
-              <div className='py-4 text-xl text-center lg:pb-16 font-agbalumo'>categories</div>
+             <div className='flex gap-3  items-center'>
+             <img  className='w-8' src="/images/Design/Magizh-design.png" alt="" />
+             <div className='py-4 text-xl text-center lg:pb-16 font-bold text-secondary'>Categories</div>
+             </div>
               <i onClick={() => setTogSidecat(false)} className="fi fi-sr-cross-circle text-2xl h-[24px] cursor-pointer"></i>
             </div>
             <hr className='lg:hidden' />

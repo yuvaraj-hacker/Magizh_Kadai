@@ -64,7 +64,6 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                      </div>
                   </div>
                </div>
-
             </section> */}
             <section className='bg-black/90   pb-[60px] lg:pb-0'>
                <div className='relative lg:px-10 md:py-10 py-5'>
@@ -82,32 +81,35 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                     <h1 className='text-secondary md:text-base'>Connect With Us</h1>
                                  </div>
                                  <div className='flex gap-3 justify-center'>
-                                    <a href='https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F' target='_blank'  >
+                                    <a href='https://www.facebook.com/people/Magizh-Kadai/61572463483920/' target='_blank'  >
                                        <i className="fi fi-brands-facebook md:text-xl"></i>
                                     </a>
-                                    <a href='https://www.instagram.com/' target='_blank'>
+                                    <a href='https://www.instagram.com/magizhkadai_official/?hl=en' target='_blank'>
                                        <i className="fi fi-brands-instagram md:text-xl"></i>
                                     </a>
-                                    <a href='https://web.whatsapp.com/' target='_blank'>
+                                    {/* <a href='https://wa.me/918825695060' target='_blank' rel='noopener noreferrer'>
                                        <i className="fi fi-brands-whatsapp md:text-xl"></i>
+                                    </a> */}
+                                        <a href='https://studio.youtube.com/channel/UCyo7UU-fCK-FETylzViOQRA' target='_blank' rel='noopener noreferrer'>
+                                       <i className="fi fi-brands-youtube md:text-2xl text-lg"></i>
                                     </a>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center '>
+                        <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center'>
                            <h1 className='md:text-xl text-lg text-secondary'>Store and Sites</h1>
                            <div className=' text-sm space-y-3 '>
                               <p>  <Link to='/'>  Home </Link></p>
                               <p>  <Link to='/products'>  Products</Link></p>
-                              <p><Link to='/wishlist'> Wishlist </Link></p>
+                              {/* <p><Link to='/wishlist'> Wishlist </Link></p> */}
                               <p> <Link to='/cart'>Cart </Link></p>
                            </div>
                         </div>
                         <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
                            <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
                            <div className=" space-y-3 text-sm">
-                               <p className="">
+                              <p className="">
                                  <Link to="/privacy-policy">  Privacy Policy  </Link>
                               </p>
                               <p className=" ">
@@ -124,11 +126,16 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                            <p className="md:text-xl text-lg  text-secondary">Contact Information</p>
                            <div className='space-y-3 text-sm'>
                               <p className=""> <span className=''>
-                                 Mobile Number: </span> xxxxxxxxxx</p>
+                                 Mobile Number: </span>+91 88256 95060</p>
+                               <p className="">
+                                 <span>Email: </span>
+                                 <a href="https://mail.google.com/mail/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                                    magizhkadai@gmail.com
+                                 </a>
+                              </p>
                               <p className=""> <span className=''>
-                                 Email:  </span>  support@magizhkadai.com</p>
-                              <p className=""> <span className=''>
-                                 Address:   </span> xxxxxx</p>
+                                 Address:   </span>Narayanan Nagar Road, <br /> Ramakrishna
+                                 school Opposite, <br /> Villupuram 605 602.</p>
                            </div>
                            {/* <div className='relative'>
                               <input className='w-full p-2 pl-4 text-black rounded-sm focus:outline-none' type="text" placeholder='Email Address' />
@@ -152,7 +159,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
          {/* mobile footer */}
          <section className='fixed bottom-0 left-0 z-40 w-full lg:hidden'>
             <div className='bg-primary'>
-               <div className="grid grid-cols-5 justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
+               <div className="  flex  justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
                   <div className="cursor-pointer "> <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney "></i><p className='text-xs '>Home</p> </Link></div>
                   <Link to='/products'>
                      <div className="cursor-pointer" >
@@ -182,9 +189,8 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                   </div>
                   <div onClick={() => { setTogSidecat(true) }} className="cursor-pointer"><i className="flex flex-col items-center fi fi-rs-category"></i><p className='text-xs '>Categories</p></div>
 
-                  {isLoggedIn ? (
+                  {/* {isLoggedIn ? (
                      <div className="cursor-pointer" onClick={handleClick}>
-                        {/* <Link to='/profile'> */}
                         <i className="flex flex-col items-center fi fi-sr-user"></i>
                         <p className='text-xs'>Account</p>
                      </div>
@@ -196,7 +202,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         <i className="flex flex-col items-center fi fi-sr-user"></i>
                         <p className='text-xs'>Login</p>
                      </div>
-                  )}
+                  )} */}
                </div>
             </div>
          </section>

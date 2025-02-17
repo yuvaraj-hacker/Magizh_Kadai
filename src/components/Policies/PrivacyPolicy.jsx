@@ -49,10 +49,10 @@ export default function PrivacyPolicy() {
                     <p className="my-3 text-lg text-justify">You can update, delete, or request a copy of your data anytime. Opt out of promotional emails by clicking “unsubscribe.”</p>
 
                     <h1 className="text-xl font-semibold">7. Contact Us</h1>
-                    <p className="my-3 text-lg text-justify">For privacy-related concerns, email us at support @Magizhkadai.com or write to us at:
-                    10415 Old Placerville Rd, Unit 235, Rancho Cordova, CA 95827.</p>
-
-
+                    <p className="my-3 text-lg text-justify">For privacy-related concerns, email us at magizhkadai@gmail.com or write to us at:
+                        Narayanan Nagar Road,
+                        Ramakrishna school Opposite,
+                        Villupuram 605 602.</p>
                 </div>
             </div>
         </section>

@@ -221,14 +221,14 @@ const SwiperMin = ({ Product, title }) => {
     <>
       <article className="rounded-3xl flex flex-col overflow-hidden relative">
         <div className=" absolute w-full grid grid-cols-12 grid-rows-12 rounded-3xl overflow-hidden h-full">
-          <div className="lg:col-span-8 lg:row-span-12 row-span-7 order-2 lg:order-1 col-span-12 bg-gradient-to-br from-[#ecf5e1] to-primary_green h-full"></div>
-          <div className="lg:col-span-4 lg:row-span-12 row-span-5 order-1 lg:order-2 col-span-12 bg-primary h-full"></div>
+          <div className="lg:col-span-8 lg:row-span-12 row-span-7   col-span-12 bg-gradient-to-br from-[#ecf5e1] to-primary_green h-full"></div>
+          <div className="lg:col-span-4 lg:row-span-12 row-span-5   col-span-12 bg-primary h-full"></div>
         </div>
         <div className="relative z-10 flex justify-between items-center w-full max-w-screen-xl mx-auto py-5 lg:py-14 px-3 2xl:px-0">
           <div className=" ">
             <div className="flex gap-2 items-center">
               <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
-              <p className="capitalize text-white lg:text-black font-bold md:text-2xl ">New collection</p>
+              <p className="capitalize  text-secondary font-bold md:text-2xl ">New collection</p>
             </div>
             {/* <p className="capitalize tracking-widest lg:text-4xl text-xl font-semibold lg:text-primary text-primary_green ">Trending Flash Sale</p> */}
           </div>

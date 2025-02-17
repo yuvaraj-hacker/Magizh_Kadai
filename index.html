@@ -3,28 +3,73 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="theme-color"  content = "#00b85f"/>
+  <meta name="theme-color" content="#00b85f" />
   <link rel="icon" type="image/png" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <script src="https://api.convergepay.com/hosted-payments/Checkout.js"></script>
-  <title>Magizh Kadai</title>
+  <title>Magizh Kadai - Your one-stop shop for quality products online.</title>
+  <!-- Meta Tags -->
+  <meta name="keywords" content="Magizh Kadai, online shopping, best deals, quality products, affordable prices, buy online, e-commerce store" />
+  <meta name="description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+  <meta name="author" content="Magizh Kadai" />
+  <meta name="robots" content="index, follow" />
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
+  <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+  <meta property="og:url" content="https://magizhkadai.com/" />
+  <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://magizhkadai.com/" />
+  <!-- Schema Markup: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Magizh Kadai",
+    "alternateName": "MK",
+    "url": "https://magizhkadai.com",
+    "logo": "https://magizhkadai.com/images/og/og-image.jpeg",
+    "description": "Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience.",
+    "sameAs": [
+      "https://www.facebook.com/magizhkadai",
+      "https://www.instagram.com/magizhkadai",
+      "https://www.twitter.com/magizhkadai"
+    ]
+  }
+  </script>
+  <!-- Schema Markup: Breadcrumb -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://magizhkadai.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cart",
+        "item": "https://magizhkadai.com/categories"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Checkout",
+        "item": "https://magizhkadai.com/products"
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body className="overflow-x-hidden">
   <div id="root"></div>
   <script type="module" src="/src/main.jsx" defer></script>
   <script src="./node_modules/preline/dist/preline.js" defer></script>
-  <div id="google_translate_element" style="display:none;"></div>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        autoDisplay: false,
-        layout: google.translate.TranslateElement.InlineLayout.NONE
-      }, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
   </script>
 </body>
 

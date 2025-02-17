@@ -81,7 +81,7 @@ export default function ReturnRefundpolicy () {
 
                     <h1 className="text-xl font-semibold">6. Contact Information</h1>
                     <p className="my-3 text-lg text-justify">
-                        For any questions or assistance, please contact us at support @Magizhkadai.com or call us at +1 916-507-4320.
+                        For any questions or assistance, please contact us at support magizhkadai@gmail.com or call us at +91 88256 95060.
                     </p>
 
                 </div>

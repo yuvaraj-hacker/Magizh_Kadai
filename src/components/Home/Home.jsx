@@ -18,6 +18,8 @@ import { mainCarouselBanners1, categoryDealsBanners1 } from '../../shared/servic
 import { getallproducts } from '../../shared/services/apiproducts/apiproduct.js'
 import SwiperMin from '../../shared/Components/Home/SwiperMin.jsx'
 import { useCallback } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function Home() {
   const [offers, setOffers] = useState([]);
@@ -303,9 +305,23 @@ export default function Home() {
       rating: 5,
     },
   ];
-
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <title>Magizh Kadai - Your one-stop shop for quality products online.</title>
+          <meta name="keywords" content="Magizh Kadai, online shopping, best deals, quality products, affordable prices, buy online, e-commerce store" />
+          <meta name="description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+          <meta name="author" content="Magizh Kadai" />
+          <meta name="robots" content="index, follow" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
+          <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
+          <meta property="og:url" content="https://magizhkadai.com/" />
+          <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+        </Helmet>
+      </HelmetProvider>
+
       <div className='max-w-[1860px] mx-auto bg-white dark:bg-black  z-45'>
         <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} />
         {/* Render All Active Offers */}

@@ -95,8 +95,10 @@ export default function TermsandConditions() {
 
                     <h1 className="text-xl font-semibold">9. Contact Us</h1>
                     <p className="my-3 text-lg text-justify">
-                        For questions, email us at support@Magizhkadai.com or write to:
-                        10415 Old Placerville Rd, Unit 235, Rancho Cordova, CA 95827, USA.
+                        For questions, email us at magizhkadai@gmail.com or write to:
+                        Narayanan Nagar Road,
+                        Ramakrishna school Opposite,
+                        Villupuram 605 602.
                     </p>
 
                 </div>

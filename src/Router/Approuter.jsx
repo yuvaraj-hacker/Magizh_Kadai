@@ -27,6 +27,8 @@ import AccountLayout from "../components/MyAccountLayout/AccountLayout";
 import Dashboard from "../shared/Components/Dashboard/DFashboard";
 import { SidebarProvider } from "./SidebarProvider";
 import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
+import Loginn from "../core/Header/Loginn";
+import RegisterContinueGoogle from "../shared/Components/Register-ContiGoogle/RegisterContiGoogle";
 
 const Approuter = () => {
     return (
@@ -49,8 +51,9 @@ const Approuter = () => {
                         <Route path="/checkout" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><CheckoutPage /></ProtectedRoute>} />
                         <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
                         {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
-                        <Route path="/cart" element={<CartPageFunctions />} />
+                          <Route path="/cart" element={<CartPageFunctions />} />
                         <Route path="/new" element={<NewForm />} />
+                        <Route path="/login" element={<RegisterContinueGoogle />} />
                         <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
