@@ -74,7 +74,7 @@ function AllProducts({ groupedProducts }) {
           <div className="flex justify-between items-center my-2 px-3">
             <div className="flex gap-2 items-center">
               <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
-              <h2 className=" md:text-2xl text-sm  font-bold text-secondary">{category}</h2>
+              <h2 className=" md:text-2xl text-sm  font-bold text-secondary  underline underline-offset-4">{category}</h2>
             </div>
             <Link to={`products?category=${category}`} className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border group bg-primary text-white flex gap-2 justify-center items-center  group/vwbtn *:duration-300"><button className="text-xs lg:text-base flex gap-2 items-center">View All <i className="fi fi-sr-angle-circle-right flex items-center group-hover:translate-x-1 duration-300 "></i></button></Link>
           </div>
@@ -93,7 +93,7 @@ function AllProducts({ groupedProducts }) {
                     ))} */}
               {groupedProducts[category].slice(0, productLimit).map((product, idx) => (
                 <Link to={`/product-details/${product._id}`}>
-                  <div key={idx} className="flex flex-col group relative duration-300 md:p-3 p-2 space-y-3 from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] shadow-sm hover:via-primary hover:from-primary rounded-xl border hover:border-primary hover:bg-gray-100">
+                  <div key={idx} className="flex flex-col group relative duration-300 md:p-3 p-2 space-y-3 from-[#70c2a9] via-primary to-primary hover:to-[#8ad1bc] shadow-sm hover:via-primary hover:from-primary rounded-xl border border-primary hover:bg-gray-100">
                     <div className=" h-40 lg:h-60  md:w-auto w-44 overflow-hidden rounded-xl flex items-center justify-center bg-white">
                       <img src={`${apiurl()}/${product?.Images[0]}`} alt={product.Product_Name || 'Product'} className="object-cover h-full w-full  bg-white duration-300" />
                     </div>
@@ -111,7 +111,7 @@ function AllProducts({ groupedProducts }) {
                                 ₹{parseFloat(product?.Sale_Price).toFixed(2)}
                               </h3>
                             </>
-                          )}
+                           )}
                           {product?.Discount === 0 && product?.Sale_Price > 0 && (
                             <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
                               ₹{parseFloat(product?.Sale_Price)?.toFixed(2)}
@@ -119,7 +119,7 @@ function AllProducts({ groupedProducts }) {
                           )}
                         </div>
                         <div className="text-end ">
-                          <i className="fi fi-sr-angle-circle-right flex items-center justify-end md:text-3xl text-xl text-primary"></i>
+                          <i class="fi fi-sr-eye flex items-center justify-end md:text-3xl text-xl text-primary"></i>
                         </div>
                       </div>
                     </div>

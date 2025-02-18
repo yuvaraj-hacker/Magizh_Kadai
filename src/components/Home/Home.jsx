@@ -331,7 +331,7 @@ export default function Home() {
         <div className=''><AllProducts groupedProducts={groupedProducts} /></div>
         {/* <IngredientSwipe  title="Indian Cuisine Combo Ingredients" visible={visible} setVisible={setVisible} selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct} handleProductClick={handleProductClick} AddtoCartProduct={AddtoCartProduct} /> */}
-        <Testimoni testimonials={testimonials} />
+        {/* <Testimoni testimonials={testimonials} /> */}
       </div>
     </>
   )

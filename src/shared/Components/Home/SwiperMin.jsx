@@ -221,22 +221,22 @@ const SwiperMin = ({ Product, title }) => {
     <>
       <article className="rounded-3xl flex flex-col overflow-hidden relative">
         <div className=" absolute w-full grid grid-cols-12 grid-rows-12 rounded-3xl overflow-hidden h-full">
-          <div className="lg:col-span-8 lg:row-span-12 row-span-7   col-span-12 bg-gradient-to-br from-[#ecf5e1] to-primary_green h-full"></div>
-          <div className="lg:col-span-4 lg:row-span-12 row-span-5   col-span-12 bg-primary h-full"></div>
+          <div className="lg:col-span-8 lg:row-span-12 row-span-7 col-span-12 bg-gradient-to-br from-[#ecf5e1] to-primary_green h-full"></div>
+          <div className="lg:col-span-4 lg:row-span-12 row-span-5 col-span-12 bg-primary h-full"></div>
         </div>
-        <div className="relative z-10 flex justify-between items-center w-full max-w-screen-xl mx-auto py-5 lg:py-14 px-3 2xl:px-0">
+        <div className="relative z-10 flex justify-between items-center w-full   mx-auto py-5  px-3   2xl:px-4">
           <div className=" ">
             <div className="flex gap-2 items-center">
               <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
-              <p className="capitalize  text-secondary font-bold md:text-2xl ">New collection</p>
+              <p className="capitalize  text-secondary font-bold md:text-2xl underline underline-offset-4  ">New collection</p>
             </div>
             {/* <p className="capitalize tracking-widest lg:text-4xl text-xl font-semibold lg:text-primary text-primary_green ">Trending Flash Sale</p> */}
           </div>
           {/* <Link to='/products'><div className="h-fit sm:h-full   p-2 lg:px-4 rounded-full border border-w flex gap-2 justify-center items-center text-white group/vwbtn *:duration-300"><button className="capitalize md:tracking-wider inline-flex gap-1.5">View {' '} <span className="hidden md:block"> All Collection</span> </button><i className="fi fi-rs-arrow-up-right rotate-45 group-hover/vwbtn:rotate-0"></i></div></Link> */}
-          <div className="absolute h-[0.5px] w-full bg-slate-500/70 bottom-4"></div>
+          {/* <div className="absolute h-[0.5px] w-full bg-slate-500/70 bottom-4"></div> */}
         </div>
-        <div className="w-full mx-auto swiper-container-wrapper   px-3 2xl:px-0 2xl:-translate-x-[290px] ">
-          <div className="swiper-container  "
+        <div className="w-full mx-auto swiper-container-wrapper px-3 2xl:px-0 2xl:-translate-x-[290px]">
+          <div className="swiper-container"
             onMouseEnter={() => swiperRef.current?.swiper?.autoplay?.stop()}
             onMouseLeave={() => swiperRef.current?.swiper?.autoplay?.start()}
             // variants={containerVariants}

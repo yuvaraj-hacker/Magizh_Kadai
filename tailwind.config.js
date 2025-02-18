@@ -12,6 +12,9 @@ export default {
   ],
   theme: {
     extend: {
+      textDecorationThickness: {
+        'thick': '10px',  // You can adjust the value as needed
+      },
       colors: {
         primary: '#024a34',
         secondary:"#DBA737",

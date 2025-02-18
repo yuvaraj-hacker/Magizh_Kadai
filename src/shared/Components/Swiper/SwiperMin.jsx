@@ -116,7 +116,7 @@ const SwiperMin = () => {
                           <h2 className="xl:text-xl text-sm font-semibold line-clamp-2  " >{trend.Product_Name}</h2>
                           <p className=" w-fit text-sm lg:text-base">Up to {Math.round(trend.Discount)}% offer</p>
                         </div>
-                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-primary_green lg:block hidden">Grab Yours <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-white h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
+                        <button className=" text-left lg:my-2 mt-2 w-fit group/btn text-secondary lg:block hidden">Grab Yours <i className="fi fi-rs-arrow-up-right text-sm"></i><div className="bg-secondary  h-0.5 rounded-full w-0 lg:group-hover/btn:w-full hidden lg:block duration-300"></div></button>
                       </div>
                       <div className="  overflow-hidden  rounded-lg ">
                         <p className="lg:hidden absolute top-5 left-5  bg-black rounded-full w-fit lg:text-sm text-xs   px-2 inline-flex flex-nowrap text-[#FFD700] gap-1 py-1  light">Trending <i className="fi fi-ss-fire-flame-curved flex justify-center items-center "></i></p>

@@ -436,9 +436,7 @@ export default function CartPage(props) {
                     </Link>
                   </div> */}
                   </div>
-
                 </div>
-
               </div>
             </div>
           </div>

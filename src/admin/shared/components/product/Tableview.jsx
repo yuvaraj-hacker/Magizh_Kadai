@@ -257,7 +257,7 @@ const Tableview = (props) => {
     { field: 'Tax_Type', header: 'Tax Type' },
     { field: 'Tax_Percentage', header: 'Tax Percentage' },
     { field: '', header: 'Tax Amount' },
-    { field: '', header: 'Base Price' },
+    // { field: '', header: 'Base Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
     { field: 'Status', header: 'Status', filter: true, body: statusTemplate }
   ];

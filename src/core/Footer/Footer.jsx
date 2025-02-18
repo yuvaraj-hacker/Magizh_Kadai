@@ -65,7 +65,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                   </div>
                </div>
             </section> */}
-            <section className='bg-black/90   pb-[60px] lg:pb-0'>
+            <section className='bg-primary   pb-[60px] lg:pb-0'>
                <div className='relative lg:px-10 md:py-10 py-5'>
                   <div className='max-w-[80rem] mx-auto text-white'>
                      <div className='grid md:grid-cols-2 grid-cols-1 gap-5 px-5 lg:grid-cols-8 xl:gap-16'>
@@ -82,16 +82,16 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                  </div>
                                  <div className='flex gap-3 justify-center'>
                                     <a href='https://www.facebook.com/people/Magizh-Kadai/61572463483920/' target='_blank'  >
-                                       <i className="fi fi-brands-facebook md:text-xl"></i>
+                                       <img className='w-7' src="/images/Social/facebook.png" alt="" />
                                     </a>
                                     <a href='https://www.instagram.com/magizhkadai_official/?hl=en' target='_blank'>
-                                       <i className="fi fi-brands-instagram md:text-xl"></i>
+                                       <img className='w-7' src="/images/Social/insta.png" alt="" />
                                     </a>
                                     {/* <a href='https://wa.me/918825695060' target='_blank' rel='noopener noreferrer'>
                                        <i className="fi fi-brands-whatsapp md:text-xl"></i>
                                     </a> */}
-                                        <a href='https://studio.youtube.com/channel/UCyo7UU-fCK-FETylzViOQRA' target='_blank' rel='noopener noreferrer'>
-                                       <i className="fi fi-brands-youtube md:text-2xl text-lg"></i>
+                                    <a href='https://www.youtube.com/@Magizhkadai' target='_blank' rel='noopener noreferrer'>
+                                       <img className='w-7' src="/images/Social/youtube.png" alt="" />
                                     </a>
                                  </div>
                               </div>
@@ -100,22 +100,22 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center'>
                            <h1 className='md:text-xl text-lg text-secondary'>Store and Sites</h1>
                            <div className=' text-sm space-y-3 '>
-                              <p>  <Link to='/'>  Home </Link></p>
-                              <p>  <Link to='/products'>  Products</Link></p>
+                              <p className='hover:underline w-fit'>  <Link to='/'>  Home </Link></p>
+                              <p className='hover:underline w-fit'>  <Link to='/products'>  Products</Link></p>
                               {/* <p><Link to='/wishlist'> Wishlist </Link></p> */}
-                              <p> <Link to='/cart'>Cart </Link></p>
+                              <p className='hover:underline w-fit'> <Link to='/cart'>Cart </Link></p>
                            </div>
                         </div>
                         <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
                            <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
                            <div className=" space-y-3 text-sm">
-                              <p className="">
+                              <p className='hover:underline w-fit'>
                                  <Link to="/privacy-policy">  Privacy Policy  </Link>
                               </p>
-                              <p className=" ">
+                              <p className='hover:underline w-fit'>
                                  <Link to="terms-and-conditions" > Terms & Conditions  </Link>
                               </p>
-                              <p className=" ">
+                              <p className='hover:underline w-fit'>
                                  <Link to="return-and-refund-policy" >  Return and Refund Policy  </Link>
                               </p>
 
@@ -125,11 +125,13 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         <div className='lg:col-span-2 space-y-4 lg:text-left text-center' >
                            <p className="md:text-xl text-lg  text-secondary">Contact Information</p>
                            <div className='space-y-3 text-sm'>
-                              <p className=""> <span className=''>
-                                 Mobile Number: </span>+91 88256 95060</p>
-                               <p className="">
+                              <p >
+                                 <span className="">Mobile Number: </span>
+                                 <a href="https://wa.me/918825695060" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 88256 95060</a>
+                              </p>
+                              <p className="">
                                  <span>Email: </span>
-                                 <a href="https://mail.google.com/mail/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                                 <a href="https://mail.google.com/mail/" target="_blank" rel="noopener noreferrer" className=" hover:underline">
                                     magizhkadai@gmail.com
                                  </a>
                               </p>

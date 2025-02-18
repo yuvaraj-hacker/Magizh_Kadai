@@ -26,7 +26,7 @@
 // //           </div>
 // //           <div className="flex flex-row items-center justify-end gap-2">
 // //           <Link to="/" aria-label="Home" className="flex items-center mt-2 mr-4">
-// //               <i className="text-xl text-gray-800 fi fi-rr-home hover:text-gray-600"></i> 
+// //               <i className="text-xl text-gray-800 fi fi-rr-home hover:text-gray-600"></i>
 // //             </Link>
 // //             <Dropdown placement="bottom-end">
 // //               <DropdownTrigger>
@@ -56,11 +56,11 @@
 // //   )
 // // }
 
-// import { 
-//   Dropdown, 
-//   DropdownTrigger, 
-//   DropdownMenu, 
-//   DropdownItem, 
+// import {
+//   Dropdown,
+//   DropdownTrigger,
+//   DropdownMenu,
+//   DropdownItem,
 //   Avatar,
 //   Badge
 // } from "@nextui-org/react";
@@ -85,8 +85,8 @@
 //           {/* Right side - Navigation and Profile */}
 //           <div className="flex items-center gap-4 ml-auto">
 //             {/* Home Icon */}
-//             <Link 
-//               to="/" 
+//             <Link
+//               to="/"
 //               className="p-2 text-gray-600 transition-colors rounded-full hover:bg-gray-100"
 //             >
 //               <i className="text-xl fi fi-rr-home"></i>
@@ -115,12 +115,12 @@
 //                   </div>
 //                 </div>
 //               </DropdownTrigger>
-//               <DropdownMenu 
-//                 aria-label="Profile Actions" 
+//               <DropdownMenu
+//                 aria-label="Profile Actions"
 //                 className="w-60"
 //               >
-//                 <DropdownItem 
-//                   key="profile" 
+//                 <DropdownItem
+//                   key="profile"
 //                   className="gap-2 h-14"
 //                   textValue="profile">
 //                   <div className="flex flex-col">
@@ -144,8 +144,8 @@
 //                 >
 //                   Help & Feedback
 //                 </DropdownItem> */}
-//                 <DropdownItem 
-//                   key="logout" 
+//                 <DropdownItem
+//                   key="logout"
 //                   onPress={logout}
 //                   className="text-danger"
 //                   color="danger"
@@ -175,19 +175,19 @@ export default function Topbar() {
     <header className=" inset-x-0 z-50 lg:ps-[17rem] sticky top-0">
       {/* Glass effect background */}
       <div className="absolute inset-0 border-b bg-white/70 backdrop-blur-lg border-gray-200/80" />
-      
+
       <nav className="relative flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         {/* Left section */}
         <div className="flex items-center gap-4">
-          {/* <Button 
+          {/* <Button
             isIconOnly
-            variant="light" 
+            variant="light"
             className="lg:hidden"
             size="sm"
           >
             <Menu className="w-5 h-5" />
           </Button> */}
-          
+
           {/* <div className="items-center hidden px-4 rounded-full sm:flex h-9 bg-gray-100/80">
             <Search className="w-4 h-4 text-gray-500" />
             <input
@@ -209,7 +209,7 @@ export default function Topbar() {
           </Link>
 
           {/* Notifications */}
-          <Button 
+          {/* <Button
             isIconOnly
             variant="light"
             radius="full"
@@ -218,7 +218,7 @@ export default function Topbar() {
           >
             <Bell className="w-5 h-5" />
             <span className="absolute w-2 h-2 bg-red-500 rounded-full top-1 right-1" />
-          </Button>
+          </Button> */}
 
           {/* Profile dropdown */}
           <Dropdown placement="bottom-end">
@@ -245,9 +245,9 @@ export default function Topbar() {
               </DropdownItem>
               {/* <DropdownItem key="settings">Settings</DropdownItem>
               <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
-              <DropdownItem 
-                key="logout" 
-                className="text-danger" 
+              <DropdownItem
+                key="logout"
+                className="text-danger"
                 color="danger"
                 onPress={logout}
               >

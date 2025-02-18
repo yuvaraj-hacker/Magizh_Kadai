@@ -66,7 +66,7 @@ const Tableview = (props) =>{
             <Button label="Clear" onClick={() => handleClearFilters(key.field)} className="p-1 text-white bg-blue-500 w-[45%]" />
             <Button label="Apply" onClick={() => handleApplyFilters(key.field)} className="p-1 mx-1 text-white bg-blue-500 w-[45%]" />
           </div>
-        } 
+        }
       />
     </div>
   );
@@ -75,18 +75,19 @@ const Tableview = (props) =>{
     {field: 'Purchase_id', header: 'Purchase ID',filter: true},
     {field: 'Purchase_Date', header: 'Purchase Date',format:"Date",width:"150px"},
     {field: 'Invoice_ID', header: 'Invoice ID',filter: true},
-    {field: 'Billing_Name', header: 'Billing Name',width:"150px"},
-    {field: 'Email', header: 'Email',width:"150px"},
-    {field: 'Mobilenumber', header: 'Mobile Number',width:"150px"},
-    {field: 'City', header: 'City', filter: true,width:"150px"},
-    {field: 'Delivery_Address', header: 'Delivery Address',width:"200px"},
+    {field: 'Total_Quantity', header: 'Quantity',filter: true},
+    // {field: 'Billing_Name', header: 'Billing Name',width:"150px"},
+    // {field: 'Email', header: 'Email',width:"150px"},
+    // {field: 'Mobilenumber', header: 'Mobile Number',width:"150px"},
+    // {field: 'City', header: 'City', filter: true,width:"150px"},
+    // {field: 'Delivery_Address', header: 'Delivery Address',width:"200px"},
     {field: 'Total_Amount', header: 'Total Amount',width:"150px"},
-    {field: 'Payment_Status', header: 'Payment Status',width:"150px", filter: true},
+    // {field: 'Payment_Status', header: 'Payment Status',width:"150px", filter: true},
   ];
 
   return(
     <div>
-      <DataTable rowClassName={() => 'border-b border-secondary'}  selectionMode="single"   value={tabledata} scrollable scrollHeight="680px" className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" > 
+      <DataTable rowClassName={() => 'border-b border-secondary'}  selectionMode="single"   value={tabledata} scrollable scrollHeight="680px" className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
         <Column header="Action" body={actionbotton} />
         {/* <Column header="Images"  body={image} /> */}
         {columns.map((col, i) => (

@@ -38,7 +38,6 @@ const Approuter = () => {
                 <Routes>
                     <Route element={<Main />}>
                         <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<SignInPage />} />
                         {/* <Route path="/register" element={<RegisterPage />} /> */}
                         <Route path="/forgotpassword" element={<Forgotpassword />} />
                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -51,9 +50,8 @@ const Approuter = () => {
                         <Route path="/checkout" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><CheckoutPage /></ProtectedRoute>} />
                         <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
                         {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
-                          <Route path="/cart" element={<CartPageFunctions />} />
+                        <Route path="/cart" element={<CartPageFunctions />} />
                         <Route path="/new" element={<NewForm />} />
-                        <Route path="/login" element={<RegisterContinueGoogle />} />
                         <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
@@ -62,6 +60,8 @@ const Approuter = () => {
                             <Route path="/dashboard" element={<Dashboard />} />
                         </Route>
                     </Route>
+                    <Route path="/login" element={<SignInPage />} />
+                    <Route path="/login" element={<RegisterContinueGoogle />} />
                     <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
                 </Routes>
             </SidebarProvider>

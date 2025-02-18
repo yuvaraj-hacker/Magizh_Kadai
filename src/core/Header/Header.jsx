@@ -328,17 +328,17 @@ export default function Header(props) {
                   {/* <SearchBar categories={categories} onclickcategories={onclickcategories} opencategories={opencategories} setOpenCategories={setOpenCategories} /> */}
                   <div className=" ">
                     {/* Search Input */}
-                    <div className={` ${expandSearch ? 'w-[70vw] lg:w-auto' : 'w-10 h-10'} ease-in duration-300 float-right h-auto z-50 flex items-center justify-between w-full lg:*:py-4 bg-white border border-gray-200 rounded-full dark:bg-gray-800 dark:border-gray-700`}>
+                    <div className={` ${expandSearch ? 'w-[70vw] lg:w-auto' : 'w-10 h-10'} ease-in duration-300 float-right h-auto z-50 flex items-center border border-primary justify-between w-full lg:*:py-4 bg-white   rounded-full dark:bg-gray-800 dark:border-gray-700`}>
                       {isLoading ? (
                         <Loader2 className="lg:hidden animate-spin w-10 h-10 mr-2 text-primary dark:text-white" />
                       ) : (
                         <Search onClick={() => setExpandSearch(true)} className="lg:hidden w-8 h-8 bg-secondary dark:bg-red-800 !p-2 rounded-full text-white" />
                       )}
-                      <div onClick={onclickcategories} ref={categoryRef} className={`lg:inline-flex min-w-[170px] hidden whitespace-nowrap text-sm border-r relative items-center gap-1 cursor-pointer !px-4 select-none ${opencategories && 'bg-gray-200'} rounded-l-full`}> {opencategories ? 'Close Categories' : 'Select Categories'} <i className={`fi fi-br-angle-small-down pt-1 duration-300  ${opencategories ? 'rotate-180' : 'rotate-0'}`}></i>
+                      <div onClick={onclickcategories} ref={categoryRef} className={`lg:inline-flex min-w-[170px] hidden whitespace-nowrap text-sm border-r border-r-primary relative items-center gap-1 cursor-pointer !px-4 select-none ${opencategories && 'bg-gray-200'} rounded-l-full`}> {opencategories ? 'Close Categories' : 'Select Categories'} <i className={`fi fi-br-angle-small-down pt-1 duration-300  ${opencategories ? 'rotate-180' : 'rotate-0'}`}></i>
                         {<div className={`absolute top-[60px] left-0 transition-all ease-in overflow-hidden duration-300 ${opencategories ? ' max-h-[50vh]' : ' max-h-0'}`} ><AllCategories opencategories={opencategories} setOpenCategories={setOpenCategories} categories={categories} /></div>}
                       </div>
                       <input ref={searchRef} type="text" value={searchTerm} onChange={handleSearch} placeholder="Search for products.."
-                        className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm placeholder-gray-400 bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
+                        className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm  placeholder-gray-400 bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
                         onFocus={() => searchResults.length > 0 && setShowResults(true)}
                       />
                       {(searchTerm || expandSearch) ? (
@@ -348,7 +348,6 @@ export default function Header(props) {
                       )}
                     </div>
                     {/* Search Results Dropdown */}
-
                   </div>
                 </div>
                 {showResults && searchTerm.trim().length > 0 && (
@@ -399,9 +398,7 @@ export default function Header(props) {
                                       {(product.Category || product.Sub_Category) && (
                                         <p className="text-[10px] text-gray-500 flex items-center justify-center mt-1 dark:text-white">
                                           <Wand className="w-3 h-3 mr-1 text-red-400" />
-                                          {product.Category && product.Sub_Category
-                                            ? `${product.Category}/${product.Sub_Category}`
-                                            : product.Category || product.Sub_Category}
+                                          {product.Category && product.Sub_Category ? `${product.Category}/${product.Sub_Category}` : product.Category || product.Sub_Category}
                                         </p>
                                       )}
                                     </div>
@@ -465,10 +462,10 @@ export default function Header(props) {
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i>
                     <Link to='/'>
-                      <i className="fi fi-ss-house-chimney" title='Home'></i>
+                      <i className="fi fi-ss-house-chimney text-primary" title='Home'></i>
                     </Link>
                     <Link to='/products'>
-                      <i className="fi fi-rs-shop" title='Shop'></i>
+                      <i className="fi fi-rs-shop text-primary" title='Shop'></i>
                     </Link>
                     {/* <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
@@ -486,7 +483,7 @@ export default function Header(props) {
                     </div> */}
                     <Link to="/cart">
                       <div className='relative'>
-                        <i className="fi fi-sr-shopping-cart" title='Cart'></i>
+                        <i className="fi fi-sr-shopping-cart text-primary" title='Cart'></i>
                         <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
                           {cartItems && cartItems?.length > 0 ? cartItems?.length : cartCount}
                         </span>

@@ -6,7 +6,7 @@ export default function Dashboardcard() {
           <i className="mt-2 text-2xl text-primary fi fi-sr-user-tag"></i>
         </div>
         <div>
-          <h1 className="text-xl font-semibold">30</h1>
+          <h1 className="text-xl font-semibold">0</h1>
           <h3 className="text-sm">No of Customers</h3>
         </div>
       </div>
@@ -15,7 +15,7 @@ export default function Dashboardcard() {
           <i className="mt-2 text-2xl text-primary fi fi-sr-inbox-in"></i>
         </div>
         <div>
-          <h1 className="text-xl font-semibold">250</h1>
+          <h1 className="text-xl font-semibold">0</h1>
           <h3 className="text-sm">Orders Received</h3>
         </div>
       </div>
@@ -24,7 +24,7 @@ export default function Dashboardcard() {
           <i className="mt-2 text-2xl text-primary fi fi-ss-process"></i>
         </div>
         <div>
-          <h1 className="text-xl font-semibold">150</h1>
+          <h1 className="text-xl font-semibold">0</h1>
           <h3 className="text-sm">Order Processing</h3>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function Dashboardcard() {
           <i className="mt-2 text-2xl text-primary fi fi-ss-shipping-fast"></i>
         </div>
         <div>
-          <h1 className="text-xl font-semibold">30</h1>
+          <h1 className="text-xl font-semibold">0</h1>
           <h3 className="text-sm">Total Delivery</h3>
         </div>
       </div>

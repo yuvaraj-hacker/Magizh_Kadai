@@ -41,7 +41,7 @@ const ProductView = (props) => {
       });
     }
   };
-  const { product, mainImage, setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
+  const { product, mainImage, handleBuyNow,  setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
     handleIncreaseQuantity, handleAddToWishlist, wishlistData, setIsTooltipVisible, isTooltipVisible, setIsDescriptionOpen, isDescriptionOpen, descriptionRef, similarItems,
     visible, setVisible
   } = props
@@ -161,51 +161,62 @@ const ProductView = (props) => {
                 <span className="text-xs text-third line-through md:text-base">₹{product?.Sale_Price?.toFixed(2)}</span>
               )}
             </div>
-
-            <div className={`flex items-center   sticky bg-white   ${getCurrentCartQuantity() >0  ? 'gap-5' : 'gap-0'}  py-2 md:py-2  lg:bottom-0 bottom-[60px]`}>
-              {product.QTY > 0 && product.QTY !== null && (
+            {product.QTY > 0 && product.QTY !== null && (
+            <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
+              <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                 <>
-                  {getCurrentCartQuantity() === 0 ? (
-                    <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
-                      <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
-                      Add to Cart
-                    </button>
-                  ) : (
-                    <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
-                      <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
-                      <span className="mx-2">{getCurrentCartQuantity()} in cart</span>
-                    </button>
-                  )}
-                  {getCurrentCartQuantity() >= 1 ? (
-                    <div className='flex flex-col justify-between md:gap-3 gap-1'>
-                      <button className=' rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
-                        <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
-                      </button>
-                      <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed border-primary border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
-                        <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div>
-                    </div>
-                  )}
-                </>
-              )}
 
-              {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
+                    <>
+                      {getCurrentCartQuantity() === 0 ? (
+                        <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
+                          <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                          Add to Cart
+                        </button>
+                      ) : (
+                        <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
+                          <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                          <span className="md:mx-2">{getCurrentCartQuantity()} in cart</span>
+                        </button>
+                      )}
+                      {getCurrentCartQuantity() >= 1 ? (
+                        <div className='flex flex-col justify-between md:gap-3 gap-1'>
+                          <button className=' rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                            <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
+                          </button>
+                          <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed border-primary border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
+                            <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                        </div>
+                      )}
+                    </>
+
+
+                </>
+                {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
               {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
                </button> */}
-              {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
+                {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
                 {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
                   <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
                 ) : (
                   <i className="text-2xl transition-colors fi-bs-heart text-black/60 dark:text-white"></i>
                 )}
               </button> */}
-            </div>
 
+              </div>
+
+              <div className="bg-[#27A737] cursor-pointer  items-center  px-2   justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleBuyNow}>
+                <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
+                <p className="md:text-lg text-xs px-1  ">Buy Now</p>
+              </div>
+
+            </div>
+             )}
             <div className="flex items-center gap-4">
 
               {/* <div className="relative inline-block" onMouseEnter={() => setIsTooltipVisible(true)} onMouseLeave={() => setIsTooltipVisible(false)}    >
@@ -239,7 +250,7 @@ const ProductView = (props) => {
                 <div className="flex items-center justify-between cursor-pointer bg-gray-50 p-3" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
                   <h2 className=" uppercase md:text-base">PRODUCT DESCRIPTION</h2>
                   <i
-                    className={`fi fi-rs-angle-down text-[#269C52] ${isDescriptionOpen ? "rotate-180" : "rotate-0"
+                    className={`fi fi-rs-angle-down text-primary ${isDescriptionOpen ? "rotate-180" : "rotate-0"
                       } duration-300`}
                   ></i>
                 </div>

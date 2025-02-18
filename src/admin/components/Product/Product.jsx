@@ -108,7 +108,7 @@ export default function Product() {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            try {
+            try {       
                 const response = await getallcategory({ rows: 1000 });
                 setCategories(response.resdata);
             } catch (error) {

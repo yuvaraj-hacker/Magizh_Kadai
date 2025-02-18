@@ -149,7 +149,7 @@ export default function ProductViewFunctions() {
         const fetchProduct = async () => {
             try {
                 const data = await apigetproductbyid(id);
-                if (data) {
+                    if (data) {
                     setProduct(data.resdata.product);
                     setSimilarItems(data.resdata.SimilerItems);
                     setMainImage(data.resdata.product.Images[0]);
@@ -198,10 +198,29 @@ export default function ProductViewFunctions() {
         </div>;
     }
 
+    const handleBuyNow = () => {
+        let message = "New Order Request:\n\n";
+        const productTotal = product.Discount > 0
+            ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * 1).toFixed(2)
+            : (product.Sale_Price * 1).toFixed(2);
+
+        message += `1. ${product.Product_Name}\n`;
+        message += `Quantity: 1\n`;
+        message += `Price: ₹${productTotal}\n`;
+        message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
+
+        message += `Order Summary:\n`;
+        message += `Total Items: 1\n`;
+        message += `Final Total: ₹${productTotal}\n`;
+
+        const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+    };
+
     return (
         <>
             <div className="min-h-[60vh]">
-                <ProductView product={product} mainImage={mainImage} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
+                <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
                     handleMouseLeave={handleMouseLeave} getCurrentCartQuantity={getCurrentCartQuantity} handleAddToCart={handleAddToCart} handleDelete={handleDelete}
                     handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity} handleAddToWishlist={handleAddToWishlist} wishlistData={wishlistData}
                     setIsTooltipVisible={setIsTooltipVisible} isTooltipVisible={isTooltipVisible} setIsDescriptionOpen={setIsDescriptionOpen} isDescriptionOpen={isDescriptionOpen}

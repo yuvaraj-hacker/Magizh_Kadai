@@ -84,14 +84,11 @@ const SwiperMax = ({ banners }) => {
                     </div>
                   </div> */}
                   <div
-                    className="relative  flex items-center justify-center text-center text-white   md:py-10 py-5 overflow-hidden"
+                    className="relative flex items-center justify-center text-center text-white md:py-10 py-5 overflow-hidden"
                     style={{
-                      backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://www.magizhkadai.com/${banner.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  >
+                      backgroundImage: `linear-gradient(to bottom, rgba(2, 74, 52, 0.4), rgba(2, 74, 52, 0.4)), url(https://www.magizhkadai.com/${banner.image})`, backgroundSize: "cover",
+                      backgroundPosition: "center", backgroundRepeat: "no-repeat",
+                    }}  >
                     <div className="z-10 px-5 max-w-2xl md:space-y-4 space-y-2">
                       <div className="font-jomhuria text-white md:text-7xl text-5xl">
                         {banner.title}
@@ -102,10 +99,20 @@ const SwiperMax = ({ banners }) => {
                       {/* <div className="text-secondary contrast-150">
                         Starting From <span className="text-xl font-semibold">₹129</span>
                       </div> */}
-                      <div className="">
+                      {/* <div className="">
                         <Link to={banner.link}>
                           <button className="md:p-3 p-2 border border-white lg:border-secondary rounded-full group   text-secondary">
                             <p className="group-hover:text-secondary"> Shop Now <i className="fi fi-br-arrow-up-right text-sm  group-hover:text-secondary"></i></p>
+                          </button>
+                        </Link>
+                      </div> */}
+                      <div className="">
+                        <Link to={banner.link}>
+                          <button className="md:p-3 p-2 bg-[#024a34] rounded-full text-[#DBA737] border-2 border-[#DBA737] transition-all duration-300 hover:bg-[#036049] hover:text-white">
+                            <p className="flex items-center gap-2">
+                              Shop Now
+                              <i className="fi fi-br-arrow-up-right text-sm"></i>
+                            </p>
                           </button>
                         </Link>
                       </div>
