@@ -41,7 +41,7 @@ const ProductView = (props) => {
       });
     }
   };
-  const { product, mainImage, handleBuyNow,  setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
+  const { product, mainImage, handleBuyNow, setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleRequestStock, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
     handleIncreaseQuantity, handleAddToWishlist, wishlistData, setIsTooltipVisible, isTooltipVisible, setIsDescriptionOpen, isDescriptionOpen, descriptionRef, similarItems,
     visible, setVisible
   } = props
@@ -162,9 +162,9 @@ const ProductView = (props) => {
               )}
             </div>
             {product.QTY > 0 && product.QTY !== null && (
-            <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
-              <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
-                <>
+              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
+                <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
+                  <>
 
                     <>
                       {getCurrentCartQuantity() === 0 ? (
@@ -194,31 +194,40 @@ const ProductView = (props) => {
                     </>
 
 
-                </>
-                {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
-              {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
+                  </>
+                  {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
+                {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
                 :<><i className="block text-2xl transition-colors fi-rr-bookmark text-black/60 group-1"></i>
                   <i className="hidden text-2xl text-red-500 transition-colors fi-sr-bookmark group-2"></i></>}
-               </button> */}
-                {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
-                {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
+                 </button> */}
+                  {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2   h-fit group-0">
+                 {wishlistData?.map(resp => resp.productId?._id).includes(product._id) ? (
                   <i className="text-2xl text-red-500 transition-colors fi-ss-heart"></i>
-                ) : (
+                  ) : (
                   <i className="text-2xl transition-colors fi-bs-heart text-black/60 dark:text-white"></i>
-                )}
-              </button> */}
+                  )}
+                 </button> */}
+
+                </div>
+
+                <div className="bg-[#27A737] cursor-pointer  items-center  px-2   justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleBuyNow}>
+                  <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
+                  <p className="md:text-lg text-xs px-1  ">Buy Now</p>
+                </div>
 
               </div>
-
-              <div className="bg-[#27A737] cursor-pointer  items-center  px-2   justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleBuyNow}>
-                <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
-                <p className="md:text-lg text-xs px-1  ">Buy Now</p>
-              </div>
-
-            </div>
-             )}
+            )}
+            {(product.QTY == 0 &&
+              <>
+                <div className='   lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
+                  <div className="bg-[#27A737] cursor-pointer  items-center w-1/2  px-2 justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleRequestStock}>
+                    <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
+                    <p className="md:text-lg text-xs px-1  ">Notify Me</p>
+                  </div>
+                </div>
+              </>
+            )}
             <div className="flex items-center gap-4">
-
               {/* <div className="relative inline-block" onMouseEnter={() => setIsTooltipVisible(true)} onMouseLeave={() => setIsTooltipVisible(false)}    >
               <span className="text-green-600 cursor-pointer dark:text-green-200">Freshness Guarantee</span>
               {isTooltipVisible && (

@@ -310,8 +310,8 @@ const Products = () => {
                     <meta property="og:type" content="website" />
                     <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
                     <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
-                    <meta property="og:url" content="https://magizhkadai.com/" />
-                    <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+                    <meta property="og:url" content="https://www.magizhkadai.com/" />
+                    <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
                 </Helmet>
             </HelmetProvider>
             {isLoading ? (
@@ -321,7 +321,7 @@ const Products = () => {
             ) : (
                 <section className="max-w-full mx-auto" >
                     <div className="max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black">
-                        <div className={`lg:sticky lg:top-[101px] bg-gray-100 lg:min-h-screen h-screen top-0 lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} custom-scrollbar `}  >
+                        <div className={`lg:sticky lg:top-[73px] bg-gray-100 lg:min-h-screen h-screen top-0 lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} custom-scrollbar `}  >
                             <div className="lg:hidden block p-2">
                                 <div className="flex justify-end">
                                     <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}   ></i>

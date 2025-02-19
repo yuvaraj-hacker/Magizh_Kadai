@@ -588,8 +588,8 @@ export default function CartPageFunctions() {
                     <meta property="og:type" content="website" />
                     <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
                     <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
-                    <meta property="og:url" content="https://magizhkadai.com/" />
-                    <meta property="og:image" content="https://magizhkadai.com/images/og/og-image.jpeg" />
+                    <meta property="og:url" content="https://www.magizhkadai.com/" />
+                    <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
                 </Helmet>
             </HelmetProvider>
             <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}

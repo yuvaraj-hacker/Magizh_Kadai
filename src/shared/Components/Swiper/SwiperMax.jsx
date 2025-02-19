@@ -109,7 +109,7 @@ const SwiperMax = ({ banners }) => {
                       <div className="">
                         <Link to={banner.link}>
                           <button className="md:p-3 p-2 bg-[#024a34] rounded-full text-[#DBA737] border-2 border-[#DBA737] transition-all duration-300 hover:bg-[#036049] hover:text-white">
-                            <p className="flex items-center gap-2">
+                            <p className="flex items-center gap-2 font-bold">
                               Shop Now
                               <i className="fi fi-br-arrow-up-right text-sm"></i>
                             </p>

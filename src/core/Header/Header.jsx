@@ -315,39 +315,32 @@ export default function Header(props) {
     <>
       <header>
         <div className={`fixed lg:z-50 z-40 w-full ml-auto ${scrolled ? 'shadow-md' : 'shadow-md'} `}>
-          <div className='flex w-full bg-white dark:bg-black'>
-            <div className='inline-flex flex-row-reverse w-full h-full px-3 lg:flex-row'>
-              <div className='flex items-center relative  w-full justify-between lg:py-4 py-2'>
+          <div className='flex w-full bg-gray-50 dark:bg-black'>
+            <div className='inline-flex flex-row-reverse w-full h-full  2xl:px-10 px-5 lg:flex-row'>
+              <div className='flex items-center relative  w-full justify-between  '>
                 {/* logo */}
-                <div className='flex items-center lg:px-5 rounded-r-md'>
+                <div className='flex items-center  rounded-r-md'>
                   <Link to={'/'} onClick={ScrollToTop}><img src="/images/Logo/Logo.png" alt="" className='w-24 p-1 min-w-24 lg:w-36' />
                   </Link>
                 </div>
                 {/* search */}
-                <div className={`  lg:max-w-[40vw] lg:w-full z-10 lg:static absolute right-0`}>
-                  {/* <SearchBar categories={categories} onclickcategories={onclickcategories} opencategories={opencategories} setOpenCategories={setOpenCategories} /> */}
+                <div className={`lg:max-w-[30vw] lg:w-full z-10 lg:static absolute  right-0 `}>
                   <div className=" ">
-                    {/* Search Input */}
-                    <div className={` ${expandSearch ? 'w-[70vw] lg:w-auto' : 'w-10 h-10'} ease-in duration-300 float-right h-auto z-50 flex items-center border border-primary justify-between w-full lg:*:py-4 bg-white   rounded-full dark:bg-gray-800 dark:border-gray-700`}>
+                    <div className={` ${expandSearch ? 'w-[70vw] lg:w-auto' : 'w-10 h-10'} ease-in  duration-300 float-right overflow-hidden h-auto z-50 flex items-center  border border-primary lg:px-1 lg:bg-primary justify-between w-full lg:*:py-1.5      rounded-full dark:bg-gray-800 dark:border-gray-700`}>
                       {isLoading ? (
                         <Loader2 className="lg:hidden animate-spin w-10 h-10 mr-2 text-primary dark:text-white" />
                       ) : (
                         <Search onClick={() => setExpandSearch(true)} className="lg:hidden w-8 h-8 bg-secondary dark:bg-red-800 !p-2 rounded-full text-white" />
                       )}
-                      <div onClick={onclickcategories} ref={categoryRef} className={`lg:inline-flex min-w-[170px] hidden whitespace-nowrap text-sm border-r border-r-primary relative items-center gap-1 cursor-pointer !px-4 select-none ${opencategories && 'bg-gray-200'} rounded-l-full`}> {opencategories ? 'Close Categories' : 'Select Categories'} <i className={`fi fi-br-angle-small-down pt-1 duration-300  ${opencategories ? 'rotate-180' : 'rotate-0'}`}></i>
-                        {<div className={`absolute top-[60px] left-0 transition-all ease-in overflow-hidden duration-300 ${opencategories ? ' max-h-[50vh]' : ' max-h-0'}`} ><AllCategories opencategories={opencategories} setOpenCategories={setOpenCategories} categories={categories} /></div>}
-                      </div>
                       <input ref={searchRef} type="text" value={searchTerm} onChange={handleSearch} placeholder="Search for products.."
-                        className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm  placeholder-gray-400 bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
-                        onFocus={() => searchResults.length > 0 && setShowResults(true)}
-                      />
+                        className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm placeholder-gray-400 lg:bg-white rounded-3xl  bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
+                        onFocus={() => searchResults.length > 0 && setShowResults(true)} />
                       {(searchTerm || expandSearch) ? (
-                        <X className="!p-0 -translate-x-2 z-20 text-gray-500 cursor-pointer hover:text-[#38031D] dark:text-white transition-colors" onClick={clearSearch} />
-                      ) : (
-                        <i className="fi fi-rr-search  pr-4 text-gray-300 lg:block hidden" ></i>
-                      )}
+                        <i class="fi fi-rr-cross-small lg:text-gray-300 lg:block  text-black    cursor-pointer px-2 lg:mt-1    flex justify-center items-center lg:bg-primary" onClick={clearSearch}></i>
+                      ) :
+                        (<i className="fi fi-rr-search   text-gray-300 lg:block hidden cursor-pointer px-2 mt-1    bg-primary  flex justify-center items-center" onClick={() => { setTimeout(() => searchRef.current?.focus(), 100); }}></i>
+                        )}
                     </div>
-                    {/* Search Results Dropdown */}
                   </div>
                 </div>
                 {showResults && searchTerm.trim().length > 0 && (
@@ -454,13 +447,13 @@ export default function Header(props) {
                     )}
                   </div>
                 )}
-                <div>
-                </div>
+                {/* <div>
+                </div> */}
 
-                <div className='hidden flex-wrap gap-10 lg:flex md:flex-nowrap lg:px-5'>
+                <div className='hidden flex-wrap gap-10 lg:flex  md:flex-nowrap '>
                   {/* icons */}
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
-                    <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i>
+                    {/* <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i> */}
                     <Link to='/'>
                       <i className="fi fi-ss-house-chimney text-primary" title='Home'></i>
                     </Link>
@@ -496,8 +489,8 @@ export default function Header(props) {
                         <Moon className="w-5 h-5" />
                       )}
                     </button> */}
-                    <div className="relative" ref={userDropdownRef}>
-                      {/* <Link onClick={openform}>
+                    {/* <div className="relative" ref={userDropdownRef}>
+                      <Link onClick={openform}>
                         {userdetails ? (
                            <div className="inline-flex items-center justify-center w-[38px] h-[38px] rounded-full bg-secondary ring-2 ring-white">
                             <span className="text-lg font-bold text-white">
@@ -509,11 +502,11 @@ export default function Header(props) {
                             <i className="text-xl text-gray-500 fi fi-rr-user"></i>
                           </div>
                         )}
-                      </Link> */}
+                      </Link>
 
                       {showUserDropdown && isLoggedIn && (
                         <div className="absolute right-0 z-50 mt-2 bg-white rounded-lg shadow-lg dark:bg-gray-600 w-72">
-                          {/* User info header */}
+
                           <div className="p-4 border-b">
                             <div className="flex items-center gap-3">
                               <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full dark:bg-white dark:text-secondary">
@@ -526,7 +519,7 @@ export default function Header(props) {
                               </div>
                             </div>
                           </div>
-                          {/* Menu items */}
+
                           <div className="py-2">
                             {isLoggedIn && userdetails?.Role === 'Admin' && (
                               <Link to="/admin/home" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
@@ -536,10 +529,10 @@ export default function Header(props) {
                             )}
                             {isLoggedIn && userdetails?.Role !== 'Admin' && (
                               <>
-                                {/* <Link to="myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                <Link to="myorder" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-shopping-bag dark:text-white"></i>
                                   <span className="text-sm dark:text-white">My orders</span>
-                                </Link> */}
+                                </Link>
                                 <Link to="/dashboard" onClick={toggleSidebar} className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
                                   <span className="text-sm dark:text-white">My Account</span>
@@ -552,19 +545,19 @@ export default function Header(props) {
                                   <i className="fi fi-rr-interrogation dark:text-white  flex justify-center items-center"></i>
                                   <span className="text-sm dark:text-white">Help center</span>
                                 </Link>
-                                {/*
+
                                 <Link className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50">
                                   <i className="fi fi-rr-users"></i>
                                   <span className="text-sm">Refer Friends, Get $20</span>
-                                </Link> */}
-                                {/* <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
+                                </Link>
+                                <Link to="/setting" className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-settings dark:text-white"></i>
                                   <span className="text-sm dark:text-white">Settings</span>
                                 </Link>
                                 <Link to='/help-center' className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-rr-interrogation dark:text-white"></i>
                                   <span className="text-sm dark:text-white">Help center</span>
-                                </Link> */}
+                                </Link>
                               </>
                             )}
                             <button onClick={handleLogout} className="flex items-center w-full gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400" >
@@ -574,7 +567,7 @@ export default function Header(props) {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   <RegisterContinueGoogle visible={visible} setVisible={setVisible} />
                 </div>

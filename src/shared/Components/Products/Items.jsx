@@ -18,11 +18,11 @@ const Items = (prpos) => {
   return (
     <>
       <section>
-        <div className={`w-full sticky top-[65px] lg:top-[103px] z-30 ${scrolled ? '' : ''}`}>
+        <div className={`w-full sticky top-[47px] lg:top-[71px] z-30 ${scrolled ? '' : ''}`}>
           <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-5 px-2">
             <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">{`${products.length} results`}</div>
             <div className=" flex  items-center md:gap-5 gap-2  ">
-              <div className="lg:hidden block text-end   bg-gray-50 rounded-md  p-4 cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+              <div className="lg:hidden block text-end   bg-gray-50 rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
                 <div className="flex justify-end gap-4 items-center w-fit   ">
                   <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-gray-500"></i>
                   <p className="md:text-base text-sm  text-gray-500">Filter</p>

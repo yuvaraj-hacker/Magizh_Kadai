@@ -100,23 +100,23 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                         <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center'>
                            <h1 className='md:text-xl text-lg text-secondary'>Store and Sites</h1>
                            <div className=' text-sm space-y-3 '>
-                              <p className='hover:underline w-fit'>  <Link to='/'>  Home </Link></p>
-                              <p className='hover:underline w-fit'>  <Link to='/products'>  Products</Link></p>
+                              <p>  <Link to='/'><span className='hover:underline  w-fit'> Home </span> </Link></p>
+                              <p>  <Link to='/products'> <span className='hover:underline  w-fit'> Products</span></Link></p>
                               {/* <p><Link to='/wishlist'> Wishlist </Link></p> */}
-                              <p className='hover:underline w-fit'> <Link to='/cart'>Cart </Link></p>
+                              <p> <Link to='/cart'> <span className='hover:underline  w-fit'>Cart</span> </Link></p>
                            </div>
                         </div>
                         <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
                            <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
-                           <div className=" space-y-3 text-sm">
-                              <p className='hover:underline w-fit'>
-                                 <Link to="/privacy-policy">  Privacy Policy  </Link>
+                           <div className=" space-y-3 text-sm  ">
+                              <p>
+                                 <Link to="/privacy-policy"> <span className='hover:underline  w-fit'>Privacy Policy</span>   </Link>
                               </p>
-                              <p className='hover:underline w-fit'>
-                                 <Link to="terms-and-conditions" > Terms & Conditions  </Link>
+                              <p>
+                                 <Link to="terms-and-conditions" >  <span className='hover:underline  w-fit'>Terms & Conditions</span>  </Link>
                               </p>
-                              <p className='hover:underline w-fit'>
-                                 <Link to="return-and-refund-policy" >  Return and Refund Policy  </Link>
+                              <p>
+                                 <Link to="return-and-refund-policy" >  <span className='hover:underline  w-fit'> Return and Refund Policy </span> </Link>
                               </p>
 
                            </div>

@@ -217,7 +217,7 @@ export default function Addandeditform(props) {
                                 <input type="number" name="Zipcode" value={formdata?.Zipcode} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" required />
                             </div>
                             <div>
-                                <label className="block mb-2 text-sm font-medium dark:text-white">Mobile Number</label>
+                                <label className="block mb-2 text-sm font-medium dark:text-white">Mobile Number  <span className='text-red-500'>*</span></label>
                                 <input type="text" name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}" onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" />
                                 {/* <input type="number" name="Mobilenumber" id="Mobilenumber" value={formdata?.Mobilenumber} onChange={(event) => handleAutoChange(event)} autoComplete="off" className="w-full px-4 py-2 border rounded-md outline-none" />
                                 { ClientData&&ClientData.length > 0 &&

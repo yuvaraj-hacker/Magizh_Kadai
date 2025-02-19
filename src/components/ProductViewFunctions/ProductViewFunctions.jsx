@@ -217,10 +217,20 @@ export default function ProductViewFunctions() {
         window.open(whatsappUrl, "_blank");
     };
 
+    const handleRequestStock = () => {
+        let message = "Product Request:\n\n";
+        message += `I need to buy the following item(s), but they are currently out of stock. Please restock them:\n\n`;
+        message += `1. ${product.Product_Name}\n`;
+        message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
+        message += `Please notify me when it's available. Thank you!`;
+        const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+    };
+
     return (
         <>
             <div className="min-h-[60vh]">
-                <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
+                <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} handleRequestStock={handleRequestStock} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
                     handleMouseLeave={handleMouseLeave} getCurrentCartQuantity={getCurrentCartQuantity} handleAddToCart={handleAddToCart} handleDelete={handleDelete}
                     handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity} handleAddToWishlist={handleAddToWishlist} wishlistData={wishlistData}
                     setIsTooltipVisible={setIsTooltipVisible} isTooltipVisible={isTooltipVisible} setIsDescriptionOpen={setIsDescriptionOpen} isDescriptionOpen={isDescriptionOpen}
