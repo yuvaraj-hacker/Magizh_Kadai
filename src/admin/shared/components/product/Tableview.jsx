@@ -253,10 +253,10 @@ const Tableview = (props) => {
     // { field: 'Made_In', header: 'Made In' },
     { field: 'QTY', header: 'Qty' },
     { field: 'Regular_Price', header: 'Regular Price' },
-    { field: 'Discount', header: 'Discount', filter: true  },
+    { field: 'Discount', header: 'Dis (%)', filter: true },
     { field: 'Tax_Type', header: 'Tax Type' },
     { field: 'Tax_Percentage', header: 'Tax Percentage' },
-    { field: '', header: 'Tax Amount' },
+    // { field: '', header: 'Tax Amount' },
     // { field: '', header: 'Base Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
     { field: 'Status', header: 'Status', filter: true, body: statusTemplate }
@@ -406,13 +406,19 @@ const Tableview = (props) => {
         onSelectionChange={(e) => setSelectedProducts(e.value)}
         selectionMode="checkbox"
       >
-        <Column
+           <Column
+      header="S.No"
+      body={(rowData, { rowIndex }) => rowIndex + 1}
+      headerClassName="text-gray-700 bg-gray-50"
+      className=""
+    />
+        {/* <Column
           header={CustomSelectionHeader}
           body={CustomSelectionBody}
           headerClassName="text-gray-700 bg-gray-50 !w-16"
            className="!w-16"
           alignHeader="center"
-        />
+        /> */}
         <Column
           header="Action"
           body={actionbotton}

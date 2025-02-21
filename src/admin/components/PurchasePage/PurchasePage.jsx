@@ -102,6 +102,8 @@ export default function PurchasePage() {
         console.log(Purchase_id)
         var res = await getpurchaseitemsbyid(Purchase_id);
         setViewProductData(res);
+        console.log("Purchase Details:", res);
+
         setViewProduct(true)
     }
     const handleSearchChange = async (e, rowIndex) => {
@@ -183,14 +185,14 @@ export default function PurchasePage() {
 
     return (
         <div>
-            <div className="bg-white border rounded-3xl">
+            <div className="bg-white border rounded-3xl ">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
+                 <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} handlechange={handlechange}
                     handlesave={handlesave} handleupdate={handleupdate} addRow={addRow} handleSearchChange={handleSearchChange} setRowIndex={setRowIndex} searchResults={searchResults} setSearchResults={setSearchResults}
                     RowIndex={RowIndex} handlechangeProduct={handlechangeProduct} handledeleteField={handledeleteField} loadData={loadData} />
-                <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />
+                <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} tabledata={tabledata} ViewProductData={ViewProductData} />
                 <ConfirmDialog />
             </div>
 

@@ -223,9 +223,9 @@ export default function Addandeditform(props) {
                     </div>
                     <div className="mb-2">
                         <div className="mb-2">
-                            <label>Discount</label>
+                            <label>Discount (%)</label>
                         </div>
-                        <input type="text" name="Discount" value={formdata?.Discount} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
+                        <input type="text" name="Discount" value={Math.round(formdata?.Discount)} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
                     </div>
                     {/* <div className="mb-2">
                         <div className="mb-2">
@@ -277,7 +277,7 @@ export default function Addandeditform(props) {
                             </div>
                             <div className="mb-2">
                                 <div className="mb-2">
-                                    <label>Tax Percentage</label>
+                                    <label>Tax (%)</label>
                                 </div>
                                 <input type="text" name="Tax_Percentage" value={formdata?.Tax_Percentage || ""} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" />
                             </div>

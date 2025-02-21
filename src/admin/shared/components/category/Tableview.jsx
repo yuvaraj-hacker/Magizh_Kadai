@@ -39,15 +39,15 @@ const Tableview = (props) => {
   const actionbotton = (rowData) => {
     return (
       <div className="flex justify-center gap-3">
-        <button 
-          onClick={() => editfrom(rowData)} 
-          className="p-2 transition-colors duration-200 rounded-full hover:bg-blue-50"
+        <button
+          onClick={() => editfrom(rowData)}
+          className="  transition-colors duration-200 rounded-full hover:bg-blue-50"
         >
           <i className="text-lg text-blue-600 fi fi-rr-pen-circle"></i>
         </button>
-        <button 
-          onClick={() => handledelete(rowData?._id)} 
-          className="p-2 transition-colors duration-200 rounded-full hover:bg-red-50"
+        <button
+          onClick={() => handledelete(rowData?._id)}
+          className="  transition-colors duration-200 rounded-full hover:bg-red-50"
         >
           <i className="text-lg text-red-600 fi fi-rr-trash"></i>
         </button>
@@ -75,9 +75,9 @@ const Tableview = (props) => {
     return (
       <div className="flex justify-center">
         <div className="relative group">
-          <img 
-            src={`${apiurl()}/${rowData.Images[0]}`} 
-            className="object-cover w-24 h-16 transition-transform duration-200 rounded-lg shadow-sm group-hover:scale-105" 
+          <img
+            src={`${apiurl()}/${rowData.Images[0]}`}
+            className="object-cover w-24 h-16 transition-transform duration-200 rounded-lg shadow-sm group-hover:scale-105"
             alt={rowData.Category_Name}
           />
           <div className="absolute inset-0 transition-all duration-200 bg-black bg-opacity-0 rounded-lg group-hover:bg-opacity-10" />
@@ -99,7 +99,7 @@ const Tableview = (props) => {
           )}
         </div>
         {/* {rowData.Subcategories?.length > 0 && (
-          <button 
+          <button
             onClick={() => handleViewSubcategories(rowData)}
             className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
           >
@@ -116,7 +116,7 @@ const Tableview = (props) => {
         case 'active':
           return 'bg-green-100 text-green-700';
         case 'inactive':
-          return 'bg-gray-100 text-gray-700';
+          return 'bg-third text-white';
         default:
           return 'bg-blue-100 text-blue-700';
       }
@@ -132,8 +132,8 @@ const Tableview = (props) => {
   const colorTemplate = (rowData) => {
     return (
       <div className="flex items-center gap-2">
-        <div 
-          className="w-6 h-6 border rounded-full shadow-sm" 
+        <div
+          className="w-6 h-6 border rounded-full shadow-sm"
           style={{ backgroundColor: rowData.Card_color }}
         />
         <span>{rowData.Card_color}</span>
@@ -155,7 +155,7 @@ const Tableview = (props) => {
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
-            <button 
+            <button
               onClick={() => setShowFilterPanel(false)}
               className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
             >
@@ -241,13 +241,13 @@ const Tableview = (props) => {
           </button>
         </div>
       </div>
-      
+
       {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
         <div className="flex flex-wrap gap-2 mt-4">
           {Object.entries(tempFilterValues).map(([key, value]) => {
             if (value && value.length > 0) {
               return value.map((v, i) => (
-                <span 
+                <span
                   key={`${key}-${i}`}
                   className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
                 >
@@ -276,8 +276,8 @@ const Tableview = (props) => {
 
   const modalHeader = selectedRow && (
     <div className="flex items-center gap-4 p-4">
-      <img 
-        src={`${apiurl()}/${selectedRow.Images[0]}`} 
+      <img
+        src={`${apiurl()}/${selectedRow.Images[0]}`}
         className="object-cover w-16 h-16 rounded-lg"
         alt={selectedRow.Category_Name}
       />
@@ -291,7 +291,7 @@ const Tableview = (props) => {
   return (
     <div className="bg-white border shadow-sm rounded-xl">
       <TableHeader />
-      
+
       <DataTable
         value={tabledata}
         scrollable
@@ -302,24 +302,30 @@ const Tableview = (props) => {
         stripedRows
         responsiveLayout="scroll"
       >
-        <Column 
-          header="Action" 
-          body={actionbotton} 
-          headerClassName="text-gray-700 bg-gray-50" 
-          className="text-center"
+        <Column
+      header="S.No"
+      body={(rowData, { rowIndex }) => rowIndex + 1}
+      headerClassName="text-gray-700 bg-gray-50"
+      className=""
+    />
+        <Column
+          header="Action"
+          body={actionbotton}
+          headerClassName="text-gray-700 bg-gray-50"
+          className=""
         />
-        <Column 
-          header="Images" 
-          body={image} 
+        <Column
+          header="Images"
+          body={image}
           headerClassName="text-gray-700 bg-gray-50"
         />
         {columns.map((col, i) => (
           col.formattype === 'array' ? (
-            <Column 
-              key={i} 
-              header={col.header} 
-              field={col.field} 
-              style={{ minWidth: col.width }} 
+            <Column
+              key={i}
+              header={col.header}
+              field={col.field}
+              style={{ minWidth: col.width }}
               body={array}
               headerClassName="text-gray-700 bg-gray-50"
             />
@@ -346,13 +352,13 @@ const Tableview = (props) => {
       >
         <div className="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
           {selectedSubcategories && selectedSubcategories.map((sub, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="relative overflow-hidden transition-all duration-200 bg-white border shadow-sm group rounded-xl hover:shadow-md"
             >
               <div className="w-full overflow-hidden aspect-video">
-                <img 
-                  src={`${apiurl()}/${sub.image}`} 
+                <img
+                  src={`${apiurl()}/${sub.image}`}
                   alt={sub.name}
                   className="object-cover w-full h-full transition-transform duration-200 group-hover:scale-105"
                 />

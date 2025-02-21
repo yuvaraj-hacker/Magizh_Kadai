@@ -17,13 +17,13 @@ export default function Sidebar() {
                 <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
             </li>
-            <li className="text-sm font-semibold text-gray-800 truncate" aria-current="page">
+              <li className="text-sm font-semibold text-gray-800 truncate" aria-current="page">
               Dashboard
             </li>
           </ol>
         </div>
       </div>
-      <div id="application-sidebar" className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-gradient-to-b rounded-xl m-3 from-secondary to-secondary border pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+      <div id="application-sidebar" className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-primary rounded-xl m-3  border pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
         <div className="px-6">
           <a className="flex text-xl font-semibold" href="#" aria-label="Brand">
             <img src="/images/Logo/Logo.png" alt="" className="object-cover p-2 bg-white rounded-lg " />
@@ -31,43 +31,43 @@ export default function Sidebar() {
         </div>
         <nav className="flex flex-col flex-wrap w-full p-6 hs-accordion-group" data-hs-accordion-always-open>
           <ul className="space-y-1.5">
-            <li>
+            {/* <li>
               <NavLink to={'/admin/home'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? 'bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-sr-home flex justify-center items-center"></i>Home
               </NavLink>
-            </li>
+            </li> */}
             <li>
-              <NavLink to={'/admin/dashboard'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? 'bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/dashboard'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? 'bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-rr-dashboard flex justify-center items-center"></i> Dashboard
               </NavLink>
             </li>
             <li>
-              <NavLink to={'/admin/category'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/category'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-br-category-alt flex justify-center items-center"></i> Category
               </NavLink>
             </li>
             <li>
-              <NavLink to={'/admin/products'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/products'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-rr-box-open-full flex justify-center items-center"></i> Products
               </NavLink>
             </li>
             {/* <li>
-              <NavLink to={'/admin/banner'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/banner'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
               <i className="fi fi-sr-ad"></i> Banners
               </NavLink>
             </li> */}
             {/* <li>
-              <NavLink to={'/admin/orders'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/orders'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-sr-order-history flex justify-center items-center"></i>Orders
               </NavLink>
             </li>
             <li>
-              <NavLink to={'/admin/customers'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/customers'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-rr-target-audience flex justify-center items-center"></i> Customers
               </NavLink>
             </li> */}
             <li>
-              <NavLink to={'/admin/purchase'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/purchase'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-ss-cart-shopping-fast flex justify-center items-center"></i> Purchase
               </NavLink>
             </li>

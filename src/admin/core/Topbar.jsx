@@ -201,11 +201,8 @@ export default function Topbar() {
         {/* Right section */}
         <div className="flex items-center gap-4">
           {/* Home button */}
-          <Link
-            to="/"
-            className="p-2 text-gray-700 transition-colors rounded-full hover:text-gray-900 hover:bg-gray-100/80"
-          >
-            <Home className="w-5 h-5" />
+          <Link to="/" className="p-2 text-gray-700 transition-colors rounded-full hover:text-gray-900 hover:bg-gray-100/80"  >
+            <i class="fi fi-sr-home text-primary flex items-center "></i>
           </Link>
 
           {/* Notifications */}
@@ -224,12 +221,9 @@ export default function Topbar() {
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <div className="flex items-center gap-2 cursor-pointer">
-                <Avatar
-                  isBordered
-                  size="sm"
-                  src="/images/kb-favicon.png"
-                  className="transition-transform"
-                />
+                <div className="py-1 border rounded-full px-3 bg-gray-50">
+                  <p className="">A</p>
+                </div>
                 <div className="flex-col items-end hidden md:flex">
                   <span className="text-sm font-medium text-gray-900">
                     {userDetails()?.Email?.split('@')[0]}

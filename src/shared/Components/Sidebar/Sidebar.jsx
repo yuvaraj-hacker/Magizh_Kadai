@@ -196,7 +196,7 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
         </section >
       ) : (
         <section className='relative lg:hidden' onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}  >
-          <div className={`${TogSidecat ? 'translate-y-0' : 'translate-y-full'} fixed bottom-0 left-0 lg:translate-y-0 duration-300 lg:block h-[80vh] lg:h-screen w-full lg:w-60 bg-[#f7f7f7] dark:bg-slate-800 shadow-lg z-[54] lg:z-50`}>
+          <div className={`${TogSidecat ? 'translate-y-0' : 'translate-y-full'} fixed bottom-0 left-0 lg:translate-y-0 duration-300 lg:block h-[80vh] lg:h-screen w-full lg:w-60 bg-white dark:bg-slate-800 shadow-lg z-[54] lg:z-50`}>
             {/* Sidebar Logo and Mobile Header */}
             <div className='hidden lg:block lg:px-8'>
               <Link to='/'><img src="/images/Logo/Logo.png" alt="" className='mt-2 z-[56]' /></Link>
@@ -209,20 +209,19 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
               <i onClick={() => setTogSidecat(false)} className="fi fi-sr-cross-circle text-2xl h-[24px] cursor-pointer"></i>
             </div>
             <hr className='lg:hidden' />
-
             {/* Categories Container */}
             <div className='lg:h-[calc(100vh-150px)] h-[calc(80vh-70px)] overflow-y-auto relative categories-container' id="style-15" >
-              <div className="relative grid gap-2 p-2 mt-5 xsm:grid-cols-2 sm:grid-cols-3 lg:p-0 lg:block">
-                {categories.map((category) => (
+              <div className="relative grid gap-2 p-2 mt-5 xsm:grid-cols-1 sm:grid-cols-3 lg:p-0 lg:block">
+                {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
                   <div key={category._id} onClick={() => setTogSidecat(false)}
-                    className={`lg:h-auto h-20 rounded-lg content-center border shadow relative ${hoveredCategory === category._id ? 'bg-[#dba73763] lg:bg-[#dba737]' : 'bg-transparent lg:bg-transparent'}`}
-                    onMouseEnter={(e) => handleCategoryHover(category, e)} ref={el => categoryRefs.current[category._id] = el} >
+                    className={`lg:h-auto p-2 bg-primary  content-center text-white  rounded-lg relative ${hoveredCategory === category._id ? 'bg-[#dba73763] lg:bg-[#dba737]' : 'bg-primary text-white'}`}
+                   >
                     <div className={`flex items-center p-1 cursor-pointer ${hoveredCategory === category._id ? 'lg:bg-[#ffd6b09b]' : 'lg:hover:bg-[#ffd6b09b]'}`}
                       onClick={() => handleCategoryClick(category._id, category.Category_Name)} >
                       <div className="flex justify-center min-w-16">
                         <img src={`${apiurl()}/${category.Images}`} alt={category.Category_Name} className="object-contain w-8 h-8" />
                       </div>
-                      <p className="text-[14px] font-medium text-[#2e1216] dark:text-white flex-1">
+                      <p className="text-[14px] font-medium text-white dark:text-white flex-1">
                         {category.Category_Name}
                       </p>
                     </div>

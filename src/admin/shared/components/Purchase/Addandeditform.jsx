@@ -7,17 +7,13 @@ import { useMemo, useState } from 'react';
 import { searchProducts } from '../../../../shared/services/apiproducts/apiproduct';
 
 export default function Addandeditform(props) {
-    const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate, handlechangeProduct, searchResults, setSearchResults, setFormdata, handleSearchChange, RowIndex, addRow,
+    const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate, handlechangeProduct, searchResults, setSearchResults, setFormdata, handleSearchChange,   addRow,
         handledeleteField, loadData } = props;
-
-
-
-
     const [searchTerm, setSearchTerm] = useState('');
     const [exactMatches, setExactMatches] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showResults, setShowResults] = useState(false);
-
+    const [RowIndex, setRowIndex] = useState(false);
     // Debounced search function
     const debouncedSearch = useMemo(() => {
         let timeoutId;
@@ -28,12 +24,10 @@ export default function Addandeditform(props) {
                     try {
                         setIsLoading(true);
                         const results = await searchProducts(value); // Your API call
-
                         // Find exact matches
                         const exactMatchedProducts = results.filter(product =>
                             product.Product_Name.toLowerCase() === value.toLowerCase()
                         );
-
                         setExactMatches(exactMatchedProducts);
                         setSearchResults(results);
                         setIsLoading(false);
@@ -53,11 +47,9 @@ export default function Addandeditform(props) {
             }, 300);
         };
     }, []);
-
     const handleSearch = (e, rowIndex) => {
         const value = e.target.value;
         setSearchTerm(value);
-
         // Update formdata with new value
         const updatedFormdata = { ...formdata };
         updatedFormdata.PurchaseMaster[rowIndex.rowIndex] = {
@@ -65,11 +57,9 @@ export default function Addandeditform(props) {
             Product_Name: value
         };
         setFormdata(updatedFormdata);
-
         debouncedSearch(value);
+        setRowIndex(rowIndex['rowIndex']);
     };
-
-
     const sno = (rowData, rowIndex) => {
         return (
             <div>
@@ -108,10 +98,10 @@ export default function Addandeditform(props) {
 
     const Product_Name = (rowData, rowIndex) => {
         return (
-            <div>
+            <div className=''>
                 <input type="text" name="Product_Name" id={'Product_Name' + rowIndex['rowIndex']} value={rowData?.Product_Name} onChange={(event) => handleSearch(event, rowIndex)} className="w-full px-4 py-2 border rounded-md outline-none" required />
-                {showResults && searchResults && searchResults.length > 0 && (
-                    <ul className="absolute z-10 min-w-60 bg-white shadow-md rounded-lg p-2 mt-2">
+                {RowIndex == rowIndex['rowIndex'] && showResults && searchResults && searchResults.length > 0 && (
+                    <ul className="absolute    z-10 min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 h-96   overflow-hidden overflow-y-auto">
                         {searchResults.map((result, index) => (
                             <li key={index} role="button" onClick={() => loadData(index, rowIndex)} className="flex items-center  py-2 px-3  rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none" dangerouslySetInnerHTML={{ __html: highlightText(result['Product_Name'], searchTerm), }}
                             />
@@ -257,13 +247,13 @@ export default function Addandeditform(props) {
                         <Column header="Brand" body={Brand_Name} style={{ minWidth: '200px' }} />
                         <Column header="QTY" body={QTY} style={{ minWidth: '90px' }} />
                         <Column header="Price" body={Price} style={{ minWidth: '150px' }} />
+                        <Column header="Dis(%)" body={Disc} style={{ minWidth: '100px' }} />
+                        <Column header="Dis.Amount" body={DiscAmount} style={{ minWidth: '100px' }} />
                         <Column header="Tax Type" body={TaxType} style={{ minWidth: '190px' }} />
-                        <Column header="Discount (%)" body={Disc} style={{ minWidth: '100px' }} />
-                        <Column header="Discount Amount" body={DiscAmount} style={{ minWidth: '100px' }} />
                         <Column header="Tax (%)" body={Tax_Percentage} style={{ minWidth: '100px' }} />
                         <Column header="Subtotal" body={Sub_Total} style={{ minWidth: '100px' }} />
                         {/* <Column header="Taxable Amount" body={Amount} style={{ minWidth: '130px' }} /> */}
-                        <Column header="Delete" body={action} style={{ minWidth: '80px' }} />
+                        <Column header="Action" body={action} style={{ minWidth: '80px' }} />
                     </DataTable>
                 </div>
                 <div className="flex justify-between mt-3">

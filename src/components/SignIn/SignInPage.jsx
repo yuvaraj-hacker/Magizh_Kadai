@@ -20,7 +20,7 @@ const SignInPage = () => {
       if (location?.state?.status === "checkoutlogin") {
         navigate('/checkout');
       } else if (res.Role === 'Admin' || res.Role === 'Employee') {
-        navigate('/admin/home');
+        navigate('/admin/dashboard');
       } else {
         navigate('/');
       }

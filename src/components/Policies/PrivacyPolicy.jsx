@@ -26,33 +26,38 @@ export default function PrivacyPolicy() {
                 </div>
 
                 <div className="my-5">
-                    <p className="text-lg text-justify">At Magizh Kadai, your privacy is our priority. Here’s how we handle your information:</p>
+                    <p className="text-lg text-justify">At MagizhKadai, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our eCommerce website.</p>
 
                     <h1 className="my-2 text-xl font-semibold">1. Information We Collect</h1>
-                    <p className="my-3 text-lg text-justify">&#x2022; Personal details (name, email, address, payment info).</p>
-                    <p className="my-3 text-lg text-justify">&#x2022; Order history and technical data (IP address, browser, cookies).</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; Personal details (name, phone number, delivery address) when you place an order via WhatsApp.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; Usage data (browsing activity, IP address, device information).</p>
 
                     <h1 className="text-xl font-semibold">2. How We Use Your Information</h1>
-                    <p className="my-3 text-lg text-justify">&#x2022; To process orders, provide customer support, and send updates.</p>
-                    <p className="my-3 text-lg text-justify">&#x2022; To improve our services and comply with legal requirements.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; To process and deliver orders.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; To improve user experience and personalize content.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; For customer support and communication via WhatsApp or Voice call.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; For marketing, promotions, and updates (with your consent).</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; To ensure security and prevent fraud.</p>
 
                     <h1 className="text-xl font-semibold">3. Sharing Your Information</h1>
-                    <p className="my-3 text-lg text-justify">We only share data with trusted service providers (e.g., payment processors, delivery partners) or when required by law.</p>
+                    <p className="my-3 text-lg text-justify"> &#x2022; We do not sell your personal data.</p>
+                    <p className="my-3 text-lg text-justify"> &#x2022; Information may be shared with trusted third parties (delivery services) only for operational purposes.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; Legal compliance: We may disclose data when required by law.</p>
+
+                    <h1 className="text-xl font-semibold">5. Cookies and Tracking Technologies:</h1>
+                    <p className="my-3 text-lg text-justify">&#x2022; We use cookies to enhance your browsing experience, analyze website traffic, and personalize ads.</p>
 
                     <h1 className="text-xl font-semibold">4. Data Security</h1>
-                    <p className="my-3 text-lg text-justify">We use advanced security measures to protect your information.</p>
-
-                    <h1 className="text-xl font-semibold">5. Cookies</h1>
-                    <p className="my-3 text-lg text-justify">Cookies help improve your experience. You can manage them through your browser settings.</p>
+                    <p className="my-3 text-lg text-justify"> &#x2022; We implement advanced security measures to protect your personal data from unauthorized access.</p>
 
                     <h1 className="text-xl font-semibold">6. Your Rights</h1>
-                    <p className="my-3 text-lg text-justify">You can update, delete, or request a copy of your data anytime. Opt out of promotional emails by clicking “unsubscribe.”</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; You can request access, correction, or deletion of your personal data.</p>
+                    <p className="my-3 text-lg text-justify">&#x2022; You can opt out of marketing communications at any time.</p>
 
                     <h1 className="text-xl font-semibold">7. Contact Us</h1>
-                    <p className="my-3 text-lg text-justify">For privacy-related concerns, email us at magizhkadai@gmail.com or write to us at:
-                        Narayanan Nagar Road,
-                        Ramakrishna school Opposite,
-                        Villupuram 605 602.</p>
+                    <p className="my-3 text-lg text-justify">
+                        For any privacy concerns, contact us at magizhkadai@gmail.com
+                    </p>
                 </div>
             </div>
         </section>

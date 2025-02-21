@@ -15,7 +15,7 @@ import useCart from '../../shared/services/store/useCart.js'
 import { savecartitems, updatecartItem } from '../../shared/services/cart/cart.js'
 import useAuth from '../../shared/services/store/useAuth.js'
 import { mainCarouselBanners1, categoryDealsBanners1 } from '../../shared/services/json/heroSection.js'
-import { getallproducts } from '../../shared/services/apiproducts/apiproduct.js'
+import { getallproducts, getallProductsByCategory } from '../../shared/services/apiproducts/apiproduct.js'
 import SwiperMin from '../../shared/Components/Home/SwiperMin.jsx'
 import { useCallback } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
@@ -29,6 +29,7 @@ export default function Home() {
   const [Product, setProduct] = useState(null);
   const [mainCarouselBanners, setMainCarouselBanners] = useState([]);
   const [categoryDealsBanners, setCategoryDealsBanners] = useState([]);
+  const [categoryProducts, setCategoriesProducts] = useState();
   const { addToCart, cartItems, increaseQuantity, } = useCart();
   const { userdetails } = useAuth();
 
@@ -60,11 +61,26 @@ export default function Home() {
   }, []);
 
 
+//   const allCategoriesproducts = useCallback(async () => {
+//     setIsLoading(true);
+//     try {
+//         const res = await getallProductsByCategory();
+//         setCategoriesProducts(res.resdata);
+//     } catch (error) {
+//         console.error("Failed to fetch categories:", error);
+//     } finally {
+//         setIsLoading(false);
+//     }
+// }, []);
+
+// useEffect(() => {
+//   allCategoriesproducts();
+// }, [allCategoriesproducts]);
+
 
   const productfetch = useCallback(async () => {
-    const productResponse = await getallproducts();
-    setProduct(productResponse.resdata);
-    console.log(productResponse.resdata);
+    const productResponse = await getallProductsByCategory();
+    setProduct(productResponse);
   }, []);
 
   useEffect(() => {
@@ -73,13 +89,15 @@ export default function Home() {
 
   const groupedProducts = useMemo(() => {
     return Product?.reduce((acc, product) => {
-      if (!acc[product.Category]) {
-        acc[product.Category] = [];
-      }
-      acc[product.Category].push(product);
-      return acc;
-    }, {});
+        if (!acc[product.Category]) {
+          acc[product.Category] = [];
+        }
+        acc[product.Category].push(product);
+        return acc;
+      }, {});
   }, [Product]);
+
+
 
 
   const renderOffer = (offer) => {
@@ -322,13 +340,13 @@ export default function Home() {
         </Helmet>
       </HelmetProvider>
 
-      <div className='max-w-[1860px] mx-auto bg-white dark:bg-black  z-45'>
+      <div className='max-w-[1860px] mx-auto bg-white dark:bg-black z-45'>
         <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} />
         {/* Render All Active Offers */}
         {/* {offers.map((offer) => renderOffer(offer))} */}
         <div className='px-3'><SwiperMin Product={Product} /></div>
         {/* <NewArrivals products={Product} /> */}
-        <div className=''><AllProducts groupedProducts={groupedProducts} /></div>
+        <div className=''><AllProducts groupedProducts={groupedProducts} categoryProducts={categoryProducts} /></div>
         {/* <IngredientSwipe  title="Indian Cuisine Combo Ingredients" visible={visible} setVisible={setVisible} selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct} handleProductClick={handleProductClick} AddtoCartProduct={AddtoCartProduct} /> */}
         {/* <Testimoni testimonials={testimonials} /> */}

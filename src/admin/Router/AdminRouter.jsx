@@ -24,7 +24,7 @@ const AdminRouter = () => {
     <>
       <Routes>
         <Route element={<Adminmain />}>
-          <Route path="/home" element={<Home />} />
+          {/* <Route path="/home" element={<Home />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<Product />} />
           <Route path="/customers" element={<Customers />} />
@@ -39,7 +39,7 @@ const AdminRouter = () => {
           <Route path="/routetracking" element={<RouteTracking />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/product-request" element={<Productrequests />} />
-          <Route path="/" element={<Navigate to="/admin/home" />} />
+          <Route path="/" element={<Navigate to="/admin/dashboard" />} />
         </Route>
       </Routes>
     </>

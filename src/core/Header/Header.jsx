@@ -114,7 +114,6 @@ export default function Header(props) {
   const handleResultClick = (product) => {
     setShowResults(false);
     setSearchTerm('');
-
     if (product.Product_Name) {
       navigate(`/product-details/${product._id}`);
     } else {
@@ -131,7 +130,6 @@ export default function Header(props) {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) { setShowResults(false); }
-
       if (categoryRef.current && !categoryRef.current.contains(event.target)) { setOpenCategories(false); }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -145,23 +143,7 @@ export default function Header(props) {
     return images && images.length > 0
       ? `${apiurl()}/${images[0]}`
       : '/path-to-default-product-image.jpg';
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 
   const getWishlistItem = useCallback(async () => {
     if (userdetails?.Email) {
@@ -316,7 +298,7 @@ export default function Header(props) {
       <header>
         <div className={`fixed lg:z-50 z-40 w-full ml-auto ${scrolled ? 'shadow-md' : 'shadow-md'} `}>
           <div className='flex w-full bg-gray-50 dark:bg-black'>
-            <div className='inline-flex flex-row-reverse w-full h-full  2xl:px-10 px-5 lg:flex-row'>
+            <div className='inline-flex flex-row-reverse w-full h-full  2xl:px-10 px-2 md:px-5 lg:flex-row'>
               <div className='flex items-center relative  w-full justify-between  '>
                 {/* logo */}
                 <div className='flex items-center  rounded-r-md'>
@@ -330,7 +312,7 @@ export default function Header(props) {
                       {isLoading ? (
                         <Loader2 className="lg:hidden animate-spin w-10 h-10 mr-2 text-primary dark:text-white" />
                       ) : (
-                        <Search onClick={() => setExpandSearch(true)} className="lg:hidden w-8 h-8 bg-secondary dark:bg-red-800 !p-2 rounded-full text-white" />
+                        <Search onClick={() => setExpandSearch(true)} className="lg:hidden w-8 h-8 bg-primary dark:bg-red-800 !p-2 rounded-full text-white" />
                       )}
                       <input ref={searchRef} type="text" value={searchTerm} onChange={handleSearch} placeholder="Search for products.."
                         className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm placeholder-gray-400 lg:bg-white rounded-3xl  bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
@@ -344,7 +326,7 @@ export default function Header(props) {
                   </div>
                 </div>
                 {showResults && searchTerm.trim().length > 0 && (
-                  <div ref={searchRef} className="absolute left-0 top-14 lg:top-24 right-0 z-50 lg:p-4 p-0 mt-2 bg-white dark:bg-gray-600 border-2 border-[#38031D]/10 rounded-xl shadow-lg max-h-[500px] overflow-y-auto">
+                  <div ref={searchRef} className="absolute left-0 top-10 lg:top-16 right-0 z-50 lg:p-4 p-0 mt-2 bg-white dark:bg-gray-600 border-2 border-[#38031D]/10 rounded-xl shadow-lg max-h-[500px] overflow-y-auto">
                     {searchResults.length === 0 ? (
                       <div className="flex flex-col items-center justify-center lg:p-8 p-2 text-center bg-gray-100 rounded-xl">
                         <div className="relative ">
