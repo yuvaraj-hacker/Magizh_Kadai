@@ -136,7 +136,7 @@ const ProductView = (props) => {
             </div>
             <div className='flex flex-wrap items-end justify-start'>
               <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
-              {product.QTY == 0 && (
+              {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
                 <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
                   <p className="text-xs ">Out of Stock</p>
                 </div>
@@ -154,18 +154,17 @@ const ProductView = (props) => {
               )}
               {product.Sale_Price > 0 && (
                 <span className="text-base font-bold text-primary md:text-2xl">
-                  ₹{((product.Sale_Price - (product.Sale_Price * product.Discount) / 100)).toFixed(2)}
+                  ₹{product.Sale_Price }
                 </span>
               )}
               {product.Discount > 0 && (
-                <span className="text-xs text-third line-through md:text-base">₹{product?.Sale_Price?.toFixed(2)}</span>
+                <span className="text-xs text-third line-through md:text-base">₹{product?.Regular_Price}</span>
               )}
             </div>
-            {product.QTY > 0 && product.QTY !== null && (
+            {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && (
               <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                   <>
-
                     <>
                       {getCurrentCartQuantity() === 0 ? (
                         <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
@@ -192,8 +191,6 @@ const ProductView = (props) => {
                         </div>
                       )}
                     </>
-
-
                   </>
                   {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">
                 {wishlistData?.map(resp=>resp.productId._id).includes(product._id)?<i className="text-2xl text-red-500 transition-colors fi-sr-bookmark"></i>
@@ -209,7 +206,6 @@ const ProductView = (props) => {
                  </button> */}
 
                 </div>
-
                 <div className="bg-[#27A737] cursor-pointer  items-center  px-2   justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleBuyNow}>
                   <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
                   <p className="md:text-lg text-xs px-1  ">Buy Now</p>
@@ -217,7 +213,7 @@ const ProductView = (props) => {
 
               </div>
             )}
-            {(product.QTY == 0 &&
+            {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
               <>
                 <div className='   lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
                   <div className="bg-[#27A737] cursor-pointer  items-center w-1/2  px-2 justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleRequestStock}>

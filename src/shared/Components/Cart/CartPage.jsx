@@ -6,7 +6,7 @@ import DeliveryDate from "../Header/DeliveryDate";
 import PickupTimeModal from "../Header/PickupTimeModal";
 
 export default function CartPage(props) {
-  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote,
+  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote,subtotalRegular,
     handleQuantityChange, handleRemoveItem, subtotal, totalDiscount, goToCheckout, finalTotal, timevisible, setTimevisible, handlePickupTimeChange, isPickupTimeSelected,
     datevisible, setDatevisible, thisWeekDates, nextWeekDates, handleDateClick, isSelected, showLoginModal, setShowLoginModal, checkoutlogin,
   } = props;
@@ -140,15 +140,10 @@ export default function CartPage(props) {
                                     item.Discount > 0 ? (
                                     <>
                                       <h3 className="text-sm font-semibold text-primary md:text-lg dark:text-white">
-                                        ₹
-                                        {(
-                                          item.productId?.Sale_Price *
-                                          (1 - item.productId?.Discount / 100) || item.Sale_Price *
-                                          (1 - item.Discount / 100)
-                                        ).toFixed(2)}
+                                        ₹   {item.productId?.Sale_Price || item.Sale_Price}
                                       </h3>
-                                      <span className="text-xs   text-third line-through dark:text-white"> ₹
-                                        {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                      <span className="text-xs   text-third line-through dark:text-white">
+                                        ₹   {item.productId?.Regular_Price || item.Regular_Price}
                                       </span>
                                       <span className="text-xs font-semibold text-white bg-secondary rounded-3xl px-2 py-1 dark:text-white">
                                         {(item.productId?.Discount || item.Discount) && (
@@ -161,7 +156,7 @@ export default function CartPage(props) {
                                   ) : (
                                     <h3 className="text-sm font-semibold text-black md:text-lg dark:text-white">
                                       ₹
-                                      {item.productId?.Sale_Price?.toFixed(2) || item.Sale_Price?.toFixed(2)}
+                                      {item.productId?.Sale_Price || item.Sale_Price}
                                     </h3>
                                   )}
                                 </div>
@@ -203,25 +198,9 @@ export default function CartPage(props) {
                                 </button>
                               </div>
                               <div className="w-32 text-sm font-medium text-center md:text-lg">
-                                ₹
-                                {item.productId?.Discount || item.Discount > 0
-                                  ? // Discounted price calculation
-                                  (
-                                    (item.productId?.Sale_Price
-                                      ? item.productId.Sale_Price -
-                                      (item.productId.Sale_Price *
-                                        item.productId.Discount) /
-                                      100
-                                      : item.Sale_Price -
-                                      (item.Sale_Price * item.Discount) /
-                                      100) * (item.Quantity || 0)
-                                  ).toFixed(2)
-                                  : // Regular price calculation
-                                  (
-                                    (item.productId?.Sale_Price ||
-                                      item.Sale_Price ||
-                                      0) * (item.Quantity || 0)
-                                  ).toFixed(2)}
+                                ₹ {(
+                                  (item.Sale_Price) * item.Quantity
+                                )}
                               </div>
                             </div>
                           </div>
@@ -371,7 +350,7 @@ export default function CartPage(props) {
                 <div className="w-full  sticky lg:bottom-0  bottom-[60px] bg-gray-100  p-4">
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
-                      Total ({cartItems.length} items) : ₹{finalTotal.toFixed(2)}
+                      Total ({cartItems.length} items) : ₹{finalTotal}
                     </div>
                     <div className="bg-[#27A737] cursor-pointer  items-center  px-2 py-1  flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
                       <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
@@ -396,12 +375,12 @@ export default function CartPage(props) {
                         <hr className="mt-3 text-primary  " />
                         <div className="xl:flex justify-between mt-3 ">
                           <p className="text-sm md:text-base">Price</p>
-                          <p className="text-xs md:text-sm"> ₹{subtotal?.toFixed(2)} </p>
+                          <p className="text-xs md:text-sm"> ₹{subtotalRegular} </p>
                         </div>
                         <hr className="mt-3 " />
                         <div className="xl:flex justify-between mt-3 ">
-                          <p className="text-sm md:text-base">Discount Price</p>
-                          <p className="text-xs text-third md:text-sm">- ₹{totalDiscount.toFixed(2)} </p>
+                            <p className="text-sm md:text-base">Discount Price</p>
+                          <p className="text-xs text-third md:text-sm">- ₹{totalDiscount} </p>
                         </div>
                         <hr className="mt-3 " />
                         {/* <div className="flex justify-between mt-3">
@@ -410,7 +389,7 @@ export default function CartPage(props) {
                         </div> */}
                         <div className="flex justify-between xl:mt-3 font-bold">
                           <p className="text-sm md:text-base flex gap-1">Total ({cartItems.length} items) <span className="xl:hidden block "></span></p>
-                          <p className="text-primary">₹{finalTotal.toFixed(2)}</p>
+                          <p className="text-primary">₹{finalTotal}</p>
                         </div>
                         <div className="text-center mt-3">
                           <Link to='/products'>

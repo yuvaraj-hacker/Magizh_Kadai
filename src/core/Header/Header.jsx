@@ -48,7 +48,6 @@ export default function Header(props) {
   const today = new Date(); // for date
   const nextWeekStartDate = new Date(today);
   nextWeekStartDate.setDate(today.getDate() + 7);
-
   const userDropdownRef = useRef(null);
   const langDropdownRef = useRef(null);
 
@@ -318,7 +317,7 @@ export default function Header(props) {
                         className={`${expandSearch ? 'pl-4 w-[50vw]' : 'w-0 '} duration-300 lg:w-full p-0 lg:p-2 lg:pl-4 text-sm placeholder-gray-400 lg:bg-white rounded-3xl  bg-transparent focus:outline-none dark:text-white dark:placeholder-gray-300`}
                         onFocus={() => searchResults.length > 0 && setShowResults(true)} />
                       {(searchTerm || expandSearch) ? (
-                        <i class="fi fi-rr-cross-small lg:text-gray-300 lg:block  text-black    cursor-pointer px-2 lg:mt-1    flex justify-center items-center lg:bg-primary" onClick={clearSearch}></i>
+                        <i className="fi fi-rr-cross-small lg:text-gray-300 lg:block  text-black    cursor-pointer px-2 lg:mt-1    flex justify-center items-center lg:bg-primary" onClick={clearSearch}></i>
                       ) :
                         (<i className="fi fi-rr-search   text-gray-300 lg:block hidden cursor-pointer px-2 mt-1    bg-primary  flex justify-center items-center" onClick={() => { setTimeout(() => searchRef.current?.focus(), 100); }}></i>
                         )}

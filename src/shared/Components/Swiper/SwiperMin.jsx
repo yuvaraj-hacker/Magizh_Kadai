@@ -59,9 +59,6 @@ const SwiperMin = () => {
   const trendingProducts = useCallback(async () => {
     try {
       const res = await getallTrendingProducts();
-
-      console.log("API Response:", res); // Debugging log
-
       // Ensure response is valid and set trending safely
       setTrending(Array.isArray(res?.response) ? res.response : []);
     } catch (error) {
@@ -96,13 +93,8 @@ const SwiperMin = () => {
     <>
       <div className="w-full overflow-hidden swiper-container-wrapper group  ">
         <div className="swiper-container text-black"  >
-          <Swiper loop={true} speed={500}
-            breakpoints={{
-              350: { slidesPerView: 2, spaceBetween: 10 },
-              600: { slidesPerView: 2, spaceBetween: 15 },
-              724: { slidesPerView: 2, spaceBetween: 15 },
-              1500: { slidesPerView: 3, spaceBetween: 20 },
-            }}
+          <Swiper loop={true}   autoplay={{ delay: 2000 }} spaceBetween={10} speed={2000}
+            breakpoints={{  350: { slidesPerView: 2, spaceBetween: 10 },   600: { slidesPerView: 2, spaceBetween: 15 },  724: { slidesPerView: 2, spaceBetween: 15 }, 1500: { slidesPerView: 3, spaceBetween: 20 },  }}
             navigation={{ nextEl: ".swiper-button-next5", prevEl: ".swiper-button-prev5", }}
             modules={[Navigation, Autoplay]}  >
             {trending.filter((trend) => trend.QTY > 0).map((trend, index) => (

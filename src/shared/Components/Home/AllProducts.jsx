@@ -66,16 +66,16 @@ function AllProducts({ groupedProducts, categoryProducts }) {
                                   {product.Discount > 0 && (
                                     <>
                                       <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
-                                        ₹{((product?.Sale_Price - (product?.Sale_Price * product?.Discount) / 100))?.toFixed(2)}
+                                        ₹{parseFloat(product?.Sale_Price)}
                                       </h3>
                                       <h3 className="text-sm line-through text-third dark:text-white">
-                                        ₹{parseFloat(product?.Sale_Price).toFixed(2)}
+                                        ₹{parseFloat(product?.Regular_Price)}
                                       </h3>
                                     </>
                                   )}
                                   {product?.Discount === 0 && product?.Sale_Price > 0 && (
                                     <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
-                                      ₹{parseFloat(product?.Sale_Price)?.toFixed(2)}
+                                      ₹{parseFloat(product?.Sale_Price)}
                                     </h3>
                                   )}
                                 </div>
@@ -83,17 +83,17 @@ function AllProducts({ groupedProducts, categoryProducts }) {
                               </div>
                             </div>
                             <div className="absolute z-10 top-0 left-2 md:top-5 lg:left-5 lg:text-xs text-[10px]">
-                              {product.QTY === 0 && (
+                              {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
                                 <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                                   <p>Out of Stock</p>
                                 </div>
                               )}
-                              {product.QTY <= 5 && product.QTY > 0 && (
+                              {(product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock') && (
                                 <div className="bg-[#f1aa59] p-1 text-white rounded-full px-1.5 mb-2">
                                   <p>Limited Stock</p>
                                 </div>
                               )}
-                              {product.QTY > 0 && product.Discount > 0 && (
+                              {(product.QTY > 0 && product.Discount > 0 && product.Stock === 'Stock') && (
                                 <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
                                   <p>{Math.round(product?.Discount)}% off</p>
                                 </div>
@@ -120,16 +120,16 @@ function AllProducts({ groupedProducts, categoryProducts }) {
                                   {product.Discount > 0 && (
                                     <>
                                       <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
-                                        ₹{((product?.Sale_Price - (product?.Sale_Price * product?.Discount) / 100))?.toFixed(2)}
+                                        ₹{parseFloat(product?.Sale_Price)}
                                       </h3>
                                       <h3 className="text-sm line-through text-third dark:text-white">
-                                        ₹{parseFloat(product?.Sale_Price).toFixed(2)}
+                                        ₹{parseFloat(product?.Regular_Price)}
                                       </h3>
                                     </>
                                   )}
                                   {product?.Discount === 0 && product?.Sale_Price > 0 && (
                                     <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
-                                      ₹{parseFloat(product?.Sale_Price)?.toFixed(2)}
+                                      ₹{parseFloat(product?.Sale_Price)}
                                     </h3>
                                   )}
                                 </div>
@@ -137,17 +137,17 @@ function AllProducts({ groupedProducts, categoryProducts }) {
                               </div>
                             </div>
                             <div className="absolute z-10 top-0 left-2 md:top-5 lg:left-5 lg:text-xs text-[10px]">
-                              {product.QTY === 0 && (
+                              {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
                                 <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                                   <p>Out of Stock</p>
                                 </div>
                               )}
-                              {product.QTY <= 5 && product.QTY > 0 && (
+                              {(product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock') && (
                                 <div className="bg-[#f1aa59] p-1 text-white rounded-full px-1.5 mb-2">
                                   <p>Limited Stock</p>
                                 </div>
                               )}
-                              {product.QTY > 0 && product.Discount > 0 && (
+                              {(product.QTY > 0 && product.Discount > 0 && product.Stock === 'Stock') && (
                                 <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
                                   <p>{Math.round(product?.Discount)}% off</p>
                                 </div>
@@ -164,11 +164,11 @@ function AllProducts({ groupedProducts, categoryProducts }) {
           ))}
         </div>
       </div>
-       <>
-       </>
+      <>
+      </>
 
       {/*
-      <div class="marquee">
+      <div className="marquee">
         <p>This is a smooth scrolling marquee effect using CSS animations.</p>
       </div> */}
     </>

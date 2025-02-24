@@ -60,33 +60,13 @@ export default function Home() {
     fetchData();
   }, []);
 
-
-//   const allCategoriesproducts = useCallback(async () => {
-//     setIsLoading(true);
-//     try {
-//         const res = await getallProductsByCategory();
-//         setCategoriesProducts(res.resdata);
-//     } catch (error) {
-//         console.error("Failed to fetch categories:", error);
-//     } finally {
-//         setIsLoading(false);
-//     }
-// }, []);
-
-// useEffect(() => {
-//   allCategoriesproducts();
-// }, [allCategoriesproducts]);
-
-
   const productfetch = useCallback(async () => {
     const productResponse = await getallProductsByCategory();
     setProduct(productResponse);
   }, []);
-
   useEffect(() => {
     productfetch();
   }, [productfetch]);
-
   const groupedProducts = useMemo(() => {
     return Product?.reduce((acc, product) => {
         if (!acc[product.Category]) {
@@ -96,9 +76,6 @@ export default function Home() {
         return acc;
       }, {});
   }, [Product]);
-
-
-
 
   const renderOffer = (offer) => {
     const products = offer.Products.map((product) => ({

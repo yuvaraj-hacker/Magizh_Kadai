@@ -93,7 +93,7 @@ export default function Addandeditform(props) {
     const highlightText = (text, highlight) => {
         if (!highlight.trim()) return text; // Return the text as is if highlight is empty
         const regex = new RegExp(`(${highlight})`, "gi"); // Case-insensitive search
-        return text.replace(regex, `<span class="bg-primary text-white px-1 mx-1 rounded">$1</span>`);
+        return text.replace(regex, `<span className="bg-primary text-white px-1 mx-1 rounded">$1</span>`);
     };
 
     const Product_Name = (rowData, rowIndex) => {

@@ -160,12 +160,12 @@ export default function Addandeditform(props) {
                         />
                     </div>
 
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <div className="mb-2">
                             <label>Product Highlights</label>
                         </div>
                         <input type="text" name="Product_Highlights" value={formdata?.Product_Highlights} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-secondary" style={{ height: '100px' }} />
-                    </div>
+                    </div> */}
                     <div className="mb-2" >
                         <div className="mb-2">
                             <label>Category</label>

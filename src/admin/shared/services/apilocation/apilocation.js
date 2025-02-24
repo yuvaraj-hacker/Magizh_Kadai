@@ -12,8 +12,6 @@ export const getFilterOptions = async(data)=>{
   return res.data;
 }
 
-
-
 export const savelocation = async (datas) => {
   try {
     const res = await axios.post(`${apiurl()}/location/apisavelocation`,datas,{ headers: {"Authorization" : `Bearer ${gettoken()}`}});
@@ -29,7 +27,7 @@ export const updatelocation = async (datas) => {
   const res = await axios.put(`${apiurl()}/location/apiupdatelocation`,datas,{params: { _id: datas?._id },headers: {"Authorization" : `Bearer ${gettoken()}`}});
   return res.data;
 };
- 
+
 
 
 export const deletelocation=async(id)=>{

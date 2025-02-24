@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { Dialog } from "primereact/dialog";
 import { useState, useEffect, useCallback } from "react";
-import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
+// import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
 
 
 export default function SaveUserDetails({ visible, setVisible, initialEmail, initialPhone, onSubmit }) {
@@ -24,22 +24,22 @@ export default function SaveUserDetails({ visible, setVisible, initialEmail, ini
   const [loading, setLoading] = useState(false);
 
   // Fetch locations
-  const getLocationData = useCallback(async () => {
-    try {
-      const response = await getalllocation({});
-      setLocation(response?.resdata || []);
-    } catch (error) {
-      console.error("Failed to fetch location data:", error);
-    }
-  }, []);
+  // const getLocationData = useCallback(async () => {
+  //   try {
+  //     const response = await getalllocation({});
+  //     setLocation(response?.resdata || []);
+  //   } catch (error) {
+  //     console.error("Failed to fetch location data:", error);
+  //   }
+  // }, []);
 
-  var isMounted = true;
-  useEffect(() => {
-    if (isMounted) {
-      getLocationData();
-    }
-    return () => (isMounted = false);
-  }, [getLocationData])
+  // var isMounted = true;
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     getLocationData();
+  //   }
+  //   return () => (isMounted = false);
+  // }, [getLocationData])
 
   // Update city options when location changes
   useEffect(() => {

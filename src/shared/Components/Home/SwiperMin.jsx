@@ -80,7 +80,7 @@ const SwiperMin = ({ Product, title }) => {
     try {
       const res = await getallNewCollection();
 
-      console.log("API Response:", res); // Debugging log
+
 
       // Ensure response is valid and set trending safely
       setCollection(Array.isArray(res?.response) ? res.response : []);
@@ -256,7 +256,7 @@ const SwiperMin = ({ Product, title }) => {
               {collection.filter((prod) => prod.QTY > 0).map((prod, i) => (
                 <SwiperSlide key={prod._id || i} className="">
                   <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
-                    <div  className="relative group   ">
+                    <div className="relative group   ">
                       <div className="w-full   bg-white flex justify-between flex-col rounded-2xl relative mb-5 border shadow-md hover:shadow-lg duration-300 ">
                         {/* wishlist & cart */}
                         <div className="absolute top-2 right-2 lg:absolute z-30 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full lg:group-hover:-translate-y-1/2 duration-300">
@@ -314,18 +314,17 @@ const SwiperMin = ({ Product, title }) => {
                           <div className="flex gap-3 items-center  ">
                             {prod.Discount > 0 && (
                               <>
-                                <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
-                                  ₹{((prod?.Sale_Price - (prod?.Sale_Price * prod?.Discount) / 100))?.toFixed(2)}
+                                <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
+                                  ₹{parseFloat(prod?.Sale_Price)}
                                 </h3>
-                                {/* Original Price */}
                                 <h3 className="text-sm line-through text-third dark:text-white">
-                                  ₹{parseFloat(prod?.Sale_Price).toFixed(2)}
+                                  ₹{parseFloat(prod?.Regular_Price)}
                                 </h3>
                               </>
                             )}
                             {prod?.Discount === 0 && prod?.Sale_Price > 0 && (
-                              <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
-                                ₹{parseFloat(prod?.Sale_Price)?.toFixed(2)}
+                              <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg">
+                                ₹{parseFloat(prod?.Sale_Price)}
                               </h3>
                             )}
                           </div>

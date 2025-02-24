@@ -201,8 +201,8 @@ export default function ProductViewFunctions() {
     const handleBuyNow = () => {
         let message = "New Order Request:\n\n";
         const productTotal = product.Discount > 0
-            ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * 1).toFixed(2)
-            : (product.Sale_Price * 1).toFixed(2);
+            ? (product.Sale_Price )
+            : (product.Sale_Price);
 
         message += `1. ${product.Product_Name}\n`;
         message += `Quantity: 1\n`;

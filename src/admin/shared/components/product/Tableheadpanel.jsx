@@ -78,7 +78,7 @@ export default function Tableheadpanel({ newform, setglobalfilter, selectedProdu
         <h2 className="text-xl font-semibold text-gray-800">
           Products
         </h2>
-        {selectedProducts.length > 0 && (
+        {/* {selectedProducts.length > 0 && (
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">
               {selectedProducts.length} selected
@@ -87,7 +87,7 @@ export default function Tableheadpanel({ newform, setglobalfilter, selectedProdu
               Bulk Update
             </button>
           </div>
-        )}
+        )} */}
       </div>
 
       <div className="flex items-center gap-3">

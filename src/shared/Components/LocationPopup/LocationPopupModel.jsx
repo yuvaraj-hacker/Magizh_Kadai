@@ -2,17 +2,17 @@
 import { useState, useEffect } from "react";
 import { MapPin } from "lucide-react";
 import toast from "react-hot-toast";
-import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
+// import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
 
 
 const LocationModal = ({ isOpen, setIsOpen, onLocationChange }) => {
   const [selectedCity, setSelectedCity] = useState("");
   const [detectingLocation, setDetectingLocation] = useState(false);
   const [allowedCities, setAllowedCities] = useState([]);
-  
-  
+
+
   // useEffect(() => {
-   
+
   //   const fetchCities = async () => {
   //     try {
   //       const response = await getalllocation();

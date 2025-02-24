@@ -312,7 +312,6 @@ export default function CartPageFunctions() {
             toast.error("Item not found");
             return;
         }
-
         setUpdatingItems((prev) => new Set([...prev, productId]));
 
         try {
@@ -435,18 +434,31 @@ export default function CartPageFunctions() {
         }, 0);
     };
 
-    const calculateTotalDiscount = () => {
-        return cartItems.reduce((totalDiscount, item) => {
-            const price = item.productId?.Sale_Price || item.Sale_Price || 0;
-            const discount = item.productId?.Discount || item.Discount || 0;
-            return totalDiscount + (price * discount / 100) * item.Quantity;
+    const calculateSubtotalRegular = () => {
+        return cartItems.reduce((total, item) => {
+            const price = item.productId?.Regular_Price || item.Regular_Price || 0;
+            return total + price * item.Quantity;
         }, 0);
     };
 
+    const calculateTotalDiscount = () => {
+        return cartItems.reduce((totalDiscount, item) => {
+            const regularPrice = item.productId?.Regular_Price || item.Regular_Price || 0;
+            const salePrice = item.productId?.Sale_Price || item.Sale_Price || 0;
+            const quantity = item.Quantity ?? 1;
+
+            const discountAmount = (regularPrice - salePrice) * quantity;
+
+            return totalDiscount + discountAmount;
+        }, 0);
+    };
+
+
     const deliveryFee = 0.00;
     const subtotal = calculateSubtotal();
+    const subtotalRegular = calculateSubtotalRegular();
     const totalDiscount = calculateTotalDiscount();
-    const finalTotal = subtotal - totalDiscount;
+    const finalTotal = subtotal ;
 
     if (isLoading) {
         return (
@@ -511,14 +523,14 @@ export default function CartPageFunctions() {
     const goToQuote = () => {
         const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
         const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
-        const finalTotal = subtotal - totalDiscount;
+        const finalTotal = subtotal;
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
         localStorage.setItem("subtotal", subtotal);
         localStorage.setItem("finalTotal", finalTotal);
         localStorage.setItem("totalItems", totalItems);
         let message = "New Order Request:\n\n";
         cartItems.forEach((product, index) => {
-            const productTotal = product.Discount > 0 ? ((product.Sale_Price - (product.Sale_Price * product.Discount) / 100) * product.Quantity).toFixed(2) : (product.Sale_Price * product.Quantity).toFixed(2);
+            const productTotal = (product.Sale_Price * product.Quantity);
             message += `${index + 1}.${product.Product_Name}\n`;
             message += `Quantity: ${product.Quantity}\n`;
             message += `Price: ₹${productTotal}\n`;
@@ -526,7 +538,7 @@ export default function CartPageFunctions() {
         });
         message += `Order Summary:\n`;
         message += `Total Items: ${totalItems}\n`;
-        message += `Final Total: ₹${finalTotal.toFixed(2)}\n`;
+        message += `Final Total: ₹${finalTotal}\n`;
         const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
@@ -592,7 +604,7 @@ export default function CartPageFunctions() {
                     <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
                 </Helmet>
             </HelmetProvider>
-            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
+            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
                 handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
                 updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
                 goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}

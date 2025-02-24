@@ -9,7 +9,7 @@ import { deleteAllcartItems } from '../../shared/services/cart/cart';
 import useAuth from '../../shared/services/store/useAuth';
 import { useNavigate } from 'react-router-dom';
 import ElavonPaymentModal from '../../shared/Components/CheckOut/ElavonPaymentModal';
-import { getalllocation, getLocationbyCity } from '../../admin/shared/services/apilocation/apilocation';
+// import { getalllocation, getLocationbyCity } from '../../admin/shared/services/apilocation/apilocation';
 import moment from 'moment-timezone';
 
 function CheckoutPage() {
@@ -106,18 +106,18 @@ function CheckoutPage() {
 
     const loginType = localStorage.getItem('loginType');
 
-    const getLocationdata = useCallback(async () => {
-        const response = await getalllocation({});
-        setLocation(response.resdata || [])
-    }, [])
+    // const getLocationdata = useCallback(async () => {
+    //     const response = await getalllocation({});
+    //     setLocation(response.resdata || [])
+    // }, [])
 
-    var isMounted = true;
-    useEffect(() => {
-        if (isMounted) {
-            getLocationdata();
-        }
-        return () => (isMounted = false);
-    }, [getLocationdata])
+    // var isMounted = true;
+    // useEffect(() => {
+    //     if (isMounted) {
+    //         getLocationdata();
+    //     }
+    //     return () => (isMounted = false);
+    // }, [getLocationdata])
 
     useEffect(() => {
         if (location && location.resdata) {

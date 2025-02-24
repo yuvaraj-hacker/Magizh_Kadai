@@ -24,14 +24,14 @@
 //         const newImages = Array.from(images || []);
 //         const [removed] = newImages.splice(startIndex, 1);
 //         newImages.splice(endIndex, 0, removed);
-//         onChange(newImages); 
+//         onChange(newImages);
 //     };
-    
+
 
 //     const removeImage = (index) => {
 //         const newImages = Array.from(images || []);
 //         newImages.splice(index, 1);
-//         onChange(newImages); 
+//         onChange(newImages);
 //     };
 
 //     return (
@@ -48,11 +48,11 @@
 //                         </p>
 //                         <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 800x400px)</p>
 //                     </div>
-//                     <input 
-//                         type="file" 
-//                         className="hidden" 
-//                         onChange={handleFileChange} 
-//                         multiple 
+//                     <input
+//                         type="file"
+//                         className="hidden"
+//                         onChange={handleFileChange}
+//                         multiple
 //                         accept="image/*"
 //                     />
 //                 </label>
@@ -111,7 +111,7 @@ export default function DynamicImageUpload({ images, onChange, apiUrl }) {
         const newFiles = Array.from(e.target.files);
         onChange([...images, ...newFiles]);
     };
-    
+
 
     const handleDragStart = (e, index) => {
         e.dataTransfer.setData('text/plain', index);
@@ -142,7 +142,7 @@ export default function DynamicImageUpload({ images, onChange, apiUrl }) {
             const newImages = Array.from(images || []);
             newImages.splice(index, 1);
             onChange(newImages);
- 
+
     };
 
 
@@ -150,7 +150,7 @@ export default function DynamicImageUpload({ images, onChange, apiUrl }) {
         setPrimaryIndex(index);
         const newImages = Array.from(images || []);
         const [primaryImage] = newImages.splice(index, 1);
-        newImages.unshift(primaryImage); 
+        newImages.unshift(primaryImage);
         onChange(newImages);
     };
 
@@ -168,13 +168,13 @@ export default function DynamicImageUpload({ images, onChange, apiUrl }) {
                         </p>
                         <p className="text-xs text-gray-500">PNG, JPG or JPEG</p>
                     </div>
-                    <input 
-                        type="file" 
-                        className="hidden" 
-                        onChange={handleFileChange} 
-                        multiple 
+                    <input
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileChange}
+                        multiple
                         accept="image/*"
-                        
+
                     />
                 </label>
             </div>
@@ -196,7 +196,7 @@ export default function DynamicImageUpload({ images, onChange, apiUrl }) {
                                 alt={`Preview ${index}`}
                                 className="object-cover w-full h-32 rounded-lg"
                             />
-                            <button
+                            <button type='button'
                                 onClick={() => removeImage(index)}
                                 className="absolute p-1 text-white transition-opacity bg-red-500 rounded-full opacity-0 top-1 right-1 group-hover:opacity-100"
                             >

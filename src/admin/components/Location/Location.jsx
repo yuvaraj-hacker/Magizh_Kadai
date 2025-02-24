@@ -5,7 +5,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import Tableheadpanel from "../../shared/components/location/Tableheadpanel";
 import Tableview from "../../shared/components/location/Tableview";
 import Addandeditform from "../../shared/components/location/Addandeditform";
-import { deletelocation, getalllocation, savelocation, updatelocation } from "../../shared/services/apilocation/apilocation";
+// import { deletelocation, getalllocation, savelocation, updatelocation } from "../../shared/services/apilocation/apilocation";
 export default function Location(){
 
     const [totalRecords, setTotalRecords] = useState(0);
@@ -23,18 +23,18 @@ export default function Location(){
 
     let isMounted = true;
 
-    const getlocation = useCallback(async ()=>{
-        const res= await getalllocation({first,rows,globalfilter,colfilter});
-        setTabledata(res?.resdata);
-        setTotalRecords(res?.totallength);
-    },[first,rows,globalfilter,colfilter]);
+    // const getlocation = useCallback(async ()=>{
+    //     const res= await getalllocation({first,rows,globalfilter,colfilter});
+    //     setTabledata(res?.resdata);
+    //     setTotalRecords(res?.totallength);
+    // },[first,rows,globalfilter,colfilter]);
 
-    useEffect(()=>{
-        if(isMounted){
-            getlocation();
-        }
-        return(()=>isMounted = false);
-    },[first,rows,globalfilter,colfilter])
+    // useEffect(()=>{
+    //     if(isMounted){
+    //         getlocation();
+    //     }
+    //     return(()=>isMounted = false);
+    // },[first,rows,globalfilter,colfilter])
 
     const onPage = (page) => {
         setPage(page)
@@ -86,7 +86,7 @@ export default function Location(){
         setFormdata({});
         setVisible(true)
     }
-    
+
     const editfrom=(data)=>{
         setFormdata(data);
         setVisible(true)
@@ -123,15 +123,15 @@ export default function Location(){
             <div className="bg-white border rounded-3xl">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
 
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} 
+                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                     cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} />
 
-                <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows}/> 
+                <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows}/>
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} imageDataUrl={imageDataUrl}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate}/>
                 <ConfirmDialog />
             </div>
-    
+
         </div>
     )
 }

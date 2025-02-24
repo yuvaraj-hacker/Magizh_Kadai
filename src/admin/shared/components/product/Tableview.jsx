@@ -268,8 +268,7 @@ const Tableview = (props) => {
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
-            <button
-              onClick={() => setShowFilterPanel(false)}
+            <button onClick={() => setShowFilterPanel(false)}
               className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
             >
               <i className="text-gray-600 fi fi-rr-cross"></i>
@@ -391,8 +390,7 @@ const Tableview = (props) => {
 
   return (
     <div className="bg-white border shadow-sm rounded-xl">
-      <TableHeader />
-
+      <TableHeader /> 
       <DataTable
         value={tabledata}
         scrollable
@@ -403,7 +401,7 @@ const Tableview = (props) => {
         stripedRows
         responsiveLayout="scroll"
         selection={selectedProducts}
-        onSelectionChange={(e) => setSelectedProducts(e.value)}
+        // onSelectionChange={(e) => setSelectedProducts(e.value)}
         selectionMode="checkbox"
       >
            <Column

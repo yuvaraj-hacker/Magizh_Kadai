@@ -8,7 +8,7 @@ import apiurl from '../../../../shared/services/apiendpoint/apiendpoint';
 import { useEffect, useState } from 'react';
 
 import moment from 'moment-timezone';
-import { getFilterOptions } from '../../services/apilocation/apilocation';
+// import { getFilterOptions } from '../../services/apilocation/apilocation';
 
 const Tableview = (props) => {
   const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page } = props;
@@ -40,14 +40,14 @@ const Tableview = (props) => {
   const actionbotton = (rowData) => {
     return (
       <div className="flex justify-center gap-3">
-        <button 
-          onClick={() => editfrom(rowData)} 
+        <button
+          onClick={() => editfrom(rowData)}
           className="p-2 transition-colors duration-200 rounded-full hover:bg-blue-50"
         >
           <i className="text-lg text-blue-600 fi fi-rr-pen-circle"></i>
         </button>
-        <button 
-          onClick={() => handledelete(rowData?._id)} 
+        <button
+          onClick={() => handledelete(rowData?._id)}
           className="p-2 transition-colors duration-200 rounded-full hover:bg-red-50"
         >
           <i className="text-lg text-red-600 fi fi-rr-trash"></i>
@@ -86,7 +86,7 @@ const Tableview = (props) => {
           )}
         </div>
         {rowData.Subcategories?.length > 0 && (
-          <button 
+          <button
             onClick={() => handleViewSubcategories(rowData)}
             className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
           >
@@ -133,7 +133,7 @@ const Tableview = (props) => {
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
-            <button 
+            <button
               onClick={() => setShowFilterPanel(false)}
               className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
             >
@@ -219,13 +219,13 @@ const Tableview = (props) => {
           </button>
         </div>
       </div>
-      
+
       {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
         <div className="flex flex-wrap gap-2 mt-4">
           {Object.entries(tempFilterValues).map(([key, value]) => {
             if (value && value.length > 0) {
               return value.map((v, i) => (
-                <span 
+                <span
                   key={`${key}-${i}`}
                   className="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full"
                 >
@@ -252,12 +252,12 @@ const Tableview = (props) => {
     </div>
   );
 
- 
+
 
   return (
     <div className="bg-white border shadow-sm rounded-xl">
       <TableHeader />
- 
+
       <DataTable value={tabledata} scrollable scrollHeight="550px" className="!text-sm" rowClassName={() => 'hover:bg-gray-50 transition-colors duration-200'} showGridlines
         responsiveLayout="scroll" >
         <Column header="Action" body={actionbotton} headerClassName="text-gray-700 bg-gray-50" className="text-center" />

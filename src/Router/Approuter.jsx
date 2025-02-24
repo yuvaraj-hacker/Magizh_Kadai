@@ -56,7 +56,7 @@ const Approuter = () => {
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
                             <Route path="/setting" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SettingPage /></ProtectedRoute>} />
-                                <Route path="/help-center" element={<HelpCenter />} />
+                            <Route path="/help-center" element={<HelpCenter />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                         </Route>
                     </Route>

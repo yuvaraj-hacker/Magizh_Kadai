@@ -92,8 +92,8 @@
 //       }`}>
 //         {animateSuccess ? (
 //           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-//             <CheckCircle 
-//               size={80} 
+//             <CheckCircle
+//               size={80}
 //               className="text-green-500 animate-ping"
 //             />
 //             <p className="mt-4 text-xl font-bold text-green-600">
@@ -102,8 +102,8 @@
 //           </div>
 //         ) : (
 //           <>
-//             {/* <button 
-//               onClick={onClose} 
+//             {/* <button
+//               onClick={onClose}
 //               className="absolute text-gray-500 transition-colors top-4 right-4 hover:text-gray-700"
 //             >
 //               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -120,19 +120,19 @@
 //             </div>
 
 //             <div className="grid grid-cols-2 gap-5">
-//               <div 
+//               <div
 //                 onClick={() => handleOptionSelect('delivery')}
 //                 className={`cursor-pointer border-2 rounded-2xl p-6 text-center transition-all duration-300 ease-in-out transform hover:scale-105 group ${
-//                   selectedOption === 'delivery' 
-//                     ? 'border-[#CA2E43] bg-gradient-to-br from-[#FFF6F4] to-white shadow-lg' 
+//                   selectedOption === 'delivery'
+//                     ? 'border-[#CA2E43] bg-gradient-to-br from-[#FFF6F4] to-white shadow-lg'
 //                     : 'border-gray-200 hover:border-gray-300'
 //                 }`}
 //               >
-//                 <Truck 
-//                   size={56} 
+//                 <Truck
+//                   size={56}
 //                   className={`mx-auto mb-4 transition-all duration-300 group-hover:rotate-6 ${
 //                     selectedOption === 'delivery' ? 'text-[#CA2E43] scale-110' : 'text-gray-400'
-//                   }`} 
+//                   }`}
 //                 />
 //                 <h3 className={`text-xl font-bold mb-2 transition-colors ${
 //                   selectedOption === 'delivery' ? 'text-[#CA2E43]' : 'text-gray-700'
@@ -144,19 +144,19 @@
 //                 </p>
 //               </div>
 
-//               <div 
+//               <div
 //                 onClick={() => handleOptionSelect('pickup')}
 //                 className={`cursor-pointer border-2 rounded-2xl p-6 text-center transition-all duration-300 ease-in-out transform hover:scale-105 group ${
-//                   selectedOption === 'pickup' 
-//                     ? 'border-[#CA2E43] bg-gradient-to-br from-[#FFF6F4] to-white shadow-lg' 
+//                   selectedOption === 'pickup'
+//                     ? 'border-[#CA2E43] bg-gradient-to-br from-[#FFF6F4] to-white shadow-lg'
 //                     : 'border-gray-200 hover:border-gray-300'
 //                 }`}
 //               >
-//                 <ShoppingBag 
-//                   size={56} 
+//                 <ShoppingBag
+//                   size={56}
 //                   className={`mx-auto mb-4 transition-all duration-300 group-hover:-rotate-6 ${
 //                     selectedOption === 'pickup' ? 'text-[#CA2E43] scale-110' : 'text-gray-400'
-//                   }`} 
+//                   }`}
 //                 />
 //                 <h3 className={`text-xl font-bold mb-2 transition-colors ${
 //                   selectedOption === 'pickup' ? 'text-[#CA2E43]' : 'text-gray-700'
@@ -173,12 +173,12 @@
 //             {selectedOption && renderDeliveryDetails()}
 
 //             <div className="mt-8 text-center">
-//               <button 
+//               <button
 //                 onClick={handleContinue}
 //                 disabled={!selectedOption}
 //                 className={`w-full py-3.5 rounded-full font-bold text-lg uppercase tracking-wider transition-all duration-300 shadow-md ${
-//                   selectedOption 
-//                     ? 'bg-[#CA2E43] text-white hover:bg-[#a71f36] hover:shadow-xl' 
+//                   selectedOption
+//                     ? 'bg-[#CA2E43] text-white hover:bg-[#a71f36] hover:shadow-xl'
 //                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
 //                 }`}
 //               >
@@ -200,7 +200,7 @@
 
 import { useState, useEffect } from 'react';
 import { Truck, ShoppingBag, CheckCircle, Clock, MapPin, CreditCard } from 'lucide-react';
-import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
+// import { getalllocation } from "../../../admin/shared/services/apilocation/apilocation";
 import toast from 'react-hot-toast';
 import { useCallback } from 'react';
 
@@ -228,18 +228,18 @@ const DeliveryPickupModal = ({ isOpen, onClose, onSelectOption }) => {
   //     // toast.error("Failed to load cities. Please try again.");
   //   }
   // }, []);
-  const fetchCities = useCallback(async () => {
-    try {
-      const response = await getalllocation();
-      const active = response.resdata.filter((location) => location.Status === "Active").map((location) => location.City);
-      const inactive = response.resdata.filter((location) => location.Status === "Inactive").map((location) => location.City);
-      
-      setAllowedCities(active);
-      setInactiveCities(inactive);
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  }, []);
+  // const fetchCities = useCallback(async () => {
+  //   try {
+  //     const response = await getalllocation();
+  //     const active = response.resdata.filter((location) => location.Status === "Active").map((location) => location.City);
+  //     const inactive = response.resdata.filter((location) => location.Status === "Inactive").map((location) => location.City);
+
+  //     setAllowedCities(active);
+  //     setInactiveCities(inactive);
+  //   } catch (error) {
+  //     console.error("Error fetching cities:", error);
+  //   }
+  // }, []);
 
 
   var isMounted = true;
@@ -398,10 +398,10 @@ const DeliveryPickupModal = ({ isOpen, onClose, onSelectOption }) => {
                 </option>
               ))}
               {inactiveCities.map((city) => (
-                <option 
-                  key={city} 
-                  value={city} 
-                  disabled 
+                <option
+                  key={city}
+                  value={city}
+                  disabled
                   className="text-gray-400"
                 >
                   {city} (Coming Soon)
