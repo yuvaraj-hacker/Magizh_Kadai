@@ -4,12 +4,12 @@ import apiurl from '../../services/apiendpoint/apiendpoint';
 
 
 const Items = (prpos) => {
-  const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, setIssidebaropen } = prpos;
+  const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, queryParams, setIssidebaropen } = prpos;
 
 
   if (!products || products.length === 0) {
     return (
-      <section className="h-screen flex items-center flex-col md:w-[80vw] w-[100vw]  justify-center px-5">
+      <section className="h-screen flex items-center flex-col md:w-[90vw] w-[100vw]   mx-auto justify-center px-5">
         <img className="w-28" src="/images/Design/nofound.png" alt="" />
         <h2 className="text-xl font-semibold text-black">No products found</h2>
       </section>
@@ -17,17 +17,31 @@ const Items = (prpos) => {
   }
   return (
     <>
-      <section>
-        <div className={`w-full sticky top-[47px] lg:top-[71px] z-30 ${scrolled ? '' : ''}`}>
-          <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-5 px-2">
+      <section className="2xl:px-5">
+        <div className={`w-full sticky top-[47px] lg:top-[83px] bg-white z-30 ${scrolled ? '' : ''}`}>
+          <div className="pt-4 md:px-6 px-2">
+            <div className=" font-bold text-primary flex gap-2 md:text-xl text-sm">
+
+              {queryParams.get("category") ? (
+                <>
+                  {queryParams.get("category").split(",").join(" / ")} /
+                </>
+              ) : (
+                "No Category Selected"
+              )}
+              {queryParams.get("subcategory") && (
+                <>
+                  <div className="font-medium">
+                    {" "}
+                    {queryParams.get("subcategory")}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-6 px-2">
             <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">{`${products.length} results`}</div>
             <div className=" flex  items-center md:gap-5 gap-2  ">
-              <div className="lg:hidden block text-end   bg-gray-50 rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
-                <div className="flex justify-end gap-4 items-center w-fit   ">
-                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-gray-500"></i>
-                  <p className="md:text-base text-sm  text-gray-500">Filter</p>
-                </div>
-              </div>
               <div className='inline-flex items-center gap-2 md:block '>
                 <Select labelPlacement={placements[0]} size='sm'
                   label={
@@ -40,10 +54,16 @@ const Items = (prpos) => {
                   <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
                 </Select>
               </div>
+              <div className="  block text-end   bg-gray-50 rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+                <div className="flex justify-end gap-4 items-center w-fit   ">
+                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-gray-500"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-6 xl:grid-cols-4 gap-x-3 md:px-5 ">
+
+        <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-7 xl:grid-cols-4 gap-x-3 md:px-5 ">
           {products.map((prod, i) => (
             <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
               <div key={i} className="relative group ">
@@ -79,12 +99,12 @@ const Items = (prpos) => {
                     </button> */}
                   </div>
                   <div className="absolute z-10 top-4 left-2 lg:top-5 lg:left-5 text-[10px] lg:text-xs ">
-                  {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
+                    {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
                       <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
                         <p className="">Out of Stock</p>
                       </div>
                     )}
-                    {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') &&  (
+                    {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') && (
                       <div className="bg-[#f1aa59] p-1 text-white rounded-full px-1.5 mb-2">
                         <p className="">Limited Stock</p>
                       </div>
@@ -94,7 +114,7 @@ const Items = (prpos) => {
                       <p className=""> {Math.round(prod?.Discount)}% off</p>
                     </div>
                   )} */}
-                    {(prod.QTY > 0 && prod.Discount > 0 && prod.Stock === 'Stock') &&  (
+                    {(prod.QTY > 0 && prod.Discount > 0 && prod.Stock === 'Stock') && (
                       <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
                         <p className="">{Math.round(prod?.Discount)}% off</p>
                       </div>

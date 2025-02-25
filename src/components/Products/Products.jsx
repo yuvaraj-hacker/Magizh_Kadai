@@ -93,7 +93,7 @@ const Products = () => {
     }, [selectedCategories, queryParams, selectedSubcategory, Sort, priceChanged, selectedDiscounts]);
     useEffect(() => {
         getAllProducts();
-    }, [selectedDiscounts, price, Sort]);
+    }, [ queryParams.get("category"), queryParams.get("subcategory"), selectedDiscounts, price, Sort]);
     const clearFilters = () => {
         setSort(null);
         setPrice([50, 12000]);
@@ -321,10 +321,10 @@ const Products = () => {
             ) : (
                 <section className="max-w-full mx-auto" >
                     <div className="max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black">
-                        <div className={`lg:sticky lg:top-[73px] bg-gray-100 lg:min-h-screen h-screen top-0 lg:left-0 fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " " : "-left-[100%] "} custom-scrollbar `}  >
-                            <div className="lg:hidden block p-2">
+                        <div className={` lg:top-[120px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
+                            <div className=" block p-2 mt-4">
                                 <div className="flex justify-end">
-                                    <i className="fi fi-rs-circle-xmark cursor-pointer" onClick={() => setIssidebaropen(false)}   ></i>
+                                    <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
                                 </div>
                             </div>
                             <div className=" border-b p-4 flex justify-between items-center">
@@ -352,7 +352,7 @@ const Products = () => {
                                                         <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
                                                             <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
                                                             <h5 className="whitespace-pre-wrap text-gray-500">
-                                                                {category.Category_Name}
+                                                                   {category.Category_Name}
                                                             </h5>
                                                         </div>
                                                     </Link>
@@ -400,7 +400,7 @@ const Products = () => {
                             <div>
                                 <div className="  gap-1">
                                     <div className="relative ">
-                                        <Items isLoading={isLoading} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
+                                        <Items isLoading={isLoading} queryParams={queryParams}  products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
                                     </div>
                                     {/* <div className="col-span-2">
                             <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}

@@ -20,7 +20,6 @@ export default function Header(props) {
 
   const { languages, ScrollToTop, handleLogout, wishlistData, setWishlistData, getDisplayLetter, ToggleFn, Toggle, visible, setVisible, showUserDropdown, setShowUserDropdown,
     openform } = props;
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
@@ -43,6 +42,7 @@ export default function Header(props) {
   const [deliveryOption, setDeliveryOption] = useState(localStorage.getItem('purchaseType') || '');
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
   const [opencategories, setOpenCategories] = useState(false);
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(!location || !deliveryOption);
   const today = new Date(); // for date
@@ -54,6 +54,22 @@ export default function Header(props) {
   const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
   const [prevWishlistCount, setPrevWishlistCount] = useState(0);
 
+
+  const allCategories = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await apigetallcategory();
+      setCategories(res.resdata);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    allCategories();
+  }, [allCategories]);
 
 
 
@@ -296,7 +312,7 @@ export default function Header(props) {
     <>
       <header>
         <div className={`fixed lg:z-50 z-40 w-full ml-auto ${scrolled ? 'shadow-md' : 'shadow-md'} `}>
-          <div className='flex w-full bg-gray-50 dark:bg-black'>
+          <div className={`flex w-full bg-gray-50 dark:bg-black ${scrolled ? 'shadow-md' : 'shadow-md'} `}>
             <div className='inline-flex flex-row-reverse w-full h-full  2xl:px-10 px-2 md:px-5 lg:flex-row'>
               <div className='flex items-center relative  w-full justify-between  '>
                 {/* logo */}
@@ -555,8 +571,37 @@ export default function Header(props) {
               </div>
             </div>
           </div>
+          <div className="border p-2 bg-gray-50 relative text-primary lg:block hidden" >
+            <div className="flex flex-col  lg:flex-row flex-wrap xl:top-0  -top-10   gap-2 2xl:px-7 px-1">
+              {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
+                <div key={category.Category_Name} className="p-2   relative " onMouseEnter={() => setHoveredCategory(category.Category_Name)} onMouseLeave={() => setHoveredCategory(null)} >
+                  <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer"   >
+                    <p className="  whitespace-nowrap font-bold">{category.Category_Name}</p>
+                    <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name && category.Subcategories ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
+                  </Link>
+                  {hoveredCategory === category.Category_Name && category.Subcategories && (
+                    <div className="mt-2 grid grid-cols-2 w-[38rem]    p-2 lg:absolute   bg-gray-50  rounded-md border">
+                      {category.Subcategories.map((sub) => (
+                        <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} className="px-3 py-1   rounded-md text-base hover:underline hover:underline-offset-4 transition-all"  >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </header>
+
+
 
       {/* <DeliveryPickupModal isOpen={isDeliveryModalOpen} onClose={() => setIsDeliveryModalOpen(false)} onSelectOption={handleDeliveryOptionSelect} /> */}
 

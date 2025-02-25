@@ -5,6 +5,7 @@ import apiurl from '../../services/apiendpoint/apiendpoint'
 // import { ChevronRight } from 'lucide-react'
 import './Sidebar.css'
 import useAuth from '../../services/store/useAuth'
+import { apigetallcategory } from '../../services/apicategory/apicategory'
 
 export default function Sidebar({ setTogSidecat, TogSidecat }) {
   const [categories, setCategories] = useState([])
@@ -23,6 +24,8 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
   const profileSidebarRoutes = []
   const isProfileSidebarPage = profileSidebarRoutes.includes(location.pathname)
   const { userdetails, logout } = useAuth()
+  const [category, setCategory] = useState([]);
+
 
   const handleLogout = async () => {
     await logout();
@@ -50,6 +53,24 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
       isMounted = false;
     };
   }, [getAllCategories]);
+
+
+  const allCategories = useCallback(async () => {
+    try {
+      const res = await apigetallcategory();
+      setCategory(res.resdata);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    allCategories();
+  }, [allCategories]);
+
+
+
+
 
   const handleCategoryHover = (category, event) => {
     if (category.Subcategories?.length > 0) {
@@ -101,17 +122,18 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
     }, 200)
   }
 
-  const handleCategoryClick = (categoryId, categoryName) => {
-    setSelectedCategory(categoryName)
+  const handleCategoryClick = (categoryName) => {
+    if (selectedCategory === categoryName) {
+      setSelectedCategory(null); // Close if clicked again
+    } else {
+      setSelectedCategory(categoryName);
+    }
     if (categoryName === "All Categories") {
-      navigate(`/products`)
-      setTogSidecat(false)
+      navigate(`/products`);
+    } else {
+      navigate(`/products?category=${encodeURIComponent(categoryName)}`);
     }
-    else {
-      navigate(`/products?category=${encodeURIComponent(categoryName)}`)
-      setTogSidecat(false)
-    }
-  }
+  };
 
   const handleSubcategoryClick = (categoryName, subcategoryName, e) => {
     e.preventDefault()
@@ -202,35 +224,36 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
               <Link to='/'><img src="/images/Logo/Logo.png" alt="" className='mt-2 z-[56]' /></Link>
             </div>
             <div className='flex items-center justify-between px-5 lg:hidden'>
-             <div className='flex gap-3  items-center'>
-             <img  className='w-8' src="/images/Design/Magizh-design.png" alt="" />
-             <div className='py-4 text-xl text-center lg:pb-16 font-bold text-secondary'>Categories</div>
-             </div>
+              <div className='flex gap-3  items-center'>
+                <img className='w-8' src="/images/Design/Magizh-design.png" alt="" />
+                <div className='py-4 text-xl text-center lg:pb-16 font-bold text-secondary'>Categories</div>
+              </div>
               <i onClick={() => setTogSidecat(false)} className="fi fi-sr-cross-circle text-2xl h-[24px] cursor-pointer"></i>
             </div>
             <hr className='lg:hidden' />
-            {/* Categories Container */}
-            <div className='lg:h-[calc(100vh-150px)] h-[calc(80vh-70px)] overflow-y-auto relative categories-container' id="style-15" >
-              <div className="relative grid gap-2 p-2 mt-5 xsm:grid-cols-1 sm:grid-cols-3 lg:p-0 lg:block">
-                {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
-                  <div key={category._id} onClick={() => setTogSidecat(false)}
-                    className={`lg:h-auto p-2 bg-primary  content-center text-white  rounded-lg relative ${hoveredCategory === category._id ? 'bg-[#dba73763] lg:bg-[#dba737]' : 'bg-primary text-white'}`}
-                   >
-                    <div className={`flex items-center p-1 cursor-pointer ${hoveredCategory === category._id ? 'lg:bg-[#ffd6b09b]' : 'lg:hover:bg-[#ffd6b09b]'}`}
-                      onClick={() => handleCategoryClick(category._id, category.Category_Name)} >
-                      <div className="flex justify-center min-w-16">
-                        <img src={`${apiurl()}/${category.Images}`} alt={category.Category_Name} className="object-contain w-8 h-8" />
+
+            <div className="border p-2 relative text-primary lg:hidden">
+              <div className="flex flex-col gap-2 px-7">
+                {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
+                  <div key={category.Category_Name} className="p-2 relative">
+                    <button onClick={() => handleCategoryClick(category.Category_Name)} className="flex items-center justify-between gap-1 w-full cursor-pointer" >
+                      <p className="font-medium whitespace-nowrap">{category.Category_Name}</p>
+                      <i className={`fi fi-rr-angle-small-${selectedCategory === category.Category_Name ? "up" : "down"} flex items-center`} />
+                    </button>
+                    {selectedCategory === category.Category_Name && category.Subcategories && (
+                      <div className="mt-2 grid grid-cols-1 p-2 bg-gray-50 rounded-md border">
+                        {category.Subcategories.map((sub) => (
+                          <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} onClick={() => setTogSidecat(false)} className="px-3 py-1 rounded-md text-sm hover:underline hover:underline-offset-4 transition-all"  >
+                            {sub.name}
+                          </Link>
+                        ))}
                       </div>
-                      <p className="text-[14px] font-medium text-white dark:text-white flex-1">
-                        {category.Category_Name}
-                      </p>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           </div>
-
           {/* Subcategories Side Box */}
           {showSubcategories && selectedSubcategoryData && (
             <div ref={subcategoryBoxRef}

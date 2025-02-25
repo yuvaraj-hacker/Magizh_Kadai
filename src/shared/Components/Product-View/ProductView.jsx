@@ -69,14 +69,14 @@ const ProductView = (props) => {
               </button>
             </div>
           </div>
-          <div className="flex-1 order-1 col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
-            <div className="relative" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
+          <div className="flex-1 order-1 relative col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
+            <div className="" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
               <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52 h-80  md:max-h-96" />
-              <div className='absolute top-2 left-2 '>
-                {product.Tags && (
-                  <p className=" text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">{product.Tags} <i className="fi fi-ss-fire-flame-curved "></i></p>
-                )}
-              </div>
+            </div>
+            <div className='absolute top-2 left-10 '>
+              {product.Tags && (
+                <p className=" text-[#FFD700] bg-black rounded-full w-fit text-[10px] lg:text-sm text-xs p-1 px-2 light ">{product.Tags} <i className="fi fi-ss-fire-flame-curved "></i></p>
+              )}
             </div>
           </div>
           {/* <div className="flex-1 order-1 col-span-6 mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-3 md:order-2 place-items-center ">
@@ -141,7 +141,7 @@ const ProductView = (props) => {
                   <p className="text-xs ">Out of Stock</p>
                 </div>
               )}
-              {product.QTY <= 5 && product.QTY > 0 && (
+              {product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock' && (
                 <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2">
                   <p className="text-xs ">Limited Stock</p>
                 </div>
@@ -154,7 +154,7 @@ const ProductView = (props) => {
               )}
               {product.Sale_Price > 0 && (
                 <span className="text-base font-bold text-primary md:text-2xl">
-                  ₹{product.Sale_Price }
+                  ₹{product.Sale_Price}
                 </span>
               )}
               {product.Discount > 0 && (
@@ -175,21 +175,22 @@ const ProductView = (props) => {
                         <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
                           <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                           <span className="md:mx-2">{getCurrentCartQuantity()} in cart</span>
+                          {getCurrentCartQuantity() >= 1 ? (
+                            <div className='flex   justify-between md:gap-2 gap-1'>
+                              <button className=' rounded-3xl bg-white border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                                <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
+                              </button>
+                              <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed bg-white border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
+                                <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div>
+                            </div>
+                          )}
                         </button>
                       )}
-                      {getCurrentCartQuantity() >= 1 ? (
-                        <div className='flex flex-col justify-between md:gap-3 gap-1'>
-                          <button className=' rounded-3xl border-primary border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
-                            <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
-                          </button>
-                          <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed border-primary border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
-                            <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
-                          </button>
-                        </div>
-                      ) : (
-                        <div>
-                        </div>
-                      )}
+
                     </>
                   </>
                   {/* <button onClick={() => handleAddToWishlist(product)} className="px-3 pt-2 border rounded-3xl h-fit group-0">

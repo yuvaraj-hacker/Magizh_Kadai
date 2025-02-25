@@ -19,7 +19,7 @@ const Main = () => {
                 <Layout />
             </div>
             <Sidebar setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />
-            <main className="md:pt-[41px] pt-[50px] lg:pt-[70px]">
+            <main className="md:pt-[41px] pt-[50px] lg:pt-[130px]">
                 <Outlet />
                 {!isProfilePage || window.innerWidth >= 1024 ? (
                     <Footer className="hidden md:block" setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />
