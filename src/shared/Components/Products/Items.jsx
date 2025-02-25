@@ -21,7 +21,6 @@ const Items = (prpos) => {
         <div className={`w-full sticky top-[47px] lg:top-[83px] bg-white z-30 ${scrolled ? '' : ''}`}>
           <div className="pt-4 md:px-6 px-2">
             <div className=" font-bold text-primary flex gap-2 md:text-xl text-sm">
-
               {queryParams.get("category") ? (
                 <>
                   {queryParams.get("category").split(",").join(" / ")} /

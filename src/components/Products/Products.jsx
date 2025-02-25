@@ -320,7 +320,7 @@ const Products = () => {
                 </div>
             ) : (
                 <section className="max-w-full mx-auto" >
-                    <div className="max-w-[1900px] mx-auto flex  min-h-screen relative dark:bg-black">
+                    <div className="max-w-[1900px] mx-auto flex  min-h-fit relative dark:bg-black">
                         <div className={` lg:top-[120px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
                             <div className=" block p-2 mt-4">
                                 <div className="flex justify-end">
