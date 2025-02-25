@@ -26,7 +26,7 @@ const Items = (prpos) => {
                   {queryParams.get("category").split(",").join(" / ")} /
                 </>
               ) : (
-                "No Category Selected"
+                "All products"
               )}
               {queryParams.get("subcategory") && (
                 <>

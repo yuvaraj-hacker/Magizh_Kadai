@@ -571,30 +571,32 @@ export default function Header(props) {
               </div>
             </div>
           </div>
-          <div className="border p-2 bg-gray-50 relative text-primary lg:block hidden" >
-            <div className="flex flex-col  lg:flex-row flex-wrap xl:top-0  -top-10   gap-2 2xl:px-7 px-1">
-              {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
-                <div key={category.Category_Name} className="p-2   relative " onMouseEnter={() => setHoveredCategory(category.Category_Name)} onMouseLeave={() => setHoveredCategory(null)} >
-                  <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer"   >
-                    <p className="  whitespace-nowrap font-bold">{category.Category_Name}</p>
-                    <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name && category.Subcategories ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
-                  </Link>
-                  {hoveredCategory === category.Category_Name && category.Subcategories && (
-                    <div className="mt-2 grid grid-cols-2 w-[38rem]    p-2 lg:absolute   bg-gray-50  rounded-md border">
-                      {category.Subcategories.map((sub) => (
-                        <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} className="px-3 py-1   rounded-md text-base hover:underline hover:underline-offset-4 transition-all"  >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div>
+          <div className='bg-gray-50 border'>
+            <div className="  p-2 max-w-[70rem] mx-auto  bg-gray-50 relative text-primary lg:block hidden" >
+              <div className="flex flex-col  lg:flex-row flex-wrap xl:top-0  -top-10   gap-2 2xl:px-7 px-1">
+                {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
+                  <div key={category.Category_Name} className="p-2   relative " onMouseEnter={() => setHoveredCategory(category.Category_Name)} onMouseLeave={() => setHoveredCategory(null)} >
+                    <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer"   >
+                      <p className="  whitespace-nowrap font-bold">{category.Category_Name}</p>
+                      <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name && category.Subcategories ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
+                    </Link>
+                    {hoveredCategory === category.Category_Name && category.Subcategories && (
+                      <div className="mt-2 grid grid-cols-1 w-[18rem]    p-2 lg:absolute   bg-gray-50  rounded-md border">
+                        {category.Subcategories.map((sub) => (
+                          <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} className="px-3 py-1   rounded-md text-base hover:underline hover:underline-offset-4 transition-all"  >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div>
+
+              </div>
 
             </div>
-
           </div>
 
         </div>
