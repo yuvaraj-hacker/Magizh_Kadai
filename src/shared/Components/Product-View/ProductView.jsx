@@ -112,7 +112,7 @@ const ProductView = (props) => {
               ))}
             </Swiper>
           )}
-        </div> */}
+            </div> */}
           <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-4 md:order-3  m-2 xl:mt-0 ">
             {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
@@ -134,15 +134,15 @@ const ProductView = (props) => {
                 <span className="text-lg font-medium text-gray-600 dark:text-white">{product.Measurement_Units} per {product.Unit_of_Measurements}</span>
               )}
             </div>
-            <div className='flex flex-wrap items-end justify-start'>
+            <div className='flex flex-wrap flex-col  gap-2  justify-start'>
               <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
               {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
-                <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2">
+                <div className="bg-[#E42D12] p-1 text-white rounded-lg mb-2 w-fit">
                   <p className="text-xs ">Out of Stock</p>
                 </div>
               )}
               {product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock' && (
-                <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2">
+                <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2  w-fit">
                   <p className="text-xs ">Limited Stock</p>
                 </div>
               )}
@@ -262,8 +262,10 @@ const ProductView = (props) => {
                 </div>
                 <div ref={descriptionRef} className={`transition-all duration-300 overflow-hidden`}
                   style={{ height: isDescriptionOpen ? contentHeight : "0px", }}  >
-                  <div className=" text-gray-700 dark:text-white p-2  md:text-base text-sm">
-                    <p dangerouslySetInnerHTML={{ __html: product.Product_Description }}></p>
+                  <div className=" text-gray-700 dark:text-white p-2  md:text-base text-sm text-justify">
+                    <ul>
+                      <li dangerouslySetInnerHTML={{ __html: product.Product_Description }}></li>
+                    </ul>
                   </div>
                 </div>
               </div>

@@ -390,7 +390,7 @@ const Tableview = (props) => {
 
   return (
     <div className="bg-white border shadow-sm rounded-xl">
-      <TableHeader /> 
+      <TableHeader />
       <DataTable
         value={tabledata}
         scrollable

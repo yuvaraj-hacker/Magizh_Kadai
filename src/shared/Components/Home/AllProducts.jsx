@@ -32,16 +32,29 @@ function AllProducts({ groupedProducts, categoryProducts }) {
 
     return () => window.removeEventListener("resize", updateLimit);
   }, []);
+
+  const categoryOrder = [
+    "Bottles",
+    "Home Utilities",
+    "Laptop/Mobile Accessories",
+    "Bathroom Accessories",
+    "Kitchen Accessories",
+    "Others",
+  ];
+
+
   return (
     <>
       <div className=" ">
         <div className="relative md:my-10 my-5">
-          {Object.keys(groupedProducts || {}).map((category, index) => (
+          {Object.keys(groupedProducts || {}).sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)).map((category, index) => (
             <div key={index} className="md:mb-10 mb-5 ">
               <div className="flex justify-between items-center my-2 px-3">
                 <div className="flex gap-2 items-center">
                   <img className="md:w-10 w-8" src="/images/Design/Magizh-design.png" alt="" />
-                  <h2 className="md:text-2xl text-sm font-bold text-secondary underline underline-offset-4">{category}</h2>
+                  <Link Link to={`products?category=${category}`}>
+                    <h2 className="md:text-2xl text-sm font-bold text-secondary underline underline-offset-4">{category}</h2>
+                  </Link>
                 </div>
                 <Link to={`products?category=${category}`} className="h-fit sm:h-full p-2 lg:px-4 rounded-full border group bg-primary text-white flex gap-2 justify-center items-center">
                   <button className="text-xs lg:text-base flex gap-2 items-center">

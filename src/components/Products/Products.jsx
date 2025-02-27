@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Headpanel from "../../shared/Components/Products/Headpanel";
 import Items from "../../shared/Components/Products/Items";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet";
 
 const Products = () => {
-    const [price, setPrice] = useState([50, 12000]);
+    const [price, setPrice] = useState([0, 12000]);
     const [priceChanged, setPriceChanged] = useState(price);
     const [categories, setCategories] = useState([]);
     const [discount, setDiscount] = useState([]);
@@ -47,10 +47,15 @@ const Products = () => {
     const placements = ["inside", "outside", "outside-left"];
     const [wishlistData, setWishlistData] = useState([]);
     const [Sort, setSort] = useState(null);
+    const sidebarRef = useRef(null);
     const selectedCategories = searchParams.get("category") ? searchParams.get("category").split(",") : [];
     const navigate = useNavigate();
     let isMounted = true;
     const [selectedDiscounts, setSelectedDiscounts] = useState([]);
+    const { pathname, search } = location;
+    const shouldShowFilter = pathname === "/products" && !search;
+
+
     const handleDiscountChange = (discount) => {
         setSelectedDiscounts((prev) =>
             prev.includes(discount) ? prev.filter(d => d !== discount) : [...prev, discount]
@@ -86,14 +91,19 @@ const Products = () => {
             setProducts(res.resdata);
         } catch (error) {
             console.error("Error fetching products:", error);
-            toast.error("Failed to fetch products");
+            toast.error("Failed to fetch products", {
+                icon: (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6 text-yellow-500"   >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M4.93 19h14.14a2 2 0 0 0 1.732-3L13.732 5a2 2 0 0 0-3.464 0L3.197 16a2 2 0 0 0 1.732 3z" />
+                </svg>
+                ),
+            });
         } finally {
             setIsLoading(false);
         }
     }, [selectedCategories, queryParams, selectedSubcategory, Sort, priceChanged, selectedDiscounts]);
     useEffect(() => {
         getAllProducts();
-    }, [ queryParams.get("category"), queryParams.get("subcategory"), selectedDiscounts, price, Sort]);
+    }, [queryParams.get("category"), queryParams.get("subcategory"), selectedDiscounts, price, Sort]);
     const clearFilters = () => {
         setSort(null);
         setPrice([50, 12000]);
@@ -298,6 +308,22 @@ const Products = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+    // Close sidebar when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                setIssidebaropen(false);
+            }
+        }
+        if (isSidebaropen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isSidebaropen, setIssidebaropen]);
     return (
         <>
             <HelmetProvider>
@@ -320,8 +346,8 @@ const Products = () => {
                 </div>
             ) : (
                 <section className="max-w-full mx-auto" >
-                    <div className="max-w-[1900px] mx-auto flex  min-h-fit relative dark:bg-black">
-                        <div className={` lg:top-[120px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
+                    <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
+                        <div ref={sidebarRef} className={` lg:top-[120px] w-[300px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
                             <div className=" block p-2 mt-4">
                                 <div className="flex justify-end">
                                     <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
@@ -333,6 +359,7 @@ const Products = () => {
                                     CLEAR ALL
                                 </div>
                             </div>
+
                             <div className="space-y-2 p-4 border-b ">
                                 <div className=" text-sm text-gray-600 ">CATEGORIES</div>
                                 <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
@@ -352,7 +379,7 @@ const Products = () => {
                                                         <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
                                                             <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
                                                             <h5 className="whitespace-pre-wrap text-gray-500">
-                                                                   {category.Category_Name}
+                                                                {category.Category_Name}
                                                             </h5>
                                                         </div>
                                                     </Link>
@@ -362,6 +389,7 @@ const Products = () => {
                                     </ul>
                                 </div>
                             </div>
+
                             <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
                                 <h1 className="text-sm text-gray-600 uppercase">Price</h1>
                                 <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
@@ -400,7 +428,7 @@ const Products = () => {
                             <div>
                                 <div className="  gap-1">
                                     <div className="relative ">
-                                        <Items isLoading={isLoading} queryParams={queryParams}  products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
+                                        <Items isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
                                     </div>
                                     {/* <div className="col-span-2">
                             <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}

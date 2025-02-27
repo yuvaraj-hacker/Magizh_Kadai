@@ -1,15 +1,22 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import apiurl from '../../services/apiendpoint/apiendpoint';
 
 
 const Items = (prpos) => {
   const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, queryParams, setIssidebaropen } = prpos;
 
+  const location = useLocation();
 
+
+
+  // Extract pathname and search parameters
+
+
+  // Show filter only if the path is "/products" without query params
   if (!products || products.length === 0) {
     return (
-      <section className="h-screen flex items-center flex-col md:w-[90vw] w-[100vw]   mx-auto justify-center px-5">
+      <section className="h-screen flex items-center flex-col md:w-[95vw] w-[100vw]   mx-auto justify-center px-5">
         <img className="w-28" src="/images/Design/nofound.png" alt="" />
         <h2 className="text-xl font-semibold text-black">No products found</h2>
       </section>
@@ -18,28 +25,60 @@ const Items = (prpos) => {
   return (
     <>
       <section className="2xl:px-5">
-        <div className={`w-full sticky top-[47px] lg:top-[83px] bg-white z-30 ${scrolled ? '' : ''}`}>
-          <div className="pt-4 md:px-6 px-2">
-            <div className=" font-bold text-primary flex gap-2 md:text-xl text-sm">
+        <div className={`w-full sticky top-[50px] lg:top-[126px] xl:top-[130px] bg-white z-30 ${scrolled ? '' : ''}`}>
+          <div className="pt-6 md:px-6 px-2  md:hidden block  ">
+            <div className="font-bold text-primary flex gap-2 md:text-xl text-sm">
               {queryParams.get("category") ? (
                 <>
-                  {queryParams.get("category").split(",").join(" / ")} /
+                  {decodeURIComponent(queryParams.get("category")).split(",").join(" / ")}
                 </>
               ) : (
-                "All products"
+                "All Products"
               )}
               {queryParams.get("subcategory") && (
                 <>
                   <div className="font-medium">
-                    {" "}
-                    {queryParams.get("subcategory")}
+                    {" "} / {decodeURIComponent(queryParams.get("subcategory"))}
                   </div>
                 </>
               )}
             </div>
           </div>
+
           <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-6 px-2">
-            <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">{`${products.length} results`}</div>
+            <div className="flex gap-3 items-center">
+              <div className="    md:block hidden  ">
+                <div className="font-bold text-primary flex gap-2 md:text-xl text-sm">
+                  {queryParams.get("category") ? (
+                    (() => {
+                      const categories = decodeURIComponent(queryParams.get("category")).split(",");
+                      // Show only if one category is selected
+                      if (categories.length === 1) {
+                        return (
+                          <Link
+                            to={`/products?category=${encodeURIComponent(queryParams.get("category"))}`}
+                            className="text-primary font-bold hover:underline"
+                          >
+                            {categories[0]}
+                          </Link>
+                        );
+                      } else {
+                        return null; // Hide if two or more categories are selected
+                      }
+                    })()
+                  ) : (
+                    <p className="text-primary md:text-xl text-base">All Products</p>
+                  )}
+
+                  {queryParams.get("subcategory") && (
+                    <div className="font-medium"> / {decodeURIComponent(queryParams.get("subcategory"))}</div>
+                  )}
+
+                </div>
+              </div>
+              <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">({`${products.length} results`})</div>
+            </div>
+
             <div className=" flex  items-center md:gap-5 gap-2  ">
               <div className='inline-flex items-center gap-2 md:block '>
                 <Select labelPlacement={placements[0]} size='sm'
@@ -53,16 +92,16 @@ const Items = (prpos) => {
                   <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
                 </Select>
               </div>
-              <div className="  block text-end   bg-gray-50 rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+              <div className="  block text-end   bg-primary rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
                 <div className="flex justify-end gap-4 items-center w-fit   ">
-                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-gray-500"></i>
+                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-white"></i>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 overflow-y-auto 2xl:grid-cols-7 xl:grid-cols-4 gap-x-3 md:px-5 ">
+        <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto 2xl:grid-cols-7 xl:grid-cols-4 gap-x-3 md:px-5 ">
           {products.map((prod, i) => (
             <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
               <div key={i} className="relative group ">

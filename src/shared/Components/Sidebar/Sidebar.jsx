@@ -132,6 +132,7 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
       navigate(`/products`);
     } else {
       navigate(`/products?category=${encodeURIComponent(categoryName)}`);
+      setTogSidecat(false)
     }
   };
 
@@ -218,7 +219,7 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
         </section >
       ) : (
         <section className='relative lg:hidden' onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}  >
-          <div className={`${TogSidecat ? 'translate-y-0' : 'translate-y-full'} fixed bottom-0 left-0 lg:translate-y-0 duration-300 lg:block h-[80vh] lg:h-screen w-full lg:w-60 bg-white dark:bg-slate-800 shadow-lg z-[54] lg:z-50`}>
+          <div className={`${TogSidecat ? 'translate-y-0' : 'translate-y-full'} fixed bottom-0 left-0 lg:translate-y-0 duration-300 lg:block h-[80vh] overflow-y-auto scrollbar-hide lg:h-screen w-full lg:w-60 bg-white dark:bg-slate-800 shadow-lg z-[54] lg:z-50`}>
             {/* Sidebar Logo and Mobile Header */}
             <div className='hidden lg:block lg:px-8'>
               <Link to='/'><img src="/images/Logo/Logo.png" alt="" className='mt-2 z-[56]' /></Link>
@@ -231,24 +232,30 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
               <i onClick={() => setTogSidecat(false)} className="fi fi-sr-cross-circle text-2xl h-[24px] cursor-pointer"></i>
             </div>
             <hr className='lg:hidden' />
-
             <div className="border p-2 relative text-primary lg:hidden">
-              <div className="flex flex-col gap-2 px-7">
-                {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
+              <div className="flex flex-col gap-2">
+                {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").sort((a, b) => {
+                  if (a.Category_Name === "Drinkware/Bottles") return -1;
+                  if (b.Category_Name === "Drinkware/Bottles") return 1;
+                  return 0; // Ensure other categories retain their order
+                }).map((category) => (
                   <div key={category.Category_Name} className="p-2 relative">
-                    <button onClick={() => handleCategoryClick(category.Category_Name)} className="flex items-center justify-between gap-1 w-full cursor-pointer" >
-                      <p className="font-medium whitespace-nowrap">{category.Category_Name}</p>
-                      <i className={`fi fi-rr-angle-small-${selectedCategory === category.Category_Name ? "up" : "down"} flex items-center`} />
+                    <button onClick={() => handleCategoryClick(category.Category_Name)} className="flex items-center justify-center gap-1 w-full cursor-pointer" >
+                      <p className="font-medium whitespace-nowrap text-center">{category.Category_Name}</p>
+                      {/* <i className={`fi fi-rr-angle-small-${selectedCategory === category.Category_Name ? "up" : "down"} flex items-center`} /> */}
                     </button>
-                    {selectedCategory === category.Category_Name && category.Subcategories && (
+                    {/* {selectedCategory === category.Category_Name && category.Subcategories && (
                       <div className="mt-2 grid grid-cols-1 p-2 bg-gray-50 rounded-md border">
                         {category.Subcategories.map((sub) => (
-                          <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} onClick={() => setTogSidecat(false)} className="px-3 py-1 rounded-md text-sm hover:underline hover:underline-offset-4 transition-all"  >
-                            {sub.name}
+                          <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} onClick={() => setTogSidecat(false)} className="px-3 py-1 rounded-md text-sm transition-all"  >
+                            <div className='flex items-center gap-2'>
+                              <i class="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
+                              <p className="">{sub.name}</p>
+                            </div>
                           </Link>
                         ))}
                       </div>
-                    )}
+                    )} */}
                   </div>
                 ))}
               </div>

@@ -1,5 +1,14 @@
-export const mainCarouselBanners1 = [{
+export const mainCarouselBanners1 = [
+    {
         "id": 1,
+        "title": "Drinkware/Bottles",
+        "subtitle":"Upgrade Your Hydration with Stylish and Durable Drinkware & Bottles for Every Occasion!",
+        "image": "/assets/herosection/final.jpeg",
+        "link": "/products?category=Drinkware/Bottles",
+
+    },
+    {
+        "id": 2,
         "title": "Home Utilities",
         "subtitle": "Upgrade Your Home with Innovative, Cost-Effective Solutions. Explore Now to Make Everyday Living Effortless and Stylish!",
         "image": "/assets/herosection/home.jpg",
@@ -9,7 +18,7 @@ export const mainCarouselBanners1 = [{
 
     },
     {
-        "id": 2,
+        "id": 3,
         "title": "Kitchen Accessories",
         "subtitle": "Elevate Your Culinary Experience with Cutting-Edge Accessories. Cook with Ease, Style, and Precision—Start Shopping Today!",
         "image": "/assets/herosection/kitchen.jpg",
@@ -17,7 +26,7 @@ export const mainCarouselBanners1 = [{
         "bgColor": "#f0f0f0"
     },
     {
-        "id": 3,
+        "id": 4,
         "title": "Bathroom Accessories",
         "subtitle": "Transform Your Bathroom into a Luxe Haven with Modern, Functional Touches. Refresh Your Space with Ease—Shop Now!",
         "image": "/assets/herosection/bathroom.jpg",

@@ -71,6 +71,13 @@ export default function Header(props) {
     allCategories();
   }, [allCategories]);
 
+  const sortedCategories = categories
+    .filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories")
+    .sort((a, b) => {
+      if (a.Category_Name === "Drinkware/Bottles") return -1;
+      if (b.Category_Name === "Drinkware/Bottles") return 1;
+    });
+
 
 
   const debouncedSearch = useMemo(() => {
@@ -351,7 +358,7 @@ export default function Header(props) {
                           Oops! No Products Found
                         </h3>
                         <p className="max-w-xs mb-4 text-sm text-gray-600 dark:text-white">
-                          We didn't find any products. Let's try something else.
+                          "No results match your search. Try something else!"
                         </p>
                       </div>
                     ) : (
@@ -543,7 +550,7 @@ export default function Header(props) {
                                   <span className="text-sm dark:text-white">Help center</span>
                                 </Link>
 
-                                <Link className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50">
+                                 <Link className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50">
                                   <i className="fi fi-rr-users"></i>
                                   <span className="text-sm">Refer Friends, Get $20</span>
                                 </Link>
@@ -571,7 +578,7 @@ export default function Header(props) {
               </div>
             </div>
           </div>
-          <div className='bg-gray-50 border'>
+          {/* <div className='bg-gray-50 border'>
             <div className="  p-2 max-w-[70rem] mx-auto  bg-gray-50 relative text-primary lg:block hidden" >
               <div className="flex flex-col  lg:flex-row flex-wrap xl:top-0  -top-10   gap-2 2xl:px-7 px-1">
                 {categories.filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories").map((category) => (
@@ -593,14 +600,45 @@ export default function Header(props) {
                 ))}
               </div>
               <div>
-
               </div>
-
+            </div>
+          </div> */}
+          <div className='bg-gray-50 border relative'>
+            <div className="p-2 max-w-[65rem] mx-auto bg-gray-50 relative text-primary lg:block hidden" onMouseLeave={() => setHoveredCategory(null)}>
+              <div className="flex flex-col lg:flex-row flex-wrap gap-2">
+                {sortedCategories.map((category) => (
+                  <div key={category.Category_Name} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
+                    onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
+                    <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
+                      <p className="whitespace-nowrap font-bold xl:text-base text-sm">{category.Category_Name}</p>
+                      {/* {category.Subcategories && category.Subcategories.length > 0 && (
+                        <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
+                      )} */}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              {/* {hoveredCategory && categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories?.length > 0 && (
+                <div className="absolute left-0 w-full bg-gray-50  shadow-md transition-all duration-300 border border-secondary ease-in-out">
+                  <div className="max-w-[70rem] mx-auto p-4 grid grid-cols-3 gap-">
+                    {categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories.map((sub) => (
+                      <>
+                        <div className='w-fit'>
+                          <Link key={sub.name}   to={`/products?category=${encodeURIComponent(hoveredCategory)}&subcategory=${encodeURIComponent(sub.name)}`} className="px-3 py-2 rounded-md text-sm  transition-all block" onClick={() => setHoveredCategory(null)}>
+                            <div className='flex gap-2 items-center'>
+                              <i class="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
+                              <p className="hover:underline hover:underline-offset-4 font-semibold"> {sub.name}</p>
+                            </div>
+                          </Link>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                </div>
+              )} */}
             </div>
           </div>
-
         </div>
-
       </header>
 
 
