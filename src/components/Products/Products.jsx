@@ -106,7 +106,7 @@ const Products = () => {
     }, [queryParams.get("category"), queryParams.get("subcategory"), selectedDiscounts, price, Sort]);
     const clearFilters = () => {
         setSort(null);
-        setPrice([50, 12000]);
+        setPrice([0, 12000]);
         setSelectedDiscounts([]);
         navigate("/products", { replace: true });
         getAllProducts();
@@ -324,6 +324,15 @@ const Products = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isSidebaropen, setIssidebaropen]);
+
+    const categoryOrder = [
+        "Bottles",
+        "Home Utilities",
+        "Laptop/Mobile Accessories",
+        "Bathroom Accessories",
+        "Kitchen Accessories",
+        "Others",
+      ];
     return (
         <>
             <HelmetProvider>
@@ -398,7 +407,7 @@ const Products = () => {
                                 </div>
                                 <div className="flex justify-content-center py-3">
                                     <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
-                                        <Slider range={true} marks={{ 50: "₹50", 12000: " ₹12000" }} step={500} min={50} max={12000} value={price} onChange={(price) => { setPrice(price) }}
+                                        <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
                                             handleRender={renderProps => {
                                                 return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
                                                     <div {...renderProps.props}></div>

@@ -213,7 +213,7 @@ export default function ProductViewFunctions() {
         message += `Total Items: 1\n`;
         message += `Final Total: ₹${productTotal}\n`;
 
-        const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/+918807700218?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
 
@@ -223,7 +223,7 @@ export default function ProductViewFunctions() {
         message += `1. ${product.Product_Name}\n`;
         message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
         message += `Please notify me when it's available. Thank you!`;
-        const whatsappUrl = `https://wa.me/+918825695060?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/+918807700218?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
 

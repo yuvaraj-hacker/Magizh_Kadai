@@ -127,7 +127,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                            <div className='space-y-3 text-sm'>
                               <p >
                                  <span className="">Mobile Number: </span>
-                                 <a href="https://wa.me/918825695060" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 88256 95060</a>
+                                 <a href="https://wa.me/918807700218" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 88256 95060</a>
                               </p>
                               <p className="">
                                  <span>Email: </span>
