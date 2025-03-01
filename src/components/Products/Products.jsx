@@ -356,7 +356,8 @@ const Products = () => {
             ) : (
                 <section className="max-w-full mx-auto" >
                     <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
-                        <div ref={sidebarRef} className={` lg:top-[120px] w-[300px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
+                        <div ref={sidebarRef}
+                            className={`lg:top-[120px] w-[300px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible overflow-y-auto lg:z-40 z-50 duration-300 ${isSidebaropen ? "right-0" : "-right-[100%]"} custom-scrollbar flex flex-col`}>
                             <div className=" block p-2 mt-4">
                                 <div className="flex justify-end">
                                     <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
