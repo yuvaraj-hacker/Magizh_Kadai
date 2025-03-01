@@ -20,6 +20,8 @@ import SwiperMin from '../../shared/Components/Home/SwiperMin.jsx'
 import { useCallback } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import { Helmet } from 'react-helmet'
+import Products from '../Products/Products.jsx'
+import HomrProducts from './HomrProducts.jsx'
 
 export default function Home() {
   const [offers, setOffers] = useState([]);
@@ -69,12 +71,12 @@ export default function Home() {
   }, [productfetch]);
   const groupedProducts = useMemo(() => {
     return Product?.reduce((acc, product) => {
-        if (!acc[product.Category]) {
-          acc[product.Category] = [];
-        }
-        acc[product.Category].push(product);
-        return acc;
-      }, {});
+      if (!acc[product.Category]) {
+        acc[product.Category] = [];
+      }
+      acc[product.Category].push(product);
+      return acc;
+    }, {});
   }, [Product]);
 
   const renderOffer = (offer) => {
@@ -316,14 +318,16 @@ export default function Home() {
           <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
         </Helmet>
       </HelmetProvider>
-
       <div className='max-w-[1860px] mx-auto bg-white dark:bg-black z-45'>
-        <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} />
+        {/* <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} /> */}
         {/* Render All Active Offers */}
         {/* {offers.map((offer) => renderOffer(offer))} */}
-        <div className='px-3'><SwiperMin Product={Product} /></div>
+        {/* <div className='px-3'><SwiperMin Product={Product} /></div> */}
         {/* <NewArrivals products={Product} /> */}
-        <div className=''><AllProducts groupedProducts={groupedProducts} categoryProducts={categoryProducts} /></div>
+        {/* <div className=''><AllProducts groupedProducts={groupedProducts} categoryProducts={categoryProducts} /></div> */}
+      <div className='mt-5  px-2  '>
+          <HomrProducts />
+        </div>
         {/* <IngredientSwipe  title="Indian Cuisine Combo Ingredients" visible={visible} setVisible={setVisible} selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct} handleProductClick={handleProductClick} AddtoCartProduct={AddtoCartProduct} /> */}
         {/* <Testimoni testimonials={testimonials} /> */}

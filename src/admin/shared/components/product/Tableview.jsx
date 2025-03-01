@@ -217,24 +217,20 @@ const Tableview = (props) => {
     return (
       <div className="flex justify-center">
         <div className="relative z-0 w-24 h-16 group">
-          <Swiper
-            modules={[Pagination, Navigation, Autoplay]}
-            spaceBetween={10}
-            slidesPerView={1}
-            // navigation
-            // pagination={{ clickable: true }}
-            autoplay={{ delay: 2000 }}
-          >
-            {rowData.Images.map((img, index) => (
-              <SwiperSlide key={index} className="flex items-center justify-center">
-                <img
-                  src={`${apiurl()}/${img}`}
-                  className="object-cover h-16 transition-transform duration-200 rounded-lg shadow-sm w-28 group-hover:scale-105"
-                  alt={rowData.Product_Name}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {/* <Swiper modules={[Pagination, Navigation, Autoplay]} spaceBetween={10} slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 2000 }}  > */}
+          {rowData.Images.length > 0 && (
+            // <SwiperSlide key={index} className="flex items-center justify-center">
+            <img
+              src={`${apiurl()}/${rowData.Images[0]}`}
+              className="object-cover h-16 transition-transform duration-200 rounded-lg shadow-sm w-28 group-hover:scale-105"
+              alt={rowData.Product_Name}
+            />
+            // </SwiperSlide>
+          )}
+          {/* </Swiper> */}
           <div className="absolute inset-0 transition-all duration-200 bg-black bg-opacity-0 rounded-lg group-hover:bg-opacity-10" />
         </div>
       </div>
@@ -242,20 +238,20 @@ const Tableview = (props) => {
   };
 
   const columns = [
-    { field: 'Product_Name', header: 'Product Name', filter: true },
+    { field: 'Product_Name', header: 'Product Name', filter: true , Width:'450px'},
     // { field: 'Product_Description', header: 'Description', body: renderDescription },
     // { field: 'Product_Highlights', header: 'Product Highlights', body: renderHighlights },
-    { field: 'Brand_Name', header: 'Brand Name', filter: true },
+    { field: 'Brand_Name', header: 'Brand Name', filter: true , Width:'200px' },
     { field: 'Category', header: 'Category', filter: true },
-    { field: 'Sub_Category', header: 'Sub Category', filter: true },
+    { field: 'Sub_Category', header: 'Sub Category', filter: true, Width:'250px'  },
     // { field: 'Unit_of_Measurements', header: 'Units' },
     // { field: 'Measurement_Units', header: 'Measurement' },
     // { field: 'Made_In', header: 'Made In' },
     { field: 'QTY', header: 'Qty' },
-    { field: 'Regular_Price', header: 'Regular Price' },
+    { field: 'Regular_Price', header: 'Regular Price' ,  Width:'250px'  },
     { field: 'Discount', header: 'Dis (%)', filter: true },
     { field: 'Tax_Type', header: 'Tax Type' },
-    { field: 'Tax_Percentage', header: 'Tax Percentage' },
+    { field: 'Tax_Percentage', header: 'Tax (%)' },
     // { field: '', header: 'Tax Amount' },
     // { field: '', header: 'Base Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
@@ -313,7 +309,7 @@ const Tableview = (props) => {
                 Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
                 setShowFilterPanel(false);
               }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-primary  border border-transparent rounded-lg hover:bg-primary  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Apply Filters
             </button>
@@ -324,14 +320,12 @@ const Tableview = (props) => {
   );
 
   const TableHeader = () => (
-    <div className="p-4 bg-white border-b">
+    <div className="p-4 bg-white border border-t-primary">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
         </div>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowFilterPanel(true)}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          <button onClick={() => setShowFilterPanel(true)} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <i className="mr-2 fi fi-rr-filter"></i>
             Filters
@@ -389,14 +383,14 @@ const Tableview = (props) => {
 
 
   return (
-    <div className="bg-white border shadow-sm rounded-xl">
+    <div className="bg-white  shadow-sm rounded-xl">
       <TableHeader />
       <DataTable
         value={tabledata}
         scrollable
         scrollHeight="620px"
-        className="!text-sm producttable"
-        rowClassName={() => 'hover:bg-gray-50 transition-colors duration-200'}
+        className="!text-sm producttable "
+        rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200'}
         showGridlines={false}
         stripedRows
         responsiveLayout="scroll"
@@ -404,12 +398,12 @@ const Tableview = (props) => {
         // onSelectionChange={(e) => setSelectedProducts(e.value)}
         selectionMode="checkbox"
       >
-           <Column
-      header="S.No"
-      body={(rowData, { rowIndex }) => rowIndex + 1}
-      headerClassName="text-gray-700 bg-gray-50"
-      className=""
-    />
+        <Column
+          header="S.No"
+          body={(rowData, { rowIndex }) => rowIndex + 1}
+          headerClassName="text-white bg-primary"
+          className=""
+        />
         {/* <Column
           header={CustomSelectionHeader}
           body={CustomSelectionBody}
@@ -420,13 +414,13 @@ const Tableview = (props) => {
         <Column
           header="Action"
           body={actionbotton}
-          headerClassName="text-gray-700 bg-gray-50"
+          headerClassName="text-white bg-primary"
           className="text-center"
         />
         <Column
           header="Images"
           body={image}
-          headerClassName="text-gray-700 bg-gray-50"
+          headerClassName="text-white bg-primary"
         />
         {columns.map((col, i) => (
           col.formattype === 'array' ? (
@@ -434,17 +428,18 @@ const Tableview = (props) => {
               key={i}
               header={col.header}
               field={col.field}
-              style={{ minWidth: col.width }}
+              style={{ width: col.Width }}
               body={array}
-              headerClassName="text-gray-700 bg-gray-50 "
+              headerClassName="text-white bg-primary "
             />
           ) : (
             <Column
               key={i}
               field={col.field}
+              style={{ width: col.Width }}
               header={col.header}
               body={col.body}
-              headerClassName="text-gray-700 bg-gray-50"
+              headerClassName="text-white bg-primary"
             />
           )
         ))}

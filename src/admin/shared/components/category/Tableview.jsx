@@ -201,7 +201,7 @@ const Tableview = (props) => {
                 Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
                 setShowFilterPanel(false);
               }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-lg hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Apply Filters
             </button>
@@ -212,7 +212,7 @@ const Tableview = (props) => {
   );
 
   const TableHeader = () => (
-    <div className="p-4 bg-white border-b">
+    <div className="p-4 bg-white border border-t-primary">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
         </div>
@@ -289,15 +289,15 @@ const Tableview = (props) => {
   );
 
   return (
-    <div className="bg-white border shadow-sm rounded-xl">
+    <div className="bg-white ">
       <TableHeader />
 
       <DataTable
         value={tabledata}
         scrollable
-        scrollHeight="680px"
-        className="!text-sm"
-        rowClassName={() => 'hover:bg-gray-50 transition-colors duration-200'}
+        scrollHeight="620px"
+        className="!text-sm  "
+        rowClassName={() => 'border border-b-primary border-r-primary transition-colors duration-200  '}
         showGridlines={false}
         stripedRows
         responsiveLayout="scroll"
@@ -305,19 +305,19 @@ const Tableview = (props) => {
         <Column
       header="S.No"
       body={(rowData, { rowIndex }) => rowIndex + 1}
-      headerClassName="text-gray-700 bg-gray-50"
+      headerClassName="text-white bg-primary"
       className=""
     />
         <Column
           header="Action"
           body={actionbotton}
-          headerClassName="text-gray-700 bg-gray-50"
+          headerClassName="text-white bg-primary"
           className=""
         />
         <Column
           header="Images"
           body={image}
-          headerClassName="text-gray-700 bg-gray-50"
+          headerClassName="text-white bg-primary"
         />
         {columns.map((col, i) => (
           col.formattype === 'array' ? (
@@ -327,7 +327,7 @@ const Tableview = (props) => {
               field={col.field}
               style={{ minWidth: col.width }}
               body={array}
-              headerClassName="text-gray-700 bg-gray-50"
+              headerClassName="text-white bg-primary"
             />
           ) : (
             <Column
@@ -335,7 +335,7 @@ const Tableview = (props) => {
               field={col.field}
               header={col.header}
               body={col.body}
-              headerClassName="text-gray-700 bg-gray-50"
+              headerClassName="text-white bg-primary"
             />
           )
         ))}

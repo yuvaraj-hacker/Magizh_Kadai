@@ -88,12 +88,12 @@ const Tableview = (props) => {
   return (
     <div>
       <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable scrollHeight="680px" className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
-        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-gray-700 bg-gray-50" className=""
+        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
         />
-        <Column header="Action" body={actionbotton} />
+        <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' />
         {/* <Column header="Images"  body={image} /> */}
         {columns.map((col, i) => (
-          <Column key={i} field={col.field} header={col.header} filter={col.filter} filterElement={Filter(col)} showFilterMenuOptions={false} showApplyButton={false}
+          <Column headerClassName='text-white bg-primary' key={i} field={col.field} header={col.header} filter={col.filter} filterElement={Filter(col)} showFilterMenuOptions={false} showApplyButton={false}
             showClearButton={false} showFilterMatchModes={false} style={{ minWidth: col.width }}
             body={(rowData, meta) => { if (col.format == "Date") { return moment(rowData[meta.field]).format("YYYY-MM-DD") } else if (col.format == "HTML") { return <div dangerouslySetInnerHTML={{ __html: rowData[meta.field] }} /> } else { return rowData[meta.field] } }} />
         ))}

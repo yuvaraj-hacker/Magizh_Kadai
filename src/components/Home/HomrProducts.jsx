@@ -1,32 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import Headpanel from "../../shared/Components/Products/Headpanel";
-import Items from "../../shared/Components/Products/Items";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getallcategory } from "../../admin/shared/services/apicategory/apicategory";
 import toast from "react-hot-toast";
 import { savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 import { getallproducts } from "../../shared/services/apiproducts/apiproduct";
 import useAuth from "../../shared/services/store/useAuth";
 import useCart from "../../shared/services/store/useCart";
-import PopupModal from "../../shared/Components/Products/PopupModal";
 import {
     getWishlistItems,
     RemoveWishlistItem,
     savewishitems,
 } from "../../shared/services/wishlist/wishlist";
-import RegisterContinueGoogle from "../../shared/Components/Register-ContiGoogle/RegisterContiGoogle";
 import apiurl from "../../shared/services/apiendpoint/apiendpoint";
-import { apigetallcategory } from "../../shared/services/apicategory/apicategory";
 import { Link } from "react-router-dom";
-import Tooltip from "rc-tooltip";
-import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
-import { SyncLoader } from "react-spinners"
-import { HelmetProvider } from "react-helmet-async";
-import { Helmet } from "react-helmet";
+import { SyncLoader } from "react-spinners";
 
-const Products = () => {
+
+const HomrProducts = () => {
+
     const [price, setPrice] = useState([0, 12000]);
     const [priceChanged, setPriceChanged] = useState(price);
     const [categories, setCategories] = useState([]);
@@ -333,125 +326,108 @@ const Products = () => {
         "Kitchen Accessories",
         "Others",
     ];
+
+
+    // if (!products || products.length === 0) {
+    //     return (
+    //         <section className="h-screen flex items-center flex-col md:w-[95vw] w-[100vw]   mx-auto justify-center px-5">
+    //             <img className="w-28" src="/images/Design/nofound.png" alt="" />
+    //             <h2 className="text-xl font-semibold text-black">No products found</h2>
+    //         </section>
+    //     );
+    // }
     return (
         <>
-            <HelmetProvider>
-                <Helmet>
-                    <title>Magizh Kadai - Your one-stop shop for quality products online.</title>
-                    <meta name="keywords" content="Magizh Kadai, online shopping, best deals, quality products, affordable prices, buy online, e-commerce store" />
-                    <meta name="description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
-                    <meta name="author" content="Magizh Kadai" />
-                    <meta name="robots" content="index, follow" />
-                    <meta property="og:type" content="website" />
-                    <meta property="og:title" content="Magizh Kadai - Your One-Stop Online Store" />
-                    <meta property="og:description" content="Shop a diverse range of quality products at Magizh Kadai. Enjoy the best deals, secure payments, fast delivery, and a seamless online shopping experience." />
-                    <meta property="og:url" content="https://www.magizhkadai.com/" />
-                    <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
-                </Helmet>
-            </HelmetProvider>
             {isLoading ? (
                 <div className="flex justify-center items-center min-h-screen">
                     <SyncLoader color="#024A34" />
                 </div>
             ) : (
-                <section className="max-w-full mx-auto" >
-                    <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
-                        <div ref={sidebarRef} className={` lg:top-[120px] w-[300px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible  overflow-y-auto lg:z-40 z-50  duration-300  ${isSidebaropen ? " right-0 " : "-right-[100%] "} custom-scrollbar `}  >
-                            <div className=" block p-2 mt-4">
-                                <div className="flex justify-end">
-                                    <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
-                                </div>
-                            </div>
-                            <div className=" border-b p-4 flex justify-between items-center">
-                                <div className=" text-sm text-black ">FILTERS</div>
-                                <div className=" text-sm cursor-pointer text-blue-400  bg-white hover:bg-gray-50 p-2" onClick={clearFilters}>
-                                    CLEAR ALL
-                                </div>
-                            </div>
+                <section className="">
+                    <div className="relative md:px-2 px-1 pb-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto  3xl:grid-cols-7  2xl:grid-cols-6 xl:grid-cols-5 gap-x-3  ">
+                        {[...products]
+                            .sort((a, b) => {
+                                if (a.Category === "Drinkware/Bottles" && b.Category !== "Drinkware/Bottles") return -1;
+                                if (b.Category === "Drinkware/Bottles" && a.Category !== "Drinkware/Bottles") return 1;
+                                // Inside "Drinkware/Bottles", move quantity 0 products last
+                                if (a.Category === "Drinkware/Bottles" && b.Category === "Drinkware/Bottles") {
+                                    if (a.QTY === 0) return 1;
+                                    if (b.QTY === 0) return -1;
+                                }
+                                // For other categories, move quantity 0 products last
+                                if (a.QTY === 0) return 1;
+                                if (b.QTY === 0) return -1;
+                                return 0;
+                            }).map((prod, i) => (
+                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
+                                    <div key={i} className="relative group ">
+                                        <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
+                                            {/* wishlist & cart */}
+                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full   lg:group-hover:-translate-y-1/2 duration-300">
+                                                {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
+                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center border-[1.5px] rounded-full bg-gray-100 hover:bg-white  group overflow-hidden shadow-md duration-300" >
+                                                        <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
+                                                    </button>
+                                                )}
+                                            </div>
+                                            <div className="absolute z-10 top-3 left-2 lg:top-2 lg:left-2 text-[10px] lg:text-xs ">
+                                                {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
+                                                    <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
+                                                        <p className="">Out of Stock</p>
+                                                    </div>
+                                                )}
+                                                {(prod.QTY > 0 && prod.Discount > 0 && prod.Stock === 'Stock') && (
+                                                    <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
+                                                        <p className="">{Math.round(prod?.Discount)}% off</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="relative flex items-center justify-center    overflow-hidden rounded-lg   p-1">
+                                                <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={`  object-contain  pt-1  group-hover:opacity-80 duration-300 w-full max-h-52 md:h-52 h-32 rounded-lg`} />
+                                            </div>
+                                            <div className=" md:px-3 md:pb-3 p-1 space-y-1">
+                                                <h2 className="  text-sm text-black dark:text-white md:text-base line-clamp-2 text-left">
+                                                    {prod.Product_Name}
+                                                </h2>
+                                                <div className=" lg:flex items-center justify-between space-y-1 flex-wrap  ">
+                                                    <div className="order-1 lg:order-2">
+                                                        {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') && (
+                                                            <div className="bg-[#f1aa59] p-1 text-white md:text-[9px] text-[7px] rounded-full w-fit  ">
+                                                                <p className="">Limited Stock</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex items-center gap-3 order-2 lg:order-1">
+                                                        {prod.Discount > 0 && (
+                                                            <>  <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
+                                                                ₹{parseFloat(prod?.Sale_Price)}
+                                                            </h3>
+                                                                {/* Original Price */}
+                                                                <h3 className="md:text-sm text-xs text-third line-through  dark:text-white">
+                                                                    ₹{parseFloat(prod?.Regular_Price)}
+                                                                </h3>
 
-                            <div className="space-y-2 p-4 border-b ">
-                                <div className=" text-sm text-gray-600 ">CATEGORIES</div>
-                                <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
-                                    <ul className=" text-xs ">
-                                        {categories.map((category) => {
-                                            if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
-                                            const isChecked = selectedCategories.includes(category.Category_Name);
-                                            let updatedCategories = [...selectedCategories];
-                                            if (isChecked) {
-                                                updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
-                                            } else { updatedCategories.push(category.Category_Name); }
-                                            const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
-                                            const linkTo = `/products${queryString}`;
-                                            return (
-                                                <li key={category._id} className="group py-1 w-fit">
-                                                    <Link to={linkTo}>
-                                                        <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
-                                                            <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
-                                                            <h5 className="whitespace-pre-wrap text-gray-500">
-                                                                {category.Category_Name}
-                                                            </h5>
-                                                        </div>
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
+                                                            </>
+                                                        )}
+                                                        {prod?.Discount === 0 && prod?.Sale_Price > 0 && (
+                                                            <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
+                                                                ₹{parseFloat(prod?.Sale_Price)}
+                                                            </h3>
+                                                        )}
+                                                    </div>
 
-                            <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
-                                <h1 className="text-sm text-gray-600 uppercase">Price</h1>
-                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
-                                    <span className="text-primary font-semibold">₹{price[0]}</span> -
-                                    <span className="text-primary font-semibold"> ₹{price[1]}</span>
-                                </div>
-                                <div className="flex justify-content-center py-3">
-                                    <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
-                                        <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
-                                            handleRender={renderProps => {
-                                                return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
-                                                    <div {...renderProps.props}></div>
-                                                </Tooltip>
-                                                )
-                                            }}
-                                            styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#000", borderColor: "#000" }, rail: { backgroundColor: "#024A34" } }}
-                                        />
+
+                                                </div>
+                                                <div className="text-start  ">
+                                                    <button className="text-white md:p-2 p-1 py-2 w-full md:text-base text-xs bg-primary rounded-3xl">
+                                                        View Details
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="space-y-2 p-4 border-b">
-                                <h1 className="text-sm text-gray-600 uppercase">Discount</h1>
-                                <div className='text-xs space-y-2'>
-                                    {[20, 30, 40, 50, 60].map((discount) => (
-                                        <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
-                                            <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
-                                            <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">
-                                                {discount}% or more
-                                            </h5>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <div className="  gap-1">
-                                    <div className="relative ">
-                                        <Items isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
-                                    </div>
-                                    {/* <div className="col-span-2">
-                            <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}
-                                Tags={Tags} handleTagsCheckboxChange={handleTagsCheckboxChange} />
-                            <div onClick={() => settogfilter(false)} className={`${togfilter ? 'translate-x-0' : '-translate-x-full'} lg:hidden h-screen w-full fixed top-0 left-0 z-20 bg-black/50`}> </div>
-                        </div> */}
-                                </div>
-                            </div>
-                            <PopupModal visible={visible} setVisible={setVisible} />
-                            <RegisterContinueGoogle
-                                visible={visible1}
-                                setVisible={setVisible1}
-                            />
-                        </div>
+                                </Link>
+                            ))}
                     </div>
                 </section>
             )}
@@ -459,4 +435,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default HomrProducts;

@@ -120,7 +120,7 @@ export default function Category() {
 
     return (
         <div>
-            <div className="bg-white border rounded-3xl">
+            <div className="bg-white border border-primary rounded-xl">
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
                 <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} />
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />

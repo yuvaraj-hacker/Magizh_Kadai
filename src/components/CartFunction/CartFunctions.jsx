@@ -10,6 +10,7 @@ import { isLoggedIn } from "../../shared/services/Token/token";
 import toast from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet";
+import { SyncLoader } from "react-spinners";
 
 export default function CartPageFunctions() {
     const { removeItem, increaseQuantity, decreaseQuantity, setCartItem } = useCart();
@@ -458,14 +459,14 @@ export default function CartPageFunctions() {
     const subtotal = calculateSubtotal();
     const subtotalRegular = calculateSubtotalRegular();
     const totalDiscount = calculateTotalDiscount();
-    const finalTotal = subtotal ;
+    const finalTotal = subtotal;
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-[70vh]">
-                <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
+            <div className="flex justify-center items-center min-h-screen">
+                <SyncLoader color="#024A34" />
             </div>
-        );
+        )
     }
 
     const goToCheckout = () => {
@@ -604,12 +605,18 @@ export default function CartPageFunctions() {
                     <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
                 </Helmet>
             </HelmetProvider>
-            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
-                handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
-                updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
-                goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
-                isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
-                handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
+
+
+                <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} isLoading={isLoading} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
+                    handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
+                    updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
+                    goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
+                    isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
+                    handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
+
+
+
+
         </>
     )
 }

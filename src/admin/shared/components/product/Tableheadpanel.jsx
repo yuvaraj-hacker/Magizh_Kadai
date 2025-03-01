@@ -75,7 +75,7 @@ export default function Tableheadpanel({ newform, setglobalfilter, selectedProdu
   return (
     <div className="flex items-center justify-between px-6 py-4">
       <div className="flex items-center gap-4">
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-xl font-semibold text-primary">
           Products
         </h2>
         {/* {selectedProducts.length > 0 && (

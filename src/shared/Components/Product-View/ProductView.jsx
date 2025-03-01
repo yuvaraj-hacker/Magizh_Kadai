@@ -1,15 +1,10 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import SimilerItem from './SimilerItem';
 import apiurl from '../../services/apiendpoint/apiendpoint';
-import { Link } from 'react-router-dom';
 import RegisterContinueGoogle from '../Register-ContiGoogle/RegisterContiGoogle';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { div } from 'framer-motion/m';
-import Slider from 'react-slick';
-
 const ProductView = (props) => {
   const tabRefs = useRef([]);
   const containerRef = useRef(null);
@@ -41,6 +36,7 @@ const ProductView = (props) => {
       });
     }
   };
+
   const { product, mainImage, handleBuyNow, setMainImage, mainImageRef, zoomStyle, handleMouseMove, contentHeight, handleRequestStock, handleMouseLeave, getCurrentCartQuantity, handleAddToCart, handleDelete, handleDecreaseQuantity,
     handleIncreaseQuantity, handleAddToWishlist, wishlistData, setIsTooltipVisible, isTooltipVisible, setIsDescriptionOpen, isDescriptionOpen, descriptionRef, similarItems,
     visible, setVisible
@@ -52,13 +48,13 @@ const ProductView = (props) => {
         <div className="grid xl:grid-cols-9 grid-cols-6 md:gap-10 gap-2  md:space-x-8 px-3 max-w-[120rem] ">
           <div className='order-2 col-span-6 gap-2 md:col-span-1 md:order-1 ' >
             <div className="flex flex-row items-center overflow-x-auto overflow-y-hidden md:flex-col px-1 md:space-y-3 md:space-x-0 space-x-2 scrollbar-hide   place-items-center p-2 ">
-              <button onClick={scrollUp} className="p-1 bg-gray-200 rounded hover:bg-gray-300 md:w-full h-full md:h-auto  flex justify-center items-center focus:ring-2 ring-primary  ">
+              <button onClick={scrollUp} className="p-1 bg-gray-200 rounded hover:bg-gray-300 md:w-full  h-full md:h-auto flex justify-center items-center focus:ring-2 ring-primary">
                 {isMobile ? <ChevronLeftIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" /> : <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-gray-600" />}
               </button>
-              <div className=' md:max-h-96 md:h-96 overflow-hidden md:space-y-3 md:space-x-0 space-x-3 md:flex-col flex flex-row items-center overflow-x-auto scrollbar-hide  place-items-center ' ref={containerRef}>
+              <div className='md:max-h-96 md:h-96 overflow-hidden md:space-y-3 w-full md:space-x-0 space-x-3 md:flex-col flex flex-row items-center overflow-x-auto scrollbar-hide  place-items-center ' ref={containerRef}>
                 {product.Images.map((img, index) => (
                   <img key={index} src={`${apiurl()}/${img}`} alt={`Thumbnail ${index + 1}`}
-                    ref={(el) => (tabRefs.current[index] = el)} className={`w-20 h-20 border  ${mainImage === img ? 'border-secondary' : 'border-gray-300 '} rounded cursor-pointer p-2`}
+                    ref={(el) => (tabRefs.current[index] = el)} className={`w-20 h-20 border  ${mainImage === img ? 'border-secondary' : 'border-gray-300 '} rounded object-contain cursor-pointer p-2`}
                     // onClick={() => setMainImage(img)}
                     onMouseEnter={() => setMainImage(img)}
                   />
@@ -69,9 +65,9 @@ const ProductView = (props) => {
               </button>
             </div>
           </div>
-          <div className="flex-1 order-1 relative col-span-6  mx-auto overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
+          <div className="  order-1 relative col-span-6  mx-auto  flex justify-center items-start     overflow-hidden rounded-lg xl:col-span-4 lg:col-span-3 md:col-span-4 md:order-2 m-2 place-items-center w-full "   >
             <div className="" ref={mainImageRef} style={zoomStyle} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} >
-              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className="   md:min-h-96 min-h-52 h-80  md:max-h-96" />
+              <img src={`${apiurl()}/${mainImage}`} alt="Main product" className=" object-contain  md:min-h-96 min-h-52 h-80  md:max-h-96" />
             </div>
             <div className='absolute top-2 left-10 '>
               {product.Tags && (
@@ -113,7 +109,7 @@ const ProductView = (props) => {
             </Swiper>
           )}
             </div> */}
-          <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-4 md:order-3  m-2 xl:mt-0 ">
+          <div className="order-3 col-span-6 md:mt-5 md:space-y-4 space-y-2 xl:col-span-4 md:col-span-4 md:order-3    xl:mt-0 ">
             {/* <div className="flex items-center space-x-4">
             {product.Brand_Name && (
               <p className="inline-block text-xs font-medium">
@@ -254,7 +250,7 @@ const ProductView = (props) => {
             <div className=" space-y-4">
               <div className="  ">
                 <div className="flex items-center justify-between cursor-pointer bg-gray-50 p-3" onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}>
-                  <h2 className=" uppercase md:text-base">PRODUCT DESCRIPTION</h2>
+                  <h2 className=" uppercase md:text-base font-bold">PRODUCT DESCRIPTION</h2>
                   <i
                     className={`fi fi-rs-angle-down text-primary ${isDescriptionOpen ? "rotate-180" : "rotate-0"
                       } duration-300`}
@@ -262,7 +258,7 @@ const ProductView = (props) => {
                 </div>
                 <div ref={descriptionRef} className={`transition-all duration-300 overflow-hidden`}
                   style={{ height: isDescriptionOpen ? contentHeight : "0px", }}  >
-                  <div className=" text-gray-700 dark:text-white p-2  md:text-base text-sm text-justify">
+                  <div className=" text-gray-700 dark:text-white py-2 px-1 md:text-base text-sm text-justify">
                     <ul>
                       <li dangerouslySetInnerHTML={{ __html: product.Product_Description }}></li>
                     </ul>

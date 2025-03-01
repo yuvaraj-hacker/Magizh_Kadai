@@ -15,7 +15,7 @@ export default function Product() {
     const [totalRecords, setTotalRecords] = useState(0);
     const [page, setPage] = useState(1);
     const [first, setFirst] = useState(0);
-    const [rows, setRows] = useState(10);
+    const [rows, setRows] = useState(100);
     const [visible, setVisible] = useState(false);
     const [formdata, setFormdata] = useState({ Tax: "", Tax_Type: "", Tax_Percentage: "" });
     const [loading, setLoading] = useState(false);
@@ -263,7 +263,7 @@ export default function Product() {
     };
 
     return (
-        <div className="bg-white border rounded-3xl">
+        <div className="bg-white border border-primary rounded-xl">
             <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} selectedProducts={selectedProducts} onBulkUpdateClick={() => setIsBulkUpdateModalOpen(true)} getallproduct={getallproduct} setIsExporting={setIsExporting} isExporting={isExporting} handleImport={handleImport} handleExport={handleExport} />
             <Tableview tabledata={tabledata} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} getallproduct={getallproduct} categories={categories} unitsOfMeasurement={unitsOfMeasurement} selectedProducts={selectedProducts} setSelectedProducts={setSelectedProducts} />
             {/* <BulkUpdateModal isOpen={isBulkUpdateModalOpen} onClose={() => setIsBulkUpdateModalOpen(false)} selectedProducts={selectedProducts} onBulkUpdate={handleBulkUpdate} categories={categories} filteredSubcategories={filteredSubcategories} nitsOfMeasurement={unitsOfMeasurement} /> */}

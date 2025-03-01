@@ -181,7 +181,7 @@ const Tableview = (props) => {
                 Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
                 setShowFilterPanel(false);
               }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-primary  border border-transparent rounded-lg hover:bg-primary  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Apply Filters
             </button>

@@ -221,8 +221,8 @@ export default function Topbar() {
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <div className="flex items-center gap-2 cursor-pointer">
-                <div className="py-1 border rounded-full px-3 bg-gray-50">
-                  <p className="">A</p>
+                <div className="py-1 border rounded-full px-3 bg-primary">
+                  <p className="text-white">A</p>
                 </div>
                 <div className="flex-col items-end hidden md:flex">
                   <span className="text-sm font-medium text-gray-900">

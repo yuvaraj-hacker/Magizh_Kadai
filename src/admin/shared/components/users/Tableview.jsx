@@ -70,7 +70,7 @@ const Tableview = (props) => {
       </span>
     );
   };
-  
+
 
 
 
@@ -93,10 +93,6 @@ const Tableview = (props) => {
     );
   };
 
-  
-
-
-
   const columns = [
     // { field: 'UserName', header: 'User Name', filter: true },
     { field: 'First_Name', header: 'First Name', filter: true },
@@ -114,10 +110,7 @@ const Tableview = (props) => {
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
-            <button
-              onClick={() => setShowFilterPanel(false)}
-              className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"
-            >
+            <button onClick={() => setShowFilterPanel(false)} className="p-2 transition-colors duration-200 rounded-full hover:bg-gray-100"  >
               <i className="text-gray-600 fi fi-rr-cross"></i>
             </button>
           </div>
@@ -146,22 +139,12 @@ const Tableview = (props) => {
 
         <div className="p-4 border-t bg-gray-50">
           <div className="flex gap-3">
-            <button
-              onClick={() => {
-                Object.keys(tempFilterValues).forEach(key => handleClearFilters(key));
-                setShowFilterPanel(false);
-              }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
+            <button onClick={() => { Object.keys(tempFilterValues).forEach(key => handleClearFilters(key)); setShowFilterPanel(false); }}
+              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" >
               Clear All
             </button>
-            <button
-              onClick={() => {
-                Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
-                setShowFilterPanel(false);
-              }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
+            <button onClick={() => { Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key)); setShowFilterPanel(false); }}
+              className="flex-1 px-4 py-2 text-sm font-medium text-white bg-primary  border border-transparent rounded-lg hover:bg-primary  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"     >
               Apply Filters
             </button>
           </div>

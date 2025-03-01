@@ -603,7 +603,7 @@ export default function Header(props) {
               </div>
             </div>
           </div> */}
-          <div className='bg-gray-50 border relative'>
+          <div className='bg-gray-50 border border-y-gray-300 relative'>
             <div className="p-2 max-w-[65rem] mx-auto bg-gray-50 relative text-primary lg:block hidden" onMouseLeave={() => setHoveredCategory(null)}>
               <div className="flex flex-col lg:flex-row flex-wrap gap-2">
                 {sortedCategories.map((category) => (

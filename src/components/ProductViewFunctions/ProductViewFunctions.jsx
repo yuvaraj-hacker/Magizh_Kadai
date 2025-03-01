@@ -8,6 +8,7 @@ import { deletecartItem, savecartitems, updatecartItem } from "../../shared/serv
 import { apigetproductbyid } from "../../shared/services/apiproducts/apiproduct";
 import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../shared/services/wishlist/wishlist";
 import useMediaQuery from "../../shared/Components/Product-View/useMediaQuery";
+import { SyncLoader } from "react-spinners";
 
 export default function ProductViewFunctions() {
 
@@ -16,22 +17,17 @@ export default function ProductViewFunctions() {
     const [similarItems, setSimilarItems] = useState([]);
     const [isTooltipVisible, setIsTooltipVisible] = useState(false);
     const { id } = useParams();
-    // const [isFullScreen, setIsFullScreen] = useState(false);
-    // const [currentIndex, setCurrentIndex] = useState(0);
-    // const [isMobile, setIsMobile] = useState(false);
     const isMobile = useMediaQuery('(max-width: 768px)');
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(true);
     const descriptionRef = useRef(null);
     const [mainImage, setMainImage] = useState('');
     const [reviewTotalLength, setReviewTotalLength] = useState(0);
-    // const [imageContainerSize, setImageContainerSize] = useState({ width: 500, height: 500 });
     const [wishlistData, setWishlistData] = useState([]);
     const [visible, setVisible] = useState(false);
     const [contentHeight, setContentHeight] = useState("auto");
 
     const { userdetails } = useAuth();
     const { addToCart, cartItems, removeItem, decreaseQuantity, increaseQuantity, updateTotalCartItems } = useCart();
-
     const getCurrentCartQuantity = () => {
         const cartItem = cartItems.find(item => item._id === product?._id);
         return cartItem ? cartItem.Quantity : 0;
@@ -42,12 +38,10 @@ export default function ProductViewFunctions() {
             toast.error("This item is currently out of stock!");
             return;
         }
-
         if (cartItems.some(item => item._id === product._id)) {
             toast.error("Product is already in your cart!");
             return;
         }
-
         try {
             if (userdetails?.Email) {
                 const cartData = { productId: product._id, Email: userdetails.Email, Quantity: 1 };
@@ -61,12 +55,11 @@ export default function ProductViewFunctions() {
             console.error("Error adding product to cart:", error);
         }
     };
-
     useEffect(() => {
         if (descriptionRef.current) {
             setContentHeight(`${descriptionRef.current.scrollHeight}px`);
         }
-      }, [isDescriptionOpen]);
+    }, [isDescriptionOpen]);
 
     const handleIncreaseQuantity = async () => {
         const currentQuantity = getCurrentCartQuantity();
@@ -149,7 +142,7 @@ export default function ProductViewFunctions() {
         const fetchProduct = async () => {
             try {
                 const data = await apigetproductbyid(id);
-                    if (data) {
+                if (data) {
                     setProduct(data.resdata.product);
                     setSimilarItems(data.resdata.SimilerItems);
                     setMainImage(data.resdata.product.Images[0]);
@@ -193,15 +186,17 @@ export default function ProductViewFunctions() {
     };
 
     if (!product) {
-        return <div className="flex items-center justify-center h-[70vh]">
-            <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-        </div>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <SyncLoader color="#024A34" />
+            </div>
+        )
     }
 
     const handleBuyNow = () => {
         let message = "New Order Request:\n\n";
         const productTotal = product.Discount > 0
-            ? (product.Sale_Price )
+            ? (product.Sale_Price)
             : (product.Sale_Price);
 
         message += `1. ${product.Product_Name}\n`;

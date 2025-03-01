@@ -2,7 +2,7 @@ export const mainCarouselBanners1 = [
     {
         "id": 1,
         "title": "Drinkware/Bottles",
-        "subtitle":"Upgrade Your Hydration with Stylish and Durable Drinkware & Bottles for Every Occasion!",
+        "subtitle":"Upgrade your hydration with stylish, durable, and eco-friendly drinkware & bottles, perfect for every occasion.",
         "image": "/assets/herosection/final.jpeg",
         "link": "/products?category=Drinkware/Bottles",
 
