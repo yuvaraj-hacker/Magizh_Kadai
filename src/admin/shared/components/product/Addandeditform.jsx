@@ -253,7 +253,7 @@ export default function Addandeditform(props) {
                         </div>
                         <input type="text" name="Tax_Percentage" value={formdata?.Tax_Percentage} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none border-primary" />
                     </div> */}
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <div className="mb-2">
                             <label>Tax</label>
                         </div>
@@ -262,7 +262,7 @@ export default function Addandeditform(props) {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
-                    </div>
+                    </div> */}
                     {formdata?.Tax === "Yes" && (
                         <>
                             <div className="mb-2">
@@ -283,13 +283,13 @@ export default function Addandeditform(props) {
                             </div>
                         </>
                     )}
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <div className="mb-2 ">
                             <label>Tags</label>
                             <MultiSelect value={formdata?.Tags || []} options={tagsOptions} onChange={(e) => handlechange({ target: { name: 'Tags', value: e.value } })} placeholder="Select Tags" display="chip" className="w-full"
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="mb-2">
                         <div className="mb-2">
                             <label>Stock</label>

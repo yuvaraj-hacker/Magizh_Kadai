@@ -7,7 +7,7 @@ import { useDarkMode } from '../../shared/services/DarkMode/DarkModeContext';
 import { Sun, Moon } from 'lucide-react';
 import SearchBar from '../../shared/Components/searchbar/searchbar';
 // import DeliveryPickupModal from '../../shared/Components/Header/DeliveryPickupModal';
-import { getWishlistItems } from '../../shared/services/wishlist/wishlist';
+// import { getWishlistItems } from '../../shared/services/wishlist/wishlist';
 import { apigetallcategory } from '../../shared/services/apicategory/apicategory';
 import NewForm from '../../shared/Components/Register-ContiGoogle/NewFormGoogle';
 import { useSidebar } from '../../Router/SidebarProvider';
@@ -167,22 +167,22 @@ export default function Header(props) {
       : '/path-to-default-product-image.jpg';
   }
 
-  const getWishlistItem = useCallback(async () => {
-    if (userdetails?.Email) {
-      const res = await getWishlistItems(userdetails.Email);
-      setWishlistData(res.response);
-      { console.log(res.response) }
-    }
-  }, [userdetails?.Email, userdetails?.Quantity]);  // Dependency on userdetails.Email
+  // const getWishlistItem = useCallback(async () => {
+  //   if (userdetails?.Email) {
+  //     const res = await getWishlistItems(userdetails.Email);
+  //     setWishlistData(res.response);
+  //     { console.log(res.response) }
+  //   }
+  // }, [userdetails?.Email, userdetails?.Quantity]);  // Dependency on userdetails.Email
 
-  // Effect to fetch wishlist items upon login
-  useEffect(() => {
-    if (isLoggedIn) {
-      getWishlistItem();
-    } else {
-      setWishlistData([]);  // Clear wishlist data on logout
-    }
-  }, [isLoggedIn, getWishlistItem]);
+  // // Effect to fetch wishlist items upon login
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     getWishlistItem();
+  //   } else {
+  //     setWishlistData([]);  // Clear wishlist data on logout
+  //   }
+  // }, [isLoggedIn, getWishlistItem]);
   //   useEffect(() => {
   //     if (isMounted) {
   //         getWishlistItem();
@@ -296,6 +296,9 @@ export default function Header(props) {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
+
   const AllCategories = () => (
     <>  <div className={` max-h-[50vh] w-64 bg-white rounded-xl border cursor-default overflow-auto`}>
       <ul className="divide-y p-2 hover:*:bg-gray-100 *:rounded-lg" >
@@ -324,7 +327,7 @@ export default function Header(props) {
               <div className='flex items-center relative  w-full justify-between  '>
                 {/* logo */}
                 <div className='flex items-center  rounded-r-md'>
-                  <Link to={'/'} onClick={ScrollToTop}><img src="/images/Logo/Logo.png" alt="" className='w-24 p-1 min-w-24 lg:w-36' />
+                  <Link to={'/'} onClick={() => { sessionStorage.clear(); ScrollToTop(); }}><img src="/images/Logo/Logo.png" alt="" className='w-24 p-1 min-w-24 lg:w-36' />
                   </Link>
                 </div>
                 {/* search */}

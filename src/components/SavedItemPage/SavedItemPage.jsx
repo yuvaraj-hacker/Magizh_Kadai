@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import SavedItems from '../../shared/Components/SavedItems/SavedItems'
 import useCart from '../../shared/services/store/useCart';
 import useAuth from '../../shared/services/store/useAuth';
-import { deleteAllWishlistItems, deleteWishlistItem, getWishlistItems, updateWishlistItem } from '../../shared/services/wishlist/wishlist';
+// import { deleteAllWishlistItems, deleteWishlistItem, getWishlistItems, updateWishlistItem } from '../../shared/services/wishlist/wishlist';
 import toast from 'react-hot-toast';
 import { savecartitems } from '../../shared/services/cart/cart';
 
@@ -13,21 +13,21 @@ function SavedItemPage() {
     const { addToCart, removeWishlistItem, deleteAllWishlist, cartItems } = useCart();
     const { userdetails } = useAuth();
 
-    const getallwishlist = useCallback(async () => {
-        try {
-            setLoading(true);
-            const response = await getWishlistItems(userdetails?.Email);
-            setWishlist(response.response || []);
-        } catch (error) {
-            console.error("Error fetching wishlist:", error);
-        } finally {
-            setLoading(false);
-        }
-    }, [userdetails?.Email]);
+    // const getallwishlist = useCallback(async () => {
+    //     try {
+    //         setLoading(true);
+    //         const response = await getWishlistItems(userdetails?.Email);
+    //         setWishlist(response.response || []);
+    //     } catch (error) {
+    //         console.error("Error fetching wishlist:", error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }, [userdetails?.Email]);
 
-    useEffect(() => {
-        getallwishlist();
-    }, [getallwishlist]);
+    // useEffect(() => {
+    //     getallwishlist();
+    // }, [getallwishlist]);
 
     const handleIncreaseQuantity = async (index) => {
         if (!wishlist[index]) return;

@@ -66,66 +66,66 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                </div>
             </section> */}
             <section className='bg-primary   pb-[60px] lg:pb-0'>
-               <div className='relative lg:px-10 md:py-10 py-5'>
+               <div className='relative lg:px-10 md:py-10 py-3'>
                   <div className='max-w-[80rem] mx-auto text-white'>
-                     <div className='grid md:grid-cols-2 grid-cols-1 gap-5 px-5 lg:grid-cols-8 xl:gap-16'>
-                        <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center mx-auto  flex  '>
-                           <div className='flex flex-col justify-center gap-4 items-center'>
-                              <div className='bg-white p-3 rounded-md'>
+                     <div className='grid md:grid-cols-2 grid-cols-1  md:gap-5 gap-3 md:px-5 px-2  lg:grid-cols-8 xl:gap-16'>
+                        <div className='lg:col-span-2 col-span-1 md:mx-auto justify-center      flex  '>
+                           <div className='flex flex-col justify-center md:gap-4 gap-2 items-center md:my-0 my-2'>
+                              <div className='bg-white p-3 rounded-md  '>
                                  <Link to='/'>
-                                    <img className='cursor-pointer w-40' src="/images/Logo/Logo.png" alt="" />
+                                    <img className='cursor-pointer md:w-40 w-28  ' src="/images/Logo/Logo.png" alt="" />
                                  </Link>
                               </div>
-                              <div className='space-y-2'>
-                                 <div>
-                                    <h1 className='text-secondary md:text-base'>Connect With Us</h1>
+                              <div className='md:space-y-2 flex  gap-3 md:gap-0 items-center   md:flex-col flex-row '>
+                                 <div className='md:block hidden'>
+                                    <h1 className='text-secondary md:text-base font-semibold'>Connect With Us</h1>
                                  </div>
                                  <div className='flex gap-3 justify-center'>
                                     <a href='https://www.facebook.com/people/Magizh-Kadai/61572463483920/' target='_blank'  >
-                                       <img className='w-7' src="/images/Social/facebook.png" alt="" />
+                                       <img className='md:w-7 w-5' src="/images/Social/facebook.png" alt="" />
                                     </a>
                                     <a href='https://www.instagram.com/magizhkadai_official/?hl=en' target='_blank'>
-                                       <img className='w-7' src="/images/Social/insta.png" alt="" />
+                                       <img className='md:w-7 w-5' src="/images/Social/insta.png" alt="" />
                                     </a>
                                     {/* <a href='https://wa.me/918825695060' target='_blank' rel='noopener noreferrer'>
                                        <i className="fi fi-brands-whatsapp md:text-xl"></i>
                                     </a> */}
                                     <a href='https://www.youtube.com/@Magizhkadai' target='_blank' rel='noopener noreferrer'>
-                                       <img className='w-7' src="/images/Social/youtube.png" alt="" />
+                                       <img className='md:w-7 w-5' src="/images/Social/youtube.png" alt="" />
                                     </a>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <div className='md:mx-auto space-y-4 lg:col-span-2 col-span-1 mx-auto lg:text-left text-center'>
-                           <h1 className='md:text-xl text-lg text-secondary'>Store and Sites</h1>
-                           <div className=' text-sm space-y-3 '>
-                              <p>  <Link to='/'><span className='hover:underline  w-fit'> Home </span> </Link></p>
-                              <p>  <Link to='/products'> <span className='hover:underline  w-fit'> Products</span></Link></p>
+                        <div className='md:mx-auto md:space-y-4   lg:col-span-2 col-span-1   lg:text-left  md:text-center gap-3 md:gap-0     md:flex  grid grid-cols-5 lg:items-start  md:flex-col  flex-row '>
+                           <h1 className='md:text-xl text-sm  text-secondary col-span-2  font-semibold'>Store and Sites</h1>
+                           <div className='md:text-sm text-xs md:space-y-3   md:gap-0 gap-2    flex-row flex md:flex-col     flex-wrap  col-span-3'>
+                              <p>  <Link to='/'><span className='hover:underline md:no-underline underline '> Home </span> </Link></p>
+                              <p>  <Link to='/products'> <span className='hover:underline  w-fit md:no-underline underline '> Products</span></Link></p>
                               {/* <p><Link to='/wishlist'> Wishlist </Link></p> */}
-                              <p> <Link to='/cart'> <span className='hover:underline  w-fit'>Cart</span> </Link></p>
+                              <p> <Link to='/cart'> <span className='hover:underline  w-fit md:no-underline underline '>Cart</span> </Link></p>
                            </div>
                         </div>
-                        <div className=" md:mx-auto lg:col-span-2 col-span-1 space-y-4 lg:text-left text-center">
-                           <h1 className="md:text-xl text-lg text-secondary">Policies</h1>
-                           <div className=" space-y-3 text-sm  ">
+                        <div className=" md:mx-auto lg:col-span-2 col-span-1 md:space-y-4  lg:text-left   md:text-center  gap-3 md:gap-0   md:flex  grid grid-cols-5     lg:items-start     md:flex-col  flex-row">
+                           <h1 className="md:text-xl text-sm  text-secondary col-span-2 font-semibold">Policies</h1>
+                           <div className=" md:space-y-3 md:text-sm text-xs  md:gap-0 gap-2   flex-row flex md:flex-col flex-wrap     col-span-3 ">
                               <p>
-                                 <Link to="/privacy-policy"> <span className='hover:underline  w-fit'>Privacy Policy</span>   </Link>
+                                 <Link to="/privacy-policy"> <span className='hover:underline  w-fit md:no-underline underline '>Privacy Policy</span>   </Link>
                               </p>
                               <p>
-                                 <Link to="terms-and-conditions" >  <span className='hover:underline  w-fit'>Terms & Conditions</span>  </Link>
+                                 <Link to="terms-and-conditions" >  <span className='hover:underline  w-fit md:no-underline underline '>Terms & Conditions</span>  </Link>
                               </p>
                               <p>
-                                 <Link to="return-and-refund-policy" >  <span className='hover:underline  w-fit'> Return and Refund Policy </span> </Link>
+                                 <Link to="return-and-refund-policy" >  <span className='hover:underline  w-fit md:no-underline underline '> Return and Refund Policy </span> </Link>
                               </p>
 
                            </div>
                         </div>
 
-                        <div className='lg:col-span-2 space-y-4 lg:text-left text-center' >
-                           <p className="md:text-xl text-lg  text-secondary">Contact Information</p>
-                           <div className='space-y-3 text-sm'>
-                              <p >
+                        <div className='lg:col-span-2 md:space-y-4   lg:text-left md:text-center  gap-3 md:gap-0  md:flex  grid grid-cols-5  lg:items-start    md:flex-col  flex-row ' >
+                           <p className="md:text-xl text-sm   text-secondary col-span-2  font-semibold">Contact Information  </p>
+                           <div className=' md:space-y-3 md:text-sm text-xs    md:gap-0 gap-2   flex-row flex md:flex-col  flex-wrap   col-span-3 '>
+                              <p>
                                  <span className="">Mobile Number: </span>
                                  <a href="https://wa.me/918807700218" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 88256 95060</a>
                               </p>

@@ -19,6 +19,24 @@ const Tableview = (props) => {
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
+  const [scroll, setScrollHeight] = useState("620px");
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (window.innerWidth >= 1920) { // Extra large screens
+        setScrollHeight("620px");
+      } else if (window.innerWidth >= 1024) { // Laptops
+        setScrollHeight("400px");
+      } else {
+        setScrollHeight("620px"); // Default for smaller screens
+      }
+    };
+
+    updateHeight(); // Initial check
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   useEffect(() => {
     setTempFilterValues(filtervalues);
   }, [filtervalues]);
@@ -291,55 +309,56 @@ const Tableview = (props) => {
   return (
     <div className="bg-white ">
       <TableHeader />
-
-      <DataTable
-        value={tabledata}
-        scrollable
-        scrollHeight="620px"
-        className="!text-sm  "
-        rowClassName={() => 'border border-b-primary border-r-primary transition-colors duration-200  '}
-        showGridlines={false}
-        stripedRows
-        responsiveLayout="scroll"
-      >
-        <Column
-      header="S.No"
-      body={(rowData, { rowIndex }) => rowIndex + 1}
-      headerClassName="text-white bg-primary"
-      className=""
-    />
-        <Column
-          header="Action"
-          body={actionbotton}
-          headerClassName="text-white bg-primary"
-          className=""
-        />
-        <Column
-          header="Images"
-          body={image}
-          headerClassName="text-white bg-primary"
-        />
-        {columns.map((col, i) => (
-          col.formattype === 'array' ? (
-            <Column
-              key={i}
-              header={col.header}
-              field={col.field}
-              style={{ minWidth: col.width }}
-              body={array}
-              headerClassName="text-white bg-primary"
-            />
-          ) : (
-            <Column
-              key={i}
-              field={col.field}
-              header={col.header}
-              body={col.body}
-              headerClassName="text-white bg-primary"
-            />
-          )
-        ))}
-      </DataTable>
+      <div className='  '>
+        <DataTable
+          value={tabledata}
+          scrollable
+          scrollHeight={scroll}
+          className="!text-sm "
+          rowClassName={() => 'border border-b-primary border-r-primary transition-colors duration-200   '}
+          showGridlines={false}
+          stripedRows
+          responsiveLayout="scroll"
+        >
+          <Column
+            header="S.No"
+            body={(rowData, { rowIndex }) => rowIndex + 1}
+            headerClassName="text-white bg-primary"
+            className=""
+          />
+          <Column
+            header="Action"
+            body={actionbotton}
+            headerClassName="text-white bg-primary"
+            className=""
+          />
+          <Column
+            header="Images"
+            body={image}
+            headerClassName="text-white bg-primary"
+          />
+          {columns.map((col, i) => (
+            col.formattype === 'array' ? (
+              <Column
+                key={i}
+                header={col.header}
+                field={col.field}
+                style={{ minWidth: col.width }}
+                body={array}
+                headerClassName="text-white bg-primary"
+              />
+            ) : (
+              <Column
+                key={i}
+                field={col.field}
+                header={col.header}
+                body={col.body}
+                headerClassName="text-white bg-primary"
+              />
+            )
+          ))}
+        </DataTable>
+      </div>
 
       <FilterPanel />
 

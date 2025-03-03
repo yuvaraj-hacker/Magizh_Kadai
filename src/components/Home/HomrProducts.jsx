@@ -6,11 +6,6 @@ import { savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 import { getallproducts } from "../../shared/services/apiproducts/apiproduct";
 import useAuth from "../../shared/services/store/useAuth";
 import useCart from "../../shared/services/store/useCart";
-import {
-    getWishlistItems,
-    RemoveWishlistItem,
-    savewishitems,
-} from "../../shared/services/wishlist/wishlist";
 import apiurl from "../../shared/services/apiendpoint/apiendpoint";
 import { Link } from "react-router-dom";
 import 'rc-slider/assets/index.css';
@@ -137,19 +132,19 @@ const HomrProducts = () => {
         allDiscounts();
     }, [allDiscounts]);
 
-    const getWishlistItem = useCallback(async () => {
-        var res = await getWishlistItems(userdetails?.Email);
-        setWishlistData(res.response);
-    }, [selectedCategory, selectedSubcategory, Sort]);
-    useEffect(() => {
-        if (isMounted) {
-            getAllProducts();
-            getWishlistItem();
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, [selectedCategory, selectedSubcategory, Sort]);
+    // const getWishlistItem = useCallback(async () => {
+    //     var res = await getWishlistItems(userdetails?.Email);
+    //     setWishlistData(res.response);
+    // }, [selectedCategory, selectedSubcategory, Sort]);
+    // useEffect(() => {
+    //     if (isMounted) {
+    //         getAllProducts();
+    //         getWishlistItem();
+    //     }
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, [selectedCategory, selectedSubcategory, Sort]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -327,15 +322,18 @@ const HomrProducts = () => {
         "Others",
     ];
 
+    useEffect(() => {
+        if (products.length > 0) { // Ensure products are loaded
+            const scrollPosition = sessionStorage.getItem("scrollPosition");
+            if (scrollPosition !== null) {
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(scrollPosition, 10));
+                    sessionStorage.removeItem("scrollPosition"); // Clear after restoring
+                }, 100); // Add slight delay to ensure page is ready
+            }
+        }
+    }, [products]);
 
-    // if (!products || products.length === 0) {
-    //     return (
-    //         <section className="h-screen flex items-center flex-col md:w-[95vw] w-[100vw]   mx-auto justify-center px-5">
-    //             <img className="w-28" src="/images/Design/nofound.png" alt="" />
-    //             <h2 className="text-xl font-semibold text-black">No products found</h2>
-    //         </section>
-    //     );
-    // }
     return (
         <>
             {isLoading ? (
@@ -359,7 +357,7 @@ const HomrProducts = () => {
                                 if (b.QTY === 0) return -1;
                                 return 0;
                             }).map((prod, i) => (
-                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
+                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
                                     <div key={i} className="relative group ">
                                         <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
                                             {/* wishlist & cart */}

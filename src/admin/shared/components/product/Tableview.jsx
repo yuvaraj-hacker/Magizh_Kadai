@@ -25,6 +25,23 @@ const Tableview = (props) => {
   const [searchValue, setSearchValue] = useState('');
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [expandedHighlights, setExpandedHighlights] = useState({});
+  const [scroll, setScrollHeight] = useState("620px");
+
+useEffect(() => {
+  const updateHeight = () => {
+    if (window.innerWidth >= 1920) { // Extra large screens
+      setScrollHeight("620px");
+    } else if (window.innerWidth >= 1024) { // Laptops
+      setScrollHeight("400px");
+    } else {
+      setScrollHeight("620px"); // Default for smaller screens
+    }
+  };
+
+  updateHeight(); // Initial check
+  window.addEventListener("resize", updateHeight);
+  return () => window.removeEventListener("resize", updateHeight);
+}, []);
 
   useEffect(() => {
     setTempFilterValues(filtervalues);
@@ -250,8 +267,8 @@ const Tableview = (props) => {
     { field: 'QTY', header: 'Qty' },
     { field: 'Regular_Price', header: 'Regular Price' ,  Width:'250px'  },
     { field: 'Discount', header: 'Dis (%)', filter: true },
-    { field: 'Tax_Type', header: 'Tax Type' },
-    { field: 'Tax_Percentage', header: 'Tax (%)' },
+    // { field: 'Tax_Type', header: 'Tax Type' },
+    // { field: 'Tax_Percentage', header: 'Tax (%)' },
     // { field: '', header: 'Tax Amount' },
     // { field: '', header: 'Base Price' },
     { field: 'Sale_Price', header: 'Sale Price' },
@@ -383,14 +400,15 @@ const Tableview = (props) => {
 
 
   return (
-    <div className="bg-white  shadow-sm rounded-xl">
+    <div className="bg-white  shadow-sm rounded-xl   ">
       <TableHeader />
       <DataTable
         value={tabledata}
         scrollable
-        scrollHeight="620px"
+        // scrollHeight="650px"
+        scrollHeight={scroll}
         className="!text-sm producttable "
-        rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200'}
+        rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200  '}
         showGridlines={false}
         stripedRows
         responsiveLayout="scroll"
@@ -401,8 +419,8 @@ const Tableview = (props) => {
         <Column
           header="S.No"
           body={(rowData, { rowIndex }) => rowIndex + 1}
-          headerClassName="text-white bg-primary"
-          className=""
+          headerClassName="text-white bg-primary "
+          className="w-5"
         />
         {/* <Column
           header={CustomSelectionHeader}

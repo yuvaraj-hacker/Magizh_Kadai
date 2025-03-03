@@ -1,6 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { Link, useLocation } from 'react-router-dom';
 import apiurl from '../../services/apiendpoint/apiendpoint';
+import { useEffect } from "react";
 
 
 const Items = (prpos) => {
@@ -22,6 +23,19 @@ const Items = (prpos) => {
   //     </section>
   //   );
   // }
+
+    useEffect(() => {
+          if (products.length > 0) { // Ensure products are loaded
+              const scrollPosition = sessionStorage.getItem("scrollPosition");
+              if (scrollPosition !== null) {
+                  setTimeout(() => {
+                      window.scrollTo(0, parseInt(scrollPosition, 10));
+                      sessionStorage.removeItem("scrollPosition"); // Clear after restoring
+                  }, 100); // Add slight delay to ensure page is ready
+              }
+          }
+      }, [products]);
+
   return (
     <>
       <section className="2xl:px-5">
@@ -116,7 +130,7 @@ const Items = (prpos) => {
               if (b.QTY === 0) return -1;
               return 0;
             }).map((prod, i) => (
-              <Link to={`/product-details/${prod._id}`} state={{ product: prod }}>
+              <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
                 <div key={i} className="relative group ">
                   <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]">
                     {/* wishlist & cart */}

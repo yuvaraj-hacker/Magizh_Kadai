@@ -3,7 +3,7 @@ export default function Tableheadpanel(props){
       return(
           <div className="flex items-center justify-between px-6 py-4">
               <div>
-                <h2 className="text-xl font-semibold text-primary font-bold ">
+                <h2 className="text-xl font-semibold text-primary   ">
                   Category
                 </h2>
               </div>

@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../services/store/useAuth";
 import useCart from "../../services/store/useCart";
 import { savecartitems, updatecartItem } from "../../services/cart/cart";
-import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../services/wishlist/wishlist"; // deleteWishlistItem
+// import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../services/wishlist/wishlist"; // deleteWishlistItem
 import RegisterContinueGoogle from "../Register-ContiGoogle/RegisterContiGoogle";
 import { getallNewCollection } from "../../services/apiproducts/apiproduct";
 
@@ -95,17 +95,17 @@ const SwiperMin = ({ Product, title }) => {
   }, [newCollection]);
 
 
-  const getWishlistItem = useCallback(async () => {
-    var res = await getWishlistItems(userdetails?.Email);
-    setWishlistData(res.response)
-  }, []);
+  // const getWishlistItem = useCallback(async () => {
+  //   var res = await getWishlistItems(userdetails?.Email);
+  //   setWishlistData(res.response)
+  // }, []);
 
-  useEffect(() => {
-    if (isMounted) {
-      getWishlistItem();
-    }
-    return () => { isMounted = false; };
-  }, []);
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     getWishlistItem();
+  //   }
+  //   return () => { isMounted = false; };
+  // }, []);
 
   // const handleAddToCart = async (prod) => {
   //   try {

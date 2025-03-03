@@ -6,7 +6,7 @@ import useCart from "../../shared/services/store/useCart";
 import toast from "react-hot-toast";
 import { deletecartItem, savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 import { apigetproductbyid } from "../../shared/services/apiproducts/apiproduct";
-import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../shared/services/wishlist/wishlist";
+// import { getWishlistItems, RemoveWishlistItem, savewishitems } from "../../shared/services/wishlist/wishlist";
 import useMediaQuery from "../../shared/Components/Product-View/useMediaQuery";
 import { SyncLoader } from "react-spinners";
 
@@ -133,10 +133,10 @@ export default function ProductViewFunctions() {
         setZoomStyle({ transform: 'scale(1)' });
     };
 
-    const getWishlistItem = useCallback(async () => {
-        var res = await getWishlistItems(userdetails?.Email);
-        setWishlistData(res.response)
-    }, [id]);
+    // const getWishlistItem = useCallback(async () => {
+    //     var res = await getWishlistItems(userdetails?.Email);
+    //     setWishlistData(res.response)
+    // }, [id]);
 
     useEffect(() => {
         const fetchProduct = async () => {

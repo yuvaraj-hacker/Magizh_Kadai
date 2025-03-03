@@ -9,11 +9,11 @@ import { getallproducts } from "../../shared/services/apiproducts/apiproduct";
 import useAuth from "../../shared/services/store/useAuth";
 import useCart from "../../shared/services/store/useCart";
 import PopupModal from "../../shared/Components/Products/PopupModal";
-import {
-    getWishlistItems,
-    RemoveWishlistItem,
-    savewishitems,
-} from "../../shared/services/wishlist/wishlist";
+// import {
+//     getWishlistItems,
+//     RemoveWishlistItem,
+//     savewishitems,
+// } from "../../shared/services/wishlist/wishlist";
 import RegisterContinueGoogle from "../../shared/Components/Register-ContiGoogle/RegisterContiGoogle";
 import apiurl from "../../shared/services/apiendpoint/apiendpoint";
 import { apigetallcategory } from "../../shared/services/apicategory/apicategory";
@@ -144,19 +144,19 @@ const Products = () => {
         allDiscounts();
     }, [allDiscounts]);
 
-    const getWishlistItem = useCallback(async () => {
-        var res = await getWishlistItems(userdetails?.Email);
-        setWishlistData(res.response);
-    }, [selectedCategory, selectedSubcategory, Sort]);
-    useEffect(() => {
-        if (isMounted) {
-            getAllProducts();
-            getWishlistItem();
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, [selectedCategory, selectedSubcategory, Sort]);
+    // const getWishlistItem = useCallback(async () => {
+    //     var res = await getWishlistItems(userdetails?.Email);
+    //     setWishlistData(res.response);
+    // }, [selectedCategory, selectedSubcategory, Sort]);
+    // useEffect(() => {
+    //     if (isMounted) {
+    //         getAllProducts();
+    //         getWishlistItem();
+    //     }
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, [selectedCategory, selectedSubcategory, Sort]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -357,80 +357,81 @@ const Products = () => {
                 <section className="max-w-full mx-auto" >
                     <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
                         <div ref={sidebarRef}
-                            className={`lg:top-[120px] w-[300px] bg-gray-100 lg:min-h-screen h-screen top-0 -right-[100%] fixed lg:overflow-y-visible overflow-y-auto lg:z-40 z-50 duration-300 ${isSidebaropen ? "right-0" : "-right-[100%]"} custom-scrollbar flex flex-col`}>
-                            <div className=" block p-2 mt-4">
-                                <div className="flex justify-end">
-                                    <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
-                                </div>
-                            </div>
-                            <div className=" border-b p-4 flex justify-between items-center">
-                                <div className=" text-sm text-black ">FILTERS</div>
-                                <div className=" text-sm cursor-pointer text-blue-400  bg-white hover:bg-gray-50 p-2" onClick={clearFilters}>
-                                    CLEAR ALL
-                                </div>
-                            </div>
-
-                            <div className="space-y-2 p-4 border-b ">
-                                <div className=" text-sm text-gray-600 ">CATEGORIES</div>
-                                <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
-                                    <ul className=" text-xs ">
-                                        {categories.map((category) => {
-                                            if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
-                                            const isChecked = selectedCategories.includes(category.Category_Name);
-                                            let updatedCategories = [...selectedCategories];
-                                            if (isChecked) {
-                                                updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
-                                            } else { updatedCategories.push(category.Category_Name); }
-                                            const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
-                                            const linkTo = `/products${queryString}`;
-                                            return (
-                                                <li key={category._id} className="group py-1 w-fit">
-                                                    <Link to={linkTo}>
-                                                        <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
-                                                            <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
-                                                            <h5 className="whitespace-pre-wrap text-gray-500">
-                                                                {category.Category_Name}
-                                                            </h5>
-                                                        </div>
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
-                                <h1 className="text-sm text-gray-600 uppercase">Price</h1>
-                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
-                                    <span className="text-primary font-semibold">₹{price[0]}</span> -
-                                    <span className="text-primary font-semibold"> ₹{price[1]}</span>
-                                </div>
-                                <div className="flex justify-content-center py-3">
-                                    <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
-                                        <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
-                                            handleRender={renderProps => {
-                                                return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
-                                                    <div {...renderProps.props}></div>
-                                                </Tooltip>
-                                                )
-                                            }}
-                                            styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#000", borderColor: "#000" }, rail: { backgroundColor: "#024A34" } }}
-                                        />
+                            className={`lg:top-[120px] w-[300px]  bg-gray-100 lg:min-h-screen  h-screen top-0 -right-[100%] fixed lg:overflow-y-visible overflow-y-auto lg:z-40 z-50 duration-300 ${isSidebaropen ? "right-0" : "-right-[100%]"} custom-scrollbar flex flex-col`}>
+                            <div className="h-screen overflow-y-auto ">
+                                <div className=" block p-2 mt-4">
+                                    <div className="flex justify-end">
+                                        <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="space-y-2 p-4 border-b">
-                                <h1 className="text-sm text-gray-600 uppercase">Discount</h1>
-                                <div className='text-xs space-y-2'>
-                                    {[20, 30, 40, 50, 60].map((discount) => (
-                                        <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
-                                            <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
-                                            <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">
-                                                {discount}% or more
-                                            </h5>
-                                        </label>
-                                    ))}
+                                <div className=" border-b p-4 flex justify-between items-center">
+                                    <div className=" text-sm text-black ">FILTERS</div>
+                                    <div className=" text-sm cursor-pointer text-blue-400  bg-white hover:bg-gray-50 p-2" onClick={clearFilters}>
+                                        CLEAR ALL
+                                    </div>
+                                </div>
+                                <div className="space-y-2 p-4 border-b ">
+                                    <div className=" text-sm text-gray-600 ">CATEGORIES</div>
+                                    <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
+                                        <ul className=" text-xs ">
+                                            {categories.map((category) => {
+                                                if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
+                                                const isChecked = selectedCategories.includes(category.Category_Name);
+                                                let updatedCategories = [...selectedCategories];
+                                                if (isChecked) {
+                                                    updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
+                                                } else { updatedCategories.push(category.Category_Name); }
+                                                const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
+                                                const linkTo = `/products${queryString}`;
+                                                return (
+                                                    <li key={category._id} className="group py-1 w-fit">
+                                                        <Link to={linkTo}>
+                                                            <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
+                                                                <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
+                                                                <h5 className="whitespace-pre-wrap text-gray-500">
+                                                                    {category.Category_Name}
+                                                                </h5>
+                                                            </div>
+                                                        </Link>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
+                                    <h1 className="text-sm text-gray-600 uppercase">Price</h1>
+                                    <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
+                                        <span className="text-primary font-semibold">₹{price[0]}</span> -
+                                        <span className="text-primary font-semibold"> ₹{price[1]}</span>
+                                    </div>
+                                    <div className="flex justify-content-center py-3">
+                                        <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
+                                            <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
+                                                handleRender={renderProps => {
+                                                    return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
+                                                        <div {...renderProps.props}></div>
+                                                    </Tooltip>
+                                                    )
+                                                }}
+                                                styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#000", borderColor: "#000" }, rail: { backgroundColor: "#024A34" } }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="space-y-2 p-4 border-b">
+                                    <h1 className="text-sm text-gray-600 uppercase">Discount</h1>
+                                    <div className='text-xs space-y-2'>
+                                        {[20, 30, 40, 50, 60].map((discount) => (
+                                            <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
+                                                <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
+                                                <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">
+                                                    {discount}% or more
+                                                </h5>
+                                            </label>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

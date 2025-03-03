@@ -158,7 +158,7 @@ const ProductView = (props) => {
               )}
             </div>
             {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && (
-              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
+              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[48px] z-10 bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                   <>
                     <>
@@ -212,7 +212,7 @@ const ProductView = (props) => {
             )}
             {(product.QTY === 0 || product.Stock === 'Out of Stock') && (
               <>
-                <div className='   lg:bottom-0 bottom-[60px] py-2  sticky bg-white'>
+                <div className='   lg:bottom-0 bottom-[60px] top-[48px]  z-10 py-2  sticky bg-white'>
                   <div className="bg-[#27A737] cursor-pointer  items-center w-1/2  px-2 justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleRequestStock}>
                     <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
                     <p className="md:text-lg text-xs px-1  ">Notify Me</p>
