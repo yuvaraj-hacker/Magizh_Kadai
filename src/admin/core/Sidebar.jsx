@@ -15,8 +15,8 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="sticky inset-x-0 top-0 z-20 px-4   border-y sm:px-6 md:px-8 3xl:hidden bg-primary text-white">
-        <div className="flex items-center py-4">
+      {/* <div className="sticky inset-x-0 top-0 z-20 px-4   border-y sm:px-6 md:px-8   bg-primary text-white pl-[17.8rem]  w-full">
+        <div className="flex items-center  py-4">
           <button type="button" className="text-white hover:text-white" data-hs-overlay="#application-sidebar" aria-controls="application-sidebar" aria-label="Toggle navigation">
             <span className="sr-only">Toggle Navigation</span>
             <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
@@ -33,8 +33,8 @@ export default function Sidebar() {
             </li>
           </ol>
         </div>
-      </div>
-      <div id="application-sidebar" className={`hs-overlay hs-overlay-open:translate-x-0 -translate-x-full  transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-primary rounded-xl m-3  border pt-7 pb-10 overflow-y-auto 3xl:block 3xl:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 ${isOpen ? ' ' : ''}`}>
+      </div> */}
+      <div id="application-sidebar" className={`hs-overlay hs-overlay-open:translate-x-0 -translate-x-full  transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-primary rounded-xl m-1  border pt-7 pb-10 overflow-y-auto 3xl:block 3xl:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 ${isOpen ? ' ' : ''}`}>
         <div className="px-6">
           <a className="flex text-xl font-semibold" href="#" aria-label="Brand">
             <img src="/images/Logo/Logo.png" alt="" className="object-cover p-2 bg-white rounded-lg " />

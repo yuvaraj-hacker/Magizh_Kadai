@@ -164,60 +164,50 @@
 // }
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Button } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAuth from "../../shared/services/store/useAuth";
 import { Bell, Home, Search, Menu } from "lucide-react";
 
 export default function Topbar() {
   const { userDetails, logout } = useAuth();
+  const location = useLocation();
+
+  // Extract the last part of the URL and format it
+  const getPageName = () => {
+    const pathSegments = location.pathname.split("/").filter(Boolean);
+    return pathSegments.length > 1 ? pathSegments[pathSegments.length - 1].replace(/-/g, " ") : "Dashboard";
+  };
+
 
   return (
-    <header className=" inset-x-0 z-50 lg:ps-[17rem] sticky top-0">
-      {/* Glass effect background */}
-      <div className="absolute inset-0 border-b bg-white/70 backdrop-blur-lg border-gray-200/80" />
-
-      <nav className="relative flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        {/* Left section */}
+    <header className=" inset-x-0 z-50  sticky top-0">
+      <div className="sticky inset-x-0 top-0 z-20       w-full">
+      </div>
+      <div className="absolute inset-0   bg-white/70 backdrop-blur-lg border-gray-200/80" />
+      <nav className="relative flex items-center justify-between h-16  ">
         <div className="flex items-center gap-4">
-          {/* <Button
-            isIconOnly
-            variant="light"
-            className="lg:hidden"
-            size="sm"
-          >
-            <Menu className="w-5 h-5" />
-          </Button> */}
-
-          {/* <div className="items-center hidden px-4 rounded-full sm:flex h-9 bg-gray-100/80">
-            <Search className="w-4 h-4 text-gray-500" />
-            <input
-              type="text"
-              placeholder="Quick search..."
-              className="px-3 text-sm bg-transparent border-0 outline-none placeholder:text-gray-500"
-            />
-          </div> */}
+          <div className="flex items-center gap-5  py-4">
+            <button type="button" className=" 3xl:hidden block" data-hs-overlay="#application-sidebar" aria-controls="application-sidebar" aria-label="Toggle navigation">
+              <span className="sr-only">Toggle Navigation</span>
+              <svg className="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
+            </button>
+            <ol className="flex items-center  whitespace-nowrap" aria-label="Breadcrumb">
+              <li className="flex items-center  md:text-xl  ">
+                Admin
+                <svg className="flex-shrink-0 mx-3 overflow-visible size-2.5 text-gray-400" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </li>
+              <li className="md:text-xl  font-semibold  truncate" aria-current="page">
+                {getPageName().charAt(0).toUpperCase() + getPageName().slice(1)}
+              </li>
+            </ol>
+          </div>
         </div>
-
-        {/* Right section */}
         <div className="flex items-center gap-4">
-          {/* Home button */}
           <Link to="/" className="p-2 text-gray-700 transition-colors rounded-full hover:text-gray-900 hover:bg-gray-100/80"  >
             <i className="fi fi-sr-home text-primary flex items-center "></i>
           </Link>
-
-          {/* Notifications */}
-          {/* <Button
-            isIconOnly
-            variant="light"
-            radius="full"
-            size="sm"
-            className="relative"
-          >
-            <Bell className="w-5 h-5" />
-            <span className="absolute w-2 h-2 bg-red-500 rounded-full top-1 right-1" />
-          </Button> */}
-
-          {/* Profile dropdown */}
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <div className="flex items-center gap-2 cursor-pointer">
@@ -237,8 +227,6 @@ export default function Topbar() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold text-gray-500">{userDetails()?.Email}</p>
               </DropdownItem>
-              {/* <DropdownItem key="settings">Settings</DropdownItem>
-              <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
               <DropdownItem
                 key="logout"
                 className="text-danger"

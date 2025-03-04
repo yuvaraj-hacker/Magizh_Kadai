@@ -12,10 +12,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useEffect, useState } from 'react';
 import moment from 'moment-timezone';
-import { Checkbox } from "@nextui-org/react";
+import { Button, Checkbox } from "@nextui-org/react";
+import { Download, Loader2 } from 'lucide-react';
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setSelectedProducts, selectedProducts } = props;
+  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setSelectedProducts, selectedProducts, newform, setglobalfilter, isExporting, handleExport } = props;
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -25,23 +26,23 @@ const Tableview = (props) => {
   const [searchValue, setSearchValue] = useState('');
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [expandedHighlights, setExpandedHighlights] = useState({});
-  const [scroll, setScrollHeight] = useState("620px");
+  const [scroll, setScrollHeight] = useState("750px");
 
-useEffect(() => {
-  const updateHeight = () => {
-    if (window.innerWidth >= 1920) { // Extra large screens
-      setScrollHeight("620px");
-    } else if (window.innerWidth >= 1024) { // Laptops
-      setScrollHeight("400px");
-    } else {
-      setScrollHeight("620px"); // Default for smaller screens
-    }
-  };
+  useEffect(() => {
+    const updateHeight = () => {
+      if (window.innerWidth >= 1920) { // Extra large screens
+        setScrollHeight("750px");
+      } else if (window.innerWidth >= 1024) { // Laptops
+        setScrollHeight("600px");
+      } else {
+        setScrollHeight("750px"); // Default for smaller screens
+      }
+    };
 
-  updateHeight(); // Initial check
-  window.addEventListener("resize", updateHeight);
-  return () => window.removeEventListener("resize", updateHeight);
-}, []);
+    updateHeight(); // Initial check
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   useEffect(() => {
     setTempFilterValues(filtervalues);
@@ -148,16 +149,16 @@ useEffect(() => {
   };
 
 
-  const handleApplyFilters = (key) => {
-    cusfilter(key, tempFilterValues[key]);
-    onPage(page);
-  };
+  // const handleApplyFilters = (key) => {
+  //   cusfilter(key, tempFilterValues[key]);
+  //   onPage(page);
+  // };
 
-  const handleClearFilters = (key) => {
-    setTempFilterValues(prev => ({ ...prev, [key]: null }));
-    cusfilter(key, null);
-    onPage(page);
-  };
+  // const handleClearFilters = (key) => {
+  //   setTempFilterValues(prev => ({ ...prev, [key]: null }));
+  //   cusfilter(key, null);
+  //   onPage(page);
+  // };
 
   const toggleDescription = (id) => {
     setExpandedDescriptions((prev) => ({
@@ -171,6 +172,105 @@ useEffect(() => {
       ...prev,
       [id]: !prev[id],
     }));
+  };
+
+
+  const handleApplyFilters = (key) => {
+    cusfilter(key, tempFilterValues[key]);
+    onPage(page);
+  };
+
+  const handleClearFilters = (key) => {
+    setTempFilterValues(prev => ({ ...prev, [key]: null }));
+    cusfilter(key, null);
+    onPage(page);
+  };
+
+  const getOption = async (key) => {
+    var filterOptions = await getFilterOptions(key.field);
+    var formatoption = filterOptions[key.field].map(val => ({ label: val, value: key.format == "Date" ? moment(val).format('YYYY-MM-DD') : val }));
+    setFilterOptions(formatoption);
+  }
+
+  const Filter = (key) => (
+    <div  >
+      <MultiSelect value={tempFilterValues[key.field] || []}
+        options={filterOptions[key.field] || []} optionLabel="value" className="p-column-filter" virtualScrollerOptions={{ itemSize: 43 }} maxSelectedLabels={1}
+        filter onChange={(e) => setTempFilterValues(prev => ({ ...prev, [key.field]: e.value }))} placeholder={`Select ${key.field.charAt(0).toUpperCase() + key.field.slice(1)}`}
+        panelFooterTemplate={
+          <div className="flex justify-evenly p-2 mt-2">
+            <button className='p-2 bg-blue-500 text-white rounded-lg px-4' onClick={() => handleClearFilters(key.field)} >
+              Clear
+            </button>
+            <button className='p-2 bg-blue-500 text-white rounded-lg px-4' onClick={() => handleApplyFilters(key.field)} >
+              Apply
+            </button>
+          </div>
+        }
+      />
+      {/* {columns.filter(col => col.filter).map((col, index) => (
+            <div key={index} className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                {col.header}
+              </label>
+              <MultiSelect
+                value={tempFilterValues[col.field]}
+                options={filterOptions[col.field] || []}
+                className="w-full"
+                onChange={(e) => setTempFilterValues(prev => ({ ...prev, [col.field]: e.value }))}
+                placeholder={`Select ${col.header}`}
+                filter
+                showClear
+                maxSelectedLabels={3}
+                panelClassName="!w-72"
+              />
+            </div>
+          ))} */}
+    </div>
+  );
+
+
+
+  const customFilterTemplate = (col) => {
+    if (!["Product_Name", "Category", "Sub_Category", "Status"].includes(col.field)) return null;
+
+
+    return (
+      <>
+        <div className='flex flex-col gap-10'>
+          <MultiSelect
+            value={tempFilterValues[col.field] || []}
+            options={filterOptions[col.field] || []}
+            className="w-full"
+            onChange={(e) => {
+              const selectedValues = e.value;
+              // ✅ Store selected values in state
+              setTempFilterValues(prev => ({ ...prev, [col.field]: selectedValues }));
+              // ✅ Immediately update the filter
+              setFilters(prev => ({
+                ...prev,
+                [col.field]: selectedValues.length > 0
+                  ? { value: selectedValues, matchMode: "in" }
+                  : null,
+              }));
+              // ✅ Call handleApplyFilters() for real-time filtering
+              handleApplyFilters(col.field);
+            }}
+            placeholder={`Select ${col.header}`}
+            filter={false}
+            showClear
+            maxSelectedLabels={1} // Only show 1 selected option
+            panelClassName="!w-72"
+          />
+
+          {/* <button onClick={() => {
+            Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
+          }}>
+            Apply
+          </button> */}
+        </div>
+      </>
+    );
   };
 
 
@@ -255,17 +355,17 @@ useEffect(() => {
   };
 
   const columns = [
-    { field: 'Product_Name', header: 'Product Name', filter: true , Width:'450px'},
+    { field: 'Product_Name', header: 'Product Name', filter: true, Width: '450px' },
     // { field: 'Product_Description', header: 'Description', body: renderDescription },
     // { field: 'Product_Highlights', header: 'Product Highlights', body: renderHighlights },
-    { field: 'Brand_Name', header: 'Brand Name', filter: true , Width:'200px' },
+    { field: 'Brand_Name', header: 'Brand Name', filter: true, Width: '200px' },
     { field: 'Category', header: 'Category', filter: true },
-    { field: 'Sub_Category', header: 'Sub Category', filter: true, Width:'250px'  },
+    { field: 'Sub_Category', header: 'Sub Category', filter: true, Width: '250px' },
     // { field: 'Unit_of_Measurements', header: 'Units' },
     // { field: 'Measurement_Units', header: 'Measurement' },
     // { field: 'Made_In', header: 'Made In' },
     { field: 'QTY', header: 'Qty' },
-    { field: 'Regular_Price', header: 'Regular Price' ,  Width:'250px'  },
+    { field: 'Regular_Price', header: 'Regular Price', },
     { field: 'Discount', header: 'Dis (%)', filter: true },
     // { field: 'Tax_Type', header: 'Tax Type' },
     // { field: 'Tax_Percentage', header: 'Tax (%)' },
@@ -324,6 +424,7 @@ useEffect(() => {
             <button
               onClick={() => {
                 Object.keys(tempFilterValues).forEach(key => handleApplyFilters(key));
+
                 setShowFilterPanel(false);
               }}
               className="flex-1 px-4 py-2 text-sm font-medium text-white bg-primary  border border-transparent rounded-lg hover:bg-primary  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -337,12 +438,14 @@ useEffect(() => {
   );
 
   const TableHeader = () => (
-    <div className="p-4 bg-white border border-t-primary">
+    <div className="">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
+
+
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => setShowFilterPanel(true)} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          <button onClick={() => setShowFilterPanel(true)} className="inline-flex w-32 items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <i className="mr-2 fi fi-rr-filter"></i>
             Filters
@@ -365,7 +468,7 @@ useEffect(() => {
         </div>
       </div>
 
-      {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
+      {/* {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
         <div className="flex flex-wrap gap-2 mt-4">
           {Object.entries(tempFilterValues).map(([key, value]) => {
             if (value && value.length > 0) {
@@ -393,7 +496,7 @@ useEffect(() => {
             return null;
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 
@@ -401,7 +504,55 @@ useEffect(() => {
 
   return (
     <div className="bg-white  shadow-sm rounded-xl   ">
-      <TableHeader />
+
+      <div className='flex  justify-between items-center p-4  rounded-t-xl border border-t-primary'>
+        <div>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className={`inline-flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 bg-white border rounded-lg
+            ${isExporting
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-gray-700 hover:bg-gray-50'
+              }`}
+          >
+            {isExporting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </>
+            )}
+          </button>
+        </div>
+        <div className='flex gap-4'>
+          <input
+            type="text"
+            placeholder="Search..."
+            className="px-4 py-2 border outline-none rounded-xl"
+            onChange={(e) => setglobalfilter(e.target.value)}
+          />
+          <button
+            onClick={newform}
+            className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 border border-transparent rounded-lg bg-primary disabled:opacity-50 disabled:pointer-events-none gap-x-2"
+          >
+            <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+              <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            Add Product
+          </button>
+
+        </div>
+
+
+        <TableHeader />
+      </div>
+
+
       <DataTable
         value={tabledata}
         scrollable
@@ -440,27 +591,39 @@ useEffect(() => {
           body={image}
           headerClassName="text-white bg-primary"
         />
-        {columns.map((col, i) => (
-          col.formattype === 'array' ? (
-            <Column
-              key={i}
-              header={col.header}
-              field={col.field}
-              style={{ width: col.Width }}
-              body={array}
-              headerClassName="text-white bg-primary "
-            />
-          ) : (
-            <Column
-              key={i}
-              field={col.field}
-              style={{ width: col.Width }}
-              header={col.header}
-              body={col.body}
-              headerClassName="text-white bg-primary"
-            />
-          )
-        ))}
+        {columns
+          .filter(col => col.field !== "Sub_Category").map((col, i) => (
+            col.formattype === 'array' ? (
+              <Column
+                key={i}
+                header={col.header}
+                field={col.field}
+                style={{ width: col.Width }}
+                showFilterMenuOptions={false}
+                showAddRule={false}
+                filter={col.filter}
+                filterElement={Filter(col)}
+                body={array}
+                headerClassName="text-white bg-primary "
+              />
+            ) : (
+              <Column
+                key={i}
+                field={col.field}
+                style={{ width: col.Width }}
+                showFilterMenuOptions={false}
+                showApplyButton={false}
+                showClearButton={false}
+                showAddRule={false}
+                filter={col.filter}
+                filterElement={Filter(col)}
+                header={col.header}
+                body={col.body}
+                headerClassName="text-white bg-primary"
+
+              />
+            )
+          ))}
       </DataTable>
 
       <FilterPanel />

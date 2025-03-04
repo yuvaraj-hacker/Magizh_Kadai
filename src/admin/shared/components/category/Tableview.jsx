@@ -10,7 +10,7 @@ import { getFilterOptions } from '../../services/apicategory/apicategory';
 import moment from 'moment-timezone';
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page } = props;
+  const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setglobalfilter, newform } = props;
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -19,16 +19,16 @@ const Tableview = (props) => {
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  const [scroll, setScrollHeight] = useState("620px");
+  const [scroll, setScrollHeight] = useState("750px");
 
   useEffect(() => {
     const updateHeight = () => {
       if (window.innerWidth >= 1920) { // Extra large screens
-        setScrollHeight("620px");
+        setScrollHeight("750px");
       } else if (window.innerWidth >= 1024) { // Laptops
-        setScrollHeight("400px");
+        setScrollHeight("600px");
       } else {
-        setScrollHeight("620px"); // Default for smaller screens
+        setScrollHeight("750px"); // Default for smaller screens
       }
     };
 
@@ -230,7 +230,7 @@ const Tableview = (props) => {
   );
 
   const TableHeader = () => (
-    <div className="p-4 bg-white border border-t-primary">
+    <div className="">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
         </div>
@@ -307,8 +307,24 @@ const Tableview = (props) => {
   );
 
   return (
-    <div className="bg-white ">
-      <TableHeader />
+    <div className=" ">
+      <div className='p-4  border border-t-primary flex justify-between rounded-t-xl'>
+        <div>
+
+
+        </div>
+        <div className='flex gap-4'>
+          <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
+          <button onClick={newform} className="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-primary border border-transparent rounded-lg gap-x-2 disabled:opacity-50 disabled:pointer-events-none">
+            <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            Add Category
+          </button>
+        </div>
+        <TableHeader />
+      </div>
+
       <div className='  '>
         <DataTable
           value={tabledata}

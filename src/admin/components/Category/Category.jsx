@@ -120,9 +120,9 @@ export default function Category() {
 
     return (
         <div className="">
-            <div className="bg-white border border-primary rounded-xl  ">
-                <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} />
+            <div className="bg-white border border-b-primary rounded-xl  ">
+                {/* <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} /> */}
+                <Tableview  newform={newform} setglobalfilter={setglobalfilter}  tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} />
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} imageDataUrl={imageDataUrl} handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />
                 <ConfirmDialog />
