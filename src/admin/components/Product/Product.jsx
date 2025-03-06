@@ -30,7 +30,7 @@ export default function Product() {
     const [isExporting, setIsExporting] = useState(false);
     let isMounted = true;
 
-    
+
     const location = useLocation();
 
     // Extract the last part of the URL and format it
@@ -252,7 +252,7 @@ export default function Product() {
 
     return (
 
-        <div className="bg-white border  border-b-primary rounded-xl   ">
+        <div className="bg-white        flex flex-col justify-between  " style={{ height: "calc(100vh - 70px)" }}>
             {/* <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} selectedProducts={selectedProducts} getallproduct={getallproduct} setIsExporting={setIsExporting} isExporting={isExporting} handleImport={handleImport} handleExport={handleExport} /> */}
             <Tableview newform={newform} setglobalfilter={setglobalfilter} selectedProducts={selectedProducts} setIsExporting={setIsExporting} isExporting={isExporting} handleImport={handleImport} handleExport={handleExport} tabledata={tabledata} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} getallproduct={getallproduct} categories={categories} setSelectedProducts={setSelectedProducts} />
             {/* <BulkUpdateModal isOpen={isBulkUpdateModalOpen} onClose={() => setIsBulkUpdateModalOpen(false)} selectedProducts={selectedProducts} onBulkUpdate={handleBulkUpdate} categories={categories} filteredSubcategories={filteredSubcategories} nitsOfMeasurement={unitsOfMeasurement} /> */}

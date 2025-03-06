@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import RegisterContinueGoogle from '../../shared/Components/Register-ContiGoogle/RegisterContiGoogle';
 import useAuth from '../../shared/services/store/useAuth';
 import useCart from '../../shared/services/store/useCart';
@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { Search, X, Loader2, TrendingUp, Tag, ShoppingBag, Wand } from "lucide-react";
 import { searchProducts } from '../../shared/services/apiproducts/apiproduct';
 import apiurl from '../../shared/services/apiendpoint/apiendpoint';
+import { NavLink } from 'react-router-dom';
 
 export default function Header(props) {
 
@@ -30,7 +31,7 @@ export default function Header(props) {
   const categoryRef = useRef(null);
 
   const { cartItems, cartCount } = useCart();
-  const { toggleSidebar } = useSidebar(); // Access toggle function
+  // const { toggleSidebar } = useSidebar();
   const [currentLang, setCurrentLang] = useState('English');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -53,6 +54,10 @@ export default function Header(props) {
 
   const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
   const [prevWishlistCount, setPrevWishlistCount] = useState(0);
+  const locations = useLocation;
+
+
+  const isActive = (path) => locations.pathname === path;
 
 
   const allCategories = useCallback(async () => {
@@ -190,25 +195,25 @@ export default function Header(props) {
   //     return () => { isMounted = false; };
   // }, []);
 
-  useEffect(() => {
-    { console.log(wishlistData.length) }
-    const currentWishlistCount = wishlistData?.length || 0;
-    if (currentWishlistCount > prevWishlistCount) {
-      setIsWishlistAnimating(true);
-      const timer = setTimeout(() => setIsWishlistAnimating(false), 1000);
-      return () => clearTimeout(timer);
-    }
-    setPrevWishlistCount(currentWishlistCount);
-  }, [wishlistData?.length]);
+  // useEffect(() => {
+  //   { console.log(wishlistData.length) }
+  //   const currentWishlistCount = wishlistData?.length || 0;
+  //   if (currentWishlistCount > prevWishlistCount) {
+  //     setIsWishlistAnimating(true);
+  //     const timer = setTimeout(() => setIsWishlistAnimating(false), 1000);
+  //     return () => clearTimeout(timer);
+  //   }
+  //   setPrevWishlistCount(currentWishlistCount);
+  // }, [wishlistData?.length]);
 
-  const handleWishlistClick = (e) => {
-    e.preventDefault();
-    if (!isLoggedIn) {
-      setVisible(true);
-    } else {
-      navigate('/wishlist');
-    }
-  };
+  // const handleWishlistClick = (e) => {
+  //   e.preventDefault();
+  //   if (!isLoggedIn) {
+  //     setVisible(true);
+  //   } else {
+  //     navigate('/wishlist');
+  //   }
+  // };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -282,11 +287,11 @@ export default function Header(props) {
       }
     }
   };
-  const onclickcategories = async () => {
-    setOpenCategories(!opencategories)
-    const res = await apigetallcategory()
-    setCategories(res.resdata)
-  }
+  // const onclickcategories = async () => {
+  //   setOpenCategories(!opencategories)
+  //   const res = await apigetallcategory()
+  //   setCategories(res.resdata)
+  // }
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -461,12 +466,27 @@ export default function Header(props) {
                   {/* icons */}
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     {/* <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i> */}
-                    <Link to='/'>
-                      <i className="fi fi-ss-house-chimney text-primary" title='Home'></i>
-                    </Link>
-                    <Link to='/products'>
-                      <i className="fi fi-rs-shop text-primary" title='Shop'></i>
-                    </Link>
+
+                    <NavLink to="/" className=" text-primary">
+                      {({ isActive }) => (
+                        isActive ? (
+                          <i className="fi fi-ss-house-chimney" title="Home"></i>
+                        ) : (
+                          <i className="fi fi-rs-house-chimney" title="Home"></i>
+                        )
+                      )}
+                    </NavLink>
+
+                    <NavLink to='/products' className="text-primary">
+                      {/* <i className="fi fi-rs-shop text-primary" title='Shop'></i> */}
+                      {({ isActive }) => (
+                        isActive ? (
+                          <i class="fi fi-ss-shop" title='Shop'></i>
+                        ) : (
+                          <i className="fi fi-rs-shop " title='Shop'></i>
+                        )
+                      )}
+                    </NavLink>
                     {/* <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
                         {isWishlistAnimating && (
@@ -481,14 +501,19 @@ export default function Header(props) {
                         </div>
                       </div>
                     </div> */}
-                    <Link to="/cart">
-                      <div className='relative'>
-                        <i className="fi fi-sr-shopping-cart text-primary" title='Cart'></i>
-                        <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
-                          {cartItems && cartItems?.length > 0 ? cartItems?.length : cartCount}
-                        </span>
-                      </div>
-                    </Link>
+                    <NavLink to="/cart" className="relative">
+                      {({ isActive }) => (
+                        <div className="relative">
+                          <i
+                            className={isActive ? "fi fi-sr-shopping-cart text-primary" : "fi fi-rr-shopping-cart text-primary"}
+                            title="Cart"
+                          ></i>
+                          <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
+                            {cartItems?.length > 0 ? cartItems.length : cartCount}
+                          </span>
+                        </div>
+                      )}
+                    </NavLink>
                     {/* <button onClick={toggleDarkMode} className="p-2  rounded-full hover:bg-primary-dark dark:hover:bg-gray-700" aria-label="Toggle dark mode" >
                       {isDarkMode ? (
                         <Sun className="w-5 h-5" />
@@ -642,7 +667,7 @@ export default function Header(props) {
             </div>
           </div>
         </div>
-      </header>
+      </header >
 
 
 

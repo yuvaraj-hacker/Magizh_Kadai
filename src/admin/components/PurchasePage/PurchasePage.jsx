@@ -171,7 +171,7 @@ export default function PurchasePage() {
         // Calculate total amount and total quantity
         let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
-        setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity , Sub_Total:Sub_Total });
+        setFormdata({ ...formdata, PurchaseMaster: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity, Sub_Total: Sub_Total });
     };
 
     const loadData = (i, index) => {
@@ -185,9 +185,9 @@ export default function PurchasePage() {
 
     return (
         <div>
-            <div className="bg-white  border  border-y-primary rounded-xl   ">
+            <div className="bg-white  border  border-t-primary rounded-xl    flex flex-col justify-between  "  >
                 <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-                 <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
+                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} />
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata} handlechange={handlechange}
                     handlesave={handlesave} handleupdate={handleupdate} addRow={addRow} handleSearchChange={handleSearchChange} setRowIndex={setRowIndex} searchResults={searchResults} setSearchResults={setSearchResults}

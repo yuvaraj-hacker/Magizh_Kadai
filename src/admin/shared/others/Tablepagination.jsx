@@ -25,10 +25,10 @@ export default function Tablepagination(props) {
     }, [totalRecords, rows]);
     const rowOptions = [10, 20, 50, 100];
     return (
-        <div className="flex items-center justify-between w-full p-2 px-8">
-   
-            <div>
-                <label htmlFor="rows-per-page" className="mr-2">Rows per page:</label>
+        <div className="flex items-center justify-between w-full p-2 bg-primary rounded-b-xl px-4">
+
+                      <div>
+                <label htmlFor="rows-per-page" className="mr-2 text-white">Rows per page:</label>
                 <select
                     id="rows-per-page"
                     value={rows}
@@ -43,7 +43,7 @@ export default function Tablepagination(props) {
                 </select>
             </div>
 
-     
+
             {totalRecords > 0 && (
                 <Pagination
                     isCompact
@@ -56,8 +56,8 @@ export default function Tablepagination(props) {
                 />
             )}
 
-    
-            <div>Total Records: {totalRecords}</div>
+
+            <div className='text-white'>Total Records: {totalRecords}</div>
         </div>
     );
 }

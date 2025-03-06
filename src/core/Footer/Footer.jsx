@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import RegisterContinueGoogle from '../../shared/Components/Register-ContiGoogle/RegisterContiGoogle';
 import useAuth from '../../shared/services/store/useAuth';
 import useCart from '../../shared/services/store/useCart';
@@ -8,15 +8,17 @@ import { useSidebar } from '../../Router/SidebarProvider';
 
 
 export default function Footer({ setTogSidecat, TogSidecat }) {
-   const { toggleSidebar } = useSidebar(); // Access toggle function
+   // const { toggleSidebar } = useSidebar(); // Access toggle function
    const [visible, setVisible] = useState(false);
    const { isLoggedIn, userdetails, logout } = useAuth();
    const { cartItems, cartCount } = useCart();
+   const locations = useLocation;
+   const isActive = (path) => locations.pathname === path;
    const navigate = useNavigate()
-   const handleClick = (e) => {
-      e.preventDefault(); // Prevent navigation from overriding click
-      toggleSidebar();
-   };
+   // const handleClick = (e) => {
+   //    e.preventDefault(); // Prevent navigation from overriding click
+   //    toggleSidebar();
+   // };
 
 
    const handleWishlistClick = (e) => {
@@ -127,7 +129,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                            <div className=' md:space-y-3 md:text-sm text-xs    md:gap-0 gap-2   flex-row flex md:flex-col  flex-wrap   col-span-3 '>
                               <p>
                                  <span className="">Mobile Number: </span>
-                                 <a href="https://wa.me/918807700218" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 88256 95060</a>
+                                 <a href="https://wa.me/918925035367" target="_blank" rel="noopener noreferrer" className=" hover:underline w-fit">+91 8925035367</a>
                               </p>
                               <p className="">
                                  <span>Email: </span>
@@ -162,7 +164,11 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
          <section className='fixed bottom-0 left-0 z-40 w-full lg:hidden'>
             <div className='bg-primary'>
                <div className="  flex  justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
-                  <div className="cursor-pointer "> <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney "></i><p className='text-xs '>Home</p> </Link></div>
+                  <div className="cursor-pointer ">
+                     <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney   "></i>
+                        <p className='text-xs '>Home</p>
+                     </Link>
+                  </div>
                   <Link to='/products'>
                      <div className="cursor-pointer" >
                         <i className="fi fi-rs-shop flex flex-col items-center"></i><p className='text-xs '>Products</p>
@@ -171,7 +177,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                   <div className="relative cursor-pointer">
                      <Link to="/cart" className="relative inline-block">
                         <div className="relative">
-                           <i className="flex flex-col items-center fi fi-sr-shopping-cart"></i>
+                           <i className="flex flex-col items-center fi fi-rr-shopping-cart text-xl"></i>
                            {cartItems && cartItems.length > 0 && (
                               <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -top-2 -right-2">
                                  {cartItems.length}

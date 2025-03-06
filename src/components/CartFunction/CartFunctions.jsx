@@ -540,7 +540,7 @@ export default function CartPageFunctions() {
         message += `Order Summary:\n`;
         message += `Total Items: ${totalItems}\n`;
         message += `Final Total: ₹${finalTotal}\n`;
-        const whatsappUrl = `https://wa.me/+918807700218?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
 

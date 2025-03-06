@@ -381,25 +381,18 @@ const Tableview = (props) => {
   );
 
   return (
-    <div className="  3xl:h-[830px] ">
-      <div className='p-4  border border-t-primary flex justify-between rounded-t-xl'>
+    <div className="    "   >
+      <div className='p-4   flex justify-between rounded-t-xl  border-t-primary border  '>
         <div>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 '>
           {/* <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} /> */}
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={search}
-              className="px-4 py-2 border outline-none rounded-xl pr-10 border-primary focus:border-primary/80" // Adjust padding for icon space
-              onChange={handleSearchChange}
-            />
+            <input type="text" placeholder="Search..." value={search}
+              className="px-4 py-2 border outline-none   rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
+              onChange={handleSearchChange} />
             {search && (
-              <button
-                onClick={clearSearch}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
+              <button onClick={clearSearch} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"   >
                 <X className="w-5 h-5" />
               </button>
             )}
@@ -419,7 +412,7 @@ const Tableview = (props) => {
           size='small'
           value={tabledata}
           scrollable
-          scrollHeight={scroll}
+           scrollHeight="calc(100vh - 200px)"
           className="!text-sm "
           rowClassName={() => 'border border-b-primary border-r-primary transition-colors duration-200   '}
           showGridlines={false}

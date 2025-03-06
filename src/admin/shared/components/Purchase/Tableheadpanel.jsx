@@ -6,14 +6,10 @@ export default function Tableheadpanel(props) {
 
   const [search, setSearch] = useState("");
 
-
-
-
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setglobalfilter(e.target.value);
   };
-
   const clearSearch = () => {
     setSearch("");
     setglobalfilter(""); // Clear global filter
@@ -28,9 +24,7 @@ export default function Tableheadpanel(props) {
               </h2>
             </div> */}
       <div>
-
       </div>
-
       <div>
         <div className="inline-flex gap-x-2">
           {/* <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} /> */}
@@ -39,7 +33,7 @@ export default function Tableheadpanel(props) {
               type="text"
               placeholder="Search..."
               value={search}
-              className="px-4 py-2 border outline-none rounded-xl pr-10 border-primary focus:border-primary/80" // Adjust padding for icon space
+              className="px-4 py-2 border outline-none rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
               onChange={handleSearchChange}
             />
             {search && (

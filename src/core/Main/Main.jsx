@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 import Sidebar from "../../shared/Components/Sidebar/Sidebar";
 import { useState } from "react";
 import HeaderFunction from "../Header/HeaderFunction";
-import Layout from "../../components/MyAccountLayout/Layout";
+// import Layout from "../../components/MyAccountLayout/Layout";
 
 
 const Main = () => {
@@ -15,9 +15,9 @@ const Main = () => {
     return (
         <>
             <HeaderFunction />
-            <div className="lg:hidden block">
+            {/* <div className="lg:hidden block">
                 <Layout />
-            </div>
+            </div> */}
             <Sidebar setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />
             <main className="md:pt-[41px] pt-[50px] lg:pt-[130px]">
                 <Outlet />

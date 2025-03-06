@@ -7,9 +7,9 @@ const Adminmain = () => {
     <>
 
       <Sidebar />
-      <main className="w-full px-4 sm:px-6 md:px-4 3xl:ps-[17rem]    ">
+      <main className="w-full px-4 sm:px-6 md:px-4 3xl:ps-[17rem]  h-screen  ">
         <Topbar />
-          <Outlet />
+        <Outlet />
       </main>
     </>
   )

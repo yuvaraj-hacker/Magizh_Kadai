@@ -541,10 +541,9 @@ const Tableview = (props) => {
 
 
   return (
-    <div className="bg-white  shadow-sm rounded-xl   3xl:h-[830px]">
+    <div className="bg-white  shadow-sm rounded-xl " >
       <div className='flex  justify-between items-center p-4  rounded-t-xl border border-t-primary'>
         <div>
-
         </div>
         <div className='flex gap-4'>
           {/* <input
@@ -553,12 +552,12 @@ const Tableview = (props) => {
             className="px-4 py-2 border outline-none rounded-xl"
             onChange={(e) => setglobalfilter(e.target.value)}
           /> */}
-          <div className="relative">
+          <div className="relative ">
             <input
               type="text"
               placeholder="Search..."
               value={search}
-              className="px-4 py-2 border outline-none rounded-xl pr-10 border-primary focus:border-primary/80" // Adjust padding for icon space
+              className="px-4 py-2 border outline-none rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
               onChange={handleSearchChange}
             />
             {search && (
@@ -586,81 +585,82 @@ const Tableview = (props) => {
         <TableHeader />
       </div>
 
-
-      <DataTable
-        value={tabledata}
-        size='small'
-        scrollable
-        // scrollHeight="650px"
-        scrollHeight={scroll}
-        className="!text-sm producttable "
-        rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200  '}
-        showGridlines={false}
-        stripedRows
-        responsiveLayout="scroll"
-        selection={selectedProducts}
-        // onSelectionChange={(e) => setSelectedProducts(e.value)}
-        selectionMode="checkbox"
-      >
-        <Column
-          header="S.No"
-          body={(rowData, { rowIndex }) => rowIndex + 1}
-          headerClassName="text-white bg-primary "
-          className=""
-        />
-        {/* <Column
+      <div     >
+        <DataTable
+          value={tabledata}
+          size='small'
+          scrollable
+          // scrollHeight="650px"
+          scrollHeight="calc(100vh - 200px)"
+          className="!text-sm producttable "
+          rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200     '}
+          showGridlines={false}
+          stripedRows
+          responsiveLayout="scroll"
+          selection={selectedProducts}
+          // onSelectionChange={(e) => setSelectedProducts(e.value)}
+          selectionMode="checkbox"
+        >
+          <Column
+            header="S.No"
+            body={(rowData, { rowIndex }) => rowIndex + 1}
+            headerClassName="text-white bg-primary "
+            className=""
+          />
+          {/* <Column
           header={CustomSelectionHeader}
           body={CustomSelectionBody}
           headerClassName="text-gray-700 bg-gray-50 !w-16"
            className="!w-16"
           alignHeader="center"
         /> */}
-        <Column
-          header="Action"
-          body={actionbotton}
-          headerClassName="text-white bg-primary "
-          className="text-center "
-        />
-        <Column
-          header="Images"
-          body={image}
-          headerClassName="text-white bg-primary "
-          className="text-center"
-        />
-        {columns
-          .filter(col => col.field !== "Sub_Category").map((col, i) => (
-            col.formattype === 'array' ? (
-              <Column
-                key={i}
-                header={col.header}
-                field={col.field}
-                style={{ width: col.Width }}
-                showFilterMenuOptions={false}
-                showAddRule={false}
-                filter={col.filter}
-                filterElement={Filter(col)}
-                body={array}
-                headerClassName="text-white bg-primary "
-              />
-            ) : (
-              <Column
-                key={i}
-                field={col.field}
-                style={{ width: col.Width }}
-                showFilterMenuOptions={false}
-                showApplyButton={false}
-                showClearButton={false}
-                showAddRule={false}
-                filter={col.filter}
-                filterElement={Filter(col)}
-                header={col.header}
-                body={col.body}
-                headerClassName="text-white bg-primary  "
+          <Column
+            header="Action"
+            body={actionbotton}
+            headerClassName="text-white bg-primary "
+            className="text-center "
+          />
+          <Column
+            header="Images"
+            body={image}
+            headerClassName="text-white bg-primary "
+            className="text-center"
+          />
+          {columns
+            .filter(col => col.field !== "Sub_Category").map((col, i) => (
+              col.formattype === 'array' ? (
+                <Column
+                  key={i}
+                  header={col.header}
+                  field={col.field}
+                  style={{ width: col.Width }}
+                  showFilterMenuOptions={false}
+                  showAddRule={false}
+                  filter={col.filter}
+                  filterElement={Filter(col)}
+                  body={array}
+                  headerClassName="text-white bg-primary "
+                />
+              ) : (
+                <Column
+                  key={i}
+                  field={col.field}
+                  style={{ width: col.Width }}
+                  showFilterMenuOptions={false}
+                  showApplyButton={false}
+                  showClearButton={false}
+                  showAddRule={false}
+                  filter={col.filter}
+                  filterElement={Filter(col)}
+                  header={col.header}
+                  body={col.body}
+                  headerClassName="text-white bg-primary  "
 
-              />
-            )
-          ))}
-      </DataTable>
+                />
+              )
+            ))}
+        </DataTable>
+      </div>
 
       <FilterPanel />
     </div>

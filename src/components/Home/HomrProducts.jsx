@@ -100,21 +100,21 @@ const HomrProducts = () => {
         getAllProducts();
     };
 
-    const allCategories = useCallback(async () => {
-        setIsLoading(true);
-        try {
-            const res = await getAllCategories();
-            setCategories(res.resdata);
-        } catch (error) {
-            console.error("Failed to fetch categories:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+    // const allCategories = useCallback(async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const res = await getAllCategories();
+    //         setCategories(res.resdata);
+    //     } catch (error) {
+    //         console.error("Failed to fetch categories:", error);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        allCategories();
-    }, [allCategories]);
+    // useEffect(() => {
+    //     allCategories();
+    // }, [allCategories]);
 
     const allDiscounts = useCallback(async () => {
         setIsLoading(true);
@@ -159,59 +159,30 @@ const HomrProducts = () => {
         }
     }, [location.search, categories]);
 
-    const getAllCategories = useCallback(async () => {
-        try {
-            const res = await getallcategory();
-            setCategories(res?.resdata || []);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        }
-    }, []);
-
-    useEffect(() => {
-        let isMounted = true;
-        const fetchCategories = async () => {
-            if (isMounted) {
-                await getAllCategories();
-            }
-        };
-
-        fetchCategories();
-        return () => {
-            isMounted = false;
-        };
-    }, [getAllCategories]);
-
-    // const handleAddToCart = async (prod) => {
+    // const getAllCategories = useCallback(async () => {
     //     try {
-    //         const cartItemsFromStore = cartItems || [];
-    //         const existingCartItem = cartItemsFromStore.find(item => item._id === prod._id);
-
-    //         if (existingCartItem) {
-    //             const updatedQuantity = existingCartItem.Quantity + 1;
-
-    //             if (userdetails?.Email) {
-    //                 await updatecartItem(existingCartItem._id, prod._id, updatedQuantity, userdetails.Email);
-    //             }
-    //             increaseQuantity(prod._id);
-    //             toast.success(`Quantity increased! ${prod.Product_Name}: ${updatedQuantity}`);
-    //         } else {
-    //             if (userdetails?.Email) {
-    //                 const cartData = { productId: prod._id, Email: userdetails.Email, Quantity: 1 };
-    //                 await savecartitems(cartData);
-    //             }
-
-    //             addToCart({ ...prod, Quantity: 1 });
-    //             toast.success(`Product added to cart! ${prod.Product_Name}`);
-    //             // const currentTotal = parseInt(localStorage.getItem('TotalCartItems') || '0');
-    //             // localStorage.setItem('TotalCartItems', (currentTotal + 1).toString());
-    //             updateTotalCartItems()
-    //         }
+    //         const res = await getallcategory();
+    //         setCategories(res?.resdata || []);
     //     } catch (error) {
-    //         toast.error("Failed to add product to cart.");
-    //         console.error("Error adding product to cart:", error);
+    //         console.error("Error fetching categories:", error);
     //     }
-    // };
+    // }, []);
+
+    // useEffect(() => {
+    //     let isMounted = true;
+    //     const fetchCategories = async () => {
+    //         if (isMounted) {
+    //             await getAllCategories();
+    //         }
+    //     };
+
+    //     fetchCategories();
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, [getAllCategories]);
+
+
 
     const handleAddToCart = async (prod) => {
         try {
@@ -357,8 +328,8 @@ const HomrProducts = () => {
                                 if (b.QTY === 0) return -1;
                                 return 0;
                             }).map((prod, i) => (
-                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
-                                    <div key={i} className="relative group ">
+                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }}  key={i} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
+                                    <div className="relative group ">
                                         <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
                                             {/* wishlist & cart */}
                                             <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full   lg:group-hover:-translate-y-1/2 duration-300">

@@ -14,27 +14,16 @@ import TermsandConditions from "../components/Policies/Termsandconditions";
 import Products from "../components/Products/Products";
 import CheckoutPage from "../components/Checkout/CheckoutPage";
 import CartPageFunctions from "../components/CartFunction/CartFunctions";
-import ProfilePage from "../components/ProfilePage/ProfilePage";
-import MyOrderPage from "../components/MyOrder/MyOrderPage";
 import SavedItemPage from "../components/SavedItemPage/SavedItemPage";
-import SettingPage from "../components/SettingPage/SettingPage";
-import WishListPage from "../components/WishListPage/WishListPage";
 import PrelineScript from "../PrelineScript";
-import HelpCenter from "../shared/Components/Helpcenter/Help-center";
 import ReturnRefundpolicy from "../components/Policies/ReturnRedundPolicy";
 import ProductViewFunctions from "../components/ProductViewFunctions/ProductViewFunctions";
-import AccountLayout from "../components/MyAccountLayout/AccountLayout";
-import Dashboard from "../shared/Components/Dashboard/DFashboard";
-import { SidebarProvider } from "./SidebarProvider";
 import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
-import Loginn from "../core/Header/Loginn";
-import RegisterContinueGoogle from "../shared/Components/Register-ContiGoogle/RegisterContiGoogle";
 
 const Approuter = () => {
     return (
         <BrowserRouter>
             <ScrollToTop />
-            <SidebarProvider>
                 <Routes>
                     <Route element={<Main />}>
                         <Route path="/" element={<Home />} />
@@ -52,18 +41,18 @@ const Approuter = () => {
                         {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
                         <Route path="/cart" element={<CartPageFunctions />} />
                         <Route path="/new" element={<NewForm />} />
-                        <Route element={<AccountLayout />}>
+                        {/* <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
                             <Route path="/setting" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SettingPage /></ProtectedRoute>} />
                             <Route path="/help-center" element={<HelpCenter />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                        </Route>
+                        </Route> */}
                     </Route>
                     <Route path="/login" element={<SignInPage />} />
                     <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
                 </Routes>
-            </SidebarProvider>
+
             <PrelineScript />
         </BrowserRouter>
     );

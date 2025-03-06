@@ -109,10 +109,10 @@ const Tableview = (props) => {
   ];
 
   return (
-    <div className='3xl:h-[760px]'>
-      <DataTable scrollHeight={scroll} rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
+    <div className='  '  style={{ height: "calc(100vh - 197px)" }}>
+      <DataTable   rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
         <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
-        />
+          />
         <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' />
         {/* <Column header="Images"  body={image} /> */}
         {columns.map((col, i) => (
