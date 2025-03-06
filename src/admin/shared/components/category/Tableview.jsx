@@ -8,6 +8,7 @@ import apiurl from '../../../../shared/services/apiendpoint/apiendpoint';
 import { useEffect, useState } from 'react';
 import { getFilterOptions } from '../../services/apicategory/apicategory';
 import moment from 'moment-timezone';
+import { X } from 'lucide-react';
 
 const Tableview = (props) => {
   const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setglobalfilter, newform } = props;
@@ -18,15 +19,21 @@ const Tableview = (props) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-
   const [scroll, setScrollHeight] = useState("750px");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const updateHeight = () => {
       if (window.innerWidth >= 1920) { // Extra large screens
         setScrollHeight("750px");
+      } else if (window.innerWidth >= 1728) {
+        setScrollHeight("600px"); // MacBook Pro 16-inch
+      } else if (window.innerWidth >= 1512) {
+        setScrollHeight("530px"); // MacBook Pro 14-inch
+      } else if (window.innerWidth >= 1280) {
+        setScrollHeight("530px"); // MacBook Air/Pro 13-inch
       } else if (window.innerWidth >= 1024) { // Laptops
-        setScrollHeight("600px");
+        setScrollHeight("530px");
       } else {
         setScrollHeight("750px"); // Default for smaller screens
       }
@@ -40,6 +47,18 @@ const Tableview = (props) => {
   useEffect(() => {
     setTempFilterValues(filtervalues);
   }, [filtervalues]);
+
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setglobalfilter(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+    setglobalfilter(""); // Clear global filter
+  };
+
 
   useEffect(() => {
     columns.filter(col => col.filter).forEach(async (col) => {
@@ -56,7 +75,7 @@ const Tableview = (props) => {
 
   const actionbotton = (rowData) => {
     return (
-      <div className="flex justify-center gap-3">
+      <div className="flex gap-3">
         <button
           onClick={() => editfrom(rowData)}
           className="  transition-colors duration-200 rounded-full hover:bg-blue-50"
@@ -78,6 +97,17 @@ const Tableview = (props) => {
     setSelectedRow(rowData);
     setShowModal(true);
   };
+  // const handleApplyFilters = (key) => {
+  //   cusfilter(key, tempFilterValues[key]);
+  //   onPage(page);
+  // };
+
+  // const handleClearFilters = (key) => {
+  //   setTempFilterValues(prev => ({ ...prev, [key]: null }));
+  //   cusfilter(key, null);
+  //   onPage(page);
+  // };
+
   const handleApplyFilters = (key) => {
     cusfilter(key, tempFilterValues[key]);
     onPage(page);
@@ -89,13 +119,57 @@ const Tableview = (props) => {
     onPage(page);
   };
 
+  const getOption = async (key) => {
+    var filterOptions = await getFilterOptions(key.field);
+    var formatoption = filterOptions[key.field].map(val => ({ label: val, value: key.format == "Date" ? moment(val).format('YYYY-MM-DD') : val }));
+    setFilterOptions(formatoption);
+  }
+
+  const Filter = (key) => (
+    <div  >
+      <MultiSelect value={tempFilterValues[key.field] || []}
+        options={filterOptions[key.field] || []} optionLabel="value" className="p-column-filter" virtualScrollerOptions={{ itemSize: 43 }} maxSelectedLabels={1}
+        filter onChange={(e) => setTempFilterValues(prev => ({ ...prev, [key.field]: e.value }))} placeholder={`Select ${key.field.charAt(0).toUpperCase() + key.field.slice(1)}`}
+        panelFooterTemplate={
+          <div className="flex justify-evenly p-2 mt-2">
+            <button className='p-2 bg-blue-500 text-white rounded-lg px-4' onClick={() => handleClearFilters(key.field)} >
+              Clear
+            </button>
+            <button className='p-2 bg-blue-500 text-white rounded-lg px-4' onClick={() => handleApplyFilters(key.field)} >
+              Apply
+            </button>
+          </div>
+        }
+      />
+      {/* {columns.filter(col => col.filter).map((col, index) => (
+              <div key={index} className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  {col.header}
+                </label>
+                <MultiSelect
+                  value={tempFilterValues[col.field]}
+                  options={filterOptions[col.field] || []}
+                  className="w-full"
+                  onChange={(e) => setTempFilterValues(prev => ({ ...prev, [col.field]: e.value }))}
+                  placeholder={`Select ${col.header}`}
+                  filter
+                  showClear
+                  maxSelectedLabels={3}
+                  panelClassName="!w-72"
+                />
+              </div>
+            ))} */}
+    </div>
+  );
+
+
   const image = (rowData) => {
     return (
-      <div className="flex justify-center">
+      <div className="flex  ">
         <div className="relative group">
           <img
             src={`${apiurl()}/${rowData.Images[0]}`}
-            className="object-cover w-24 h-16 transition-transform duration-200 rounded-lg shadow-sm group-hover:scale-105"
+            className="object-cover w-20 h-16 transition-transform duration-200 rounded-lg shadow-sm group-hover:scale-105"
             alt={rowData.Category_Name}
           />
           <div className="absolute inset-0 transition-all duration-200 bg-black bg-opacity-0 rounded-lg group-hover:bg-opacity-10" />
@@ -235,7 +309,7 @@ const Tableview = (props) => {
         <div className="relative flex-1 max-w-md">
         </div>
         <div className="flex items-center gap-3">
-          <button
+          {/* <button
             onClick={() => setShowFilterPanel(true)}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
@@ -246,7 +320,7 @@ const Tableview = (props) => {
                 {Object.values(tempFilterValues).filter(v => v && v.length > 0).length}
               </span>
             )}
-          </button>
+          </button> */}
           <button
             onClick={() => {
               Object.keys(tempFilterValues).forEach(key => handleClearFilters(key));
@@ -260,7 +334,7 @@ const Tableview = (props) => {
         </div>
       </div>
 
-      {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
+      {/* {Object.entries(tempFilterValues).some(([_, value]) => value && value.length > 0) && (
         <div className="flex flex-wrap gap-2 mt-4">
           {Object.entries(tempFilterValues).map(([key, value]) => {
             if (value && value.length > 0) {
@@ -288,7 +362,7 @@ const Tableview = (props) => {
             return null;
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 
@@ -307,14 +381,29 @@ const Tableview = (props) => {
   );
 
   return (
-    <div className=" ">
+    <div className="  3xl:h-[830px] ">
       <div className='p-4  border border-t-primary flex justify-between rounded-t-xl'>
         <div>
-
-
         </div>
         <div className='flex gap-4'>
-          <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
+          {/* <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} /> */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              className="px-4 py-2 border outline-none rounded-xl pr-10 border-primary focus:border-primary/80" // Adjust padding for icon space
+              onChange={handleSearchChange}
+            />
+            {search && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
           <button onClick={newform} className="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-primary border border-transparent rounded-lg gap-x-2 disabled:opacity-50 disabled:pointer-events-none">
             <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -327,6 +416,7 @@ const Tableview = (props) => {
 
       <div className='  '>
         <DataTable
+          size='small'
           value={tabledata}
           scrollable
           scrollHeight={scroll}
@@ -360,6 +450,12 @@ const Tableview = (props) => {
                 header={col.header}
                 field={col.field}
                 style={{ minWidth: col.width }}
+                showFilterMenuOptions={false}
+                showAddRule={false}
+                showClearButton={false}
+                showApplyButton={false}
+                filter={col.filter}
+                filterElement={Filter(col)}
                 body={array}
                 headerClassName="text-white bg-primary"
               />
@@ -368,6 +464,12 @@ const Tableview = (props) => {
                 key={i}
                 field={col.field}
                 header={col.header}
+                showFilterMenuOptions={false}
+                showAddRule={false}
+                showClearButton={false}
+                showApplyButton={false}
+                filter={col.filter}
+                filterElement={Filter(col)}
                 body={col.body}
                 headerClassName="text-white bg-primary"
               />

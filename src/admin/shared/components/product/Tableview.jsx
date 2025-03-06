@@ -13,7 +13,7 @@ import 'swiper/css/navigation';
 import { useEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import { Button, Checkbox } from "@nextui-org/react";
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, X } from 'lucide-react';
 
 const Tableview = (props) => {
   const { tabledata, editfrom, handledelete, cusfilter, filtervalues, onPage, page, setSelectedProducts, selectedProducts, newform, setglobalfilter, isExporting, handleExport } = props;
@@ -28,12 +28,20 @@ const Tableview = (props) => {
   const [expandedHighlights, setExpandedHighlights] = useState({});
   const [scroll, setScrollHeight] = useState("750px");
 
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     const updateHeight = () => {
       if (window.innerWidth >= 1920) { // Extra large screens
         setScrollHeight("750px");
+      } else if (window.innerWidth >= 1728) {
+        setScrollHeight("600px"); // MacBook Pro 16-inch
+      } else if (window.innerWidth >= 1512) {
+        setScrollHeight("530px"); // MacBook Pro 14-inch
+      } else if (window.innerWidth >= 1280) {
+        setScrollHeight("530px"); // MacBook Air/Pro 13-inch
       } else if (window.innerWidth >= 1024) { // Laptops
-        setScrollHeight("600px");
+        setScrollHeight("530px");
       } else {
         setScrollHeight("750px"); // Default for smaller screens
       }
@@ -47,6 +55,18 @@ const Tableview = (props) => {
   useEffect(() => {
     setTempFilterValues(filtervalues);
   }, [filtervalues]);
+
+
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setglobalfilter(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+    setglobalfilter(""); // Clear global filter
+  };
 
   useEffect(() => {
     columns.filter(col => col.filter).forEach(async (col) => {
@@ -63,16 +83,16 @@ const Tableview = (props) => {
 
   const actionbotton = (rowData) => {
     return (
-      <div className="flex justify-center gap-3">
+      <div className="flex  gap-3  ">
         <button
           onClick={() => editfrom(rowData)}
-          className="p-2 transition-colors duration-200 rounded-full hover:bg-blue-50"
+          className=" transition-colors duration-200 rounded-full hover:bg-blue-50"
         >
           <i className="text-lg text-blue-600 fi fi-rr-pen-circle"></i>
         </button>
         <button
           onClick={() => handledelete(rowData?._id)}
-          className="p-2 transition-colors duration-200 rounded-full hover:bg-red-50"
+          className=" transition-colors duration-200 rounded-full hover:bg-red-50"
         >
           <i className="text-lg text-red-600 fi fi-rr-trash"></i>
         </button>
@@ -332,8 +352,8 @@ const Tableview = (props) => {
 
   const image = (rowData) => {
     return (
-      <div className="flex justify-center">
-        <div className="relative z-0 w-24 h-16 group">
+      <div className="flex ">
+        <div className="relative z-0 w-20 h-16 group">
           {/* <Swiper modules={[Pagination, Navigation, Autoplay]} spaceBetween={10} slidesPerView={1}
             navigation
             pagination={{ clickable: true }}
@@ -358,8 +378,8 @@ const Tableview = (props) => {
     { field: 'Product_Name', header: 'Product Name', filter: true, Width: '450px' },
     // { field: 'Product_Description', header: 'Description', body: renderDescription },
     // { field: 'Product_Highlights', header: 'Product Highlights', body: renderHighlights },
-    { field: 'Brand_Name', header: 'Brand Name', filter: true, Width: '200px' },
-    { field: 'Category', header: 'Category', filter: true },
+    { field: 'Brand_Name', header: 'Brand Name', filter: true, Width: '150px' },
+    { field: 'Category', header: 'Category', filter: true, Width: '200px' },
     { field: 'Sub_Category', header: 'Sub Category', filter: true, Width: '250px' },
     // { field: 'Unit_of_Measurements', header: 'Units' },
     // { field: 'Measurement_Units', header: 'Measurement' },
@@ -441,12 +461,9 @@ const Tableview = (props) => {
     <div className="">
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
-
-
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => setShowFilterPanel(true)} className="inline-flex w-32 items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
+          {/* <button onClick={() => setShowFilterPanel(true)} className="inline-flex w-32 items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  >
             <i className="mr-2 fi fi-rr-filter"></i>
             Filters
             {Object.values(tempFilterValues).some(v => v && v.length > 0) && (
@@ -454,7 +471,7 @@ const Tableview = (props) => {
                 {Object.values(tempFilterValues).filter(v => v && v.length > 0).length}
               </span>
             )}
-          </button>
+          </button> */}
           <button
             onClick={() => {
               Object.keys(tempFilterValues).forEach(key => handleClearFilters(key));
@@ -464,6 +481,27 @@ const Tableview = (props) => {
           >
             <i className="mr-2 fi fi-rr-refresh"></i>
             Reset
+          </button>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className={`inline-flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 bg-white border rounded-lg
+            ${isExporting
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-gray-700 hover:bg-gray-50'
+              }`}
+          >
+            {isExporting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -503,39 +541,35 @@ const Tableview = (props) => {
 
 
   return (
-    <div className="bg-white  shadow-sm rounded-xl   ">
-
+    <div className="bg-white  shadow-sm rounded-xl   3xl:h-[830px]">
       <div className='flex  justify-between items-center p-4  rounded-t-xl border border-t-primary'>
         <div>
-          <button
-            onClick={handleExport}
-            disabled={isExporting}
-            className={`inline-flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 bg-white border rounded-lg
-            ${isExporting
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'text-gray-700 hover:bg-gray-50'
-              }`}
-          >
-            {isExporting ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Exporting...
-              </>
-            ) : (
-              <>
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </>
-            )}
-          </button>
+
         </div>
         <div className='flex gap-4'>
-          <input
+          {/* <input
             type="text"
             placeholder="Search..."
             className="px-4 py-2 border outline-none rounded-xl"
             onChange={(e) => setglobalfilter(e.target.value)}
-          />
+          /> */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              className="px-4 py-2 border outline-none rounded-xl pr-10 border-primary focus:border-primary/80" // Adjust padding for icon space
+              onChange={handleSearchChange}
+            />
+            {search && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
           <button
             onClick={newform}
             className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 border border-transparent rounded-lg bg-primary disabled:opacity-50 disabled:pointer-events-none gap-x-2"
@@ -555,6 +589,7 @@ const Tableview = (props) => {
 
       <DataTable
         value={tabledata}
+        size='small'
         scrollable
         // scrollHeight="650px"
         scrollHeight={scroll}
@@ -571,7 +606,7 @@ const Tableview = (props) => {
           header="S.No"
           body={(rowData, { rowIndex }) => rowIndex + 1}
           headerClassName="text-white bg-primary "
-          className="w-5"
+          className=""
         />
         {/* <Column
           header={CustomSelectionHeader}
@@ -583,13 +618,14 @@ const Tableview = (props) => {
         <Column
           header="Action"
           body={actionbotton}
-          headerClassName="text-white bg-primary"
-          className="text-center"
+          headerClassName="text-white bg-primary "
+          className="text-center "
         />
         <Column
           header="Images"
           body={image}
-          headerClassName="text-white bg-primary"
+          headerClassName="text-white bg-primary "
+          className="text-center"
         />
         {columns
           .filter(col => col.field !== "Sub_Category").map((col, i) => (
@@ -619,7 +655,7 @@ const Tableview = (props) => {
                 filterElement={Filter(col)}
                 header={col.header}
                 body={col.body}
-                headerClassName="text-white bg-primary"
+                headerClassName="text-white bg-primary  "
 
               />
             )

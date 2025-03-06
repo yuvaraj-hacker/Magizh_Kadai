@@ -30,7 +30,7 @@ export default function Product() {
     const [isExporting, setIsExporting] = useState(false);
     let isMounted = true;
 
-
+    
     const location = useLocation();
 
     // Extract the last part of the URL and format it

@@ -15,6 +15,29 @@ const Tableview = (props) => {
 
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState([]);
+  const [scroll, setScrollHeight] = useState("750px");
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (window.innerWidth >= 1920) { // Extra large screens
+        setScrollHeight("750px");
+      } else if (window.innerWidth >= 1728) {
+        setScrollHeight("600px"); // MacBook Pro 16-inch
+      } else if (window.innerWidth >= 1512) {
+        setScrollHeight("530px"); // MacBook Pro 14-inch
+      } else if (window.innerWidth >= 1280) {
+        setScrollHeight("530px"); // MacBook Air/Pro 13-inch
+      } else if (window.innerWidth >= 1024) { // Laptops
+        setScrollHeight("530px");
+      } else {
+        setScrollHeight("750px"); // Default for smaller screens
+      }
+    };
+
+    updateHeight(); // Initial check
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   useEffect(() => {
     setTempFilterValues(filtervalues);
@@ -86,8 +109,8 @@ const Tableview = (props) => {
   ];
 
   return (
-    <div>
-      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable scrollHeight="680px" className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
+    <div className='3xl:h-[760px]'>
+      <DataTable scrollHeight={scroll} rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
         <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
         />
         <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' />
