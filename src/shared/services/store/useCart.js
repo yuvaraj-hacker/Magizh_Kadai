@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { create } from "zustand";
 
 const storedCartItems = localStorage.getItem("cartItems");
@@ -92,7 +93,9 @@ const useCart = create((set) => ({
         set((state) => {
             const updatedCartItems = state.cartItems.map(item => {
                 if (item._id === productId && item.Quantity > 1) {
-                    return { ...item, Quantity: item.Quantity - 1 };
+                    const newQuantity = item.Quantity - 1;
+                    toast.success(`Quantity decreased to ${newQuantity}` );
+                    return { ...item, Quantity: newQuantity};
                 }
                 return item;
             });
@@ -130,8 +133,10 @@ const useCart = create((set) => ({
     removeItem: (productId) => {
         set((state) => {
             const updatedCartItems = state.cartItems.filter((product) => product._id !== productId);
+            toast.success("Item removed from cart");
             localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
             return { cartItems: updatedCartItems };
+
         });
     },
 

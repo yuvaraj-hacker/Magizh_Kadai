@@ -24,34 +24,34 @@ const Approuter = () => {
     return (
         <BrowserRouter>
             <ScrollToTop />
-                <Routes>
-                    <Route element={<Main />}>
-                        <Route path="/" element={<Home />} />
-                        {/* <Route path="/register" element={<RegisterPage />} /> */}
-                        <Route path="/forgotpassword" element={<Forgotpassword />} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="/return-and-refund-policy" element={<ReturnRefundpolicy />} />
-                        {/* <Route path="/Refund-Policy" element={<Refundpolicy />} />
+            <Routes>
+                <Route element={<Main />}>
+                    <Route path="/" element={<Home />} />
+                    {/* <Route path="/register" element={<RegisterPage />} /> */}
+                    <Route path="/forgotpassword" element={<Forgotpassword />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/return-and-refund-policy" element={<ReturnRefundpolicy />} />
+                    {/* <Route path="/Refund-Policy" element={<Refundpolicy />} />
                              <Route path="/Shipping-Policy" element={<ShippingPolicy />} /> */}
-                        <Route path="terms-and-conditions" element={<TermsandConditions />} />
-                        <Route path="/products" element={<Products />} />
-                        <Route path="/product-details/:id" element={<ProductViewFunctions />} />
-                        <Route path="/checkout" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><CheckoutPage /></ProtectedRoute>} />
-                        <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
-                        {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
-                        <Route path="/cart" element={<CartPageFunctions />} />
-                        <Route path="/new" element={<NewForm />} />
-                        {/* <Route element={<AccountLayout />}>
+                    <Route path="terms-and-conditions" element={<TermsandConditions />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/product-details/:id" element={<ProductViewFunctions />} />
+                    <Route path="/checkout" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><CheckoutPage /></ProtectedRoute>} />
+                    <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
+                    {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
+                    <Route path="/cart" element={<CartPageFunctions />} />
+                    <Route path="/new" element={<NewForm />} />
+                    {/* <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />
                             <Route path="/setting" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SettingPage /></ProtectedRoute>} />
                             <Route path="/help-center" element={<HelpCenter />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                         </Route> */}
-                    </Route>
-                    <Route path="/login" element={<SignInPage />} />
-                    <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
-                </Routes>
+                </Route>
+                <Route path="/login" element={<SignInPage />} />
+                <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
+            </Routes>
 
             <PrelineScript />
         </BrowserRouter>

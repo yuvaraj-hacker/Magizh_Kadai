@@ -466,7 +466,6 @@ export default function Header(props) {
                   {/* icons */}
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     {/* <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i> */}
-
                     <NavLink to="/" className=" text-primary">
                       {({ isActive }) => (
                         isActive ? (
@@ -476,7 +475,6 @@ export default function Header(props) {
                         )
                       )}
                     </NavLink>
-
                     <NavLink to='/products' className="text-primary">
                       {/* <i className="fi fi-rs-shop text-primary" title='Shop'></i> */}
                       {({ isActive }) => (
@@ -508,9 +506,11 @@ export default function Header(props) {
                             className={isActive ? "fi fi-sr-shopping-cart text-primary" : "fi fi-rr-shopping-cart text-primary"}
                             title="Cart"
                           ></i>
+
                           <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
                             {cartItems?.length > 0 ? cartItems.length : cartCount}
                           </span>
+
                         </div>
                       )}
                     </NavLink>

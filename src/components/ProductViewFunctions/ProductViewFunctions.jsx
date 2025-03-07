@@ -63,7 +63,10 @@ export default function ProductViewFunctions() {
 
     const handleIncreaseQuantity = async () => {
         const currentQuantity = getCurrentCartQuantity();
-
+        if (currentQuantity >= product.QTY) {
+            toast.error(`Limit reached! ${product?.QTY}`, { icon: "📢" });
+            return;
+        }
         try {
             if (userdetails?.Email) {
                 const cartItem = cartItems.find(item => item._id === product._id);
@@ -71,7 +74,9 @@ export default function ProductViewFunctions() {
                     await updatecartItem(cartItem._id, product._id, currentQuantity + 1, userdetails.Email);
                 }
             }
+
             increaseQuantity(product._id);
+            toast.success(`Quantity increased! ${currentQuantity + 1}`);
         } catch (error) {
             toast.error("Failed to update quantity");
             console.error("Error updating quantity:", error);
@@ -107,7 +112,7 @@ export default function ProductViewFunctions() {
                 }
             }
             removeItem(product._id);
-            toast.success("Item removed from cart");
+           
         } catch (error) {
             toast.error("Failed to remove item");
             console.error("Error removing cart item:", error);

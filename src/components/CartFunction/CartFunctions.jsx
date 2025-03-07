@@ -314,14 +314,16 @@ export default function CartPageFunctions() {
             return;
         }
         setUpdatingItems((prev) => new Set([...prev, productId]));
-
         try {
             const currentQuantity = item.Quantity;
+            console.log(currentQuantity)
             const isFreshProduce = item.productId?.Category === "Fresh Produce" || item.Category === "Fresh Produce";
 
             // Only use increment for Fresh Produce items
             const increment = isFreshProduce ? 0.5 : 1;
             let newQuantity;
+            const maxQuantity = item?.productId?.QTY || item?.QTY || 25; // Default to 25 if max quantity is undefined
+
 
             if (action === "increase") {
                 if ((item?.Quantity >= item?.productId?.QTY) || (item?.Quantity >= item?.QTY)) {
@@ -333,22 +335,11 @@ export default function CartPageFunctions() {
                     });
                     return;
                 } else {
-                    // For Fresh Produce, ensure we're always using 0.5 lb increments
-                    if (isFreshProduce) {
-                        // If current quantity is 0 (new item), start at 0.5
-                        newQuantity = currentQuantity === 0 ? 0.5 : currentQuantity + increment;
-                    } else {
-                        newQuantity = currentQuantity + increment;
-                    }
+                    newQuantity = currentQuantity + increment;
+                    toast.success(`Quantity increased! ${newQuantity}`);
                 }
             } else {
-                // For decreasing quantity
-                if (isFreshProduce) {
-                    // If current quantity is 0.5, remove item
-                    newQuantity = currentQuantity - increment;
-                } else {
-                    newQuantity = currentQuantity - increment;
-                }
+                newQuantity = currentQuantity - increment;
             }
 
             // Specific check for Fresh Produce minimum quantity
@@ -371,17 +362,29 @@ export default function CartPageFunctions() {
             );
 
             setCartItems(updatedCart);
-
+            console.log("Updated Cart:", updatedCart);
             if (action === 'increase') {
                 increaseQuantity(item?.productId?._id || item?._id);
             } else {
                 decreaseQuantity(item?.productId?._id || item?._id);
             }
 
-            const successMessage = isFreshProduce
-                ? `Quantity updated to ${newQuantity.toFixed(1)} lb`
-                : "Quantity updated successfully";
-            toast.success(successMessage);
+            // const successMessage = isFreshProduce
+            //     ? `Quantity updated to ${newQuantity.toFixed(1)} lb`
+            //     : "Quantity updated successfully";
+            // toast.success(successMessage);
+            // const successMessage =
+            //     currentQuantity >=25
+            //         ? `Limit reached! Maximum allowed: `
+            //         : "Quantity updated successfully";
+            // // Show appropriate toast message
+            // if (currentQuantity >= 25) {
+            //     toast.error(successMessage, { icon: "📢" });
+            //     return;
+            // } else {
+            //     toast.success(successMessage);
+            // }
+
 
             setUpdatingItems((prev) => {
                 const newSet = new Set(prev);
@@ -415,7 +418,7 @@ export default function CartPageFunctions() {
                 localStorage.setItem("cartItems", JSON.stringify(updatedCart));
             }
             removeItem(item.productId?._id || item._id);
-            toast.success("Item removed from cart");
+
         } catch (error) {
             console.error("Error removing item:", error);
             toast.error("Failed to remove item");
@@ -607,12 +610,12 @@ export default function CartPageFunctions() {
             </HelmetProvider>
 
 
-                <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} isLoading={isLoading} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
-                    handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
-                    updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
-                    goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
-                    isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
-                    handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
+            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} isLoading={isLoading} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
+                handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
+                updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
+                goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
+                isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
+                handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
 
 
 

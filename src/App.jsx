@@ -10,7 +10,12 @@ function App() {
     <>
       <Approuter />
       {/* <LocationModal/> */}
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} toastOptions={{
+        duration: 500, // Customize duration
+        style: {
+          animation: "slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 2.5s",
+        },
+      }} />
       {/* {userdetails?.Role !== 'Admin' && (
         <div className="fixed z-50 lg:bottom-8 right-3 bottom-20">
           <a

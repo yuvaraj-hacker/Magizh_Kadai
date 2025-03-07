@@ -173,11 +173,11 @@ const ProductView = (props) => {
                           <span className="md:mx-2">{getCurrentCartQuantity()} in cart</span>
                           {getCurrentCartQuantity() >= 1 ? (
                             <div className='flex   justify-between md:gap-2 gap-1'>
+                              <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed bg-white border  disabled:bg-white/80'   onClick={handleDecreaseQuantity}>
+                                <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
+                              </button>
                               <button className=' rounded-3xl bg-white border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
                                 <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
-                              </button>
-                              <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed bg-white border  disabled:bg-white/80' disabled={getCurrentCartQuantity() <= 1} onClick={handleDecreaseQuantity}>
-                                <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
                               </button>
                             </div>
                           ) : (

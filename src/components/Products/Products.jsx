@@ -26,6 +26,8 @@ import { SyncLoader } from "react-spinners"
 import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet";
 
+
+
 const Products = () => {
     const [price, setPrice] = useState([0, 12000]);
     const [priceChanged, setPriceChanged] = useState(price);
@@ -34,7 +36,7 @@ const Products = () => {
     const [isSidebaropen, setIssidebaropen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { userdetails } = useAuth();
-    const { addToCart, cartItems, increaseQuantity, updateTotalCartItems } = useCart();
+    const { addToCart, cartItems, removeItem, decreaseQuantity, increaseQuantity, updateTotalCartItems } = useCart();
     const [visible, setVisible] = useState(false);
     const [visible1, setVisible1] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -225,6 +227,7 @@ const Products = () => {
     //     }
     // };
 
+
     const handleAddToCart = async (prod) => {
         try {
             const cartItemsFromStore = cartItems || [];
@@ -234,9 +237,18 @@ const Products = () => {
             const isFreshProduce = prod.Category === "Fresh Produce";
             const increment = isFreshProduce ? 0.5 : 1;
 
-            if (existingCartItem) {
-                const updatedQuantity = existingCartItem.Quantity + increment;
+            // Get current cart quantity
+            const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
+            const updatedQuantity = currentQuantity + increment;
 
+            // ✅ Prevent exceeding stock limit
+            if (updatedQuantity > prod.QTY) {
+                toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
+                return;
+            }
+
+            if (existingCartItem) {
+                // ✅ Update cart item if it already exists
                 if (userdetails?.Email) {
                     await updatecartItem(
                         existingCartItem._id,
@@ -246,14 +258,9 @@ const Products = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-
-                const quantityDisplay = isFreshProduce
-                    ? `${updatedQuantity.toFixed(1)} lb`
-                    : updatedQuantity;
-                toast.success(
-                    `Quantity increased! ${prod.Product_Name}: ${quantityDisplay}`
-                );
+                toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
+                // ✅ Add new product to cart
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
                 if (userdetails?.Email) {
                     const cartData = {
@@ -264,10 +271,7 @@ const Products = () => {
                     await savecartitems(cartData);
                 }
                 addToCart({ ...prod, Quantity: initialQuantity });
-                const quantityDisplay = isFreshProduce ? "0.5 lb" : "1";
-                toast.success(
-                    `Product added to cart! ${prod.Product_Name} (${quantityDisplay})`
-                );
+                toast.success(`Product added to cart! (${initialQuantity})`);
                 updateTotalCartItems();
             }
         } catch (error) {
@@ -439,13 +443,13 @@ const Products = () => {
                             <div>
                                 <div className="  gap-1">
                                     <div className="relative ">
-                                        <Items isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
+                                        <Items removeItem={removeItem} decreaseQuantity={decreaseQuantity} cartItems={cartItems} isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
                                     </div>
                                     {/* <div className="col-span-2">
                             <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}
                                 Tags={Tags} handleTagsCheckboxChange={handleTagsCheckboxChange} />
                             <div onClick={() => settogfilter(false)} className={`${togfilter ? 'translate-x-0' : '-translate-x-full'} lg:hidden h-screen w-full fixed top-0 left-0 z-20 bg-black/50`}> </div>
-                        </div> */}
+                            </div> */}
                                 </div>
                             </div>
                             <PopupModal visible={visible} setVisible={setVisible} />

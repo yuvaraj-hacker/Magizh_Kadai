@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 
 const Items = (prpos) => {
-  const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, queryParams, setIssidebaropen } = prpos;
+  const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, queryParams, setIssidebaropen, cartItems, removeItem, decreaseQuantity, } = prpos;
 
   const location = useLocation();
 
@@ -24,17 +24,17 @@ const Items = (prpos) => {
   //   );
   // }
 
-    useEffect(() => {
-          if (products.length > 0) { // Ensure products are loaded
-              const scrollPosition = sessionStorage.getItem("scrollPosition");
-              if (scrollPosition !== null) {
-                  setTimeout(() => {
-                      window.scrollTo(0, parseInt(scrollPosition, 10));
-                      sessionStorage.removeItem("scrollPosition"); // Clear after restoring
-                  }, 100); // Add slight delay to ensure page is ready
-              }
-          }
-      }, [products]);
+  useEffect(() => {
+    if (products.length > 0) { // Ensure products are loaded
+      const scrollPosition = sessionStorage.getItem("scrollPosition");
+      if (scrollPosition !== null) {
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(scrollPosition, 10));
+          sessionStorage.removeItem("scrollPosition"); // Clear after restoring
+        }, 100); // Add slight delay to ensure page is ready
+      }
+    }
+  }, [products]);
 
   return (
     <>
@@ -134,11 +134,48 @@ const Items = (prpos) => {
                 <div key={i} className="relative group ">
                   <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]">
                     {/* wishlist & cart */}
-                    <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full   lg:group-hover:-translate-y-1/2 duration-300">
+                    <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 font-semibold  ">
                       {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
-                        <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center border-[1.5px] rounded-full bg-gray-100 hover:bg-white  group overflow-hidden shadow-md duration-300" >
-                          <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
-                        </button>
+                        <>
+                          {cartItems.some(item => item._id === prod._id) ? (
+                            // Show Increment & Decrement (or Delete) Controls
+                            <div onClick={(e) => { e.preventDefault() }} className="flex items-center gap-2 bg-gray-100  rounded-full  ">
+                              {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
+                                // Show Delete Icon if Quantity is 1
+                                <button
+                                  onClick={(e) => { e.preventDefault(); removeItem(prod._id); }}
+                                  className="text-red-500 hover:text-red-700    p-1 px-2"
+                                >
+                                  <i class="fi fi-rr-trash flex items-center text-sm  "></i>
+                                </button>
+                              ) : (
+                                // Show Minus Button if Quantity > 1
+                                <button
+                                  onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); }}
+                                  className="text-primary text-lg    p-1 px-2"
+                                >
+                                  -
+                                </button>
+                              )}
+
+                              <span className="text-primary text-sm font-bold">
+                                {cartItems.find(item => item._id === prod._id)?.Quantity}
+                              </span>
+
+                              <button
+                                onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }}
+                                className="  text-lg p-1 px-2  text-primary "
+                              >
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            // Show Add to Cart Button if Product is NOT in Cart
+                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center   rounded-full     " >
+                              <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
+                            </button>
+                          )}
+                        </>
                       )}
                       {/* <button onClick={(e) => { e.preventDefault(); handleAddToWishlist(prod); }} className="  group">
                       <div className="relative flex items-center justify-center w-10 h-10">

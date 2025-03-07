@@ -4,9 +4,10 @@ import RegisterContinueGoogle from "../Register-ContiGoogle/RegisterContiGoogle"
 import { Link } from "react-router-dom";
 import DeliveryDate from "../Header/DeliveryDate";
 import PickupTimeModal from "../Header/PickupTimeModal";
+import toast from "react-hot-toast";
 
 export default function CartPage(props) {
-  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote,subtotalRegular,
+  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote, subtotalRegular,
     handleQuantityChange, handleRemoveItem, subtotal, totalDiscount, goToCheckout, finalTotal, timevisible, setTimevisible, handlePickupTimeChange, isPickupTimeSelected,
     datevisible, setDatevisible, thisWeekDates, nextWeekDates, handleDateClick, isSelected, showLoginModal, setShowLoginModal, checkoutlogin,
   } = props;
@@ -179,16 +180,20 @@ export default function CartPage(props) {
                                     : item.Quantity}
                                 </span>
                                 <button
-                                  onClick={() =>
-                                    !updatingItems.has(item._id) &&
-                                    handleQuantityChange(item._id, "increase")
-                                  }
-                                  disabled={
-                                    (updatingItems.has(item._id) ||
-                                      !updatingItems.has(item._id)) &&
-                                    (item?.Quantity >= item.productId?.QTY ||
-                                      item?.Quantity >= item?.QTY)
-                                  }
+                                  // onClick={() =>
+                                  //   !updatingItems.has(item._id) &&
+                                  //   handleQuantityChange(item._id, "increase")
+                                  // }
+                                  onClick={() => {
+                                    console.log(`Current: ${item?.Quantity}, Max: ${item?.QTY}`); // Debugging
+                                    if (item?.Quantity >= item?.QTY) {
+                                      toast.error(`Limit reached! ${item?.QTY}`, { icon: "📢" });
+                                      return;
+                                    }
+                                    if (!updatingItems.has(item._id)) {
+                                      handleQuantityChange(item._id, "increase");
+                                    }
+                                  }}
                                   className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
                                     ? "opacity-50 cursor-not-allowed"
                                     : ""
@@ -302,14 +307,8 @@ export default function CartPage(props) {
                                         //   (item?.Quantity >= item.productId?.QTY ||
                                         //     item?.Quantity >= item?.QTY)
                                         // }
-                                        disabled={
-                                          updatingItems.has(item._id) ||
-                                          (item?.Quantity >= (item?.productId?.QTY ?? item?.QTY ?? Infinity))
-                                        }
-                                        className={`text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 ${updatingItems.has(item._id)
-                                          ? "opacity-50 cursor-not-allowed"
-                                          : ""
-                                          }`}  >
+
+                                        className="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 "  >
                                         <Plus size={16} className="dark:text-white dark:hover:text-black" />
                                       </button>
                                     </div>
@@ -379,7 +378,7 @@ export default function CartPage(props) {
                         </div>
                         <hr className="mt-3 " />
                         <div className="xl:flex justify-between mt-3 ">
-                            <p className="text-sm md:text-base">Discount Price</p>
+                          <p className="text-sm md:text-base">Discount Price</p>
                           <p className="text-xs text-third md:text-sm">- ₹{totalDiscount} </p>
                         </div>
                         <hr className="mt-3 " />

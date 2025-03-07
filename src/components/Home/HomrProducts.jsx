@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
 import { SyncLoader } from "react-spinners";
+// import toast from "react-hot-toast";
+// import { deletecartItem, savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 
 
 const HomrProducts = () => {
@@ -22,11 +24,14 @@ const HomrProducts = () => {
     const [isSidebaropen, setIssidebaropen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { userdetails } = useAuth();
-    const { addToCart, cartItems, increaseQuantity, updateTotalCartItems } = useCart();
+    // const { addToCart, cartItems, increaseQuantity, updateTotalCartItems } = useCart();
+    const { addToCart, cartItems, removeItem, decreaseQuantity, increaseQuantity, updateTotalCartItems } = useCart();
     const [visible, setVisible] = useState(false);
     const [visible1, setVisible1] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState(null);
+
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") ? searchParams.get("category").split(",") : []);
@@ -99,6 +104,62 @@ const HomrProducts = () => {
         navigate("/products", { replace: true });
         getAllProducts();
     };
+
+
+
+    const getCurrentCartQuantity = () => {
+        const cartItem = cartItems.find(item => item._id === product?._id);
+        return cartItem ? cartItem.Quantity : 0;
+    };
+
+
+
+    const handleIncreaseQuantity = async () => {
+        const currentQuantity = getCurrentCartQuantity();
+
+        if (currentQuantity >= product.QTY) {
+            toast.error(`Limit reached! Maximum allowed: ${product?.QTY}`, { icon: "📢" });
+            return;
+        }
+        try {
+            if (userdetails?.Email) {
+                const cartItem = cartItems.find(item => item._id === product._id);
+                if (cartItem) {
+                    await updatecartItem(cartItem._id, product._id, currentQuantity + 1, userdetails.Email);
+                }
+            }
+
+            increaseQuantity(product._id);
+
+
+        } catch (error) {
+            toast.error("Failed to update quantity");
+            console.error("Error updating quantity:", error);
+        }
+    };
+
+    const handleDecreaseQuantity = async () => {
+        const currentQuantity = getCurrentCartQuantity();
+        if (currentQuantity <= 1) {
+            handleDelete();
+            return;
+        }
+        try {
+            if (userdetails?.Email) {
+                const cartItem = cartItems.find(item => item._id === product._id);
+                if (cartItem) {
+                    await updatecartItem(cartItem._id, product._id, currentQuantity - 1, userdetails.Email);
+                }
+            }
+            decreaseQuantity(product._id);
+        } catch (error) {
+            toast.error("Failed to update quantity");
+            console.error("Error updating quantity:", error);
+        }
+    };
+
+
+
 
     // const allCategories = useCallback(async () => {
     //     setIsLoading(true);
@@ -183,7 +244,6 @@ const HomrProducts = () => {
     // }, [getAllCategories]);
 
 
-
     const handleAddToCart = async (prod) => {
         try {
             const cartItemsFromStore = cartItems || [];
@@ -193,9 +253,18 @@ const HomrProducts = () => {
             const isFreshProduce = prod.Category === "Fresh Produce";
             const increment = isFreshProduce ? 0.5 : 1;
 
-            if (existingCartItem) {
-                const updatedQuantity = existingCartItem.Quantity + increment;
+            // Get current cart quantity
+            const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
+            const updatedQuantity = currentQuantity + increment;
 
+            // ✅ Prevent exceeding stock limit
+            if (updatedQuantity > prod.QTY) {
+                toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
+                return;
+            }
+
+            if (existingCartItem) {
+                // ✅ Update cart item if it already exists
                 if (userdetails?.Email) {
                     await updatecartItem(
                         existingCartItem._id,
@@ -205,14 +274,9 @@ const HomrProducts = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-
-                const quantityDisplay = isFreshProduce
-                    ? `${updatedQuantity.toFixed(1)} lb`
-                    : updatedQuantity;
-                toast.success(
-                    `Quantity increased! ${prod.Product_Name}: ${quantityDisplay}`
-                );
+                toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
+                // ✅ Add new product to cart
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
                 if (userdetails?.Email) {
                     const cartData = {
@@ -223,10 +287,7 @@ const HomrProducts = () => {
                     await savecartitems(cartData);
                 }
                 addToCart({ ...prod, Quantity: initialQuantity });
-                const quantityDisplay = isFreshProduce ? "0.5 lb" : "1";
-                toast.success(
-                    `Product added to cart! ${prod.Product_Name} (${quantityDisplay})`
-                );
+                toast.success(`Product added to cart!   (${initialQuantity})`);
                 updateTotalCartItems();
             }
         } catch (error) {
@@ -234,6 +295,29 @@ const HomrProducts = () => {
             console.error("Error adding product to cart:", error);
         }
     };
+
+    // const handleAddToCart = async (product) => {
+    //     if (product.QTY === 0) {
+    //         toast.error("This item is currently out of stock!");
+    //         return;
+    //     }
+    //     if (cartItems.some(item => item._id === product._id)) {
+    //         toast.error("Product is already in your cart!");
+    //         return;
+    //     }
+    //     try {
+    //         if (userdetails?.Email) {
+    //             const cartData = { productId: product._id, Email: userdetails.Email, Quantity: 1 };
+    //             await savecartitems(cartData);
+    //         }
+    //         addToCart(product);
+    //         toast.success("Product added to cart successfully!");
+    //         updateTotalCartItems()
+    //     } catch (error) {
+    //         toast.error("Failed to add product to cart.");
+    //         console.error("Error adding product to cart:", error);
+    //     }
+    // };
     const handleAddToWishlist = async (prod) => {
         if (userdetails?.Email) {
             if (wishlistData?.some((item) => item.productId?._id === prod._id)) {
@@ -328,17 +412,79 @@ const HomrProducts = () => {
                                 if (b.QTY === 0) return -1;
                                 return 0;
                             }).map((prod, i) => (
-                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }}  key={i} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
+                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} key={i} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
                                     <div className="relative group ">
                                         <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
                                             {/* wishlist & cart */}
-                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-full   lg:group-hover:-translate-y-1/2 duration-300">
+                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold      duration-300">
                                                 {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
-                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center border-[1.5px] rounded-full bg-gray-100 hover:bg-white  group overflow-hidden shadow-md duration-300" >
-                                                        <i className="fi fi-rr-shopping-cart-add text-base lg:text-2xl p-1 px-2 translate-y-1 text-gray-500 hover:text-gray-700 duration-300  "></i>
-                                                    </button>
+                                                    <>
+                                                        {cartItems.some(item => item._id === prod._id) ? (
+                                                            // Show Increment & Decrement (or Delete) Controls
+                                                            <div onClick={(e) => { e.preventDefault() }} className="flex  items-center md:gap-2 gap-1 bg-gray-100   rounded-full  ">
+                                                                {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
+                                                                    // Show Delete Icon if Quantity is 1
+                                                                    <button
+                                                                        onClick={(e) => { e.preventDefault(); removeItem(prod._id); }}
+                                                                        className="text-red-500 hover:text-red-700    p-1 px-2"
+                                                                    >
+                                                                        <i class="fi fi-rr-trash flex items-center text-sm  "></i>
+                                                                    </button>
+                                                                ) : (
+                                                                    // Show Minus Button if Quantity > 1
+                                                                    <button
+                                                                        onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); }}
+                                                                        className="text-primary text-lg    p-1 px-2"
+                                                                    >
+                                                                        -
+                                                                    </button>
+                                                                )}
+                                                                <span className="text-primary text-sm font-bold  ">
+                                                                    {cartItems.find(item => item._id === prod._id)?.Quantity}
+                                                                </span>
+
+                                                                <button
+                                                                    onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }}
+                                                                    className="  text-lg p-1 px-2  text-primary "
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            // Show Add to Cart Button if Product is NOT in Cart
+                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center   rounded-full     " >
+                                                                <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
+                                                            </button>
+                                                        )}
+                                                    </>
                                                 )}
                                             </div>
+
+                                            {/* {getCurrentCartQuantity() === 0 ? (
+                                                <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
+                                                    <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                                                    Add to Cart
+                                                </button>
+                                            ) : (
+                                                <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
+                                                    <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                                                    <span className="md:mx-2">{getCurrentCartQuantity()} in cart</span>
+                                                    {getCurrentCartQuantity() >= 1 ? (
+                                                        <div className='flex   justify-between md:gap-2 gap-1'>
+                                                            <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed bg-white border  disabled:bg-white/80' onClick={handleDecreaseQuantity}>
+                                                                <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
+                                                            </button>
+                                                            <button className=' rounded-3xl bg-white border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                                                                <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div>
+                                                        </div>
+                                                    )}
+                                                </button>
+                                            )} */}
+
                                             <div className="absolute z-10 top-3 left-2 lg:top-2 lg:left-2 text-[10px] lg:text-xs ">
                                                 {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
                                                     <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
