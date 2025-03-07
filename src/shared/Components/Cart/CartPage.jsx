@@ -130,7 +130,7 @@ export default function CartPage(props) {
                           <div className=" grid 2xl:grid-cols-4 grid-cols-1 gap-4">
                             <div className="flex gap-3 col-span-3 flex-wrap md:flex-nowrap">
                               <div className=" min-w-28">
-                                <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`} alt={item.productId?.Product_Name || item?.Product_Name} className="object-cover w-32 cursor-pointer h-28 rounded-xl" onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)} />
+                                <img src={`${apiurl()}/${item?.productId?.Images[0] || item?.Images[0]}`} alt={item.productId?.Product_Name || item?.Product_Name} className="object-contain w-32 cursor-pointer h-28 rounded-xl" onClick={() => navigate(`/product-details/${item.productId?._id || item._id}`)} />
                               </div>
                               <div className="space-y-2">
                                 <h3 className="text-sm font-medium md:text-lg dark:text-white line-clamp-1">
@@ -361,7 +361,7 @@ export default function CartPage(props) {
                   </div>
                 </div>
               </div>
-              <div className="xl:col-span-3  px-1  xl:sticky xl:top-28 h-fit space-y-4 ">
+              <div className="xl:col-span-3  px-1  xl:sticky xl:top-36 h-fit space-y-4 ">
                 <div className=" h-full bg-gray-100 rounded-md" >
                   <div>
                     <div className="p-3">

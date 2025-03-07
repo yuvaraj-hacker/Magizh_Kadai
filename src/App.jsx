@@ -10,7 +10,7 @@ function App() {
     <>
       <Approuter />
       {/* <LocationModal/> */}
-      <Toaster position="top-right" reverseOrder={false} toastOptions={{
+      <Toaster position="top-center" reverseOrder={false} toastOptions={{
         duration: 500, // Customize duration
         style: {
           animation: "slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 2.5s",

@@ -416,7 +416,7 @@ const HomrProducts = () => {
                                     <div className="relative group ">
                                         <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
                                             {/* wishlist & cart */}
-                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold      duration-300">
+                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
                                                 {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
                                                     <>
                                                         {cartItems.some(item => item._id === prod._id) ? (

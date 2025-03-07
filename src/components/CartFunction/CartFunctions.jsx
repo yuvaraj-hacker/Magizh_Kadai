@@ -616,10 +616,6 @@ export default function CartPageFunctions() {
                 goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}
                 isPickupTimeSelected={isPickupTimeSelected} datevisible={datevisible} setDatevisible={setDatevisible} thisWeekDates={thisWeekDates} nextWeekDates={nextWeekDates}
                 handleDateClick={handleDateClick} isSelected={isSelected} showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} checkoutlogin={checkoutlogin} />
-
-
-
-
         </>
     )
 }
