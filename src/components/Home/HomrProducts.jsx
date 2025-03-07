@@ -421,7 +421,7 @@ const HomrProducts = () => {
                                                     <>
                                                         {cartItems.some(item => item._id === prod._id) ? (
                                                             // Show Increment & Decrement (or Delete) Controls
-                                                            <div onClick={(e) => { e.preventDefault() }} className="flex  items-center md:gap-2 gap-1 bg-gray-100   rounded-full  ">
+                                                            <div onClick={(e) => { e.preventDefault() }} className="flex  items-center md:gap-2 gap-1 bg-gray-100  overflow-hidden  rounded-full  ">
                                                                 {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
                                                                     // Show Delete Icon if Quantity is 1
                                                                     <button
@@ -445,7 +445,7 @@ const HomrProducts = () => {
 
                                                                 <button
                                                                     onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }}
-                                                                    className="  text-lg p-1 px-2  text-primary "
+                                                                    className="  text-lg p-1 px-2  text-primary   "
                                                                 >
                                                                     +
                                                                 </button>
