@@ -54,13 +54,20 @@ export default {
       },
       animation: {
         'heart-beat': 'heartBeat 0.5s ease-in-out',
+        scaleIn: "scaleIn 0.5s ease-out",
       },
       keyframes: {
         heartBeat: {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
-        }
+        },
+        scaleIn: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" }, // Slight zoom
+          "100%": { transform: "scale(1)" },
+        },
       }
+
     },
   },
   plugins: [

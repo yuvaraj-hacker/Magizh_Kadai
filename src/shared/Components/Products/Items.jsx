@@ -1,13 +1,51 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { Link, useLocation } from 'react-router-dom';
 import apiurl from '../../services/apiendpoint/apiendpoint';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 const Items = (prpos) => {
   const { products, placements, handleAddToCart, handleAddToWishlist, setSort, wishlistData, scrolled, queryParams, setIssidebaropen, cartItems, removeItem, decreaseQuantity, } = prpos;
 
   const location = useLocation();
+  const [sortDirection, setSortDirection] = useState('desc');
+  const [lastAdded, setLastAdded] = useState(null);
+  const [clickedProductId, setClickedProductId] = useState(null);
+  const [glowEffect, setGlowEffect] = useState(false);
+
+
+  // Run effect only when the component mounts or when coming back from product details
+  useEffect(() => {
+    const storedProductId = sessionStorage.getItem("clickedProductId");
+    if (storedProductId) {
+      setClickedProductId(storedProductId);
+      setGlowEffect(true); // Enable glow effect
+
+      // Remove glow effect after 2 seconds
+      const glowTimeout = setTimeout(() => {
+        setGlowEffect(false);
+      }, 2000);
+
+      // Cleanup timeout when component unmounts
+      return () => clearTimeout(glowTimeout);
+    }
+  }, []); // Run only on mount
+
+  useEffect(() => {
+    // Function to clear highlight on any user interaction
+    const removeHighlight = () => {
+      sessionStorage.removeItem("clickedProductId");
+      setClickedProductId(null);
+    };
+
+    document.addEventListener("click", removeHighlight);
+    document.addEventListener("keydown", removeHighlight); // Clear on keyboard actions
+
+    return () => {
+      document.removeEventListener("click", removeHighlight);
+      document.removeEventListener("keydown", removeHighlight);
+    };
+  }, []);
 
 
 
@@ -36,11 +74,16 @@ const Items = (prpos) => {
     }
   }, [products]);
 
+  const toggleSortDirection = () => {
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+  };
+
+
   return (
     <>
       <section className="2xl:px-5">
-        <div className={`w-full sticky top-[50px] lg:top-[126px] xl:top-[130px] bg-white z-30 ${scrolled ? '' : ''}`}>
-          <div className="pt-3 md:px-6 px-2  md:hidden block  ">
+        <div className={`w-full sticky top-[105px] lg:top-[126px] xl:top-[130px] bg-white z-30 ${scrolled ? '' : ''}`}>
+          <div className="pt-3 md:px-6 px-2  md:hidden hidden  ">
             <div className="font-bold text-primary flex gap-2 md:text-xl text-sm">
               {queryParams.get("category") ? (
                 <>
@@ -93,9 +136,9 @@ const Items = (prpos) => {
               <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">({`${products.length} results`})</div>
             </div>
 
-            <div className=" flex  items-center md:gap-5 gap-2  ">
-              <div className='inline-flex items-center gap-2 md:block '>
-                <Select labelPlacement={placements[0]} size='sm'
+            <div className=" flex  items-center md:gap-3 gap-2  ">
+              <div className='inline-flex  items-center gap-2 md:block '>
+                {/* <Select labelPlacement={placements[0]} size='sm'
                   label={
                     <div className='flex items-center justify-center gap-3'>
                       <i className="fi fi-br-bars-sort md:text-base text-sm"></i>
@@ -104,13 +147,39 @@ const Items = (prpos) => {
                   } className="w-40 max-w-xs lg:w-60" classNames={{ trigger: " dark:bg-gray-100 dark:text-black bg-gray-50", listbox: " dark:bg-gray-200 dark:text-black bg-gray-50", popover: " dark:bg-gray-200 dark:text-black bg-gray-50" }}  >
                   <SelectItem onClick={() => setSort(1)}>Price: Low to High</SelectItem>
                   <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
-                </Select>
+                </Select> */}
+                <div className="flex gap-3 items-center bg-gray-200  md:p-1 rounded-md">
+                  <p className=" md:block hidden font-bold">Price :</p>
+                  <button
+                    onClick={toggleSortDirection}
+                    className="md:p-2.5 p-1.5 rounded-md   transition-colors duration-200 relative group bg-primary text-white"
+                    aria-label={sortDirection === 'asc' ? 'Sort Low to High' : 'Sort High to Low'}
+                  >
+                    {sortDirection === 'asc' ? (
+                      <svg onClick={() => setSort(-1)} className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
+                      </svg>
+                    ) : (
+                      <svg onClick={() => setSort(1)} className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                      </svg>
+                    )}
+                    <span className="absolute invisible group-hover:visible bg-gray-800 text-white text-xs rounded  whitespace-nowrap p-2 md:block hidden ">
+                      {sortDirection === 'asc' ? 'High to Low' : 'Low to High'}
+                    </span>
+                  </button>
+                </div>
+
               </div>
-              <div className="  block text-end   bg-primary rounded-md  p-4 md:p-3   cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
-                <div className="flex justify-end gap-4 items-center w-fit   ">
-                  <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-white"></i>
+              <div className="flex gap-3 items-center bg-gray-200 md:p-1 rounded-md">
+                <p className=" md:block hidden font-bold ">Filter :</p>
+                <div className="  block text-end   bg-primary rounded-md    md:p-3 p-2.5  cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+                  <div className="flex justify-end gap-4 items-center w-fit   ">
+                    <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-white"></i>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -130,20 +199,20 @@ const Items = (prpos) => {
               if (b.QTY === 0) return -1;
               return 0;
             }).map((prod, i) => (
-              <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
+              <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
                 <div key={i} className="relative group ">
-                  <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]">
+                  <div className={`w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]  ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
                     {/* wishlist & cart */}
                     <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 font-semibold  ">
                       {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
                         <>
                           {cartItems.some(item => item._id === prod._id) ? (
                             // Show Increment & Decrement (or Delete) Controls
-                            <div onClick={(e) => { e.preventDefault() }} className="flex items-center gap-2 bg-gray-100  rounded-full  ">
+                            <div onClick={(e) => { e.preventDefault() }} className={`flex items-center gap-2 bg-gray-100  rounded-full  border-2 ${lastAdded === prod._id ? ' border-primary' : 'border-transparent'}   `}>
                               {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
                                 // Show Delete Icon if Quantity is 1
                                 <button
-                                  onClick={(e) => { e.preventDefault(); removeItem(prod._id); }}
+                                  onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }}
                                   className="text-red-500 hover:text-red-700    p-1 px-2"
                                 >
                                   <i class="fi fi-rr-trash flex items-center text-sm  "></i>
@@ -151,7 +220,7 @@ const Items = (prpos) => {
                               ) : (
                                 // Show Minus Button if Quantity > 1
                                 <button
-                                  onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); }}
+                                  onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); }}
                                   className="text-primary text-lg    p-1 px-2"
                                 >
                                   -
@@ -162,16 +231,17 @@ const Items = (prpos) => {
                                 {cartItems.find(item => item._id === prod._id)?.Quantity}
                               </span>
 
-                              <button
-                                onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }}
-                                className="  text-lg p-1 px-2  text-primary "
-                              >
-                                +
+                              <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg p-1 px-2  text-primary   "   >
+                                {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                  <>
+                                    +
+                                  </>
+                                )}
                               </button>
                             </div>
                           ) : (
                             // Show Add to Cart Button if Product is NOT in Cart
-                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center   rounded-full     " >
+                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
                               <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
                             </button>
                           )}

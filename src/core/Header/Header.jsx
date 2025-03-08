@@ -54,10 +54,12 @@ export default function Header(props) {
 
   const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
   const [prevWishlistCount, setPrevWishlistCount] = useState(0);
-  const locations = useLocation;
 
 
-  const isActive = (path) => locations.pathname === path;
+  const locations = useLocation();
+  const params = new URLSearchParams(locations.search);
+  const activeCategory = params.get("category"); // Get category from URL query
+
 
 
   const allCategories = useCallback(async () => {
@@ -631,21 +633,25 @@ export default function Header(props) {
               </div>
             </div>
           </div> */}
-          <div className='bg-gray-50 border border-y-gray-300 relative'>
-            <div className="p-2 max-w-[65rem] mx-auto bg-gray-50 relative text-primary lg:block hidden" onMouseLeave={() => setHoveredCategory(null)}>
-              <div className="flex flex-col lg:flex-row flex-wrap gap-2">
+          <div className='bg-gray-50 border border-y-gray-300 relative overflow-hidden'>
+            <div className="p-2 max-w-[65rem] mx-auto bg-gray-50 relative text-primary " onMouseLeave={() => setHoveredCategory(null)}>
+              <div className="flex overflow-y-auto scrollbar-hide gap-2">
                 {sortedCategories.map((category) => (
-                  <div key={category.Category_Name} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
+                  <div key={category.Category_Name}   ref={(el) => {
+                    if (activeCategory === category.Category_Name && el) {
+                      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                    }
+                  }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
                     onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
                     <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
                       <p className="whitespace-nowrap font-bold xl:text-base text-sm">{category.Category_Name}</p>
-                      {/* {category.Subcategories && category.Subcategories.length > 0 && (
-                        <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
-                      )} */}
                     </Link>
                   </div>
                 ))}
               </div>
+              {/* {category.Subcategories && category.Subcategories.length > 0 && (
+                        <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
+                      )} */}
               {/* {hoveredCategory && categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories?.length > 0 && (
                 <div className="absolute left-0 w-full bg-gray-50  shadow-md transition-all duration-300 border border-secondary ease-in-out">
                   <div className="max-w-[70rem] mx-auto p-4 grid grid-cols-3 gap-">

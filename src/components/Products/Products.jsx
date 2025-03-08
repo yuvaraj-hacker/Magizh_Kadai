@@ -258,7 +258,7 @@ const Products = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-                toast.success(`Quantity increased! (${updatedQuantity})`);
+                // toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
                 // ✅ Add new product to cart
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
@@ -369,13 +369,13 @@ const Products = () => {
                                     </div>
                                 </div>
                                 <div className=" border-b p-4 flex justify-between items-center">
-                                    <div className=" text-sm text-black ">FILTERS</div>
-                                    <div className=" text-sm cursor-pointer text-blue-400  bg-white hover:bg-gray-50 p-2" onClick={clearFilters}>
+                                    <div className=" text-sm text-primary  font-bold">FILTERS</div>
+                                    <div className=" text-sm cursor-pointer text-red-400  bg-white rounded-lg hover:bg-gray-50 p-2" onClick={clearFilters}>
                                         CLEAR ALL
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-4 border-b ">
-                                    <div className=" text-sm text-gray-600 ">CATEGORIES</div>
+                                    <div className=" text-sm text-primary font-semibold ">CATEGORIES</div>
                                     <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
                                         <ul className=" text-xs ">
                                             {categories.map((category) => {
@@ -392,7 +392,7 @@ const Products = () => {
                                                         <Link to={linkTo}>
                                                             <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
                                                                 <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
-                                                                <h5 className="whitespace-pre-wrap text-gray-500">
+                                                                <h5 className="whitespace-pre-wrap text-primary">
                                                                     {category.Category_Name}
                                                                 </h5>
                                                             </div>
@@ -405,7 +405,7 @@ const Products = () => {
                                 </div>
 
                                 <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
-                                    <h1 className="text-sm text-gray-600 uppercase">Price</h1>
+                                    <h1 className="text-sm text-primary font-semibold  uppercase">Price</h1>
                                     <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
                                         <span className="text-primary font-semibold">₹{price[0]}</span> -
                                         <span className="text-primary font-semibold"> ₹{price[1]}</span>
@@ -425,12 +425,12 @@ const Products = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-4 border-b">
-                                    <h1 className="text-sm text-gray-600 uppercase">Discount</h1>
+                                    <h1 className="text-sm text-primary font-semibold  uppercase">Discount</h1>
                                     <div className='text-xs space-y-2'>
                                         {[20, 30, 40, 50, 60].map((discount) => (
                                             <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
                                                 <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
-                                                <h5 className="whitespace-pre-wrap text-gray-500 flex items-center">
+                                                <h5 className="whitespace-pre-wrap   flex items-center text-primary">
                                                     {discount}% or more
                                                 </h5>
                                             </label>

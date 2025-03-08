@@ -8,7 +8,6 @@ import HeaderFunction from "../Header/HeaderFunction";
 
 
 const Main = () => {
-
     const isProfilePage = window.location.pathname === '/profile';
     const [TogSidecat, setTogSidecat] = useState(false);
 
@@ -19,7 +18,7 @@ const Main = () => {
                 <Layout />
             </div> */}
             <Sidebar setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />
-            <main className="md:pt-[41px] pt-[50px] lg:pt-[130px]">
+            <main className="md:pt-[101px] pt-[100px] lg:pt-[130px]">
                 <Outlet />
                 {!isProfilePage || window.innerWidth >= 1024 ? (
                     <Footer className="hidden md:block" setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />

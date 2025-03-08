@@ -158,28 +158,34 @@ const ProductView = (props) => {
               )}
             </div>
             {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && (
-              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[48px] z-10 bg-white'>
+              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[103px] z-10 bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                   <>
                     <>
                       {getCurrentCartQuantity() === 0 ? (
-                        <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
+                        <button className="flex items-center justify-center gap-2 w-full md:p-5 p-3 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
                           <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                           Add to Cart
                         </button>
                       ) : (
-                        <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
-                          <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
-                          <span className="md:mx-2">{getCurrentCartQuantity()} in cart</span>
+                        <button className="flex items-center justify-between gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl bg-primary transition-colors">
                           {getCurrentCartQuantity() >= 1 ? (
-                            <div className='flex   justify-between md:gap-2 gap-1'>
-                              <button className=' rounded-3xl  cursor-pointer disabled:cursor-not-allowed bg-white border  disabled:bg-white/80'   onClick={handleDecreaseQuantity}>
-                                <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" />
-                              </button>
-                              <button className=' rounded-3xl bg-white border flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
-                                <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " />
-                              </button>
-                            </div>
+                            <button className='  cursor-pointer disabled:cursor-not-allowed    disabled:bg-white/80' onClick={handleDecreaseQuantity}>
+                              {/* <ChevronDownIcon className="md:w-6 md:h-6 w-4 h-4 text-primary" /> */}
+                              <i class="fi fi-bs-minus-circle  md:text-xl flex items-center"></i>
+                            </button>
+                          ) : (
+                            <></>
+                          )}
+                          <div className='flex gap-2 items-center'>
+                            <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
+                            <span className=" md:text-base text-xs">{getCurrentCartQuantity()} in cart</span>
+                          </div>
+                          {getCurrentCartQuantity() >= 1   ? (
+                            <button className='    flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                              {/* <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " /> */}
+                              <i class="fi fi-br-add  md:text-xl flex items-center"></i>
+                            </button>
                           ) : (
                             <div>
                             </div>

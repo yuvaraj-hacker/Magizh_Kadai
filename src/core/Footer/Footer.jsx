@@ -75,7 +75,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                            <div className='flex flex-col justify-center md:gap-4 gap-2 items-center md:my-0 my-2'>
                               <div className='bg-white p-3 rounded-md  '>
                                  <Link to='/'>
-                                    <img className='cursor-pointer md:w-40 w-28  ' src="/images/Logo/Logo.png" alt="" />
+                                    <img className='cursor-pointer md:w-40 w-32  ' src="/images/Logo/Logo.png" alt="" />
                                  </Link>
                               </div>
                               <div className='md:space-y-2 flex  gap-3 md:gap-0 items-center   md:flex-col flex-row '>
@@ -84,16 +84,16 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                  </div>
                                  <div className='flex gap-3 justify-center'>
                                     <a href='https://www.facebook.com/people/Magizh-Kadai/61572463483920/' target='_blank'  >
-                                       <img className='md:w-7 w-5' src="/images/Social/facebook.png" alt="" />
+                                       <img className='md:w-7 w-7' src="/images/Social/facebook.png" alt="" />
                                     </a>
                                     <a href='https://www.instagram.com/magizhkadai_official/?hl=en' target='_blank'>
-                                       <img className='md:w-7 w-5' src="/images/Social/insta.png" alt="" />
+                                       <img className='md:w-7 w-7' src="/images/Social/insta.png" alt="" />
                                     </a>
                                     {/* <a href='https://wa.me/918825695060' target='_blank' rel='noopener noreferrer'>
                                        <i className="fi fi-brands-whatsapp md:text-xl"></i>
                                     </a> */}
                                     <a href='https://www.youtube.com/@Magizhkadai' target='_blank' rel='noopener noreferrer'>
-                                       <img className='md:w-7 w-5' src="/images/Social/youtube.png" alt="" />
+                                       <img className='md:w-7 w-7' src="/images/Social/youtube.png" alt="" />
                                     </a>
                                  </div>
                               </div>

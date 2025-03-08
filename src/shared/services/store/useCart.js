@@ -94,7 +94,7 @@ const useCart = create((set) => ({
             const updatedCartItems = state.cartItems.map(item => {
                 if (item._id === productId && item.Quantity > 1) {
                     const newQuantity = item.Quantity - 1;
-                    toast.success(`Quantity decreased to ${newQuantity}` );
+                    // toast.success(`Quantity decreased to ${newQuantity}` );
                     return { ...item, Quantity: newQuantity};
                 }
                 return item;

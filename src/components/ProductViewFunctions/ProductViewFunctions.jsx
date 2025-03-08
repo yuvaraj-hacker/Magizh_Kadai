@@ -74,9 +74,8 @@ export default function ProductViewFunctions() {
                     await updatecartItem(cartItem._id, product._id, currentQuantity + 1, userdetails.Email);
                 }
             }
-
             increaseQuantity(product._id);
-            toast.success(`Quantity increased! ${currentQuantity + 1}`);
+            // toast.success(`Quantity increased! ${currentQuantity + 1}`);
         } catch (error) {
             toast.error("Failed to update quantity");
             console.error("Error updating quantity:", error);
@@ -112,7 +111,7 @@ export default function ProductViewFunctions() {
                 }
             }
             removeItem(product._id);
-           
+
         } catch (error) {
             toast.error("Failed to remove item");
             console.error("Error removing cart item:", error);

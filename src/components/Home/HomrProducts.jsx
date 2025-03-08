@@ -31,7 +31,6 @@ const HomrProducts = () => {
     const [scrolled, setScrolled] = useState(false);
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState(null);
-
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") ? searchParams.get("category").split(",") : []);
@@ -47,6 +46,84 @@ const HomrProducts = () => {
     const [selectedDiscounts, setSelectedDiscounts] = useState([]);
     const { pathname, search } = location;
     const shouldShowFilter = pathname === "/products" && !search;
+    const [lastAdded, setLastAdded] = useState(null);
+    const [clickedProductId, setClickedProductId] = useState(null);
+    const [glowEffect, setGlowEffect] = useState(false);
+
+
+
+
+    // Run effect only when the component mounts or when coming back from product details
+    useEffect(() => {
+        const storedProductId = sessionStorage.getItem("clickedProductId");
+        if (storedProductId) {
+            setClickedProductId(storedProductId);
+            setGlowEffect(true); // Enable glow effect
+
+            // Remove glow effect after 2 seconds
+            const glowTimeout = setTimeout(() => {
+                setGlowEffect(false);
+            }, 2000);
+
+            // Cleanup timeout when component unmounts
+            return () => clearTimeout(glowTimeout);
+        }
+    }, []); // Run only on mount
+
+    useEffect(() => {
+        // Function to clear highlight on any user interaction
+        const removeHighlight = () => {
+            sessionStorage.removeItem("clickedProductId");
+            setClickedProductId(null);
+        };
+
+        document.addEventListener("click", removeHighlight);
+        document.addEventListener("keydown", removeHighlight); // Clear on keyboard actions
+
+        return () => {
+            document.removeEventListener("click", removeHighlight);
+            document.removeEventListener("keydown", removeHighlight);
+        };
+    }, []); // Runs only once on mount
+
+    // useEffect(() => {
+    //     const storedLastAdded = sessionStorage.getItem("lastAddedToCart");
+    //     if (storedLastAdded) {
+    //       setLastAdded(storedLastAdded);
+    //       setHighlight(true); // Enable the glow effect
+    //       // Remove glow effect after 2 seconds
+    //       setTimeout(() => {
+    //         setHighlight(false);
+    //       }, 2000);
+    //     }
+    //   }, []);
+
+    //   useEffect(() => {
+    //     const removeHighlight = () => {
+    //       sessionStorage.removeItem("lastAddedToCart");
+    //       setLastAdded(null);
+    //     };
+
+    //     document.addEventListener("click", removeHighlight);
+    //     document.addEventListener("keydown", removeHighlight);
+
+    //     return () => {
+    //       document.removeEventListener("click", removeHighlight);
+    //       document.removeEventListener("keydown", removeHighlight);
+    //     };
+    //   }, []);
+
+    //   const handleAddToCart = (prod) => {
+    //     sessionStorage.setItem("lastAddedToCart", prod._id);
+    //     setLastAdded(prod._id);
+    //     setHighlight(true);
+    //   };
+
+    //   const removeItem = (prodId) => {
+    //     sessionStorage.setItem("lastAddedToCart", prodId);
+    //     setLastAdded(prodId);
+    //   };
+
 
 
     const handleDiscountChange = (discount) => {
@@ -257,11 +334,16 @@ const HomrProducts = () => {
             const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
             const updatedQuantity = currentQuantity + increment;
 
+            console.log(existingCartItem?.Quantity)
             // ✅ Prevent exceeding stock limit
-            if (updatedQuantity > prod.QTY) {
+            if (existingCartItem?.Quantity >= prod.QTY) {
                 toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
                 return;
             }
+
+            // const cartQuantity = cartItems.find(item => item._id === prod._id)?.Quantity;
+
+
 
             if (existingCartItem) {
                 // ✅ Update cart item if it already exists
@@ -274,7 +356,8 @@ const HomrProducts = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-                toast.success(`Quantity increased! (${updatedQuantity})`);
+                // console.log(updatedQuantity)
+                // toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
                 // ✅ Add new product to cart
                 const initialQuantity = isFreshProduce ? 0.5 : 1;
@@ -287,14 +370,17 @@ const HomrProducts = () => {
                     await savecartitems(cartData);
                 }
                 addToCart({ ...prod, Quantity: initialQuantity });
+                console.log(initialQuantity)
                 toast.success(`Product added to cart!   (${initialQuantity})`);
                 updateTotalCartItems();
+
             }
         } catch (error) {
             toast.error("Failed to add product to cart.");
             console.error("Error adding product to cart:", error);
         }
     };
+
 
     // const handleAddToCart = async (product) => {
     //     if (product.QTY === 0) {
@@ -389,6 +475,8 @@ const HomrProducts = () => {
         }
     }, [products]);
 
+    // const clickedProductId = sessionStorage.getItem("clickedProductId");
+
     return (
         <>
             {isLoading ? (
@@ -412,20 +500,20 @@ const HomrProducts = () => {
                                 if (b.QTY === 0) return -1;
                                 return 0;
                             }).map((prod, i) => (
-                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} key={i} onClick={() => sessionStorage.setItem("scrollPosition", window.scrollY)}>
+                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} key={i} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
                                     <div className="relative group ">
-                                        <div className="w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ">
+                                        <div className={`w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
                                             {/* wishlist & cart */}
                                             <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
                                                 {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
                                                     <>
                                                         {cartItems.some(item => item._id === prod._id) ? (
                                                             // Show Increment & Decrement (or Delete) Controls
-                                                            <div onClick={(e) => { e.preventDefault() }} className="flex  items-center md:gap-2 gap-1 bg-gray-100  overflow-hidden  rounded-full  ">
+                                                            <div onClick={(e) => { e.preventDefault() }} className={`flex  items-center md:gap-2 gap-1 bg-gray-100  overflow-hidden  rounded-full  border-2 ${lastAdded === prod._id ? ' border-primary' : 'border-transparent'}   `}>
                                                                 {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
                                                                     // Show Delete Icon if Quantity is 1
                                                                     <button
-                                                                        onClick={(e) => { e.preventDefault(); removeItem(prod._id); }}
+                                                                        onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }}
                                                                         className="text-red-500 hover:text-red-700    p-1 px-2"
                                                                     >
                                                                         <i class="fi fi-rr-trash flex items-center text-sm  "></i>
@@ -433,7 +521,7 @@ const HomrProducts = () => {
                                                                 ) : (
                                                                     // Show Minus Button if Quantity > 1
                                                                     <button
-                                                                        onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); }}
+                                                                        onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }}
                                                                         className="text-primary text-lg    p-1 px-2"
                                                                     >
                                                                         -
@@ -441,18 +529,28 @@ const HomrProducts = () => {
                                                                 )}
                                                                 <span className="text-primary text-sm font-bold  ">
                                                                     {cartItems.find(item => item._id === prod._id)?.Quantity}
+                                                                    {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
+                                                                        <>
+                                                                            <span className="text-red-500 ml-1"> (Limit reached!)</span>
+
+                                                                        </>
+
+                                                                    )} */}
+
                                                                 </span>
 
-                                                                <button
-                                                                    onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }}
-                                                                    className="  text-lg p-1 px-2  text-primary   "
-                                                                >
-                                                                    +
+                                                                <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg p-1 px-2  text-primary   "   >
+                                                                    {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                                                        <>
+                                                                            +
+                                                                        </>
+                                                                    )}
                                                                 </button>
+
                                                             </div>
                                                         ) : (
                                                             // Show Add to Cart Button if Product is NOT in Cart
-                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); }} className="flex justify-center items-center   rounded-full     " >
+                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
                                                                 <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
                                                             </button>
                                                         )}
