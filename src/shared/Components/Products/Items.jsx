@@ -112,10 +112,7 @@ const Items = (prpos) => {
                       // Show only if one category is selected
                       if (categories.length === 1) {
                         return (
-                          <Link
-                            to={`/products?category=${encodeURIComponent(queryParams.get("category"))}`}
-                            className="text-primary font-bold hover:underline"
-                          >
+                          <Link to={`/products?category=${encodeURIComponent(queryParams.get("category"))}`} className="text-primary font-bold hover:underline" >
                             {categories[0]}
                           </Link>
                         );
@@ -130,7 +127,6 @@ const Items = (prpos) => {
                   {queryParams.get("subcategory") && (
                     <div className="font-medium"> / {decodeURIComponent(queryParams.get("subcategory"))}</div>
                   )}
-
                 </div>
               </div>
               <div className="  dark:text-black md:text-base text-xs  font-bold dark:bg-white dark:p-2 dark:rounded-3xl">({`${products.length} results`})</div>
@@ -148,22 +144,20 @@ const Items = (prpos) => {
                   <SelectItem onClick={() => setSort(1)}>Price: Low to High</SelectItem>
                   <SelectItem onClick={() => setSort(-1)}>Price: High To Low</SelectItem>
                 </Select> */}
-                <div className="flex gap-3 items-center bg-gray-200  md:p-1 rounded-md">
-                  <p className=" md:block hidden font-bold">Price :</p>
-                  <button
-                    onClick={toggleSortDirection}
-                    className="md:p-2.5 p-1.5 rounded-md   transition-colors duration-200 relative group bg-primary text-white"
-                    aria-label={sortDirection === 'asc' ? 'Sort Low to High' : 'Sort High to Low'}
-                  >
+                <div className="flex gap-3 items-center bg-primary  rounded-md md:p-2 p-1">
+                  <p className=" block   text-white md:text-base text-sm">Price :</p>
+                  <button onClick={toggleSortDirection} className=" rounded-md   transition-colors duration-200 relative group  bg-white  p-1 text-primary"
+                    aria-label={sortDirection === 'asc' ? 'Sort Low to High' : 'Sort High to Low'}  >
                     {sortDirection === 'asc' ? (
-                      <svg onClick={() => setSort(-1)} className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <svg onClick={() => setSort(-1)} className="w-5 h-5  font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
                       </svg>
                     ) : (
-                      <svg onClick={() => setSort(1)} className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <svg onClick={() => setSort(1)} className="w-5 h-5  font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                       </svg>
                     )}
+                    {/* <i className="fi fi-br-sort-alt"></i> */}
                     <span className="absolute invisible group-hover:visible bg-gray-800 text-white text-xs rounded  whitespace-nowrap p-2 md:block hidden ">
                       {sortDirection === 'asc' ? 'High to Low' : 'Low to High'}
                     </span>
@@ -171,11 +165,11 @@ const Items = (prpos) => {
                 </div>
 
               </div>
-              <div className="flex gap-3 items-center bg-gray-200 md:p-1 rounded-md">
-                <p className=" md:block hidden font-bold ">Filter :</p>
-                <div className="  block text-end   bg-primary rounded-md    md:p-3 p-2.5  cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
+              <div className="flex gap-3 items-center bg-primary  rounded-md   md:p-2 p-2">
+                <p className=" md:block hidden  text-white ">Filter :</p>
+                <div className="  block text-end   md:bg-white  rounded-md  md:p-1.5 p-0.5 cursor-pointer" onClick={() => setIssidebaropen(prev => !prev)}>
                   <div className="flex justify-end gap-4 items-center w-fit   ">
-                    <i className="fi fi-rr-settings-sliders flex items-center  md:text-base text-sm text-white"></i>
+                    <i className="fi fi-rr-settings-sliders flex items-center font-bold   md:text-base text-sm md:text-primary text-white"></i>
                   </div>
                 </div>
               </div>
@@ -201,43 +195,49 @@ const Items = (prpos) => {
             }).map((prod, i) => (
               <Link to={`/product-details/${prod._id}`} state={{ product: prod }} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
                 <div key={i} className="relative group ">
-                  <div className={`w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]  ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
+                  <div className={`w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px]  ${lastAdded === prod._id ? ' border-primary' : ' '}  ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary border-2 " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
                     {/* wishlist & cart */}
+                    {prod.Category === "New Arrivals" && (
+                      <>
+                        <div className="absolute -top-2 -left-2 z-10">
+                          <img className="md:w-20 w-16" src="/images/Design/fin.gif" alt="" />
+                        </div>
+                      </>
+                    )}
+
                     <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2 font-semibold  ">
-                      {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
+                      {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
                         <>
                           {cartItems.some(item => item._id === prod._id) ? (
                             // Show Increment & Decrement (or Delete) Controls
-                            <div onClick={(e) => { e.preventDefault() }} className={`flex items-center gap-2 bg-gray-100  rounded-full  border-2 ${lastAdded === prod._id ? ' border-primary' : 'border-transparent'}   `}>
+                            <div onClick={(e) => { e.preventDefault() }} className={`  items-center gap-2 bg-gray-100  md:w-[92px] w-[77px] grid grid-cols-3 rounded-full  border-2 ${lastAdded === prod._id ? ' border-primary' : 'border-secondary border-2'}   `}>
                               {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
                                 // Show Delete Icon if Quantity is 1
                                 <button
                                   onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }}
-                                  className="text-red-500 hover:text-red-700    p-1 px-2"
+                                  className="text-red-500 hover:text-red-700  flex items-center    p-1 px-1"
                                 >
-                                  <i class="fi fi-rr-trash flex items-center text-sm  "></i>
+                                  <i className="fi fi-rr-trash flex items-center text-sm "></i>
                                 </button>
                               ) : (
                                 // Show Minus Button if Quantity > 1
-                                <button
-                                  onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); }}
-                                  className="text-primary text-lg    p-1 px-2"
-                                >
-                                  -
+                                <button onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); }}
+                                  className="text-primary text-lg    p-1 px-1 flex items-center"   >
+                                  {/* - */}
+                                  <i class="fi fi-rr-minus-small flex items-center"></i>
                                 </button>
                               )}
-
-                              <span className="text-primary text-sm font-bold">
+                              <span className="text-primary text-sm font-bold  mx-auto   ">
                                 {cartItems.find(item => item._id === prod._id)?.Quantity}
                               </span>
-
-                              <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg p-1 px-2  text-primary   "   >
-                                {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                              {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center    text-primary">
                                   <>
-                                    +
+                                    {/* + */}
+                                    <i class="fi fi-rr-plus-small flex items-center"></i>
                                   </>
-                                )}
-                              </button>
+                                </button>
+                              )}
                             </div>
                           ) : (
                             // Show Add to Cart Button if Product is NOT in Cart
@@ -306,6 +306,11 @@ const Items = (prpos) => {
                               <p className="">Limited Stock</p>
                             </div>
                           )}
+                          {(prod.Category == "Upcoming Arrivals") && (
+                            <div className="bg-indigo-500 p-1 text-white md:text-[9px] text-[7px]  rounded-full w-fit  ">
+                              <p className="">Upcoming Arrivals</p>
+                            </div>
+                          )}
                         </div>
                         <div className="flex items-center md:gap-3 gap-2 order-2 lg:order-1">
                           {prod.Discount > 0 && (
@@ -316,7 +321,6 @@ const Items = (prpos) => {
                               <h3 className="md:text-sm text-xs text-third line-through  dark:text-white">
                                 ₹{parseFloat(prod?.Regular_Price)}
                               </h3>
-
                             </>
                           )}
                           {prod?.Discount === 0 && prod?.Sale_Price > 0 && (

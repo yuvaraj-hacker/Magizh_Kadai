@@ -362,7 +362,7 @@ const Tableview = (props) => {
             // <SwiperSlide key={index} className="flex items-center justify-center">
             <img
               src={`${apiurl()}/${rowData.Images[0]}`}
-              className="object-cover h-16 transition-transform duration-200 rounded-lg shadow-sm w-28 group-hover:scale-105"
+              className="object-cover bg-contain h-16 transition-transform duration-200 rounded-lg shadow-sm w-28 group-hover:scale-105"
               alt={rowData.Product_Name}
             />
             // </SwiperSlide>
@@ -580,12 +580,10 @@ const Tableview = (props) => {
           </button>
 
         </div>
-
-
         <TableHeader />
       </div>
 
-      <div     >
+      <div>
         <DataTable
           value={tabledata}
           size='small'
@@ -593,7 +591,7 @@ const Tableview = (props) => {
           // scrollHeight="650px"
           scrollHeight="calc(100vh - 200px)"
           className="!text-sm producttable "
-          rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200     '}
+          rowClassName={() => ' border border-b-primary border-r-primary transition-colors duration-200'}
           showGridlines={false}
           stripedRows
           responsiveLayout="scroll"
@@ -623,7 +621,7 @@ const Tableview = (props) => {
           <Column
             header="Images"
             body={image}
-            headerClassName="text-white bg-primary "
+            headerClassName="text-white bg-primary  "
             className="text-center"
           />
           {columns
@@ -655,7 +653,6 @@ const Tableview = (props) => {
                   header={col.header}
                   body={col.body}
                   headerClassName="text-white bg-primary  "
-
                 />
               )
             ))}

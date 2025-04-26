@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
 import { SyncLoader } from "react-spinners";
+import Category from "../../admin/components/Category/Category";
 // import toast from "react-hot-toast";
 // import { deletecartItem, savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 
@@ -329,22 +330,11 @@ const HomrProducts = () => {
             );
             const isFreshProduce = prod.Category === "Fresh Produce";
             const increment = isFreshProduce ? 0.5 : 1;
-
             // Get current cart quantity
             const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
             const updatedQuantity = currentQuantity + increment;
-
-            console.log(existingCartItem?.Quantity)
             // ✅ Prevent exceeding stock limit
-            if (existingCartItem?.Quantity >= prod.QTY) {
-                toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
-                return;
-            }
-
             // const cartQuantity = cartItems.find(item => item._id === prod._id)?.Quantity;
-
-
-
             if (existingCartItem) {
                 // ✅ Update cart item if it already exists
                 if (userdetails?.Email) {
@@ -356,7 +346,11 @@ const HomrProducts = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-                // console.log(updatedQuantity)
+                if (updatedQuantity === prod.QTY) {
+                    toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
+                    return;
+                }
+
                 // toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
                 // ✅ Add new product to cart
@@ -370,10 +364,10 @@ const HomrProducts = () => {
                     await savecartitems(cartData);
                 }
                 addToCart({ ...prod, Quantity: initialQuantity });
-                console.log(initialQuantity)
-                toast.success(`Product added to cart!   (${initialQuantity})`);
+                // console.log(initialQuantity)
+                toast.success(`Product added to cart! (${initialQuantity})`);
+                // console.log(updateTotalCartItems())
                 updateTotalCartItems();
-
             }
         } catch (error) {
             toast.error("Failed to add product to cart.");
@@ -499,35 +493,42 @@ const HomrProducts = () => {
                                 if (a.QTY === 0) return 1;
                                 if (b.QTY === 0) return -1;
                                 return 0;
-                            }).map((prod, i) => (
+                            }).filter((item) => item.Category !== "Upcoming Arrivals").map((prod, i) => (
                                 <Link to={`/product-details/${prod._id}`} state={{ product: prod }} key={i} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
                                     <div className="relative group ">
-                                        <div className={`w-full     bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]   h-[250px] ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
+                                        <div className={`w-full bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]    h-[250px]  ${lastAdded === prod._id ? ' border-primary' : ''} ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  border-2 " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
                                             {/* wishlist & cart */}
+                                            {prod.Category === "New Arrivals" && (
+                                                <>
+                                                    <div className="absolute -top-2 -left-2 z-10  ">
+                                                        <img className="md:w-20 w-16" src="/images/Design/fin.gif" alt="" />
+                                                    </div>
+                                                </>
+                                            )}
                                             <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
-                                                {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && (
+                                                {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
                                                     <>
                                                         {cartItems.some(item => item._id === prod._id) ? (
                                                             // Show Increment & Decrement (or Delete) Controls
-                                                            <div onClick={(e) => { e.preventDefault() }} className={`flex  items-center md:gap-2 gap-1 bg-gray-100  overflow-hidden  rounded-full  border-2 ${lastAdded === prod._id ? ' border-primary' : 'border-transparent'}   `}>
+                                                            <div onClick={(e) => { e.preventDefault() }} className={`  md:w-[92px] w-[77px] grid grid-cols-3  items-center md:gap-2 gap-1 bg-gray-100   overflow-hidden  rounded-full   ${lastAdded === prod._id ? ' border-primary border-2' : 'border-secondary border-2'}   `}>
                                                                 {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
                                                                     // Show Delete Icon if Quantity is 1
                                                                     <button
                                                                         onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }}
-                                                                        className="text-red-500 hover:text-red-700    p-1 px-2"
+                                                                        className="text-red-500 hover:text-red-700 flex items-center    p-1 px-1"
                                                                     >
-                                                                        <i class="fi fi-rr-trash flex items-center text-sm  "></i>
+                                                                        <i className="fi fi-rr-trash flex items-center text-sm  "></i>
                                                                     </button>
                                                                 ) : (
                                                                     // Show Minus Button if Quantity > 1
                                                                     <button
                                                                         onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }}
-                                                                        className="text-primary text-lg    p-1 px-2"
+                                                                        className="text-primary text-lg flex items-center   p-1 px-1"
                                                                     >
-                                                                        -
+                                                                        <i class="fi fi-rr-minus-small flex items-center"></i>
                                                                     </button>
                                                                 )}
-                                                                <span className="text-primary text-sm font-bold  ">
+                                                                <span className="text-primary text-sm font-bold  mx-auto ">
                                                                     {cartItems.find(item => item._id === prod._id)?.Quantity}
                                                                     {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
                                                                         <>
@@ -538,14 +539,13 @@ const HomrProducts = () => {
                                                                     )} */}
 
                                                                 </span>
-
-                                                                <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg p-1 px-2  text-primary   "   >
-                                                                    {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                                                {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
                                                                         <>
-                                                                            +
+                                                                            <i class="fi fi-rr-plus-small flex items-center"></i>
                                                                         </>
-                                                                    )}
-                                                                </button>
+                                                                    </button>
+                                                                )}
 
                                                             </div>
                                                         ) : (
@@ -607,6 +607,11 @@ const HomrProducts = () => {
                                                         {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') && (
                                                             <div className="bg-[#f1aa59] p-1 text-white md:text-[9px] text-[7px] rounded-full w-fit  ">
                                                                 <p className="">Limited Stock</p>
+                                                            </div>
+                                                        )}
+                                                        {(prod.Category == "Upcoming Arrivals") && (
+                                                            <div className="bg-indigo-500 p-1 text-white md:text-[9px] text-[7px]  rounded-full w-fit  ">
+                                                                <p className="">Upcoming Arrivals</p>
                                                             </div>
                                                         )}
                                                     </div>

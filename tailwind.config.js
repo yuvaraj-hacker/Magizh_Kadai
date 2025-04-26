@@ -66,8 +66,8 @@ export default {
           "50%": { transform: "scale(1.05)" }, // Slight zoom
           "100%": { transform: "scale(1)" },
         },
-      }
-
+      },
+    
     },
   },
   plugins: [

@@ -78,13 +78,32 @@ export default function Header(props) {
     allCategories();
   }, [allCategories]);
 
+
+
+  const priorityOrder = [
+    "New Arrivals",
+    "Drinkware/Bottles",
+    "Home Utilities",
+    "Laptop/Mobile Accessories",
+    "Bathroom Accessories",
+    "Kitchen Accessories",
+    "Others",
+    "Upcoming Arrivals"
+
+  ];
+
   const sortedCategories = categories
     .filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories")
     .sort((a, b) => {
-      if (a.Category_Name === "Drinkware/Bottles") return -1;
-      if (b.Category_Name === "Drinkware/Bottles") return 1;
+      const aPriority = priorityOrder.indexOf(a.Category_Name);
+      const bPriority = priorityOrder.indexOf(b.Category_Name);
+      if (aPriority !== -1 && bPriority !== -1) {
+        return aPriority - bPriority; // both in priority list → sort by order
+      }
+      if (aPriority !== -1) return -1; // a is in priority list, b is not → a first
+      if (bPriority !== -1) return 1;  // b is in priority list, a is not → b first
+      return 0; // neither in priority list → keep original order
     });
-
 
 
   const debouncedSearch = useMemo(() => {
@@ -101,7 +120,6 @@ export default function Header(props) {
             const exactMatchedProducts = results.filter(product =>
               product.Product_Name.toLowerCase() === value.toLowerCase()
             );
-
             setExactMatches(exactMatchedProducts);
             setSearchResults(results);
             setIsLoading(false);
@@ -306,25 +324,25 @@ export default function Header(props) {
 
 
 
-  const AllCategories = () => (
-    <>  <div className={` max-h-[50vh] w-64 bg-white rounded-xl border cursor-default overflow-auto`}>
-      <ul className="divide-y p-2 hover:*:bg-gray-100 *:rounded-lg" >
-        {categories
-          .filter((category) => category.Category_Name !== "All Categories" && category.Category_Name !== "Everything")
-          .map((category) => (
-            <li key={category._id} className="group py-1">
-              <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}>
-                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
-                  <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" />
-                  <h5 className="whitespace-pre-wrap text-sm text-gray-500">{category.Category_Name}</h5>
-                </div>
-              </Link>
-            </li>
-          ))}
-      </ul>
-    </div>
-    </>
-  )
+  // const AllCategories = () => (
+  //   <>  <div className={` max-h-[50vh] w-64 bg-white rounded-xl border cursor-default overflow-auto`}>
+  //     <ul className="divide-y p-2 hover:*:bg-gray-100 *:rounded-lg" >
+  //       {categories
+  //         .filter((category) => category.Category_Name !== "All Categories" && category.Category_Name !== "Everything")
+  //         .map((category) => (
+  //           <li key={category._id} className="group py-1">
+  //             <Link to={`${category.Category_Name == 'All Categories' ? '/products' : `/products?category=${category.Category_Name}`}`}>
+  //               <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden">
+  //                 <img src={`${apiurl()}/${category.Images[0]}`} alt="" className="lg:w-14 w-10 rounded-lg group-hover:scale-105 duration-300" />
+  //                 <h5 className="whitespace-pre-wrap text-sm text-gray-500">{category.Category_Name}</h5>
+  //               </div>
+  //             </Link>
+  //           </li>
+  //         ))}
+  //     </ul>
+  //   </div>
+  //   </>
+  // )
   return (
     <>
       <header>
@@ -481,7 +499,7 @@ export default function Header(props) {
                       {/* <i className="fi fi-rs-shop text-primary" title='Shop'></i> */}
                       {({ isActive }) => (
                         isActive ? (
-                          <i class="fi fi-ss-shop" title='Shop'></i>
+                          <i className="fi fi-ss-shop" title='Shop'></i>
                         ) : (
                           <i className="fi fi-rs-shop " title='Shop'></i>
                         )
@@ -508,11 +526,9 @@ export default function Header(props) {
                             className={isActive ? "fi fi-sr-shopping-cart text-primary" : "fi fi-rr-shopping-cart text-primary"}
                             title="Cart"
                           ></i>
-
                           <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -right-3 -top-3">
                             {cartItems?.length > 0 ? cartItems.length : cartCount}
                           </span>
-
                         </div>
                       )}
                     </NavLink>
@@ -634,20 +650,43 @@ export default function Header(props) {
             </div>
           </div> */}
           <div className='bg-gray-50 border border-y-gray-300 relative overflow-hidden'>
-            <div className="p-2 max-w-[65rem] mx-auto bg-gray-50 relative text-primary " onMouseLeave={() => setHoveredCategory(null)}>
+            <div className="p-2 max-w-[72rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
               <div className="flex overflow-y-auto scrollbar-hide gap-2">
                 {sortedCategories.map((category) => (
-                  <div key={category.Category_Name}   ref={(el) => {
+                  <div key={category.Category_Name} ref={(el) => {
                     if (activeCategory === category.Category_Name && el) {
                       el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
                     }
                   }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
                     onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
                     <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
-                      <p className="whitespace-nowrap font-bold xl:text-base text-sm">{category.Category_Name}</p>
+                      {category.Category_Name === "New Arrivals" ? (
+                        <div className="flex items-center gap-1">
+                          {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
+                          <p className="whitespace-nowrap font-bold xl:text-base text-sm  ">
+                            {category.Category_Name}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="whitespace-nowrap font-bold xl:text-base text-sm">
+                          {category.Category_Name}
+                        </p>
+                      )}
                     </Link>
                   </div>
                 ))}
+
+              </div>
+              <div className='absolute -right-28  '>
+                {/* <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
+                  Return Gift
+                </p> */}
+                <Link to='/returngift'>
+                  <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
+                    Return Gift
+                  </p>
+                </Link>
+
               </div>
               {/* {category.Subcategories && category.Subcategories.length > 0 && (
                         <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
@@ -660,7 +699,7 @@ export default function Header(props) {
                         <div className='w-fit'>
                           <Link key={sub.name}   to={`/products?category=${encodeURIComponent(hoveredCategory)}&subcategory=${encodeURIComponent(sub.name)}`} className="px-3 py-2 rounded-md text-sm  transition-all block" onClick={() => setHoveredCategory(null)}>
                             <div className='flex gap-2 items-center'>
-                              <i class="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
+                              <i className="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
                               <p className="hover:underline hover:underline-offset-4 font-semibold"> {sub.name}</p>
                             </div>
                           </Link>
@@ -671,6 +710,7 @@ export default function Header(props) {
                 </div>
               )} */}
             </div>
+
           </div>
         </div>
       </header >

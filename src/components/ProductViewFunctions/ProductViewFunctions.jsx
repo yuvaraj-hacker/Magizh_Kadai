@@ -28,6 +28,7 @@ export default function ProductViewFunctions() {
 
     const { userdetails } = useAuth();
     const { addToCart, cartItems, removeItem, decreaseQuantity, increaseQuantity, updateTotalCartItems } = useCart();
+    const[quantity , setQuantity] = useState(1);
     const getCurrentCartQuantity = () => {
         const cartItem = cartItems.find(item => item._id === product?._id);
         return cartItem ? cartItem.Quantity : 0;
@@ -63,10 +64,7 @@ export default function ProductViewFunctions() {
 
     const handleIncreaseQuantity = async () => {
         const currentQuantity = getCurrentCartQuantity();
-        if (currentQuantity >= product.QTY) {
-            toast.error(`Limit reached! ${product?.QTY}`, { icon: "📢" });
-            return;
-        }
+
         try {
             if (userdetails?.Email) {
                 const cartItem = cartItems.find(item => item._id === product._id);
@@ -75,6 +73,11 @@ export default function ProductViewFunctions() {
                 }
             }
             increaseQuantity(product._id);
+            console.log(currentQuantity)
+            if (currentQuantity === product.QTY - 1) {
+                toast.error(`Limit reached! ${product?.QTY}`, { icon: "📢" });
+                return;
+            }
             // toast.success(`Quantity increased! ${currentQuantity + 1}`);
         } catch (error) {
             toast.error("Failed to update quantity");
@@ -226,10 +229,21 @@ export default function ProductViewFunctions() {
         window.open(whatsappUrl, "_blank");
     };
 
+    const handlePreOrderRequest = () => {
+        let message = "Preorder Request:\n\n";
+        message += `I am interested in preordering the following product:\n\n`;
+        message += `1. ${product.Product_Name}\n`;
+        message += `Quantity: ${quantity}\n`;
+        message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
+        message += `Please let me know the expected availability or how I can proceed`;
+        const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+    };
+
     return (
         <>
             <div className="min-h-[60vh]">
-                <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} handleRequestStock={handleRequestStock} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
+                  <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} quantity={quantity} setQuantity={setQuantity} handleRequestStock={handleRequestStock} handlePreOrderRequest={handlePreOrderRequest} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
                     handleMouseLeave={handleMouseLeave} getCurrentCartQuantity={getCurrentCartQuantity} handleAddToCart={handleAddToCart} handleDelete={handleDelete}
                     handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity} handleAddToWishlist={handleAddToWishlist} wishlistData={wishlistData}
                     setIsTooltipVisible={setIsTooltipVisible} isTooltipVisible={isTooltipVisible} setIsDescriptionOpen={setIsDescriptionOpen} isDescriptionOpen={isDescriptionOpen}

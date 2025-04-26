@@ -34,7 +34,6 @@ export default function Home() {
   const [categoryProducts, setCategoriesProducts] = useState();
   const { addToCart, cartItems, increaseQuantity, } = useCart();
   const { userdetails } = useAuth();
-
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -52,8 +51,6 @@ export default function Home() {
   //         (offer) => offer.Status === "Active"
   //       );
   //       setOffers(activeOffers);
-
-
   //     } catch (error) {
   //       console.error("Error fetching data:", error);
   //     }
@@ -78,50 +75,6 @@ export default function Home() {
   //     return acc;
   //   }, {});
   // }, [Product]);
-
-
-
-  const handleProductClick = (prod) => {
-    setSelectedProduct(prod);
-    setVisible(true);
-  };
-  const AddtoCartProduct = async (prods) => {
-    try {
-      const cartItemsFromStore = cartItems || [];
-
-      for (const prod of prods?.Products) {
-        const existingCartItem = cartItemsFromStore.find(item => item._id === prod.Products_id);
-        const isFreshProduce = prod.Category === "Fresh Produce";
-        const increment = isFreshProduce ? 0.5 : 1;
-
-        if (existingCartItem) {
-          const updatedQuantity = existingCartItem.Quantity + increment;
-
-          if (userdetails?.Email) {
-            await updatecartItem(existingCartItem._id, prod._id, updatedQuantity, userdetails.Email);
-          }
-          increaseQuantity(prod._id);
-        } else {
-          const initialQuantity = isFreshProduce ? 0.5 : 1;
-
-          if (userdetails?.Email) {
-            const cartData = {
-              productId: prod._id,
-              Email: userdetails.Email,
-              Quantity: initialQuantity
-            };
-            await savecartitems(cartData);
-          }
-
-          addToCart({ ...prod, Quantity: initialQuantity });
-        }
-      }
-      toast.success(`${prods?.IngredientName} Products are added to cart!`);
-    } catch (error) {
-      console.error("Error adding products to cart:", error);
-      toast.error("Failed to add some products to cart. Please try again.");
-    }
-  };
   return (
     <>
       <HelmetProvider>
@@ -145,7 +98,7 @@ export default function Home() {
         {/* <div className='px-3'><SwiperMin Product={Product} /></div> */}
         {/* <NewArrivals products={Product} /> */}
         {/* <div className=''><AllProducts groupedProducts={groupedProducts} categoryProducts={categoryProducts} /></div> */}
-        <div className='mt-5  px-2  '>
+        <div className='mt-5  px-2'>
           <HomrProducts />
         </div>
         {/* <IngredientSwipe  title="Indian Cuisine Combo Ingredients" visible={visible} setVisible={setVisible} selectedProduct={selectedProduct}

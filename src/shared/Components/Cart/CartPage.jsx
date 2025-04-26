@@ -7,7 +7,7 @@ import PickupTimeModal from "../Header/PickupTimeModal";
 import toast from "react-hot-toast";
 
 export default function CartPage(props) {
-  const { cartItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote, subtotalRegular,
+  const { cartItems, totalItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote, subtotalRegular,
     handleQuantityChange, handleRemoveItem, subtotal, totalDiscount, goToCheckout, finalTotal, timevisible, setTimevisible, handlePickupTimeChange, isPickupTimeSelected,
     datevisible, setDatevisible, thisWeekDates, nextWeekDates, handleDateClick, isSelected, showLoginModal, setShowLoginModal, checkoutlogin,
   } = props;
@@ -54,7 +54,7 @@ export default function CartPage(props) {
             <div className="grid xl:grid-cols-12  items-start   relative gap-5">
               <div className="xl:col-span-9 space-y-4">
                 <div className=" border md:rounded-md  bg-gray-50 ">
-                  <div className="md:text-2xl text-center text-base text-white py-4 md:rounded-t-md bg-primary">Your Cart ({cartItems.length} items)</div>
+                  <div className="md:text-2xl text-center text-base text-white py-4 md:rounded-t-md bg-primary">Your Cart ({cartItems.length} Products)</div>
                   <div className=" space-y-2 p-2 ">
                     {/* <div className="justify-between lg:flex">
                      <div className="flex gap-3">
@@ -114,16 +114,18 @@ export default function CartPage(props) {
                             )} */}
                     {/*   </div>
                    </div> */}
-
                     {cartItems.filter((item) => item.productId?.Category !== "Fresh Flowers & Leaves" && item.Category !== "Fresh Flowers & Leaves").map((item) => (
                       <div key={item._id} className=" ">
                         <div className="bg-white p-2  rounded-md ">
                           <div className="flex justify-end">
                             {/* <button className="flex items-center gap-2 text-gray-500">  <i className="flex items-center fi fi-rs-bookmark"></i> <span>
                                 </span></button> */}
-                            <button className={`  text-third   flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
+                            <button className={`   text-third   relative  group flex items-center gap-2 ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => !updatingItems.has(item._id) && handleRemoveItem(item._id)}
                               disabled={updatingItems.has(item._id)}  >
-                              <i className="fi fi-sr-trash text-2xl"></i>{" "}
+                              <i className="fi fi-sr-trash md:text-2xl text-lg  border-third rounded-md flex group-hover:bg-third group-hover:text-white items-center p-1"></i>{" "}
+                              <span className="absolute invisible z-50 group-hover:visible  top-5 left-9 border border-third text-xs rounded  whitespace-nowrap p-1 md:block hidden ">
+                                Delete
+                              </span>
                               {/* <span className="hidden md:block dark:text-red-400"> Remove </span> */}
                             </button>
                           </div>
@@ -349,7 +351,7 @@ export default function CartPage(props) {
                 <div className="w-full  sticky lg:bottom-0  bottom-[60px] bg-gray-100  p-4">
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
-                      Total ({cartItems.length} items) : ₹{finalTotal}
+                      Total ({totalItems} items) : ₹{finalTotal}
                     </div>
                     <div className="bg-[#27A737] cursor-pointer  items-center  px-2 py-1  flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={goToQuote}>
                       <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
@@ -387,7 +389,7 @@ export default function CartPage(props) {
                           <p className="text-xs md:text-sm">${deliveryFee?.toFixed(2)}</p>
                         </div> */}
                         <div className="flex justify-between xl:mt-3 font-bold">
-                          <p className="text-sm md:text-base flex gap-1">Total ({cartItems.length} items) <span className="xl:hidden block "></span></p>
+                          <p className="text-sm md:text-base flex gap-1">Total ({totalItems} items) <span className="xl:hidden block "></span></p>
                           <p className="text-primary">₹{finalTotal}</p>
                         </div>
                         <div className="text-center mt-3">

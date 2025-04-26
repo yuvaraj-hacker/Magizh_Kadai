@@ -524,6 +524,7 @@ export default function CartPageFunctions() {
     // };
 
     // before login
+    const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
     const goToQuote = () => {
         const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
         const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
@@ -541,7 +542,7 @@ export default function CartPageFunctions() {
             message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
         });
         message += `Order Summary:\n`;
-        message += `Total Items: ${totalItems}\n`;
+        message += `Total Quantity: ${totalItems}\n`;
         message += `Final Total: ₹${finalTotal}\n`;
         const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
@@ -608,9 +609,7 @@ export default function CartPageFunctions() {
                     <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
                 </Helmet>
             </HelmetProvider>
-
-
-            <CartPage cartItems={cartItems} renderDeliveryPrompt={renderDeliveryPrompt} isLoading={isLoading} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
+            <CartPage cartItems={cartItems} totalItems={totalItems} renderDeliveryPrompt={renderDeliveryPrompt} isLoading={isLoading} subtotalRegular={subtotalRegular} goToCheckout={goToCheckout} deliveryType={deliveryType} handleDeliveryTypeChange={handleDeliveryTypeChange}
                 handleDeliveryDateClick={handleDeliveryDateClick} formattedDate={formattedDate} formattedPickupTime={formattedPickupTime} navigate={navigate}
                 updatingItems={updatingItems} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} subtotal={subtotal} totalDiscount={totalDiscount}
                 goToQuote={goToQuote} finalTotal={finalTotal} timevisible={timevisible} setTimevisible={setTimevisible} handlePickupTimeChange={handlePickupTimeChange}

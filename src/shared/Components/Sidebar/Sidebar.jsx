@@ -249,7 +249,7 @@ export default function Sidebar({ setTogSidecat, TogSidecat }) {
                         {category.Subcategories.map((sub) => (
                           <Link key={sub.name} to={`/products?category=${category.Category_Name}&subcategory=${sub.name}`} onClick={() => setTogSidecat(false)} className="px-3 py-1 rounded-md text-sm transition-all"  >
                             <div className='flex items-center gap-2'>
-                              <i class="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
+                              <i className="fi fi-rr-caret-right flex items-center gap-2 no-underline text-secondary"></i>
                               <p className="">{sub.name}</p>
                             </div>
                           </Link>

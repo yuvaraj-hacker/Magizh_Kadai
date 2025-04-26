@@ -242,10 +242,6 @@ const Products = () => {
             const updatedQuantity = currentQuantity + increment;
 
             // ✅ Prevent exceeding stock limit
-            if (updatedQuantity > prod.QTY) {
-                toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
-                return;
-            }
 
             if (existingCartItem) {
                 // ✅ Update cart item if it already exists
@@ -258,6 +254,11 @@ const Products = () => {
                     );
                 }
                 increaseQuantity(prod._id);
+                if (updatedQuantity === prod.QTY) {
+                    toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
+                    return;
+                }
+
                 // toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
                 // ✅ Add new product to cart
@@ -419,7 +420,7 @@ const Products = () => {
                                                     </Tooltip>
                                                     )
                                                 }}
-                                                styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#000", borderColor: "#000" }, rail: { backgroundColor: "#024A34" } }}
+                                                styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#024A34", borderColor: "024A34" }, rail: { backgroundColor: "#024A34" } }}
                                             />
                                         </div>
                                     </div>

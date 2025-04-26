@@ -12,7 +12,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
    const [visible, setVisible] = useState(false);
    const { isLoggedIn, userdetails, logout } = useAuth();
    const { cartItems, cartCount } = useCart();
-   const locations = useLocation;
+   const locations = useLocation();
    const isActive = (path) => locations.pathname === path;
    const navigate = useNavigate()
    // const handleClick = (e) => {
@@ -123,7 +123,6 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
 
                            </div>
                         </div>
-
                         <div className='lg:col-span-2 md:space-y-4   lg:text-left md:text-center  gap-3 md:gap-0  md:flex  grid grid-cols-5  lg:items-start    md:flex-col  flex-row ' >
                            <p className="md:text-xl text-sm   text-secondary col-span-2  font-semibold">Contact Information  </p>
                            <div className=' md:space-y-3 md:text-sm text-xs    md:gap-0 gap-2   flex-row flex md:flex-col  flex-wrap   col-span-3 '>
@@ -139,7 +138,7 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                               </p>
                               <p className=""> <span className=''>
                                  Address:   </span>Narayanan Nagar Road, <br /> Ramakrishna
-                                 school Opposite, <br /> Villupuram 605 602.</p>
+                                 School Opposite, <br /> Villupuram - 605 602.</p>
                            </div>
                            {/* <div className='relative'>
                               <input className='w-full p-2 pl-4 text-black rounded-sm focus:outline-none' type="text" placeholder='Email Address' />
@@ -147,7 +146,6 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
                                  Subscribe
                               </button>
                            </div> */}
-
                         </div>
                      </div>
                   </div>
@@ -165,38 +163,34 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
             <div className='bg-primary'>
                <div className="  flex  justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
                   <div className="cursor-pointer ">
-                     <Link to='/'> <i className="flex flex-col items-center fi fi-rs-house-chimney   "></i>
+                     <Link to='/'> <i className={`flex flex-col items-center    ${isActive('/') ? 'fi fi-ss-house-chimney' : 'fi fi-rs-house-chimney'}`}></i>
                         <p className='text-xs '>Home</p>
                      </Link>
                   </div>
                   <Link to='/products'>
                      <div className="cursor-pointer" >
-                        <i className="fi fi-rs-shop flex flex-col items-center"></i><p className='text-xs '>Products</p>
+                        <i className={`  flex flex-col items-center   ${isActive('/products') ? 'fi fi-ss-shop' : 'fi fi-rs-shop'}`}></i><p className='text-xs '>Products</p>
                      </div>
                   </Link>
                   <div className="relative cursor-pointer">
                      <Link to="/cart" className="relative inline-block">
                         <div className="relative">
-                           <i className="flex flex-col items-center fi fi-rr-shopping-cart text-xl"></i>
+                           <i className={`flex flex-col items-center   text-xl ${isActive('/cart') ? 'fi fi-sr-shopping-cart' : 'fi fi-rr-shopping-cart'}`}></i>
                            {cartItems && cartItems.length > 0 && (
                               <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -top-2 -right-2">
                                  {cartItems.length}
                               </span>
                            )}
-
                            {cartCount > 0 && (
                               <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-600 rounded-full -top-2 -right-2">
                                  {cartCount}
                               </span>
                            )}
-
-
                         </div>
                         <p className='text-xs'>Cart</p>
                      </Link>
                   </div>
                   <div onClick={() => { setTogSidecat(true) }} className="cursor-pointer"><i className="flex flex-col items-center fi fi-rs-category"></i><p className='text-xs '>Categories</p></div>
-
                   {/* {isLoggedIn ? (
                      <div className="cursor-pointer" onClick={handleClick}>
                         <i className="flex flex-col items-center fi fi-sr-user"></i>
