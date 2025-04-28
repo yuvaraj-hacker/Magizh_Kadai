@@ -50,7 +50,7 @@ const HomrProducts = () => {
     const [lastAdded, setLastAdded] = useState(null);
     const [clickedProductId, setClickedProductId] = useState(null);
     const [glowEffect, setGlowEffect] = useState(false);
-
+    const [showB2BDiv, setShowB2BDiv] = useState(false);
 
 
 
@@ -376,6 +376,8 @@ const HomrProducts = () => {
     };
 
 
+
+    const showB2B = searchParams.get('showB2B') === 'true';
     // const handleAddToCart = async (product) => {
     //     if (product.QTY === 0) {
     //         toast.error("This item is currently out of stock!");
@@ -479,6 +481,14 @@ const HomrProducts = () => {
                 </div>
             ) : (
                 <section className="">
+                    <div>
+                        {showB2B && (
+                            <div>
+                                Categories
+                            </div>
+                        )}
+                        {/* Your other home page content */}
+                    </div>
                     <div className="relative md:px-2 px-1 pb-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto  3xl:grid-cols-7  2xl:grid-cols-6 xl:grid-cols-5 gap-x-3  ">
                         {[...products]
                             .sort((a, b) => {
@@ -501,7 +511,7 @@ const HomrProducts = () => {
                                             {prod.Category === "New Arrivals" && (
                                                 <>
                                                     <div className="absolute -top-2 -left-2 z-10  ">
-                                                        <img className="md:w-20 w-16" src="/images/Design/fin.gif" alt="" />
+                                                        <img className="md:w-24 w-16" src="/images/Design/newfaf.gif" alt="" />
                                                     </div>
                                                 </>
                                             )}

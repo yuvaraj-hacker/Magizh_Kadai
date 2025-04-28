@@ -79,7 +79,6 @@ export default function Header(props) {
   }, [allCategories]);
 
 
-
   const priorityOrder = [
     "New Arrivals",
     "Drinkware/Bottles",
@@ -89,7 +88,6 @@ export default function Header(props) {
     "Kitchen Accessories",
     "Others",
     "Upcoming Arrivals"
-
   ];
 
   const sortedCategories = categories
@@ -191,6 +189,11 @@ export default function Header(props) {
       ? `${apiurl()}/${images[0]}`
       : '/path-to-default-product-image.jpg';
   }
+
+
+  const handleClick = () => {
+    navigate('/?showB2B=true'); // add query param
+  };
 
   // const getWishlistItem = useCallback(async () => {
   //   if (userdetails?.Email) {
@@ -649,8 +652,8 @@ export default function Header(props) {
               </div>
             </div>
           </div> */}
-          <div className='bg-gray-50 border border-y-gray-300 relative overflow-hidden'>
-            <div className="p-2 max-w-[72rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
+          <div className='bg-gray-50 border border-y-gray-300 relative flex items-center  overflow-hidden'>
+            <div className="p-2 max-w-[82rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
               <div className="flex overflow-y-auto scrollbar-hide gap-2">
                 {sortedCategories.map((category) => (
                   <div key={category.Category_Name} ref={(el) => {
@@ -663,7 +666,7 @@ export default function Header(props) {
                       {category.Category_Name === "New Arrivals" ? (
                         <div className="flex items-center gap-1">
                           {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
-                          <p className="whitespace-nowrap font-bold xl:text-base text-sm  ">
+                          <p className="whitespace-nowrap font-bold xl:text-base text-sm glow  ">
                             {category.Category_Name}
                           </p>
                         </div>
@@ -675,19 +678,24 @@ export default function Header(props) {
                     </Link>
                   </div>
                 ))}
-
-              </div>
-              <div className='absolute -right-28  '>
-                {/* <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
+                <div className=' '>
+                  {/* <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
                   Return Gift
                 </p> */}
-                <Link to='/returngift'>
-                  <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
-                    Return Gift
-                  </p>
-                </Link>
+                  <Link to='/returngift'>
+                    <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 ml-4"   >
+                      <img src="/images/Design/giftbox.gif" alt="" className='w-6 ' />
+                      Return Gift
+                    </p>
+                  </Link>
+
+                </div>
+                <div className="cursor-pointer" onClick={handleClick}>
+                  B2B
+                </div>
 
               </div>
+
               {/* {category.Subcategories && category.Subcategories.length > 0 && (
                         <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
                       )} */}
@@ -710,7 +718,17 @@ export default function Header(props) {
                 </div>
               )} */}
             </div>
+            {/* <div className=' absolute right-0'>
+              <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
+                  Return Gift
+                </p>
+              <Link to='/business'>
+                <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 ml-4"   >
+                  B2B
+                </p>
+              </Link>
 
+            </div> */}
           </div>
         </div>
       </header >

@@ -20,6 +20,7 @@ import ReturnRefundpolicy from "../components/Policies/ReturnRedundPolicy";
 import ProductViewFunctions from "../components/ProductViewFunctions/ProductViewFunctions";
 import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
 import Return from "../components/Return/Return";
+import BusinessPage from "../components/Business/BusinessPage";
 
 const Approuter = () => {
     return (
@@ -29,6 +30,7 @@ const Approuter = () => {
                 <Route element={<Main />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/returngift" element={<Return />} />
+                    {/* <Route path="/business" element={<BusinessPage/>} /> */}
                     {/* <Route path="/register" element={<RegisterPage />} /> */}
                     <Route path="/forgotpassword" element={<Forgotpassword />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />

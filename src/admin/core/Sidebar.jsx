@@ -83,9 +83,9 @@ export default function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to={'/admin/return'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+              <NavLink to={'/admin/Return-Gift'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-ss-gift flex justify-center items-center"></i>
-                Return Gift
+                Return Gift Request
               </NavLink>
             </li>
             {/*

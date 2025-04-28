@@ -49,15 +49,15 @@ export const saveproducts=async(datas)=>{
 //       if (key === 'Images') {
 //         for (let i = 0; i < datas['Images'].length; i++) {
 //           if (datas['Images'][i] instanceof File) {
-//             formData.append('Images', datas['Images'][i]); 
+//             formData.append('Images', datas['Images'][i]);
 //           } else {
-//             formData.append('Images', datas['Images'][i]); 
+//             formData.append('Images', datas['Images'][i]);
 //           }
 //         }
 //       } else {
-//         formData.append(key, datas[key]); 
+//         formData.append(key, datas[key]);
 //       }
-//     } 
+//     }
 //     formData.forEach((value, key) => {console.log(`${key}: ${value}`);});
 //     const res = await axios.put(`${apiurl()}/products/apiupdateproduct`,formData,{params: { _id: datas?._id },headers: {Authorization: `Bearer ${gettoken()}`,'Content-Type': 'multipart/form-data',},} );
 //     return res.data;
@@ -155,7 +155,7 @@ export const handleBulkUpdateProducts = async (_ids, updateFields) => {
   }
 };
 
- 
+
 export const deleteproducts=async(id)=>{
   var res=await axios.delete(`${apiurl()}/products/apideleteproduct`,{params:{_id:id}, headers: {"Authorization" : `Bearer ${gettoken()}`}});
   return res.data;
@@ -190,11 +190,11 @@ export const SearchStatusUpdate = async (status, selectedProduct) => {
         }
       }
     );
-    
+
     if (!response.data) {
       throw new Error('No data received from server');
     }
-    
+
     return response.data;
   } catch (error) {
     console.error("Error updating status:", error);

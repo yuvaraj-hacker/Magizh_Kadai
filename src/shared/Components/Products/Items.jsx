@@ -200,7 +200,7 @@ const Items = (prpos) => {
                     {prod.Category === "New Arrivals" && (
                       <>
                         <div className="absolute -top-2 -left-2 z-10">
-                          <img className="md:w-20 w-16" src="/images/Design/fin.gif" alt="" />
+                          <img className="md:w-24 w-16" src="/images/Design/newfaf.gif" alt="" />
                         </div>
                       </>
                     )}

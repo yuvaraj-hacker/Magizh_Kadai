@@ -29,5 +29,5 @@ export const deletepurchase = async(id)=>{
 
 export const getpurchaseitemsbyid = async(Purchase_id)=>{
     var res= await axios.get(`${apiurl()}/purchase/apigetpurchaseitemsbyid`,{params:{Purchase_id},headers: {"Authorization" : `Bearer ${gettoken()}`}});
-    return res.data;
+    return res.data;    
 }
