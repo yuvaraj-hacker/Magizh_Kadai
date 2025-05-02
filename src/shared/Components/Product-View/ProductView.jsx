@@ -6,9 +6,13 @@ import RegisterContinueGoogle from '../Register-ContiGoogle/RegisterContiGoogle'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon } from 'lucide-react';
 import Blink from 'react-blink-text';
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 const ProductView = (props) => {
   const tabRefs = useRef([]);
   const containerRef = useRef(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const showB2B = searchParams.get('showB2B') === 'true';
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Check screen size
   // Update screen size on resize
   useEffect(() => {
@@ -153,19 +157,21 @@ const ProductView = (props) => {
               )}
             </div>
 
-            <div className="flex items-center space-x-2">
-              {product.Discount > 0 && (
-                <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{Math.round(product.Discount)}% off</span>
-              )}
-              {product.Sale_Price > 0 && (
-                <span className="text-base font-bold text-primary md:text-2xl">
-                  ₹{product.Sale_Price}
-                </span>
-              )}
-              {product.Discount > 0 && (
-                <span className="text-xs text-third line-through md:text-base">₹{product?.Regular_Price}</span>
-              )}
-            </div>
+            {showB2B !== true && (
+              <div className="flex items-center space-x-2">
+                {product.Discount > 0 && (
+                  <span className="md:px-2 px-3 md:py-1 py-1 md:text-sm text-xs font-semibold text-white bg-secondary rounded-3xl">{Math.round(product.Discount)}% off</span>
+                )}
+                {product.Sale_Price > 0 && (
+                  <span className="text-base font-bold text-primary md:text-2xl">
+                    ₹{product.Sale_Price}
+                  </span>
+                )}
+                {product.Discount > 0 && (
+                  <span className="text-xs text-third line-through md:text-base">₹{product?.Regular_Price}</span>
+                )}
+              </div>
+            )}
             {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && product.Category !== 'Upcoming Arrivals' && (
               <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[103px] z-10 bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
@@ -188,7 +194,8 @@ const ProductView = (props) => {
                           )}
                           <div className='flex md:gap-2 gap-1 items-center'>
                             <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
-                            <span className=" md:text-base text-xs">{getCurrentCartQuantity()} in cart</span>
+
+                            <span className=" md:text-base text-xs">{getCurrentCartQuantity()} {showB2B && <span>  </span>} in cart</span>
                           </div>
                           {getCurrentCartQuantity() >= 1 && getCurrentCartQuantity() < product.QTY ? (
                             <button className='    flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
@@ -259,6 +266,10 @@ const ProductView = (props) => {
                 </div>
               </>
             )}
+
+            {/* {showB2B && (
+              <p className="">fffff</p>
+            )} */}
             {/* <Blink color='blue' text='TestReactApp'  fontSize='20'>
               Testing the Blink
             </Blink>

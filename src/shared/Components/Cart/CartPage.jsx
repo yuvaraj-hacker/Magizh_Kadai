@@ -1,12 +1,15 @@
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import apiurl from "../../services/apiendpoint/apiendpoint";
 import RegisterContinueGoogle from "../Register-ContiGoogle/RegisterContiGoogle";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DeliveryDate from "../Header/DeliveryDate";
 import PickupTimeModal from "../Header/PickupTimeModal";
 import toast from "react-hot-toast";
 
 export default function CartPage(props) {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const showB2B = searchParams.get('showB2B') === 'true';
   const { cartItems, totalItems, renderDeliveryPrompt, deliveryType, handleDeliveryTypeChange, handleDeliveryDateClick, formattedDate, formattedPickupTime, navigate, updatingItems, goToQuote, subtotalRegular,
     handleQuantityChange, handleRemoveItem, subtotal, totalDiscount, goToCheckout, finalTotal, timevisible, setTimevisible, handlePickupTimeChange, isPickupTimeSelected,
     datevisible, setDatevisible, thisWeekDates, nextWeekDates, handleDateClick, isSelected, showLoginModal, setShowLoginModal, checkoutlogin,
@@ -166,49 +169,53 @@ export default function CartPage(props) {
                               </div>
                             </div>
                             <div className="flex items-center gap-10 col-span-1">
-                              <div className="flex items-center gap-3 border rounded-lg shadow-sm">
-                                <button
-                                  className={`text-gray-500 hover:text-gray-700 p-2   hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
-                                  onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")} disabled={updatingItems.has(item._id)}  >
-                                  {item.Quantity == 1 ? (
-                                    <i className="fi fi-sr-trash  flex items-center text-third "></i>
-                                  ) : (
-                                    <Minus size={16} className="dark:text-white dark:hover:text-black" />
+                              {showB2B !== true && (
+                                <div className="flex items-center gap-3 border rounded-lg shadow-sm">
+                                  <button
+                                    className={`text-gray-500 hover:text-gray-700 p-2   hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id) ? "opacity-50 cursor-not-allowed" : ""}`}
+                                    onClick={() => !updatingItems.has(item._id) && handleQuantityChange(item._id, "decrease")} disabled={updatingItems.has(item._id)}  >
+                                    {item.Quantity == 1 ? (
+                                      <i className="fi fi-sr-trash  flex items-center text-third "></i>
+                                    ) : (
+                                      <Minus size={16} className="dark:text-white dark:hover:text-black" />
+                                    )}
+                                  </button>
+                                  <span className="w-8 text-center">
+                                    {updatingItems.has(item._id)
+                                      ? "..."
+                                      : item.Quantity}
+                                  </span>
+                                  <button
+                                    // onClick={() =>
+                                    //   !updatingItems.has(item._id) &&
+                                    //   handleQuantityChange(item._id, "increase")
+                                    // }
+                                    onClick={() => {
+                                      console.log(`Current: ${item?.Quantity}, Max: ${item?.QTY}`); // Debugging
+                                      if (item?.Quantity >= item?.QTY) {
+                                        toast.error(`Limit reached! ${item?.QTY}`, { icon: "📢" });
+                                        return;
+                                      }
+                                      if (!updatingItems.has(item._id)) {
+                                        handleQuantityChange(item._id, "increase");
+                                      }
+                                    }}
+                                    className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
+                                      }`}
+                                  >
+                                    <Plus size={16} className="dark:text-white dark:hover:text-black" />
+                                  </button>
+                                </div>
+                              )}
+                              {showB2B !== true && (
+                                <div className="w-32 text-sm font-medium text-center md:text-lg">
+                                  ₹ {(
+                                    (item.Sale_Price) * item.Quantity
                                   )}
-                                </button>
-                                <span className="w-8 text-center">
-                                  {updatingItems.has(item._id)
-                                    ? "..."
-                                    : item.Quantity}
-                                </span>
-                                <button
-                                  // onClick={() =>
-                                  //   !updatingItems.has(item._id) &&
-                                  //   handleQuantityChange(item._id, "increase")
-                                  // }
-                                  onClick={() => {
-                                    console.log(`Current: ${item?.Quantity}, Max: ${item?.QTY}`); // Debugging
-                                    if (item?.Quantity >= item?.QTY) {
-                                      toast.error(`Limit reached! ${item?.QTY}`, { icon: "📢" });
-                                      return;
-                                    }
-                                    if (!updatingItems.has(item._id)) {
-                                      handleQuantityChange(item._id, "increase");
-                                    }
-                                  }}
-                                  className={`text-gray-500 hover:text-gray-700 p-2    hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
-                                    ? "opacity-50 cursor-not-allowed"
-                                    : ""
-                                    }`}
-                                >
-                                  <Plus size={16} className="dark:text-white dark:hover:text-black" />
-                                </button>
-                              </div>
-                              <div className="w-32 text-sm font-medium text-center md:text-lg">
-                                ₹ {(
-                                  (item.Sale_Price) * item.Quantity
-                                )}
-                              </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

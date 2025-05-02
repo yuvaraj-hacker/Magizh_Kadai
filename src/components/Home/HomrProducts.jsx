@@ -12,6 +12,7 @@ import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css'
 import { SyncLoader } from "react-spinners";
 import Category from "../../admin/components/Category/Category";
+import { apigetallcategory } from "../../shared/services/apicategory/apicategory";
 // import toast from "react-hot-toast";
 // import { deletecartItem, savecartitems, updatecartItem } from "../../shared/services/cart/cart";
 
@@ -50,7 +51,49 @@ const HomrProducts = () => {
     const [lastAdded, setLastAdded] = useState(null);
     const [clickedProductId, setClickedProductId] = useState(null);
     const [glowEffect, setGlowEffect] = useState(false);
-    const [showB2BDiv, setShowB2BDiv] = useState(false);
+    const locations = useLocation();
+    const params = new URLSearchParams(locations.search);
+    const activeCategory = params.get("category"); // Get category from URL query
+
+    const allCategories = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const res = await apigetallcategory();
+            setCategories(res.resdata);
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        allCategories();
+    }, [allCategories]);
+
+    const priorityOrder = [
+        "New Arrivals",
+        "Drinkware/Bottles",
+        "Home Utilities",
+        "Laptop/Mobile Accessories",
+        "Bathroom Accessories",
+        "Kitchen Accessories",
+        "Others",
+        "Upcoming Arrivals"
+    ];
+
+    const sortedCategories = categories
+        .filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories")
+        .sort((a, b) => {
+            const aPriority = priorityOrder.indexOf(a.Category_Name);
+            const bPriority = priorityOrder.indexOf(b.Category_Name);
+            if (aPriority !== -1 && bPriority !== -1) {
+                return aPriority - bPriority; // both in priority list → sort by order
+            }
+            if (aPriority !== -1) return -1; // a is in priority list, b is not → a first
+            if (bPriority !== -1) return 1;  // b is in priority list, a is not → b first
+            return 0; // neither in priority list → keep original order
+        });
 
 
 
@@ -378,6 +421,7 @@ const HomrProducts = () => {
 
 
     const showB2B = searchParams.get('showB2B') === 'true';
+    const queryString = showB2B ? '?showB2B=true' : '';
     // const handleAddToCart = async (product) => {
     //     if (product.QTY === 0) {
     //         toast.error("This item is currently out of stock!");
@@ -480,95 +524,115 @@ const HomrProducts = () => {
                     <SyncLoader color="#024A34" />
                 </div>
             ) : (
-                <section className="">
-                    <div>
-                        {showB2B && (
-                            <div>
-                                Categories
-                            </div>
-                        )}
-                        {/* Your other home page content */}
-                    </div>
-                    <div className="relative md:px-2 px-1 pb-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto  3xl:grid-cols-7  2xl:grid-cols-6 xl:grid-cols-5 gap-x-3  ">
-                        {[...products]
-                            .sort((a, b) => {
-                                if (a.Category === "Drinkware/Bottles" && b.Category !== "Drinkware/Bottles") return -1;
-                                if (b.Category === "Drinkware/Bottles" && a.Category !== "Drinkware/Bottles") return 1;
-                                // Inside "Drinkware/Bottles", move quantity 0 products last
-                                if (a.Category === "Drinkware/Bottles" && b.Category === "Drinkware/Bottles") {
+                <>
+
+                    <section className="">
+                        <div className=" py-5  px-4">
+                            {showB2B && (
+                                <>
+                                    <h1 className="font-extrabold md;text-xl text-lg text-center"> Business-to-Business</h1>
+                                    <p className="text-center">Unlock exclusive wholesale deals and grow your business with us!! </p>
+                                    <div className="flex justify-center  gap-5">
+                                        {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories" && category.Category_Name !== "Upcoming Arrivals").map((category) => {
+                                            if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
+                                            const isChecked = selectedCategories.includes(category.Category_Name);
+                                            let updatedCategories = [...selectedCategories];
+                                            if (isChecked) {
+                                                updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
+                                            } else { updatedCategories.push(category.Category_Name); }
+                                            const queryString =
+                                                updatedCategories.length > 0
+                                                    ? `?category=${updatedCategories.join(",")}&showB2B=true`
+                                                    : `?showB2B=true`;
+                                            const linkTo = `/${queryString}`;
+                                            return (
+                                                <div key={category._id} className="group py-1 w-fit">
+                                                    <Link to={linkTo}>
+                                                        <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
+                                                            <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
+                                                            <h5 className="whitespace-pre-wrap text-primary">
+                                                                {category.Category_Name}
+                                                            </h5>
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        <div className="relative md:px-2 px-1 pb-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto  3xl:grid-cols-7  2xl:grid-cols-6 xl:grid-cols-5 gap-x-3  ">
+                            {[...products]
+                                .sort((a, b) => {
+                                    if (a.Category === "Drinkware/Bottles" && b.Category !== "Drinkware/Bottles") return -1;
+                                    if (b.Category === "Drinkware/Bottles" && a.Category !== "Drinkware/Bottles") return 1;
+                                    // Inside "Drinkware/Bottles", move quantity 0 products last
+                                    if (a.Category === "Drinkware/Bottles" && b.Category === "Drinkware/Bottles") {
+                                        if (a.QTY === 0) return 1;
+                                        if (b.QTY === 0) return -1;
+                                    }
+                                    // For other categories, move quantity 0 products last
                                     if (a.QTY === 0) return 1;
                                     if (b.QTY === 0) return -1;
-                                }
-                                // For other categories, move quantity 0 products last
-                                if (a.QTY === 0) return 1;
-                                if (b.QTY === 0) return -1;
-                                return 0;
-                            }).filter((item) => item.Category !== "Upcoming Arrivals").map((prod, i) => (
-                                <Link to={`/product-details/${prod._id}`} state={{ product: prod }} key={i} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
-                                    <div className="relative group ">
-                                        <div className={`w-full bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]    h-[250px]  ${lastAdded === prod._id ? ' border-primary' : ''} ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  border-2 " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
-                                            {/* wishlist & cart */}
-                                            {prod.Category === "New Arrivals" && (
-                                                <>
-                                                    <div className="absolute -top-2 -left-2 z-10  ">
-                                                        <img className="md:w-24 w-16" src="/images/Design/newfaf.gif" alt="" />
-                                                    </div>
-                                                </>
-                                            )}
-                                            <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
-                                                {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
+                                    return 0;
+                                }).filter((item) => item.Category !== "Upcoming Arrivals").map((prod, i) => (
+                                    <Link to={`/product-details/${prod._id}${queryString}`} state={{ product: prod }} key={i} onClick={() => { sessionStorage.setItem("scrollPosition", window.scrollY); sessionStorage.setItem("clickedProductId", prod._id); }}>
+                                        <div className="relative group ">
+                                            <div className={`w-full bg-white flex justify-between flex-col relative mb-5 shadow-md border  rounded-md hover:shadow-md duration-300  md:h-[370px]    h-[250px]  ${lastAdded === prod._id ? ' border-primary' : ''} ${clickedProductId === prod._id && location.pathname !== `/product-details/${prod._id}` ? "border-primary  border-2 " : " "}  ${clickedProductId === prod._id && glowEffect ? "animate-scaleIn" : ""}`}>
+                                                {/* wishlist & cart */}
+                                                {prod.Category === "New Arrivals" && (
                                                     <>
-                                                        {cartItems.some(item => item._id === prod._id) ? (
-                                                            // Show Increment & Decrement (or Delete) Controls
-                                                            <div onClick={(e) => { e.preventDefault() }} className={`  md:w-[92px] w-[77px] grid grid-cols-3  items-center md:gap-2 gap-1 bg-gray-100   overflow-hidden  rounded-full   ${lastAdded === prod._id ? ' border-primary border-2' : 'border-secondary border-2'}   `}>
-                                                                {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
-                                                                    // Show Delete Icon if Quantity is 1
-                                                                    <button
-                                                                        onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }}
-                                                                        className="text-red-500 hover:text-red-700 flex items-center    p-1 px-1"
-                                                                    >
-                                                                        <i className="fi fi-rr-trash flex items-center text-sm  "></i>
-                                                                    </button>
-                                                                ) : (
-                                                                    // Show Minus Button if Quantity > 1
-                                                                    <button
-                                                                        onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }}
-                                                                        className="text-primary text-lg flex items-center   p-1 px-1"
-                                                                    >
-                                                                        <i class="fi fi-rr-minus-small flex items-center"></i>
-                                                                    </button>
-                                                                )}
-                                                                <span className="text-primary text-sm font-bold  mx-auto ">
-                                                                    {cartItems.find(item => item._id === prod._id)?.Quantity}
-                                                                    {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
-                                                                        <>
-                                                                            <span className="text-red-500 ml-1"> (Limit reached!)</span>
-
-                                                                        </>
-
-                                                                    )} */}
-
-                                                                </span>
-                                                                {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
-                                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
-                                                                        <>
-                                                                            <i class="fi fi-rr-plus-small flex items-center"></i>
-                                                                        </>
-                                                                    </button>
-                                                                )}
-
-                                                            </div>
-                                                        ) : (
-                                                            // Show Add to Cart Button if Product is NOT in Cart
-                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
-                                                                <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
-                                                            </button>
-                                                        )}
+                                                        <div className="absolute -top-2 -left-2 z-10  ">
+                                                            <img className="md:w-24 w-16" src="/images/Design/newfaf.gif" alt="" />
+                                                        </div>
                                                     </>
                                                 )}
-                                            </div>
-
-                                            {/* {getCurrentCartQuantity() === 0 ? (
+                                                {showB2B !== true && (
+                                                    <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
+                                                        {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
+                                                            <>
+                                                                {cartItems.some(item => item._id === prod._id) ? (
+                                                                    // Show Increment & Decrement (or Delete) Controls
+                                                                    <div onClick={(e) => { e.preventDefault() }} className={`  md:w-[92px] w-[77px] grid grid-cols-3  items-center md:gap-2 gap-1 bg-gray-100   overflow-hidden  rounded-full   ${lastAdded === prod._id ? ' border-primary border-2' : 'border-secondary border-2'}   `}>
+                                                                        {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
+                                                                            // Show Delete Icon if Quantity is 1
+                                                                            <button onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }} className="text-red-500 hover:text-red-700 flex items-center    p-1 px-1" >
+                                                                                <i className="fi fi-rr-trash flex items-center text-sm  "></i>
+                                                                            </button>
+                                                                        ) : (
+                                                                            // Show Minus Button if Quantity > 1
+                                                                            <button onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }} className="text-primary text-lg flex items-center   p-1 px-1"  >
+                                                                                <i class="fi fi-rr-minus-small flex items-center"></i>
+                                                                            </button>
+                                                                        )}
+                                                                        <span className="text-primary text-sm font-bold  mx-auto ">
+                                                                            {cartItems.find(item => item._id === prod._id)?.Quantity}
+                                                                            {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
+                                                                        <>
+                                                                            <span className="text-red-500 ml-1"> (Limit reached!)</span>
+                                                                        </>
+                                                                    )} */}
+                                                                        </span>
+                                                                        {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
+                                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
+                                                                                <>
+                                                                                    <i class="fi fi-rr-plus-small flex items-center"></i>
+                                                                                </>
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                ) : (
+                                                                    // Show Add to Cart Button if Product is NOT in Cart
+                                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
+                                                                        <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
+                                                                    </button>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {/* {getCurrentCartQuantity() === 0 ? (
                                                 <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
                                                     <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
                                                     Add to Cart
@@ -593,71 +657,77 @@ const HomrProducts = () => {
                                                 </button>
                                             )} */}
 
-                                            <div className="absolute z-10 top-3 left-2 lg:top-2 lg:left-2 text-[10px] lg:text-xs ">
-                                                {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
-                                                    <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
-                                                        <p className="">Out of Stock</p>
-                                                    </div>
-                                                )}
-                                                {(prod.QTY > 0 && prod.Discount > 0 && prod.Stock === 'Stock') && (
-                                                    <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
-                                                        <p className="">{Math.round(prod?.Discount)}% off</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className="relative flex items-center justify-center    overflow-hidden rounded-lg   p-1">
-                                                <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={`  object-contain  pt-1  group-hover:opacity-80 duration-300 w-full max-h-52 md:h-52 h-32 rounded-lg`} />
-                                            </div>
-                                            <div className=" md:px-3 md:pb-3 p-1 space-y-1">
-                                                <h2 className="  text-sm text-black dark:text-white md:text-base line-clamp-2 text-left">
-                                                    {prod.Product_Name}
-                                                </h2>
-                                                <div className=" lg:flex items-center justify-between space-y-1 flex-wrap  ">
-                                                    <div className="order-1 lg:order-2">
-                                                        {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') && (
-                                                            <div className="bg-[#f1aa59] p-1 text-white md:text-[9px] text-[7px] rounded-full w-fit  ">
-                                                                <p className="">Limited Stock</p>
+                                                {showB2B !== true && (
+                                                    <div className="absolute z-10 top-3 left-2 lg:top-2 lg:left-2 text-[10px] lg:text-xs ">
+                                                        {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
+                                                            <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
+                                                                <p className="">Out of Stock</p>
                                                             </div>
                                                         )}
-                                                        {(prod.Category == "Upcoming Arrivals") && (
-                                                            <div className="bg-indigo-500 p-1 text-white md:text-[9px] text-[7px]  rounded-full w-fit  ">
-                                                                <p className="">Upcoming Arrivals</p>
+                                                        {(prod.QTY > 0 && prod.Discount > 0 && prod.Stock === 'Stock') && (
+                                                            <div className="bg-primary p-1 text-white rounded-full px-1.5 text-center">
+                                                                <p className="">{Math.round(prod?.Discount)}% off</p>
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <div className="flex items-center gap-3 order-2 lg:order-1">
-                                                        {prod.Discount > 0 && (
-                                                            <>  <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
-                                                                ₹{parseFloat(prod?.Sale_Price)}
-                                                            </h3>
-                                                                {/* Original Price */}
-                                                                <h3 className="md:text-sm text-xs text-third line-through  dark:text-white">
-                                                                    ₹{parseFloat(prod?.Regular_Price)}
-                                                                </h3>
-
-                                                            </>
-                                                        )}
-                                                        {prod?.Discount === 0 && prod?.Sale_Price > 0 && (
-                                                            <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
-                                                                ₹{parseFloat(prod?.Sale_Price)}
-                                                            </h3>
-                                                        )}
-                                                    </div>
-
-
+                                                )}
+                                                <div className="relative flex items-center justify-center    overflow-hidden rounded-lg   p-1">
+                                                    <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={`  object-contain  pt-1  group-hover:opacity-80 duration-300 w-full max-h-52 md:h-52 h-32 rounded-lg`} />
                                                 </div>
-                                                <div className="text-start  ">
-                                                    <button className="text-white md:p-2 p-1 py-2 w-full md:text-base text-xs bg-primary rounded-3xl">
-                                                        View Details
-                                                    </button>
+                                                <div className=" md:px-3 md:pb-3 p-1 space-y-1">
+                                                    <h2 className="  text-sm text-black dark:text-white md:text-base line-clamp-2 text-left">
+                                                        {prod.Product_Name}
+                                                    </h2>
+                                                    {showB2B && (
+                                                        <p className="font-semibold">Min 10 Pieces </p>
+                                                    )}
+                                                    {showB2B !== true && (
+                                                        <div className=" lg:flex items-center justify-between space-y-1 flex-wrap  ">
+                                                            <div className="order-1 lg:order-2">
+                                                                {(prod.QTY <= 5 && prod.QTY > 0 && prod.Stock === 'Stock') && (
+                                                                    <div className="bg-[#f1aa59] p-1 text-white md:text-[9px] text-[7px] rounded-full w-fit  ">
+                                                                        <p className="">Limited Stock</p>
+                                                                    </div>
+                                                                )}
+                                                                {(prod.Category == "Upcoming Arrivals") && (
+                                                                    <div className="bg-indigo-500 p-1 text-white md:text-[9px] text-[7px]  rounded-full w-fit  ">
+                                                                        <p className="">Upcoming Arrivals</p>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex items-center gap-3 order-2 lg:order-1">
+                                                                {prod.Discount > 0 && (
+                                                                    <>  <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
+                                                                        ₹{parseFloat(prod?.Sale_Price)}
+                                                                    </h3>
+                                                                        {/* Original Price */}
+                                                                        <h3 className="md:text-sm text-xs text-third line-through  dark:text-white">
+                                                                            ₹{parseFloat(prod?.Regular_Price)}
+                                                                        </h3>
+
+                                                                    </>
+                                                                )}
+                                                                {prod?.Discount === 0 && prod?.Sale_Price > 0 && (
+                                                                    <h3 className="text-sm font-semibold text-black dark:text-white md:text-lg shadow-white drop-shadow-md">
+                                                                        ₹{parseFloat(prod?.Sale_Price)}
+                                                                    </h3>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    <div className="text-start  ">
+                                                        <button className="text-white md:p-2 p-1 py-2 w-full md:text-base text-xs bg-primary rounded-3xl">
+                                                            View Details
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            ))}
-                    </div>
-                </section>
+                                    </Link>
+                                ))}
+                        </div>
+                    </section>
+                </>
             )}
         </>
     );

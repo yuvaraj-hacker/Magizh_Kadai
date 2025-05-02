@@ -30,7 +30,7 @@ const Approuter = () => {
                 <Route element={<Main />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/returngift" element={<Return />} />
-                    {/* <Route path="/business" element={<BusinessPage/>} /> */}
+                    <Route path="/business" element={<BusinessPage/>} />
                     {/* <Route path="/register" element={<RegisterPage />} /> */}
                     <Route path="/forgotpassword" element={<Forgotpassword />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />

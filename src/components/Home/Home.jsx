@@ -22,6 +22,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Helmet } from 'react-helmet'
 import Products from '../Products/Products.jsx'
 import HomrProducts from './HomrProducts.jsx'
+import Marquee from 'react-fast-marquee'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   const [offers, setOffers] = useState([]);
@@ -91,6 +93,15 @@ export default function Home() {
           <meta property="og:image" content="https://www.magizhkadai.com/images/og/og-image.jpeg" />
         </Helmet>
       </HelmetProvider>
+      <section className=' '>
+        <Marquee speed={60} pauseOnHover gradient={false} play={true} className="bg-[#024A34] py-2"  >
+          <Link to="/products?category=New%20Arrivals">
+            <span className="mx-4 text-base font-bold bg-gradient-to-r from-[#7cf3a0] via-[#5ecbff] via-[#b084f4] via-[#ff7eb9] to-[#ffe074] bg-clip-text text-transparent hover:underline">
+              🌟 NEW ARRIVALS • SHOP THE LATEST STYLES • LIMITED STOCK • EXCLUSIVE DEALS
+            </span>
+          </Link>
+        </Marquee>
+      </section>
       <div className='max-w-[1860px] mx-auto bg-white dark:bg-black z-45'>
         {/* <HeroSection mainCarouselBanners={mainCarouselBanners1} categoryBanners={categoryDealsBanners1} /> */}
         {/* Render All Active Offers */}
@@ -98,6 +109,7 @@ export default function Home() {
         {/* <div className='px-3'><SwiperMin Product={Product} /></div> */}
         {/* <NewArrivals products={Product} /> */}
         {/* <div className=''><AllProducts groupedProducts={groupedProducts} categoryProducts={categoryProducts} /></div> */}
+
         <div className='mt-5  px-2'>
           <HomrProducts />
         </div>

@@ -38,8 +38,9 @@ export default function Header(props) {
   const { isLoggedIn, userdetails, } = useAuth();
   const [translateInitialized, setTranslateInitialized] = useState(false);
   const navigate = useNavigate()
+  const location = useLocation();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const [location, setLocation] = useState(localStorage.getItem('selectedLocation') || '');
+  // const [location, setLocation] = useState(localStorage.getItem('selectedLocation') || '');
   const [deliveryOption, setDeliveryOption] = useState(localStorage.getItem('purchaseType') || '');
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -55,11 +56,13 @@ export default function Header(props) {
   const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
   const [prevWishlistCount, setPrevWishlistCount] = useState(0);
 
-
+  const searchParams = new URLSearchParams(location.search);
   const locations = useLocation();
   const params = new URLSearchParams(locations.search);
   const activeCategory = params.get("category"); // Get category from URL query
 
+  const showB2B = searchParams.get('showB2B') === 'true';
+  const queryString = showB2B ? '?showB2B=true' : '';
 
 
   const allCategories = useCallback(async () => {
@@ -522,7 +525,7 @@ export default function Header(props) {
                         </div>
                       </div>
                     </div> */}
-                    <NavLink to="/cart" className="relative">
+                    <NavLink to={`/cart${queryString}`} className="relative">
                       {({ isActive }) => (
                         <div className="relative">
                           <i
@@ -653,49 +656,53 @@ export default function Header(props) {
             </div>
           </div> */}
           <div className='bg-gray-50 border border-y-gray-300 relative flex items-center  overflow-hidden'>
-            <div className="p-2 max-w-[82rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
+            <div className="p-2 max-w-[85rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
               <div className="flex overflow-y-auto scrollbar-hide gap-2">
                 {sortedCategories.map((category) => (
-                  <div key={category.Category_Name} ref={(el) => {
-                    if (activeCategory === category.Category_Name && el) {
-                      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-                    }
-                  }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
-                    onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
-                    <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
-                      {category.Category_Name === "New Arrivals" ? (
-                        <div className="flex items-center gap-1">
-                          {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
-                          <p className="whitespace-nowrap font-bold xl:text-base text-sm glow  ">
+                  <>
+
+                    <div key={category.Category_Name} ref={(el) => {
+                      if (activeCategory === category.Category_Name && el) {
+                        el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                      }
+                    }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
+                      onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
+                      <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
+                        {category.Category_Name === "New Arrivals" ? (
+                          <div className="flex items-center gap-1">
+                            {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
+                            <p className="whitespace-nowrap font-extrabold xl:text-base text-sm glow  ">
+                              🌟 {category.Category_Name}
+                            </p>
+                          </div>
+                        ) : (
+                          <p className="whitespace-nowrap font-bold xl:text-base text-sm">
                             {category.Category_Name}
                           </p>
-                        </div>
-                      ) : (
-                        <p className="whitespace-nowrap font-bold xl:text-base text-sm">
-                          {category.Category_Name}
-                        </p>
-                      )}
-                    </Link>
-                  </div>
+                        )}
+                      </Link>
+                    </div>
+
+                  </>
                 ))}
+
                 <div className=' '>
                   {/* <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
                   Return Gift
                 </p> */}
-                  <Link to='/returngift'>
-                    <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 ml-4"   >
-                      <img src="/images/Design/giftbox.gif" alt="" className='w-6 ' />
-                      Return Gift
-                    </p>
-                  </Link>
+
 
                 </div>
-                <div className="cursor-pointer" onClick={handleClick}>
+                {/* <div className="cursor-pointer" onClick={handleClick}>
                   B2B
-                </div>
-
+                </div> */}
               </div>
-
+              <Link to='/returngift'>
+                <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 mx-4"   >
+                  <img src="/images/Design/giftbox.gif" alt="" className='w-6 ' />
+                  Return Gift
+                </p>
+              </Link>
               {/* {category.Subcategories && category.Subcategories.length > 0 && (
                         <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
                       )} */}
@@ -718,6 +725,10 @@ export default function Header(props) {
                 </div>
               )} */}
             </div>
+            <div onClick={handleClick} className={`p-3 rounded-md text-white cursor-pointer ${showB2B ? 'bg-[#F1AA59]' : 'bg-[#024A34]'
+              }`}   >
+              B2B
+            </div>
             {/* <div className=' absolute right-0'>
               <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
                   Return Gift
@@ -730,6 +741,7 @@ export default function Header(props) {
 
             </div> */}
           </div>
+
         </div>
       </header >
 

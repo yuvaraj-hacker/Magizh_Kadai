@@ -80,15 +80,17 @@ function Business() {
         });
 
 
-    const handleCategoryChange = (e) => {
+    const handleCategoryChange = async (e) => {
         const selectedCategory = e.target.value;
         setFormdata({ ...formdata, category: selectedCategory });
-        // Filter products by selected category
-        const filteredProducts = products.filter(
-            (product) => product.category === selectedCategory
-        );
-        setProducts(filteredProducts);
+        try {
+            const res = await getallProductsByCategory({ category: selectedCategory });
+            setProducts(res); // assuming the API returns an array of products
+        } catch (err) {
+            console.error('Failed to fetch products by category:', err);
+        }
     };
+
 
 
 
@@ -157,6 +159,19 @@ function Business() {
                                         </option>
                                     ))}
                                 </select>
+                            </div>
+
+                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {products.length > 0 ? (
+                                    products.map(product => (
+                                        <div key={product._id} className="p-4 border rounded shadow">
+                                            <h3 className="font-semibold">{product.Product_Name}</h3>
+
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="col-span-full text-gray-500">No products found for this category.</p>
+                                )}
                             </div>
 
                             <div className="flex flex-col space-y-2">

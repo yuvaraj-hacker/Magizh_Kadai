@@ -787,16 +787,16 @@ input[type="number"] {
 
 
 
-  .glow{
+    .glow{
+        background: linear-gradient(
+            to right,
+            #00e6d8 0,
+            #c15bff 25%,
+            #ff00a6 50%,
+            #ff2c1c 75%,
+            #ffb800 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-    color:#024A34;
-    animation-name:glow;
-    animation-duration:1s;
-    animation-iteration-count:infinite;
-    animation-direction:alternate;
-  }
-
-  @keyframes glow{
-    from{text-shadow:0px 0px 5px #024A34,0px 0px 5px #024A34;}
-    to{text-shadow:0px 0px 20px #024A34,0px 0px 20px #024A34;}
-  }
