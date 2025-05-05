@@ -20,7 +20,7 @@ import { NavLink } from 'react-router-dom';
 export default function Header(props) {
 
   const { languages, ScrollToTop, handleLogout, wishlistData, setWishlistData, getDisplayLetter, ToggleFn, Toggle, visible, setVisible, showUserDropdown, setShowUserDropdown,
-    openform } = props;
+    openform, category } = props;
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
@@ -193,9 +193,8 @@ export default function Header(props) {
       : '/path-to-default-product-image.jpg';
   }
 
-
   const handleClick = () => {
-    navigate('/?showB2B=true'); // add query param
+    window.location.href = '/?showB2B=true';
   };
 
   // const getWishlistItem = useCallback(async () => {
@@ -349,6 +348,43 @@ export default function Header(props) {
   //   </div>
   //   </>
   // )
+
+  const handleLogoClick = () => {
+    sessionStorage.clear();  // Clear sessionStorage
+    ScrollToTop();  // Scroll to top
+    navigate('/');  // Navigate to home page
+    window.location.reload();  // Reload the page
+  };
+
+  const handleReload = () => {
+    if (window.location.pathname === '/') {
+      window.location.reload();
+    }
+  };
+
+
+  const handleProduct = () => {
+    if (window.location.pathname === '/products') {
+      window.location.reload();
+    }
+  };
+
+
+
+
+  const handleCategoryClick = (category) => {
+    // Check if the category.Category_Name exists
+    if (category && category.Category_Name) {
+      // Navigate to the category page
+      navigate(`/products?category=${category.Category_Name}`);
+
+      // Reload the page after navigating
+      window.location.reload();
+    } else {
+      console.error("Category name is undefined or invalid.");
+    }
+  };
+
   return (
     <>
       <header>
@@ -358,8 +394,8 @@ export default function Header(props) {
               <div className='flex items-center relative  w-full justify-between  '>
                 {/* logo */}
                 <div className='flex items-center  rounded-r-md'>
-                  <Link to={'/'} onClick={() => { sessionStorage.clear(); ScrollToTop(); }}><img src="/images/Logo/Logo.png" alt="" className='w-24 p-1 min-w-24 lg:w-36' />
-                  </Link>
+                  <button onClick={handleLogoClick}><img src="/images/Logo/Logo.png" alt="" className='w-24 p-1 min-w-24 lg:w-36' />
+                  </button>
                 </div>
                 {/* search */}
                 <div className={`lg:max-w-[30vw] lg:w-full z-10 lg:static absolute  right-0 `}>
@@ -492,25 +528,29 @@ export default function Header(props) {
                   {/* icons */}
                   <div className='items-center justify-center hidden gap-5 text-xl text-gray-400 lg:flex'>
                     {/* <i onClick={ToggleFn} className="cursor-pointer fi fi-sr-settings lg:hidden"></i> */}
-                    <NavLink to="/" className=" text-primary">
-                      {({ isActive }) => (
-                        isActive ? (
-                          <i className="fi fi-ss-house-chimney" title="Home"></i>
-                        ) : (
-                          <i className="fi fi-rs-house-chimney" title="Home"></i>
-                        )
-                      )}
-                    </NavLink>
-                    <NavLink to='/products' className="text-primary">
-                      {/* <i className="fi fi-rs-shop text-primary" title='Shop'></i> */}
-                      {({ isActive }) => (
-                        isActive ? (
-                          <i className="fi fi-ss-shop" title='Shop'></i>
-                        ) : (
-                          <i className="fi fi-rs-shop " title='Shop'></i>
-                        )
-                      )}
-                    </NavLink>
+                    <div className='' onClick={handleReload}>
+                      <NavLink to='/' className=" text-primary">
+                        {({ isActive }) => (
+                          isActive ? (
+                            <i className="fi fi-ss-house-chimney" title="Home"></i>
+                          ) : (
+                            <i className="fi fi-rs-house-chimney" title="Home"></i>
+                          )
+                        )}
+                      </NavLink>
+                    </div>
+                    <div className='' onClick={handleProduct}>
+                      <NavLink to='/products' className="text-primary">
+                        {/* <i className="fi fi-rs-shop text-primary" title='Shop'></i> */}
+                        {({ isActive }) => (
+                          isActive ? (
+                            <i className="fi fi-ss-shop" title='Shop'></i>
+                          ) : (
+                            <i className="fi fi-rs-shop " title='Shop'></i>
+                          )
+                        )}
+                      </NavLink>
+                    </div>
                     {/* <div onClick={handleWishlistClick} className="relative cursor-pointer">
                       <div className="relative">
                         {isWishlistAnimating && (
@@ -655,58 +695,78 @@ export default function Header(props) {
               </div>
             </div>
           </div> */}
-          <div className='bg-gray-50 border border-y-gray-300 relative flex items-center  overflow-hidden'>
-            <div className="p-2 max-w-[85rem] mx-auto bg-gray-50 relative text-primary flex items-center gap-4" onMouseLeave={() => setHoveredCategory(null)} >
-              <div className="flex overflow-y-auto scrollbar-hide gap-2">
-                {sortedCategories.map((category) => (
-                  <>
+          <div className='flex flex-wrap md:flex-nowrap justify-between bg-gray-50 border border-y-gray-300 md:px-3  '>
+            <div className='2xl:block hidden'>
+            </div>
+            <div className='bg-gray-50   relative flex items-center justify-between flex-wrap  overflow-hidden'>
+              <div>
 
-                    <div key={category.Category_Name} ref={(el) => {
-                      if (activeCategory === category.Category_Name && el) {
-                        el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-                      }
-                    }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
-                      onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
-                      <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
-                        {category.Category_Name === "New Arrivals" ? (
-                          <div className="flex items-center gap-1">
-                            {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
-                            <p className="whitespace-nowrap font-extrabold xl:text-base text-sm glow  ">
-                              🌟 {category.Category_Name}
-                            </p>
-                          </div>
-                        ) : (
-                          <p className="whitespace-nowrap font-bold xl:text-base text-sm">
-                            {category.Category_Name}
-                          </p>
-                        )}
-                      </Link>
-                    </div>
-
-                  </>
-                ))}
-
-                <div className=' '>
-                  {/* <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
-                  Return Gift
-                </p> */}
-
-
-                </div>
-                {/* <div className="cursor-pointer" onClick={handleClick}>
-                  B2B
-                </div> */}
               </div>
-              <Link to='/returngift'>
-                <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 mx-4"   >
-                  <img src="/images/Design/giftbox.gif" alt="" className='w-6 ' />
-                  Return Gift
-                </p>
-              </Link>
-              {/* {category.Subcategories && category.Subcategories.length > 0 && (
+              <div className="p-2   bg-gray-50 relative text-primary flex gap-4 " onMouseLeave={() => setHoveredCategory(null)} >
+                <div className="flex overflow-y-auto scrollbar-hide gap-2">
+                  {sortedCategories.map((category) => (
+                    <>
+                      <div key={category.Category_Name} ref={(el) => {
+                        if (activeCategory === category.Category_Name && el) {
+                          el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                        }
+                      }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
+                        onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
+                        <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
+                          {category.Category_Name === "New Arrivals" ? (
+                            <div className="flex items-center gap-1">
+                              {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
+                              <p className="whitespace-nowrap font-extrabold xl:text-base text-sm glow  ">
+                                🌟 {category.Category_Name}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="whitespace-nowrap font-bold xl:text-base text-sm">
+                              {category.Category_Name}
+                            </p>
+                          )}
+                        </Link>
+                      </div>
+                    </>
+                  ))}
+                </div>
+
+              </div>
+
+            </div>
+            <div className='flex gap-6 items-center   md:mb-0 mb-2'>
+              <div className='flex justify-center items-center'>
+                <Link to='/returngift'>
+                  <div className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg w-full whitespace-nowrap flex items-center gap-2 2xl:mx-0 mx-4">
+                    <img src="/images/Design/giftbox.gif" alt="" className='md:w-6 w-4' />
+                    <p className=" md:text-base text-sm ">  Return Gift</p>
+                  </div>
+                </Link>
+              </div>
+
+              <div onClick={handleClick} className={`p-3 py-2 rounded-md text-white md:text-base text-sm cursor-pointer ${showB2B ? 'bg-[#F1AA59]' : 'bg-[#024A34]'
+                }`}   >
+                B2B
+              </div>
+            </div>
+          </div>
+        </div>
+      </header >
+
+
+      {/* <DeliveryPickupModal isOpen={isDeliveryModalOpen} onClose={() => setIsDeliveryModalOpen(false)} onSelectOption={handleDeliveryOptionSelect} /> */}
+
+
+    </>
+  )
+}
+
+
+
+{/* {category.Subcategories && category.Subcategories.length > 0 && (
                         <i className={`fi fi-rr-angle-small-down flex items-center ${hoveredCategory === category.Category_Name ? 'rotate-180 duration-300' : 'duration-300'}`}></i>
                       )} */}
-              {/* {hoveredCategory && categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories?.length > 0 && (
+{/* {hoveredCategory && categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories?.length > 0 && (
                 <div className="absolute left-0 w-full bg-gray-50  shadow-md transition-all duration-300 border border-secondary ease-in-out">
                   <div className="max-w-[70rem] mx-auto p-4 grid grid-cols-3 gap-">
                     {categories.find(category => category.Category_Name === hoveredCategory)?.Subcategories.map((sub) => (
@@ -724,32 +784,3 @@ export default function Header(props) {
                   </div>
                 </div>
               )} */}
-            </div>
-            <div onClick={handleClick} className={`p-3 rounded-md text-white cursor-pointer ${showB2B ? 'bg-[#F1AA59]' : 'bg-[#024A34]'
-              }`}   >
-              B2B
-            </div>
-            {/* <div className=' absolute right-0'>
-              <p onClick={() => setOpenModal(true)} className="cursor-pointer py-2  font-semibold bg-[#024A34] text-white px-3 rounded-lg"   >
-                  Return Gift
-                </p>
-              <Link to='/business'>
-                <p className="cursor-pointer py-2 font-semibold bg-[#024A34] text-white px-3 rounded-lg whitespace-nowrap flex items-center gap-2 ml-4"   >
-                  B2B
-                </p>
-              </Link>
-
-            </div> */}
-          </div>
-
-        </div>
-      </header >
-
-
-
-      {/* <DeliveryPickupModal isOpen={isDeliveryModalOpen} onClose={() => setIsDeliveryModalOpen(false)} onSelectOption={handleDeliveryOptionSelect} /> */}
-
-
-    </>
-  )
-}

@@ -13,6 +13,7 @@ const ProductView = (props) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const showB2B = searchParams.get('showB2B') === 'true';
+  const queryString = showB2B ? '?showB2B=true' : '';
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Check screen size
   // Update screen size on resize
   useEffect(() => {
@@ -141,6 +142,10 @@ const ProductView = (props) => {
             <div className='flex flex-wrap flex-col  gap-2  justify-start'>
               <div className='flex flex-wrap gap-2  items-center'>
                 <h1 className="font-semibold md:text-xl me-2">{product.Product_Name} </h1>
+                {showB2B == true && (
+                  <><div className='font-bold text-[#F1AA59] '> (Min 10 Pieces)</div></>
+                )}
+
                 {product.Category === "New Arrivals" && (
                   <p className=" text-[#FFD700]   rounded-full w-fit text-[10px] lg:text-sm text-xs  "> <img className='w-28' src="/images/Design/newfaf.gif" alt="" /></p>
                 )}
@@ -150,10 +155,16 @@ const ProductView = (props) => {
                   <p className="text-xs ">Out of Stock</p>
                 </div>
               )}
-              {product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock' && (
-                <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2  w-fit">
-                  <p className="text-xs ">Limited Stock</p>
-                </div>
+              {showB2B !== true && (
+                <>
+                  {
+                    product.QTY <= 5 && product.QTY > 0 && product.Stock === 'Stock' && (
+                      <div className="bg-[#f1aa59] p-1 text-white rounded-3xl mb-2  w-fit">
+                        <p className="text-xs ">Limited Stock</p>
+                      </div>
+                    )
+                  }
+                </>
               )}
             </div>
 
@@ -173,7 +184,7 @@ const ProductView = (props) => {
               </div>
             )}
             {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && product.Category !== 'Upcoming Arrivals' && (
-              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[103px] z-10 bg-white'>
+              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[149px] z-10 bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                   <>
                     <>
@@ -194,7 +205,6 @@ const ProductView = (props) => {
                           )}
                           <div className='flex md:gap-2 gap-1 items-center'>
                             <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
-
                             <span className=" md:text-base text-xs">{getCurrentCartQuantity()} {showB2B && <span>  </span>} in cart</span>
                           </div>
                           {getCurrentCartQuantity() >= 1 && getCurrentCartQuantity() < product.QTY ? (
@@ -202,10 +212,20 @@ const ProductView = (props) => {
                               {/* <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " /> */}
                               <i className="fi fi-br-add  md:text-xl flex items-center"></i>
                             </button>
+
                           ) : (
-                            <div>
-                            </div>
+                            <>
+                              <div>
+                                {showB2B && (
+                                  <button className='    flex justify-center items-center cursor-pointer' onClick={handleIncreaseQuantity}>
+                                    {/* <ChevronUpIcon className="md:w-6 md:h-6 w-4 h-4 text-primary " /> */}
+                                    <i className="fi fi-br-add  md:text-xl flex items-center"></i>
+                                  </button>
+                                )}
+
+                              </div></>
                           )}
+
                         </button>
                       )}
 
@@ -225,10 +245,12 @@ const ProductView = (props) => {
                  </button> */}
 
                 </div>
+
                 <div className="bg-[#27A737] cursor-pointer  items-center  px-2   justify-center flex  gap-1 rounded-3xl md:text-base text-base text-white" onClick={handleBuyNow}>
                   <img className="md:w-14 w-8" src="/images/Testimonial/whatsapp.png" alt="" />
                   <p className="md:text-lg text-xs px-1  ">Buy Now</p>
                 </div>
+
               </div>
             )}
             {(product.QTY === 0 || product.Stock === 'Out of Stock') && (

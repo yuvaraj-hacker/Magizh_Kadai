@@ -12,16 +12,26 @@ const Main = () => {
     const isProfilePage = window.location.pathname === '/profile';
     const [TogSidecat, setTogSidecat] = useState(false);
 
-
-    // const location = useLocation();
-    // const setCartType = useCart(state => state.setCartType);
-
-    // useEffect(() => {
-    //   const searchParams = new URLSearchParams(location.search);
-    //   const isB2B = searchParams.get('showB2B') === 'true';
-    //   setCartType(isB2B);
-    // }, [location.search]);
-
+        // useEffect(() => {
+        //     const handleClick = (e) => {
+        //       const anchor = e.target.closest("a");
+        //       if (
+        //         anchor &&
+        //         anchor.href &&
+        //         anchor.target !== "_blank" &&
+        //         !anchor.href.includes("/cart") // 👈 Skip refresh for /cart
+        //       ) {
+        //         e.preventDefault(); // Prevent default client-side nav
+        //         window.location.href = anchor.href; // Force full page reload
+        //       }
+        //     };
+        //     // Attach event listener
+        //     document.addEventListener("click", handleClick);
+        //     // Cleanup on unmount
+        //     return () => {
+        //         document.removeEventListener("click", handleClick);
+        //     };
+        // }, []);
 
     return (
         <>
@@ -30,7 +40,7 @@ const Main = () => {
                 <Layout />
             </div> */}
             <Sidebar setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />
-            <main className="md:pt-[101px] pt-[100px] lg:pt-[130px]">
+            <main className="md:pt-[101px] pt-[150px]   lg:pt-[130px]">
                 <Outlet />
                 {!isProfilePage || window.innerWidth >= 1024 ? (
                     <Footer className="hidden md:block" setTogSidecat={setTogSidecat} TogSidecat={TogSidecat} />

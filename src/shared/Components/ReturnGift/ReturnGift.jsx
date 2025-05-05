@@ -12,6 +12,8 @@ function ReturnGift() {
   const [loading, setLoading] = useState(false);
   const [formdata, setFormdata] = useState({});
   const fileInputRef = useRef();
+  const [showPreview, setShowPreview] = useState(false);
+  const [confirmData, setConfirmData] = useState(null);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -98,6 +100,7 @@ function ReturnGift() {
       if (fileInputRef.current) {
         fileInputRef.current.value = null;
       }
+      setShowPreview(false);
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong');
@@ -119,7 +122,11 @@ function ReturnGift() {
                 ×
               </button> */}
             <p className="text-lg font-extrabold text-center">Product Request Corner!</p>
-            <form onSubmit={handlesave} className="bg-white rounded-xl space-y-4">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              setConfirmData(formdata);
+              setShowPreview(true);
+            }} className="bg-white rounded-xl space-y-4">
               <div className="flex flex-col space-y-2">
                 <label className="block text-sm font-medium">Your Name</label>
                 <input type="text" required value={formdata?.Name || ''}
@@ -231,6 +238,40 @@ function ReturnGift() {
                 </button>
               </div>
             </form>
+            {showPreview && (
+              <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-xl max-w-md w-full space-y-4 shadow-lg">
+                  <h2 className="text-lg font-bold mb-4 text-center" >Confirm Your Details</h2>
+                  <div><strong>Name:</strong> {confirmData?.Name}</div>
+                  <div><strong>Contact:</strong> {confirmData?.Whatsapp}</div>
+                  <div><strong>Product Name:</strong> {confirmData?.product_Name}</div>
+                  <div><strong>Quantity:</strong> {confirmData?.quantity}</div>
+                  <div><strong>Expected Date:</strong> {confirmData?.expectedDate}</div>
+                  {images.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {images.map((img, index) => (
+                        <img key={index} src={img.preview} alt={`preview-${index}`} className="max-h-52 overflow-y-auto  object-cover rounded" />
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex justify-end space-x-4 pt-4">
+                    <button
+                      onClick={() => setShowPreview(false)}
+                      className="px-4 py-2 rounded-md border border-gray-300"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handlesave}
+                      className="px-4 py-2 bg-[#024A34] text-white rounded-md"
+                    >
+                      Confirm & Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
 

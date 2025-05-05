@@ -55,6 +55,9 @@ const HomrProducts = () => {
     const params = new URLSearchParams(locations.search);
     const activeCategory = params.get("category"); // Get category from URL query
 
+    const showB2B = searchParams.get('showB2B') === 'true';
+    const queryString = showB2B ? '?showB2B=true' : '';
+
     const allCategories = useCallback(async () => {
         setIsLoading(true);
         try {
@@ -94,7 +97,6 @@ const HomrProducts = () => {
             if (bPriority !== -1) return 1;  // b is in priority list, a is not → b first
             return 0; // neither in priority list → keep original order
         });
-
 
 
     // Run effect only when the component mounts or when coming back from product details
@@ -235,51 +237,6 @@ const HomrProducts = () => {
 
 
 
-    const handleIncreaseQuantity = async () => {
-        const currentQuantity = getCurrentCartQuantity();
-
-        if (currentQuantity >= product.QTY) {
-            toast.error(`Limit reached! Maximum allowed: ${product?.QTY}`, { icon: "📢" });
-            return;
-        }
-        try {
-            if (userdetails?.Email) {
-                const cartItem = cartItems.find(item => item._id === product._id);
-                if (cartItem) {
-                    await updatecartItem(cartItem._id, product._id, currentQuantity + 1, userdetails.Email);
-                }
-            }
-
-            increaseQuantity(product._id);
-
-
-        } catch (error) {
-            toast.error("Failed to update quantity");
-            console.error("Error updating quantity:", error);
-        }
-    };
-
-    const handleDecreaseQuantity = async () => {
-        const currentQuantity = getCurrentCartQuantity();
-        if (currentQuantity <= 1) {
-            handleDelete();
-            return;
-        }
-        try {
-            if (userdetails?.Email) {
-                const cartItem = cartItems.find(item => item._id === product._id);
-                if (cartItem) {
-                    await updatecartItem(cartItem._id, product._id, currentQuantity - 1, userdetails.Email);
-                }
-            }
-            decreaseQuantity(product._id);
-        } catch (error) {
-            toast.error("Failed to update quantity");
-            console.error("Error updating quantity:", error);
-        }
-    };
-
-
 
 
     // const allCategories = useCallback(async () => {
@@ -371,8 +328,9 @@ const HomrProducts = () => {
             const existingCartItem = cartItemsFromStore.find(
                 (item) => item._id === prod._id
             );
+            const isB2B = searchParams.get('showB2B') === 'true';
             const isFreshProduce = prod.Category === "Fresh Produce";
-            const increment = isFreshProduce ? 0.5 : 1;
+            const increment = isB2B ? 10 : isFreshProduce ? 0.5 : 1;
             // Get current cart quantity
             const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
             const updatedQuantity = currentQuantity + increment;
@@ -389,15 +347,15 @@ const HomrProducts = () => {
                     );
                 }
                 increaseQuantity(prod._id);
-                if (updatedQuantity === prod.QTY) {
+
+                if (!isB2B && updatedQuantity === prod.QTY) {
                     toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
                     return;
                 }
-
                 // toast.success(`Quantity increased! (${updatedQuantity})`);
             } else {
                 // ✅ Add new product to cart
-                const initialQuantity = isFreshProduce ? 0.5 : 1;
+                const initialQuantity = showB2B ? 10 : isFreshProduce ? 0.5 : 1;
                 if (userdetails?.Email) {
                     const cartData = {
                         productId: prod._id,
@@ -418,10 +376,57 @@ const HomrProducts = () => {
         }
     };
 
+    // const handleAddToCart = async (prod) => {
+    //     try {
+    //         const cartItemsFromStore = cartItems || [];
+    //         const existingCartItem = cartItemsFromStore.find(
+    //             (item) => item._id === prod._id
+    //         );
+
+    //         const isFreshProduce = prod.Category === "Fresh Produce";
+    //         const isB2B = searchParams.get('showB2B') === 'true';
+
+    //         // Set increment values
+    //         const increment = isFreshProduce ? 0.5 : isB2B ? 10 : 1;
+    //         const currentQuantity = existingCartItem ? existingCartItem.Quantity : 0;
+    //         const updatedQuantity = currentQuantity + increment;
+
+    //         if (existingCartItem) {
+    //             if (userdetails?.Email) {
+    //                 await updatecartItem(
+    //                     existingCartItem._id,
+    //                     prod._id,
+    //                     updatedQuantity,
+    //                     userdetails.Email
+    //                 );
+    //             }
+    //             increaseQuantity(prod._id, increment); // Pass increment
+    //             if (updatedQuantity >= prod.QTY) {
+    //                 toast.error(`Limit reached! ${prod?.QTY}`, { icon: "📢" });
+    //                 return;
+    //             }
+    //         } else {
+    //             const initialQuantity = increment;
+    //             if (userdetails?.Email) {
+    //                 const cartData = {
+    //                     productId: prod._id,
+    //                     Email: userdetails.Email,
+    //                     Quantity: initialQuantity,
+    //                 };
+    //                 await savecartitems(cartData);
+    //             }
+    //             addToCart({ ...prod, Quantity: initialQuantity }); // ✅ Quantity = 10 in B2B
+    //             toast.success(`Product added to cart! (${initialQuantity})`);
+    //             updateTotalCartItems();
+    //         }
+    //     } catch (error) {
+    //         toast.error("Failed to add product to cart.");
+    //         console.error("Error adding product to cart:", error);
+    //     }
+    // };
 
 
-    const showB2B = searchParams.get('showB2B') === 'true';
-    const queryString = showB2B ? '?showB2B=true' : '';
+
     // const handleAddToCart = async (product) => {
     //     if (product.QTY === 0) {
     //         toast.error("This item is currently out of stock!");
@@ -527,12 +532,12 @@ const HomrProducts = () => {
                 <>
 
                     <section className="">
-                        <div className=" py-5  px-4">
+                        <div className=" md:py-5 py-3  px-4">
                             {showB2B && (
                                 <>
                                     <h1 className="font-extrabold md;text-xl text-lg text-center"> Business-to-Business</h1>
                                     <p className="text-center">Unlock exclusive wholesale deals and grow your business with us!! </p>
-                                    <div className="flex justify-center  gap-5">
+                                    <div className="flex justify-center  gap-5 overflow-hidden overflow-x-auto whitespace-nowrap scrollbar-hide">
                                         {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories" && category.Category_Name !== "Upcoming Arrivals").map((category) => {
                                             if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
                                             const isChecked = selectedCategories.includes(category.Category_Name);
@@ -550,7 +555,7 @@ const HomrProducts = () => {
                                                     <Link to={linkTo}>
                                                         <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
                                                             <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
-                                                            <h5 className="whitespace-pre-wrap text-primary">
+                                                            <h5 className=" text-primary whitespace-nowrap">
                                                                 {category.Category_Name}
                                                             </h5>
                                                         </div>
@@ -588,50 +593,55 @@ const HomrProducts = () => {
                                                         </div>
                                                     </>
                                                 )}
-                                                {showB2B !== true && (
-                                                    <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
-                                                        {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
-                                                            <>
-                                                                {cartItems.some(item => item._id === prod._id) ? (
-                                                                    // Show Increment & Decrement (or Delete) Controls
-                                                                    <div onClick={(e) => { e.preventDefault() }} className={`  md:w-[92px] w-[77px] grid grid-cols-3  items-center md:gap-2 gap-1 bg-gray-100   overflow-hidden  rounded-full   ${lastAdded === prod._id ? ' border-primary border-2' : 'border-secondary border-2'}   `}>
-                                                                        {cartItems.find(item => item._id === prod._id)?.Quantity === 1 ? (
-                                                                            // Show Delete Icon if Quantity is 1
-                                                                            <button onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }} className="text-red-500 hover:text-red-700 flex items-center    p-1 px-1" >
-                                                                                <i className="fi fi-rr-trash flex items-center text-sm  "></i>
-                                                                            </button>
-                                                                        ) : (
-                                                                            // Show Minus Button if Quantity > 1
-                                                                            <button onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }} className="text-primary text-lg flex items-center   p-1 px-1"  >
-                                                                                <i class="fi fi-rr-minus-small flex items-center"></i>
-                                                                            </button>
-                                                                        )}
-                                                                        <span className="text-primary text-sm font-bold  mx-auto ">
-                                                                            {cartItems.find(item => item._id === prod._id)?.Quantity}
-                                                                            {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
+                                                <div className="absolute top-2 right-2 lg:absolute z-20 mb-1 flex justify-end lg:justify-center items-center md:gap-2   font-semibold  duration-300">
+                                                    {prod.QTY > 0 && prod.QTY !== null && prod.Stock === 'Stock' && prod.Category !== "Upcoming Arrivals" && (
+                                                        <>
+                                                            {cartItems.some(item => item._id === prod._id) ? (
+                                                                // Show Increment & Decrement (or Delete) Controls
+                                                                <div onClick={(e) => { e.preventDefault() }} className={`md:w-[92px] w-[77px] grid grid-cols-3  items-center md:gap-2 gap-1 bg-gray-100   overflow-hidden  rounded-full   ${lastAdded === prod._id ? ' border-primary border-2' : 'border-secondary border-2'}   `}>
+                                                                    {(cartItems.find(item => item._id === prod._id)?.Quantity === 1 || (showB2B && cartItems.find(item => item._id === prod._id)?.Quantity === 10)) ? (
+                                                                        // Show Delete Icon if Quantity is 1
+                                                                        <button onClick={(e) => { e.preventDefault(); removeItem(prod._id); setLastAdded(prod._id); }} className="text-red-500 hover:text-red-700 flex items-center    p-1 px-1" >
+                                                                            <i className="fi fi-rr-trash flex items-center text-sm  "></i>
+                                                                        </button>
+                                                                    ) : (
+                                                                        // Show Minus Button if Quantity > 1
+                                                                        <button onClick={(e) => { { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); } }} className="text-primary text-lg flex items-center   p-1 px-1"  >
+                                                                            <i className="fi fi-rr-minus-small flex items-center"></i>
+                                                                        </button>
+                                                                    )}
+                                                                    <span className="text-primary text-sm font-bold  mx-auto ">
+                                                                        {cartItems.find(item => item._id === prod._id)?.Quantity}
+                                                                        {/* {cartItems.find(item => item._id === prod._id)?.Quantity === prod.QTY && (
                                                                         <>
                                                                             <span className="text-red-500 ml-1"> (Limit reached!)</span>
                                                                         </>
                                                                     )} */}
-                                                                        </span>
-                                                                        {cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY && (
-                                                                            <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
-                                                                                <>
-                                                                                    <i class="fi fi-rr-plus-small flex items-center"></i>
-                                                                                </>
-                                                                            </button>
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    // Show Add to Cart Button if Product is NOT in Cart
-                                                                    <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
-                                                                        <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
-                                                                    </button>
-                                                                )}
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                )}
+                                                                    </span>
+                                                                    {(!showB2B && cartItems.find(item => item._id === prod._id)?.Quantity < prod.QTY) && (
+                                                                        <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
+                                                                            <>
+                                                                                <i className="fi fi-rr-plus-small flex items-center"></i>
+                                                                            </>
+                                                                        </button>
+                                                                    )}
+                                                                    {(showB2B) && (
+                                                                        <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center  text-primary   "   >
+                                                                            <>
+                                                                                <i className="fi fi-rr-plus-small flex items-center"></i>
+                                                                            </>
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                // Show Add to Cart Button if Product is NOT in Cart
+                                                                <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="flex justify-center items-center   rounded-full     " >
+                                                                    <i className="fi fi-rr-shopping-cart-add text-base lg:text-xl  p-2 rounded-full flex items-center  bg-gray-200  text-primary duration-300"></i>
+                                                                </button>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
                                                 {/* {getCurrentCartQuantity() === 0 ? (
                                                 <button className="flex items-center justify-center gap-2 w-full md:p-5 p-2 px-6 md:text-base text-sm font-semibold text-white rounded-3xl   bg-primary transition-colors " onClick={() => handleAddToCart(product)}  >
                                                     <span> <i className="fi fi-ts-cart-minus text-white flex items-center justify-center"></i> </span>
@@ -671,6 +681,15 @@ const HomrProducts = () => {
                                                         )}
                                                     </div>
                                                 )}
+                                                {showB2B == true && (
+                                                    <div className="absolute z-10 top-3 left-2 lg:top-2 lg:left-2 text-[10px] lg:text-xs ">
+                                                        {(prod.QTY === 0 || prod.Stock === 'Out of Stock') && (
+                                                            <div className="bg-[#E42D12] p-1 text-white rounded-full px-1.5 mb-2">
+                                                                <p className="">Out of Stock</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
                                                 <div className="relative flex items-center justify-center    overflow-hidden rounded-lg   p-1">
                                                     <img key={`${i}`} src={`${apiurl()}/${prod?.Images}`.split(',')[0]} alt={`Product ${i + 1}`} className={`  object-contain  pt-1  group-hover:opacity-80 duration-300 w-full max-h-52 md:h-52 h-32 rounded-lg`} />
                                                 </div>
@@ -679,7 +698,7 @@ const HomrProducts = () => {
                                                         {prod.Product_Name}
                                                     </h2>
                                                     {showB2B && (
-                                                        <p className="font-semibold">Min 10 Pieces </p>
+                                                        <p className="font-semibold text-[#024A34]">Min 10 Pieces </p>
                                                     )}
                                                     {showB2B !== true && (
                                                         <div className=" lg:flex items-center justify-between space-y-1 flex-wrap  ">

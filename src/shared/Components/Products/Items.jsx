@@ -82,7 +82,7 @@ const Items = (prpos) => {
   return (
     <>
       <section className="2xl:px-5">
-        <div className={`w-full sticky top-[105px] lg:top-[126px] xl:top-[130px] bg-white z-30 ${scrolled ? '' : ''}`}>
+        <div className={`w-full sticky top-[149px] lg:top-[126px] xl:top-[130px] bg-white z-30 ${scrolled ? '' : ''}`}>
           <div className="pt-3 md:px-6 px-2  md:hidden hidden  ">
             <div className="font-bold text-primary flex gap-2 md:text-xl text-sm">
               {queryParams.get("category") ? (
@@ -102,7 +102,7 @@ const Items = (prpos) => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full py-2 md:px-6 px-2">
+          <div className="bg-white dark:bg-black z-40 flex items-center justify-between w-full gap-4   py-2 md:px-6 px-2">
             <div className="flex gap-3 items-center">
               <div className="    md:block hidden  ">
                 <div className="font-bold text-primary flex gap-2 md:text-xl text-sm">
@@ -178,7 +178,7 @@ const Items = (prpos) => {
           </div>
         </div>
 
-        <div className="relative p-2  grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto lg:mt-0  md:mt-5 mt-0 3xl:grid-cols-7  2xl:grid-cols-6  xl:grid-cols-5 gap-x-3 md:px-5 h-[100%] ">
+        <div className="relative p-2     grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto lg:mt-0  md:mt-5 mt-0 3xl:grid-cols-7  2xl:grid-cols-6  xl:grid-cols-5 gap-x-3 md:px-5 h-[100%] ">
           {[...products]
             .sort((a, b) => {
               if (a.Category === "Drinkware/Bottles" && b.Category !== "Drinkware/Bottles") return -1;
@@ -224,7 +224,7 @@ const Items = (prpos) => {
                                 <button onClick={(e) => { e.preventDefault(); decreaseQuantity(prod._id); setLastAdded(prod._id); }}
                                   className="text-primary text-lg    p-1 px-1 flex items-center"   >
                                   {/* - */}
-                                  <i class="fi fi-rr-minus-small flex items-center"></i>
+                                  <i className="fi fi-rr-minus-small flex items-center"></i>
                                 </button>
                               )}
                               <span className="text-primary text-sm font-bold  mx-auto   ">
@@ -234,7 +234,7 @@ const Items = (prpos) => {
                                 <button onClick={(e) => { e.preventDefault(); handleAddToCart(prod); setLastAdded(prod._id); }} className="  text-lg  p-1  flex items-center    text-primary">
                                   <>
                                     {/* + */}
-                                    <i class="fi fi-rr-plus-small flex items-center"></i>
+                                    <i className="fi fi-rr-plus-small flex items-center"></i>
                                   </>
                                 </button>
                               )}

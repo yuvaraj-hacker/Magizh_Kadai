@@ -148,7 +148,7 @@ const Tableview = (props) => {
 
   return (
     <div className='  ' style={{ height: "calc(100vh - 197px)" }}>
-      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata} scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
+      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata}   scrollHeight="calc(100vh - 200px)" scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
         <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
         />
         {/* <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' /> */}

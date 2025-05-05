@@ -28,7 +28,7 @@ export default function ProductViewFunctions() {
 
     const { userdetails } = useAuth();
     const { addToCart, cartItems, removeItem, decreaseQuantity, increaseQuantity, updateTotalCartItems } = useCart();
-    const[quantity , setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(1);
     const getCurrentCartQuantity = () => {
         const cartItem = cartItems.find(item => item._id === product?._id);
         return cartItem ? cartItem.Quantity : 0;
@@ -87,7 +87,7 @@ export default function ProductViewFunctions() {
 
     const handleDecreaseQuantity = async () => {
         const currentQuantity = getCurrentCartQuantity();
-        if (currentQuantity <= 1) {
+        if (currentQuantity <= 10) {
             handleDelete();
             return;
         }
@@ -201,19 +201,27 @@ export default function ProductViewFunctions() {
     }
 
     const handleBuyNow = () => {
+        const isB2B = window.location.search.includes("showB2B=true");
+        const quantity = isB2B ? 10 : 1;
+        const total = isB2B ?10 :1;
         let message = "New Order Request:\n\n";
         const productTotal = product.Discount > 0
             ? (product.Sale_Price)
             : (product.Sale_Price);
 
         message += `1. ${product.Product_Name}\n`;
-        message += `Quantity: 1\n`;
-        message += `Price: ₹${productTotal}\n`;
+        message += `Quantity: ${quantity}\n`;
+        if (!isB2B) {
+            message += `Price: ₹${productTotal}\n`;
+        }
         message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
 
         message += `Order Summary:\n`;
-        message += `Total Items: 1\n`;
-        message += `Final Total: ₹${productTotal}\n`;
+
+        message += `Total Items: ${total}\n`;
+        if (!isB2B) {
+            message += `Final Total: ₹${productTotal}\n`;
+        }
 
         const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
@@ -243,7 +251,7 @@ export default function ProductViewFunctions() {
     return (
         <>
             <div className="min-h-[60vh]">
-                  <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} quantity={quantity} setQuantity={setQuantity} handleRequestStock={handleRequestStock} handlePreOrderRequest={handlePreOrderRequest} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
+                <ProductView product={product} mainImage={mainImage} handleBuyNow={handleBuyNow} quantity={quantity} setQuantity={setQuantity} handleRequestStock={handleRequestStock} handlePreOrderRequest={handlePreOrderRequest} contentHeight={contentHeight} setMainImage={setMainImage} mainImageRef={mainImageRef} zoomStyle={zoomStyle} handleMouseMove={handleMouseMove}
                     handleMouseLeave={handleMouseLeave} getCurrentCartQuantity={getCurrentCartQuantity} handleAddToCart={handleAddToCart} handleDelete={handleDelete}
                     handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity} handleAddToWishlist={handleAddToWishlist} wishlistData={wishlistData}
                     setIsTooltipVisible={setIsTooltipVisible} isTooltipVisible={isTooltipVisible} setIsDescriptionOpen={setIsDescriptionOpen} isDescriptionOpen={isDescriptionOpen}

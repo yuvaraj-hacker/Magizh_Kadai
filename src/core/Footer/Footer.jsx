@@ -15,6 +15,12 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
    const locations = useLocation();
    const isActive = (path) => locations.pathname === path;
    const navigate = useNavigate()
+   const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+
+
+   const showB2B = searchParams.get('showB2B') === 'true';
+   const queryString = showB2B ? '?showB2B=true' : '';
    // const handleClick = (e) => {
    //    e.preventDefault(); // Prevent navigation from overriding click
    //    toggleSidebar();
@@ -29,6 +35,21 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
          navigate('/saveditem');
       }
    };
+
+
+   const handleReload = () => {
+      if (window.location.pathname === '/') {
+         window.location.reload();
+      }
+   };
+
+
+   const handleProduct = () => {
+      if (window.location.pathname === '/products') {
+         window.location.reload();
+      }
+   };
+
    return (
       <>
          <section className='dark:bg-black'>
@@ -162,18 +183,20 @@ export default function Footer({ setTogSidecat, TogSidecat }) {
          <section className='fixed bottom-0 left-0 z-40 w-full lg:hidden'>
             <div className='bg-primary'>
                <div className="  flex  justify-around items-center text-xl py-3 text-white  *:flex *:flex-col *:justify-center *:items-center">
-                  <div className="cursor-pointer ">
+                  <div className="cursor-pointer " onClick={handleReload}>
                      <Link to='/'> <i className={`flex flex-col items-center    ${isActive('/') ? 'fi fi-ss-house-chimney' : 'fi fi-rs-house-chimney'}`}></i>
                         <p className='text-xs '>Home</p>
                      </Link>
                   </div>
-                  <Link to='/products'>
-                     <div className="cursor-pointer" >
-                        <i className={`  flex flex-col items-center   ${isActive('/products') ? 'fi fi-ss-shop' : 'fi fi-rs-shop'}`}></i><p className='text-xs '>Products</p>
-                     </div>
-                  </Link>
+                  <div onClick={handleProduct}>
+                     <Link to='/products'>
+                        <div className="cursor-pointer" >
+                           <i className={`  flex flex-col items-center   ${isActive('/products') ? 'fi fi-ss-shop' : 'fi fi-rs-shop'}`}></i><p className='text-xs '>Products</p>
+                        </div>
+                     </Link>
+                  </div>
                   <div className="relative cursor-pointer">
-                     <Link to="/cart" className="relative inline-block">
+                     <Link to={`/cart${queryString}`} className="relative inline-block">
                         <div className="relative">
                            <i className={`flex flex-col items-center   text-xl ${isActive('/cart') ? 'fi fi-sr-shopping-cart' : 'fi fi-rr-shopping-cart'}`}></i>
                            {cartItems && cartItems.length > 0 && (

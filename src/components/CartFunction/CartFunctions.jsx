@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import CartPage from "../../shared/Components/Cart/CartPage";
 import useCart from "../../shared/services/store/useCart";
 import useAuth from "../../shared/services/store/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { deletecartItem, getcartItems, updatecartItem } from "../../shared/services/cart/cart";
 import moment from "moment-timezone";
 import { isLoggedIn } from "../../shared/services/Token/token";
@@ -28,6 +28,9 @@ export default function CartPageFunctions() {
     const [timevisible, setTimevisible] = useState(false);
     const [selectedPickupDateTime, setSelectedPickupDateTime] = useState(null);
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const show   = searchParams.get('showB2B') === 'true';
     const generateDates = () => {
         const today = new Date();
         const thisWeekDates = [];
@@ -120,6 +123,7 @@ export default function CartPageFunctions() {
     }, [deliveryType]);
 
     const fetchCartItemsFromBackend = useCallback(async () => {
+        const isB2B = window.location.search.includes("showB2B=true");
         if (userdetails?.Email) {
             setIsLoading(true);
             const response = await getcartItems(userdetails?.Email);
@@ -128,8 +132,14 @@ export default function CartPageFunctions() {
             setCartItems(response?.response || []);
             setIsLoading(false);
         } else {
-            const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-            setCartItems(localCart);
+            try {
+                const localCartKey = isB2B ? "b2bCartItems" : "cartItems";
+                const localCart = JSON.parse(localStorage.getItem(localCartKey) || "[]");
+                setCartItems(localCart);
+            } catch (error) {
+                console.error("Failed to load local cart:", error);
+                setCartItems([]);
+            }
         }
     }, [userdetails?.Email]);
 
@@ -308,6 +318,8 @@ export default function CartPageFunctions() {
     // };
 
     const handleQuantityChange = async (productId, action) => {
+        const isB2B = searchParams.get('showB2B') === 'true';
+
         const item = cartItems.find((cartItem) => cartItem._id === productId);
         if (!item) {
             toast.error("Item not found");
@@ -320,13 +332,13 @@ export default function CartPageFunctions() {
             const isFreshProduce = item.productId?.Category === "Fresh Produce" || item.Category === "Fresh Produce";
 
             // Only use increment for Fresh Produce items
-            const increment = isFreshProduce ? 0.5 : 1;
+            const increment = isB2B ? 10 : isFreshProduce ? 0.5 : 1;
             let newQuantity;
             const maxQuantity = item?.productId?.QTY || item?.QTY || 25; // Default to 25 if max quantity is undefined
 
 
             if (action === "increase") {
-                if ((item?.Quantity >= item?.productId?.QTY) || (item?.Quantity >= item?.QTY)) {
+                if (!isB2B && ((item?.Quantity >= item?.productId?.QTY) || (item?.Quantity >= item?.QTY))) {
                     toast.error('Limit reached!', { icon: '📢' });
                     setUpdatingItems((prev) => {
                         const newSet = new Set(prev);
@@ -336,11 +348,12 @@ export default function CartPageFunctions() {
                     return;
                 } else {
                     newQuantity = currentQuantity + increment;
-                    toast.success(`Quantity increased! ${newQuantity}`);
+                    // toast.success(`Quantity increased! ${newQuantity}`);
                 }
             } else {
                 newQuantity = currentQuantity - increment;
             }
+
 
             // Specific check for Fresh Produce minimum quantity
             if (isFreshProduce && newQuantity < 0.5) {
@@ -525,28 +538,62 @@ export default function CartPageFunctions() {
 
     // before login
     const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+    // const goToQuote = () => {
+    //     const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
+    //     const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
+    //     const finalTotal = subtotal;
+    //     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    //     localStorage.setItem("subtotal", subtotal);
+    //     localStorage.setItem("finalTotal", finalTotal);
+    //     localStorage.setItem("totalItems", totalItems);
+    //     let message = "New Order Request:\n\n";
+    //     cartItems.forEach((product, index) => {
+    //         const productTotal = (product.Sale_Price * product.Quantity);
+    //         message += `${index + 1}.${product.Product_Name}\n`;
+    //         message += `Quantity: ${product.Quantity}\n`;
+    //         message += `Price: ₹${productTotal}\n`;
+    //         message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
+    //     });
+    //     message += `Order Summary:\n`;
+    //     message += `Total Quantity: ${totalItems}\n`;
+    //     message += `Final Total: ₹${finalTotal}\n`;
+    //     const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
+    //     window.open(whatsappUrl, "_blank");
+    // };
     const goToQuote = () => {
-        const totalItems = cartItems.reduce((total, item) => total + item.Quantity, 0);
-        const subtotal = cartItems.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
+        const isB2B = window.location.search.includes("showB2B=true");
+        const cartKey = isB2B ? "b2bCartItems" : "cartItems";
+        const currentCart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        const totalItems = currentCart.reduce((total, item) => total + item.Quantity, 0);
+        const subtotal = currentCart.reduce((total, item) => total + item.Sale_Price * item.Quantity, 0);
         const finalTotal = subtotal;
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        // Store to localStorage (if needed for redirection or summary pages)
+        localStorage.setItem(cartKey, JSON.stringify(currentCart));
         localStorage.setItem("subtotal", subtotal);
         localStorage.setItem("finalTotal", finalTotal);
         localStorage.setItem("totalItems", totalItems);
-        let message = "New Order Request:\n\n";
-        cartItems.forEach((product, index) => {
-            const productTotal = (product.Sale_Price * product.Quantity);
-            message += `${index + 1}.${product.Product_Name}\n`;
+        // Construct WhatsApp message
+        let message = `🛒 *New ${isB2B ? 'B2B' : 'Retail'} Order Request:* \n\n`;
+        currentCart.forEach((product, index) => {
+            const productTotal = product.Sale_Price * product.Quantity;
+            message += `${index + 1}. ${product.Product_Name}\n`;
             message += `Quantity: ${product.Quantity}\n`;
-            message += `Price: ₹${productTotal}\n`;
+            if (!isB2B) {
+                const productTotal = product.Sale_Price * product.Quantity;
+                message += `Price: ₹${productTotal}\n`;
+            }
             message += `Link: https://www.magizhkadai.com/product-details/${product._id}\n\n`;
         });
-        message += `Order Summary:\n`;
+        message += `📦 *Order Summary:*\n`;
         message += `Total Quantity: ${totalItems}\n`;
-        message += `Final Total: ₹${finalTotal}\n`;
+        if (!isB2B) {
+            message += `Final Total: ₹${finalTotal}\n`;
+        }
+        // Send to WhatsApp
         const whatsappUrl = `https://wa.me/+918925035367?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
     };
+
 
     const handleDeliveryDateClick = () => {
         deliveryType === 'delivery' ? setDatevisible(true) : deliveryType === 'pickup' ? setTimevisible(true) : null;
