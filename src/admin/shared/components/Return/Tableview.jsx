@@ -8,6 +8,11 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import moment from 'moment-timezone';
 import { getFilterOptions } from '../../services/apipurchase/apipurchase';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 
 const Tableview = (props) => {
@@ -72,13 +77,30 @@ const Tableview = (props) => {
 
   const image = (rowData) => {
     return (
-      <div className="flex gap-4">
-        <img
-          src={`${apiurl()}/${rowData['Images'][0]}`}
-          className="rounded-xl w-40 h-28 object-cover bg-contain cursor-pointer"
-          onClick={() => handleImageClick(rowData['Images'][0])}
-        />
+      <>
+         {/* <Swiper modules={[Pagination, Navigation, Autoplay]} spaceBetween={10} slidesPerView={1}
+                  navigation
+                  pagination={{ clickable: true }}
+                  autoplay={{ delay: 2000 }}  >
+                {rowData.Images.length > 0 && (
+                  <SwiperSlide   className="flex items-center justify-center">
+                  <img
+                  src={`${apiurl()}/${rowData['Images'][0]}`}
+                  className="rounded-xl w-40 h-auto object-cover bg-contain cursor-pointer"
+                  // onClick={() => handleImageClick(rowData['Images'][0])}
+                />
+                  </SwiperSlide>
+                )}
+                </Swiper> */}
+                <div className="flex gap-4">
+                <img
+                  src={`${apiurl()}/${rowData['Images'][0]}`}
+                  className="rounded-xl w-40 h-auto object-cover bg-contain cursor-pointer"
+                  // onClick={() => handleImageClick(rowData['Images'][0])}
+                />
       </div>
+      </>
+
     );
   };
 
@@ -148,8 +170,8 @@ const Tableview = (props) => {
 
   return (
     <div className='  ' style={{ height: "calc(100vh - 197px)" }}>
-      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata}   scrollHeight="calc(100vh - 200px)" scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
-        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
+      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata}  size='small' scrollHeight="calc(100vh - 200px)" scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
+        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary"  className=""
         />
         {/* <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' /> */}
         <Column header="Product Images" body={image} headerClassName='text-white bg-primary ' />

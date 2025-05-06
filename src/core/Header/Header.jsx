@@ -703,7 +703,7 @@ export default function Header(props) {
 
               </div>
               <div className="p-2   bg-gray-50 relative text-primary flex gap-4 " onMouseLeave={() => setHoveredCategory(null)} >
-                <div className="flex overflow-y-auto scrollbar-hide gap-2">
+                <div className="flex overflow-y-auto overflow-x-auto scrollbar-hide gap-2">
                   {sortedCategories.map((category) => (
                     <>
                       <div key={category.Category_Name} ref={(el) => {
@@ -712,7 +712,7 @@ export default function Header(props) {
                         }
                       }} className={`p-2 relative border-b-2 ${hoveredCategory === category.Category_Name || activeCategory === category.Category_Name ? 'border-secondary' : 'border-transparent'}`}
                         onMouseEnter={() => setHoveredCategory(category.Category_Name)}   >
-                        <Link to={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
+                        <a href={`/products?category=${category.Category_Name}`} className="flex items-center justify-between gap-1 cursor-pointer">
                           {category.Category_Name === "New Arrivals" ? (
                             <div className="flex items-center gap-1">
                               {/* <img src="/images/Design/newsss.gif" className="w-10" alt="New" /> */}
@@ -725,14 +725,12 @@ export default function Header(props) {
                               {category.Category_Name}
                             </p>
                           )}
-                        </Link>
+                        </a>
                       </div>
                     </>
                   ))}
                 </div>
-
               </div>
-
             </div>
             <div className='flex gap-6 items-center   md:mb-0 mb-2'>
               <div className='flex justify-center items-center'>
@@ -744,8 +742,7 @@ export default function Header(props) {
                 </Link>
               </div>
 
-              <div onClick={handleClick} className={`p-3 py-2 rounded-md text-white md:text-base text-sm cursor-pointer ${showB2B ? 'bg-[#F1AA59]' : 'bg-[#024A34]'
-                }`}   >
+              <div onClick={handleClick} className={`p-3 py-2 rounded-md text-white md:text-base text-sm cursor-pointer ${showB2B ? 'bg-[#F1AA59]' : 'bg-[#024A34]'}`}>
                 B2B
               </div>
             </div>

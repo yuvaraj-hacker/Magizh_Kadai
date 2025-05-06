@@ -171,7 +171,6 @@ export default function ProductViewFunctions() {
     const handleAddToWishlist = async (prod) => {
         try {
             if (userdetails?.Email) {
-
                 if (wishlistData?.some(item => item.productId._id === prod._id)) {
                     await RemoveWishlistItem({ Email: userdetails?.Email, productId: prod._id })
                     await getWishlistItem();
@@ -182,7 +181,6 @@ export default function ProductViewFunctions() {
                     await getWishlistItem();
                     toast.success('Added to Wishlist!');
                 }
-
             } else {
                 setVisible(true);
                 toast.error('Please log in to save items!', { position: 'bottom-center', icon: '📢' });

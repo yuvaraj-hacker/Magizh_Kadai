@@ -416,7 +416,37 @@ export default function CartPageFunctions() {
         }
     };
 
+    // const handleRemoveItem = async (productId) => {
+    //     const item = cartItems.find((cartItem) => cartItem._id === productId);
+    //     if (!item) return;
+    //     setUpdatingItems((prev) => new Set([...prev, productId]));
+    //     try {
+    //         if (userdetails?.Email) {
+    //             await deletecartItem(item._id);
+    //         }
+    //         const updatedCart = cartItems.filter((cartItem) => cartItem._id !== productId);
+    //         setCartItems(updatedCart);
+
+    //         if (!userdetails?.Email) {
+    //             localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+    //         }
+    //         removeItem(item.productId?._id || item._id);
+
+    //     } catch (error) {
+    //         console.error("Error removing item:", error);
+    //         toast.error("Failed to remove item");
+    //     } finally {
+    //         setUpdatingItems((prev) => {
+    //             const newSet = new Set(prev);
+    //             newSet.delete(productId);
+    //             return newSet;
+    //         });
+    //     }
+    // };
+
     const handleRemoveItem = async (productId) => {
+        const isB2B = window.location.search.includes("showB2B=true");
+const cartKey =  isB2B ? "b2bCartItems" : "cartItems";
         const item = cartItems.find((cartItem) => cartItem._id === productId);
         if (!item) return;
         setUpdatingItems((prev) => new Set([...prev, productId]));
@@ -428,7 +458,7 @@ export default function CartPageFunctions() {
             setCartItems(updatedCart);
 
             if (!userdetails?.Email) {
-                localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+                localStorage.setItem(cartKey, JSON.stringify(updatedCart));
             }
             removeItem(item.productId?._id || item._id);
 
@@ -443,6 +473,7 @@ export default function CartPageFunctions() {
             });
         }
     };
+
 
     const calculateSubtotal = () => {
         return cartItems.reduce((total, item) => {

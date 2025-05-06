@@ -184,7 +184,7 @@ const ProductView = (props) => {
               </div>
             )}
             {product.QTY > 0 && product.QTY !== null && product.Stock === 'Stock' && product.Category !== 'Upcoming Arrivals' && (
-              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky top-[149px] z-10 bg-white'>
+              <div className='grid grid-cols-2 gap-4     lg:bottom-0 bottom-[60px] py-2  sticky md:top-0 top-[149px] z-10 bg-white'>
                 <div className={`flex items-center    ${getCurrentCartQuantity() > 0 ? 'gap-5' : 'gap-0'}`}>
                   <>
                     <>

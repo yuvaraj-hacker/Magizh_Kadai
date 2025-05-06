@@ -74,29 +74,6 @@ const HomrProducts = () => {
         allCategories();
     }, [allCategories]);
 
-    const priorityOrder = [
-        "New Arrivals",
-        "Drinkware/Bottles",
-        "Home Utilities",
-        "Laptop/Mobile Accessories",
-        "Bathroom Accessories",
-        "Kitchen Accessories",
-        "Others",
-        "Upcoming Arrivals"
-    ];
-
-    const sortedCategories = categories
-        .filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories")
-        .sort((a, b) => {
-            const aPriority = priorityOrder.indexOf(a.Category_Name);
-            const bPriority = priorityOrder.indexOf(b.Category_Name);
-            if (aPriority !== -1 && bPriority !== -1) {
-                return aPriority - bPriority; // both in priority list → sort by order
-            }
-            if (aPriority !== -1) return -1; // a is in priority list, b is not → a first
-            if (bPriority !== -1) return 1;  // b is in priority list, a is not → b first
-            return 0; // neither in priority list → keep original order
-        });
 
 
     // Run effect only when the component mounts or when coming back from product details
@@ -499,14 +476,30 @@ const HomrProducts = () => {
         };
     }, [isSidebaropen, setIssidebaropen]);
 
-    const categoryOrder = [
-        "Bottles",
+    const priorityOrder = [
+        "New Arrivals",
+        "Drinkware/Bottles",
         "Home Utilities",
         "Laptop/Mobile Accessories",
         "Bathroom Accessories",
         "Kitchen Accessories",
         "Others",
-    ];
+        "Upcoming Arrivals"
+      ];
+
+      const sortedCategories = categories
+        .filter(category => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories")
+        .sort((a, b) => {
+          const aPriority = priorityOrder.indexOf(a.Category_Name);
+          const bPriority = priorityOrder.indexOf(b.Category_Name);
+          if (aPriority !== -1 && bPriority !== -1) {
+            return aPriority - bPriority; // both in priority list → sort by order
+          }
+          if (aPriority !== -1) return -1; // a is in priority list, b is not → a first
+          if (bPriority !== -1) return 1;  // b is in priority list, a is not → b first
+          return 0; // neither in priority list → keep original order
+        });
+
 
     useEffect(() => {
         if (products.length > 0) { // Ensure products are loaded
@@ -538,7 +531,7 @@ const HomrProducts = () => {
                                     <h1 className="font-extrabold md;text-xl text-lg text-center"> Business-to-Business</h1>
                                     <p className="text-center">Unlock exclusive wholesale deals and grow your business with us!! </p>
                                     <div className="flex justify-center  gap-5 overflow-hidden overflow-x-auto whitespace-nowrap scrollbar-hide">
-                                        {categories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories" && category.Category_Name !== "Upcoming Arrivals").map((category) => {
+                                        {sortedCategories.filter((category) => category.Category_Name !== "Everything" && category.Category_Name !== "All Categories" && category.Category_Name !== "Upcoming Arrivals").map((category) => {
                                             if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
                                             const isChecked = selectedCategories.includes(category.Category_Name);
                                             let updatedCategories = [...selectedCategories];
@@ -567,6 +560,11 @@ const HomrProducts = () => {
                                 </>
                             )}
                         </div>
+                        {products.length === 0 ? (
+                        <div className="flex justify-center items-center h-[40vh] w-[100%] text-primary font-bold md:text-xl text-base">
+                            Update Soon
+                        </div>
+                    ) : (
                         <div className="relative md:px-2 px-1 pb-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 overflow-y-auto  3xl:grid-cols-7  2xl:grid-cols-6 xl:grid-cols-5 gap-x-3  ">
                             {[...products]
                                 .sort((a, b) => {
@@ -745,6 +743,7 @@ const HomrProducts = () => {
                                     </Link>
                                 ))}
                         </div>
+                    )}
                     </section>
                 </>
             )}

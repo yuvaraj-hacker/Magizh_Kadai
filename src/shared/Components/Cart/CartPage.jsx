@@ -58,7 +58,7 @@ export default function CartPage(props) {
             <div className={`grid items-start relative gap-5 ${showB2B ? 'xl:grid-cols-9' : 'xl:grid-cols-12'}`}>
               <div className="xl:col-span-9 space-y-4">
                 <div className=" border md:rounded-md  bg-gray-50 ">
-                  <div className="md:text-2xl text-center text-base text-white py-4 md:rounded-t-md bg-primary">Your Cart ({cartItems.length} Products)</div>
+                  <div className={`md:text-2xl text-center text-base text-white py-4 md:rounded-t-md  ${showB2B ? 'bg-secondary':'   bg-primary'}`} >{showB2B ? 'B2B' : 'Your'} Cart ({cartItems.length} Products)</div>
                   <div className=" space-y-2 p-2 ">
                     {/* <div className="justify-between lg:flex">
                      <div className="flex gap-3">

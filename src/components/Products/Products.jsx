@@ -360,106 +360,112 @@ const Products = () => {
                 </div>
             ) : (
                 <section className="max-w-full mx-auto" >
-                    <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
-                        <div ref={sidebarRef}
-                            className={`lg:top-[120px] w-[300px]  bg-gray-100 lg:min-h-screen  h-screen top-0 -right-[100%] fixed lg:overflow-y-visible overflow-y-auto lg:z-40 z-50 duration-300 ${isSidebaropen ? "right-0" : "-right-[100%]"} custom-scrollbar flex flex-col`}>
-                            <div className="h-screen overflow-y-auto ">
-                                <div className=" block p-2 mt-4">
-                                    <div className="flex justify-end">
-                                        <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
+                    {products.length === 0 ? (
+                        <div className="flex justify-center items-center h-[80vh] w-[100%] text-primary font-bold md:text-xl text-base">
+                            Update Soon
+                        </div>
+                    ) : (
+                        <div className="max-w-[1900px] mx-auto flex  min-h-[60vh] relative dark:bg-black">
+                            <div ref={sidebarRef}
+                                className={`lg:top-[120px] w-[300px]  bg-gray-100 lg:min-h-screen  h-screen top-0 -right-[100%] fixed lg:overflow-y-visible overflow-y-auto lg:z-40 z-50 duration-300 ${isSidebaropen ? "right-0" : "-right-[100%]"} custom-scrollbar flex flex-col`}>
+                                <div className="h-screen overflow-y-auto ">
+                                    <div className=" block p-2 mt-4">
+                                        <div className="flex justify-end">
+                                            <i className="fi fi-rs-circle-xmark cursor-pointer text-xl" onClick={() => setIssidebaropen(false)}   ></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className=" border-b p-4 flex justify-between items-center">
-                                    <div className=" text-sm text-primary  font-bold">FILTERS</div>
-                                    <div className=" text-sm cursor-pointer text-red-400  bg-white rounded-lg hover:bg-gray-50 p-2" onClick={clearFilters}>
-                                        CLEAR ALL
+                                    <div className=" border-b p-4 flex justify-between items-center">
+                                        <div className=" text-sm text-primary  font-bold">FILTERS</div>
+                                        <div className=" text-sm cursor-pointer text-red-400  bg-white rounded-lg hover:bg-gray-50 p-2" onClick={clearFilters}>
+                                            CLEAR ALL
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="space-y-2 p-4 border-b ">
-                                    <div className=" text-sm text-primary font-semibold ">CATEGORIES</div>
-                                    <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
-                                        <ul className=" text-xs ">
-                                            {categories.map((category) => {
-                                                if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
-                                                const isChecked = selectedCategories.includes(category.Category_Name);
-                                                let updatedCategories = [...selectedCategories];
-                                                if (isChecked) {
-                                                    updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
-                                                } else { updatedCategories.push(category.Category_Name); }
-                                                const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
-                                                const linkTo = `/products${queryString}`;
-                                                return (
-                                                    <li key={category._id} className="group py-1 w-fit">
-                                                        <Link to={linkTo}>
-                                                            <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
-                                                                <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
-                                                                <h5 className="whitespace-pre-wrap text-primary">
-                                                                    {category.Category_Name}
-                                                                </h5>
-                                                            </div>
-                                                        </Link>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
+                                    <div className="space-y-2 p-4 border-b ">
+                                        <div className=" text-sm text-primary font-semibold ">CATEGORIES</div>
+                                        <div className={` max-h-[50vh] w-64 cursor-default overflow-auto`}  >
+                                            <ul className=" text-xs ">
+                                                {categories.map((category) => {
+                                                    if (category.Category_Name === "Everything" || category.Category_Name === "All Categories") return null;
+                                                    const isChecked = selectedCategories.includes(category.Category_Name);
+                                                    let updatedCategories = [...selectedCategories];
+                                                    if (isChecked) {
+                                                        updatedCategories = updatedCategories.filter((cat) => cat !== category.Category_Name);
+                                                    } else { updatedCategories.push(category.Category_Name); }
+                                                    const queryString = updatedCategories.length > 0 ? `?category=${updatedCategories.join(",")}` : "";
+                                                    const linkTo = `/products${queryString}`;
+                                                    return (
+                                                        <li key={category._id} className="group py-1 w-fit">
+                                                            <Link to={linkTo}>
+                                                                <div className="flex gap-2 justify-start items-center p-0.5 overflow-hidden w-fit">
+                                                                    <input type="checkbox" className="cursor-pointer" checked={isChecked} readOnly />
+                                                                    <h5 className="whitespace-pre-wrap text-primary">
+                                                                        {category.Category_Name}
+                                                                    </h5>
+                                                                </div>
+                                                            </Link>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
-                                    <h1 className="text-sm text-primary font-semibold  uppercase">Price</h1>
-                                    <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
-                                        <span className="text-primary font-semibold">₹{price[0]}</span> -
-                                        <span className="text-primary font-semibold"> ₹{price[1]}</span>
+                                    <div className="space-y-2 p-4 border-b grid grid-cols-1 w-full">
+                                        <h1 className="text-sm text-primary font-semibold  uppercase">Price</h1>
+                                        <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-md text-center text-sm text-gray-700 font-medium">
+                                            <span className="text-primary font-semibold">₹{price[0]}</span> -
+                                            <span className="text-primary font-semibold"> ₹{price[1]}</span>
+                                        </div>
+                                        <div className="flex justify-content-center py-3">
+                                            <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
+                                                <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
+                                                    handleRender={renderProps => {
+                                                        return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
+                                                            <div {...renderProps.props}></div>
+                                                        </Tooltip>
+                                                        )
+                                                    }}
+                                                    styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#024A34", borderColor: "024A34" }, rail: { backgroundColor: "#024A34" } }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex justify-content-center py-3">
-                                        <div className="flex justify-center items-center px-5 w-full" onMouseUp={() => setPriceChanged(price)}>
-                                            <Slider range={true} marks={{ 0: "₹0", 12000: " ₹12000" }} step={500} min={0} max={12000} value={price} onChange={(price) => { setPrice(price) }}
-                                                handleRender={renderProps => {
-                                                    return (<Tooltip overlay={`₹${renderProps.props['aria-valuenow']}`}>
-                                                        <div {...renderProps.props}></div>
-                                                    </Tooltip>
-                                                    )
-                                                }}
-                                                styles={{ track: { backgroundColor: "#024A34" }, handle: { backgroundColor: "#024A34", borderColor: "024A34" }, rail: { backgroundColor: "#024A34" } }}
-                                            />
+                                    <div className="space-y-2 p-4 border-b">
+                                        <h1 className="text-sm text-primary font-semibold  uppercase">Discount</h1>
+                                        <div className='text-xs space-y-2'>
+                                            {[20, 30, 40, 50, 60].map((discount) => (
+                                                <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
+                                                    <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
+                                                    <h5 className="whitespace-pre-wrap   flex items-center text-primary">
+                                                        {discount}% or more
+                                                    </h5>
+                                                </label>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="space-y-2 p-4 border-b">
-                                    <h1 className="text-sm text-primary font-semibold  uppercase">Discount</h1>
-                                    <div className='text-xs space-y-2'>
-                                        {[20, 30, 40, 50, 60].map((discount) => (
-                                            <label key={discount} className="flex gap-2 justify-start items-center p-0.5 overflow-hidden cursor-pointer w-fit">
-                                                <input type="checkbox" className='text-white border-none' checked={selectedDiscounts.includes(discount)} onChange={() => handleDiscountChange(discount)} />
-                                                <h5 className="whitespace-pre-wrap   flex items-center text-primary">
-                                                    {discount}% or more
-                                                </h5>
-                                            </label>
-                                        ))}
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        <div>
                             <div>
-                                <div className="  gap-1">
-                                    <div className="relative ">
-                                        <Items removeItem={removeItem} decreaseQuantity={decreaseQuantity} cartItems={cartItems} isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
-                                    </div>
-                                    {/* <div className="col-span-2">
+                                <div>
+                                    <div className="  gap-1">
+                                        <div className="relative ">
+                                            <Items removeItem={removeItem} decreaseQuantity={decreaseQuantity} cartItems={cartItems} isLoading={isLoading} queryParams={queryParams} products={products} placements={placements} setIssidebaropen={setIssidebaropen} handleAddToCart={handleAddToCart} handleAddToWishlist={handleAddToWishlist} setSort={setSort} wishlistData={wishlistData} scrolled={scrolled} />{" "}
+                                        </div>
+                                        {/* <div className="col-span-2">
                             <FilterSidebar className="col-span-2" togfilter={togfilter} settog={settog} tog={tog} settog2={settog2} tog2={tog2} settog3={settog3} tog3={tog3}
                                 Tags={Tags} handleTagsCheckboxChange={handleTagsCheckboxChange} />
                             <div onClick={() => settogfilter(false)} className={`${togfilter ? 'translate-x-0' : '-translate-x-full'} lg:hidden h-screen w-full fixed top-0 left-0 z-20 bg-black/50`}> </div>
                             </div> */}
+                                    </div>
                                 </div>
+                                <PopupModal visible={visible} setVisible={setVisible} />
+                                <RegisterContinueGoogle
+                                    visible={visible1}
+                                    setVisible={setVisible1}
+                                />
                             </div>
-                            <PopupModal visible={visible} setVisible={setVisible} />
-                            <RegisterContinueGoogle
-                                visible={visible1}
-                                setVisible={setVisible1}
-                            />
                         </div>
-                    </div>
+                    )}
                 </section>
             )}
         </>

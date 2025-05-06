@@ -97,7 +97,7 @@ export default function Home() {
         <Marquee speed={100} pauseOnHover gradient={false} play={true} className="bg-[#024A34]  md:py-0   "  >
           <Link to="/products?category=New%20Arrivals">
             <span className="mx-4 text-base flex gap-3 items-center font-bold bg-gradient-to-r from-[#7cf3a0] via-[#5ecbff] via-[#b084f4] via-[#ff7eb9] to-[#ffe074] bg-clip-text text-transparent hover:underline">
-              <img className='w-20' src="public/images/Design/newfaf.gif" alt="" />
+              <img className='w-20' src="/images/Design/newfaf.gif" alt="" />
               <span className='md:text-base text-sm'> NEW ARRIVALS • SHOP THE LATEST STYLES • LIMITED STOCK • EXCLUSIVE DEALS</span>
             </span>
           </Link>
