@@ -24,7 +24,7 @@ export default function Addandeditform(props) {
                         <select name="Order_Status" value={formdata?.Order_Status} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" required >
                             <option value="" >Select a status</option>
                             <option value="Payment Pending">Payment Pending</option>
-                            <option value="Payment Confirmed">Payment Confirmed</option>
+                                <option value="Payment Confirmed">Payment Confirmed</option>
                             <option value="Order Placed">Order Placed</option>
                             <option value="Order Processing">Order Processing</option>
                             <option value="Order Dispatched">Order Dispatched</option>

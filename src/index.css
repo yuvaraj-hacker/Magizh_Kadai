@@ -800,3 +800,8 @@ input[type="number"] {
         -webkit-text-fill-color: transparent;
     }
 
+/* Works in most modern browsers (mainly Chromium-based) */
+/* input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+} */

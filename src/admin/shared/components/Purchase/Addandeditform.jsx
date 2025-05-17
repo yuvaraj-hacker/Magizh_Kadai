@@ -50,7 +50,6 @@ export default function Addandeditform(props) {
     const handleSearch = (e, rowIndex) => {
         const value = e.target.value;
         setSearchTerm(value);
-        // Update formdata with new value
         const updatedFormdata = { ...formdata };
         updatedFormdata.PurchaseMaster[rowIndex.rowIndex] = {
             ...updatedFormdata.PurchaseMaster[rowIndex.rowIndex],
@@ -184,7 +183,7 @@ export default function Addandeditform(props) {
                         <div className="grid grid-cols-1 gap-2 md:grid-cols-4 items-end">
                             <div>
                                 <label className="block mb-2 text-sm font-medium dark:text-white">Organization Name<span className='text-red-500'>*</span></label>
-                                <input type="text" name="Organization_Name" value={formdata?.Organization_Name} onChange={handlechange} className="w-full px-4 py-2 border rounded-md outline-none" required />
+                                <input type="text" name="Organization_Name" className="w-full px-4 py-2 border rounded-md outline-none" required />
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium dark:text-white">Address <span className='text-red-500'>*</span></label>
@@ -247,7 +246,7 @@ export default function Addandeditform(props) {
                         <Column header="Brand" body={Brand_Name} style={{ minWidth: '200px' }} />
                         <Column header="QTY" body={QTY} style={{ minWidth: '90px' }} />
                         <Column header="Price" body={Price} style={{ minWidth: '150px' }} />
-                        <Column header="Dis(%)" body={Disc} style={{ minWidth: '100px' }} />
+                          <Column header="Dis(%)" body={Disc} style={{ minWidth: '100px' }} />
                         <Column header="Dis.Amount" body={DiscAmount} style={{ minWidth: '100px' }} />
                         <Column header="Tax Type" body={TaxType} style={{ minWidth: '190px' }} />
                         <Column header="Tax (%)" body={Tax_Percentage} style={{ minWidth: '100px' }} />

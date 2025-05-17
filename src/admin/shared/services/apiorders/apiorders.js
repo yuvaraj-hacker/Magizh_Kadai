@@ -13,7 +13,7 @@ export const getFilterOptions = async(data)=>{
 }
 
 export const saveorders=async(datas)=>{
-    var res=await axios.post(`${apiurl()}/orders/apisaveorder`,formData,{ headers: {"Authorization" : `Bearer ${gettoken()}`}});
+    var res=await axios.post(`${apiurl()}/orders/apisaveorder`,datas,{ headers: {"Authorization" : `Bearer ${gettoken()}`}});
     return res.data;
 }
 

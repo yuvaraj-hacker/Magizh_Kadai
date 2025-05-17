@@ -10,6 +10,7 @@ import ViewProducts from '../../shared/components/Orders/ViewProducts';
 import { apidownloadPDF, updateOrder } from "../../../shared/services/APIOrder/apiorder.js";
 import { saveAs } from 'file-saver';
 import OrderReplyModal from '../../shared/components/Orders/OrderReplyModal.jsx';
+import AddOrder from '../../shared/components/Orders/AddOrder.jsx';
 
 export default function Orders() {
     const [totalRecords, setTotalRecords] = useState(0);
@@ -17,7 +18,8 @@ export default function Orders() {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
-    const [formdata, setFormdata] = useState({});
+    const [ordervisible, setOrderVisible] = useState(false);
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0 });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -28,7 +30,9 @@ export default function Orders() {
     const [ViewProductLoading, setViewProductLoading] = useState(false);
     const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
-
+    const [searchResults, setSearchResults] = useState([])
+    const [addressFields, setAddressFields] = useState({ address: "", district: "", state: "Tamilnadu", country: "India", zipcode: "" });
+    const [pdfUrl, setPdfUrl] = useState(null);
     let isMounted = true;
 
     const getallorder = useCallback(async () => {
@@ -43,7 +47,6 @@ export default function Orders() {
         }
         return (() => isMounted = false);
     }, [first, rows, globalfilter, colfilter])
-
     const onPage = (page) => {
         setPage(page)
         setFirst(rows * (page - 1));
@@ -51,38 +54,129 @@ export default function Orders() {
     };
 
     const handlechange = (e) => {
-        if (e.target.files) {
-            const filesArray = Array.from(e.target.files);
-            setFormdata({ ...formdata, [e.target.name]: filesArray });
+        const { name, value, files } = e.target;
+        if (files) {
+            setFormdata(prev => ({ ...prev, [name]: Array.from(files) }));
+            return;
+        } if (name === "address" || name === "district" || name === "state" ||
+            name === "country" || name === "zipcode") {
+            setAddressFields(prev => ({
+                ...prev,
+                [name]: value
+            }));
+            const updatedFields = {
+                ...addressFields,
+                [name]: value
+            };
+            const fullAddress = `${updatedFields.address}, ${updatedFields.district}, ${updatedFields.state}, ${updatedFields.country}, ${updatedFields.zipcode}`;
+            setFormdata(prev => ({
+                ...prev,
+                Delivery_Address: fullAddress
+            }));
         } else {
-            setFormdata({ ...formdata, [e.target.name]: e.target.value });
+            setFormdata(prev => ({ ...prev, [name]: value }));
         }
-    }
+    };
 
     const cusfilter = (field, value) => {
         setcolFilter(prev => ({ ...prev, [field]: { $in: value } }));
         setFirst(0)
     };
 
+    // const handlesave = async (e) => {
+    //     e.preventDefault();
+    //     setLoading(true);
+    //     await saveorders(updatedFormData);
+    //     toast.success("Successfully saved");
+    //     getallorder();
+    //     setVisible(false);
+    //     setLoading(false);
+    // };
+
+    const addRow = () => {
+        const ordermasterdata = { Tax_Type: "" };
+        setFormdata(prevData => ({
+            ...prevData,
+            ordermasterdata: [...prevData.ordermasterdata, ordermasterdata]
+        }));
+    };
+
+    const handledeleteField = (event, rowIndex) => {
+        if (formdata['ordermasterdata'].length > 1) {
+            var datas = formdata;
+            const updatedProducts = datas.ordermasterdata.filter((_, index) => index !== rowIndex['rowIndex']).map((res, index) => ({ ...res }));
+            var Sub_Total = updatedProducts.reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
+            var Total_Quantity = updatedProducts.reduce((sum, item) => sum + parseInt(item.QTY), 0);
+            setFormdata({ ...formdata, ordermasterdata: updatedProducts, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
+        }
+    };
+
+    const handlechangeProduct = (event, rowData) => {
+        const updatedProducts = [...formdata.ordermasterdata];
+        const index = rowData['rowIndex'];
+        const field = event.target.name;
+        const value = event.target.value;
+        updatedProducts[index][field] = value;
+        updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
+        // Extract values
+        let { QTY, Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+        QTY = parseFloat(QTY) || 0;
+        Price = parseFloat(Price) || 0;
+        Discount = parseFloat(Discount) || 0;
+        Disc_Amount = parseFloat(Disc_Amount) || 0;
+        Tax_Percentage = parseFloat(Tax_Percentage) || 0;
+        // Calculate subtotal before tax
+        let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount / 100)) - Disc_Amount;
+
+        let Sub_Total = 0;
+
+        if (Tax_Type === "Inclusive") {
+            // Tax is already included in the price, extract the base price
+            let taxFactor = 1 + (Tax_Percentage / 100);
+            let baseAmount = subtotalBeforeTax / taxFactor;
+            let taxAmount = subtotalBeforeTax - baseAmount;
+            Sub_Total = subtotalBeforeTax.toFixed(2);
+        } else {
+            // Exclusive tax is added on top
+            let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
+            Sub_Total = (subtotalBeforeTax + taxAmount).toFixed(2);
+        }
+        updatedProducts[index].Sub_Total = parseFloat(Sub_Total);
+
+        // Calculate total amount and total quantity
+        let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
+        let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
+        setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity, Sub_Total: Sub_Total });
+    };
+
     const handlesave = async (e) => {
         e.preventDefault();
         setLoading(true);
-        await saveorders(updatedFormData);
+        console.log(formdata)
+        await saveorders(formdata);
         toast.success("Successfully saved");
         getallorder();
-        setVisible(false);
+        setOrderVisible(false);
         setLoading(false);
     };
+
 
     const newform = () => {
         setFormdata({});
         setVisible(true)
     }
 
-    const editfrom = (data) => {
-        setFormdata(data);
-        setVisible(true)
+    // const editfrom = (data) => {
+    //     setFormdata(data);
+    //     setOrderVisible(true)
+    // }
+
+    const editfrom = async (data) => {
+        var res = await getOrderitemsbyid(data.Order_id);
+        setFormdata({ ...data, ordermasterdata: res });
+        setOrderVisible(true)
     }
+
 
     const handleupdate = async (e) => {
         e.preventDefault()
@@ -90,7 +184,7 @@ export default function Orders() {
         await updateOrder(formdata)
         toast.success("Sucessfully updated")
         getallorder()
-        setVisible(false)
+        setOrderVisible(false)
         setLoading(false)
     }
 
@@ -110,12 +204,18 @@ export default function Orders() {
         });
     };
 
+    // const downloadPDF = async (data) => {
+    //     var resData = await apidownloadPDF(data)
+    //     const pdfBlob = new Blob([resData], { type: 'application/pdf' });
+    //     const pdfFileName = `${data}.pdf`;
+    //     saveAs(pdfBlob, pdfFileName);
+    // }
     const downloadPDF = async (data) => {
-        var resData = await apidownloadPDF(data)
+        const resData = await apidownloadPDF(data);
         const pdfBlob = new Blob([resData], { type: 'application/pdf' });
-        const pdfFileName = `${data}.pdf`;
-        saveAs(pdfBlob, pdfFileName);
-    }
+        const pdfFileUrl = URL.createObjectURL(pdfBlob);
+        setPdfUrl(pdfFileUrl); // set for preview
+    };
 
     const viewProducts = async (Order_id) => {
         var res = await getOrderitemsbyid(Order_id);
@@ -133,13 +233,51 @@ export default function Orders() {
         setSelectedOrder(null);
     };
 
+    const newOrder = () => {
+        setFormdata({ ordermasterdata: [{ Tax_Type: "" }] });
+        setAddressFields({ address: "", district: "", state: "Tamilnadu", country: "India", zipcode: "" });
+        setOrderVisible(true)
+    };
+
+    // const loadData = (i, index) => {
+    //     formdata['ordermasterdata'][index['rowIndex']] = { ...formdata['ordermasterdata'][index['rowIndex']], ...searchResults[i] }
+    //     formdata['ordermasterdata'][index['rowIndex']] = { ...formdata['ordermasterdata'][index['rowIndex']], ...searchResults[i] };
+    //     var Sub_Total = formdata['ordermasterdata'].reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
+    //     var Total_Quantity = formdata['ordermasterdata'].reduce((sum, item) => sum + parseInt(item.QTY), 0);
+
+    //     setFormdata({ ...formdata, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
+    //     //   handlechangeProduct(event, rowIndex);
+    //     setSearchResults([]);
+    // }
+    const loadData = (searchIndex, rowData) => {
+        const selectedProduct = searchResults[searchIndex];
+        const rowIndex = rowData.rowIndex;
+
+        const updatedProducts = [...formdata.ordermasterdata];
+        updatedProducts[rowIndex] = {
+            ...updatedProducts[rowIndex],
+            ...selectedProduct
+        };
+        setFormdata(prev => ({
+            ...prev,
+            ordermasterdata: updatedProducts
+        }));
+        handlechangeProduct({ target: { name: 'Product_Name', value: selectedProduct.Product_Name } }, { rowIndex });
+        setSearchResults([]);
+        setShowResults(false);
+    };
+
+
     return (
         <div>
-            <div className="bg-white border rounded-3xl">
-                <Tableheadpanel newform={newform} setglobalfilter={setglobalfilter} />
-                <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
-                    cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
+            <div className="bg-white border rounded-3xl flex flex-col justify-between" style={{ height: "calc(100vh - 70px)" }}>
+                <div>
+                    <Tableheadpanel newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} />
+                    <Tableview pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
+                        cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
+                </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
+                <AddOrder addressFields={addressFields} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />

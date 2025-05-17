@@ -10,11 +10,12 @@ import { Button } from 'primereact/button';
 import moment from 'moment-timezone';
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, handledelete, viewProducts, cusfilter, filtervalues, onPage, page, downloadPDF, handleReply } = props;
+  const { tabledata, editfrom, handledelete, viewProducts, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
 
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState({});
   const [showFilterPanel, setShowFilterPanel] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setTempFilterValues(filtervalues);
@@ -42,6 +43,15 @@ const Tableview = (props) => {
     fetchFilterOptions();
   }, []);
 
+  const handleOpenModalWithPDF = async (orderId) => {
+    // Get the PDF blob or data URL
+    const pdfBlob = await downloadPDF(orderId); // ensure this returns a Blob
+    const blobUrl = URL.createObjectURL(pdfBlob);
+    setPdfUrl(blobUrl);
+    setIsModalOpen(true);
+  };
+
+
   const actionbotton = (rowData) => {
     return (
       <div className="flex gap-2">
@@ -51,9 +61,76 @@ const Tableview = (props) => {
         <button title="View Order Products" onClick={() => viewProducts(rowData?.Order_id)} className="inline-flex items-center text-xl font-medium text-blue-600 gap-x-1 decoration-2 " >
           <i className="fi fi-rr-eye"></i>
         </button>
-        <button title="Download Invoice" onClick={() => { downloadPDF(rowData.Order_id) }} className="inline-flex items-center text-xl font-medium text-red-600 gap-x-1 decoration-2 " >
+        {/* <button title="Download Invoice" onClick={() => { downloadPDF(rowData.Order_id) }} className="inline-flex items-center text-xl font-medium text-red-600 gap-x-1 decoration-2 " >
           <i className="text-red-500 fi fi-rr-file-pdf"></i>
+        </button> */}
+        <button title="Download Invoice" className="inline-flex items-center text-xl font-medium text-red-600 gap-x-1 decoration-2" >
+          <i className="text-red-500 fi fi-rr-file-pdf"
+
+            onClick={() => {
+              setIsModalOpen(true);
+              downloadPDF(rowData.Order_id);
+            }}
+          ></i>
+
         </button>
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+              <div className="mb-4 text-lg font-semibold">PDF Preview</div>
+
+              {pdfUrl ? (
+                <iframe
+                  src={pdfUrl}
+                  className="w-full h-[500px] border"
+                  title="PDF Preview"
+                />
+              ) : (
+                <div>Loading PDF...</div>
+              )}
+
+              <div className="flex justify-end items-center gap-3 mt-4">
+                <button
+                  className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = pdfUrl;
+                    link.download = `${rowData.Order_id}.pdf`;
+                    link.click();
+                  }}
+                >
+                  <i class="fi fi-rr-download flex items-center "></i>
+                  Download
+                </button>
+                <button
+                  className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
+                  onClick={() => {
+                    const printWindow = window.open(pdfUrl);
+                    if (printWindow) {
+                      printWindow.addEventListener('load', () => {
+                        printWindow.focus();
+                        printWindow.print();
+                      });
+                    }
+                  }} >
+                  <i class="fi fi-rr-print flex items-center "></i>
+                  Print
+                </button>
+
+                <button
+                  className="  absolute top-4 right-4 text-white rounded-md "
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setPdfUrl(null); // clear preview
+                  }}
+                >
+                  <i class="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* <button
           onClick={() => handleReply(rowData)}
           className="relative p-2 transition-colors duration-300 rounded-full group hover:bg-purple-50"
@@ -94,13 +171,14 @@ const Tableview = (props) => {
     { field: 'Billing_Name', header: 'Billing Name', width: "150px" },
     { field: 'Email', header: 'Email', width: "150px" },
     { field: 'Mobilenumber', header: 'Mobile Number', width: "150px" },
-    { field: 'City', header: 'City', filter: true, width: "150px" },
-    { field: 'Delivery_Address', header: 'Delivery Address', width: "200px" },
+    // { field: 'City', header: 'City',  width: "150px" },
+    { field: 'Delivery_Address', header: 'Address', width: "200px" },
     // { field: 'purchaseType', header: 'Purchase Type', width: "200px", filter: true },
-    { field: 'purchaseDateandTime', header: 'Purchase DateandTime', width: "200px", filter: true },
+    // { field: 'purchaseDateandTime', header: 'Purchase DateandTime', width: "200px", filter: true },
     { field: 'Total_Amount', header: 'Total Amount', width: "150px" },
     { field: 'Payment_Status', header: 'Payment Status', width: "150px", filter: true },
     { field: 'Order_Status', header: 'Order Status', width: "150px", filter: true },
+    { field: 'Payment_Method', header: 'Payment Method', width: "150px", filter: true },
   ];
 
   const FilterPanel = () => (
@@ -222,14 +300,15 @@ const Tableview = (props) => {
   );
 
   return (
-    <div className="bg-white border shadow-sm rounded-xl">
+    <div className="bg-white border shadow-sm rounded-xl ">
       <TableHeader />
       <DataTable
         rowClassName={() => 'border-b border-secondary'}
         selectionMode="single"
         value={tabledata}
         scrollable
-        scrollHeight="680px"
+        scrollHeight="calc(100vh - 200px)"
+        // scrollHeight="680px"
         className='!text-sm'
         stateStorage="session"
         stateKey="dt-state-demo-local"
@@ -244,7 +323,7 @@ const Tableview = (props) => {
             style={{ minWidth: col.width }}
             body={(rowData, meta) => {
               if (col.format == "Date") {
-                return moment.tz(rowData[meta.field], "America/New_York").format("YYYY-MM-DD HH:mm:ss");
+                return moment.tz(rowData[meta.field], "Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss A");
               } else if (col.format == "HTML") {
                 return <div dangerouslySetInnerHTML={{ __html: rowData[meta.field] }} />
               } else {
