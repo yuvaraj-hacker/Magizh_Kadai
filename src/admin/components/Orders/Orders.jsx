@@ -316,7 +316,9 @@ export default function Orders() {
         const rowIndex = rowData.rowIndex;
         delete selectedProduct._id;
         selectedProduct.Order_id = formdata.Order_id;
-        Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); });
+        console.log("selectedProduct" , selectedProduct)
+        console.log("rowindex" , rowIndex)
+        Object.entries(selectedProduct).forEach(([key, value]) =>{handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); });
         setSearchResults([]);
         setShowResults(false);
     };

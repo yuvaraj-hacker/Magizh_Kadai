@@ -55,6 +55,7 @@ function AddOrder(props) {
     const handleSearch = (e, rowIndex) => {
         const value = e.target.value;
         setSearchTerm(value);
+        console.log(searchResults)
         const updatedFormdata = { ...formdata };
         updatedFormdata.ordermasterdata[rowIndex.rowIndex] = {
             ...updatedFormdata.ordermasterdata[rowIndex.rowIndex],
@@ -101,13 +102,6 @@ function AddOrder(props) {
                 )}
             </div>
         );
-    };
-    const Brand_Name = (rowData, rowIndex) => {
-        return (
-            <div>
-                <input type="text" name="Brand_Name" id={'Brand_Name' + rowIndex['rowIndex']} value={rowData?.Brand_Name} onChange={() => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
-            </div>
-        )
     }
     const QTY = (rowData, rowIndex) => {
         return (
