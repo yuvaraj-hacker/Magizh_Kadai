@@ -96,7 +96,7 @@ function AddOrder(props) {
                         {searchResults.map((result, index) => (
                             <li key={index} role="button" onClick={() => loadData(index, rowIndex)} className="flex items-center  py-2 px-3  rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none" dangerouslySetInnerHTML={{ __html: highlightText(result['Product_Name'], searchTerm), }}
                             />
-                        ))}
+                           ))}
                     </ul>
                 )}
             </div>
@@ -154,14 +154,14 @@ function AddOrder(props) {
     const Sub_Total = (rowData) => {
         return (
             <div>
-                <input type="number" name="Sub_Total" readOnly value={rowData?.Sub_Total || 0} className="w-full focus:outline-none px-4 py-2 outline-none" />
+                <input type="number" name="Sub_Total" readOnly value={rowData?.Sub_Total} className="w-full focus:outline-none px-4 py-2 outline-none" />
             </div>
         );
     };
     const action = (rowData, rowIndex) => {
         return (
             <div className='flex'>
-                <button type='button' onClick={(event) => handledeleteField(event, rowIndex)} className="inline-flex items-center me-3 text-xl font-medium text-red-600 gap-x-1 decoration-2" >
+                <button type='button'  onClick={(event) => handledeleteField(event, rowIndex)} className="inline-flex items-center me-3 text-xl font-medium text-red-600 gap-x-1 decoration-2" >
                     <i className="fi fi-rr-trash"></i>
                 </button>
             </div>
@@ -359,11 +359,11 @@ function AddOrder(props) {
                         </div>
                     </div>
                     <div className='flex gap-3 items-center justify-center'>
-                        <div className="mt-2 text-center" onClick={() => setOrderVisible(false)}>
+                        {/* <div className="mt-2 text-center" onClick={() => setOrderVisible(false)}>
                             <button className=" px-4 py-2 text-white bg-primary border rounded-md" >
                                 Cancel
                             </button>
-                        </div>
+                        </div> */}
                         <div className="mt-2 text-center">
                             <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md" >
                                 {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>} {formdata._id ? "Update" : "Save"}

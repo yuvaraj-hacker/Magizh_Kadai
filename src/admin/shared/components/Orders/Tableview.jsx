@@ -10,8 +10,7 @@ import { Button } from 'primereact/button';
 import moment from 'moment-timezone';
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, handledelete, viewProducts, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
-
+  const { tabledata, editfrom, newform, newOrder, setglobalfilter, handledelete, viewProducts, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState({});
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -43,15 +42,6 @@ const Tableview = (props) => {
     fetchFilterOptions();
   }, []);
 
-  const handleOpenModalWithPDF = async (orderId) => {
-    // Get the PDF blob or data URL
-    const pdfBlob = await downloadPDF(orderId); // ensure this returns a Blob
-    const blobUrl = URL.createObjectURL(pdfBlob);
-    setPdfUrl(blobUrl);
-    setIsModalOpen(true);
-  };
-
-
   const actionbotton = (rowData) => {
     return (
       <div className="flex gap-2">
@@ -76,19 +66,13 @@ const Tableview = (props) => {
         </button>
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+            <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full h-[90] overflow-auto">
               <div className="mb-4 text-lg font-semibold">PDF Preview</div>
-
               {pdfUrl ? (
-                <iframe
-                  src={pdfUrl}
-                  className="w-full h-[500px] border"
-                  title="PDF Preview"
-                />
+                <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
               ) : (
                 <div>Loading PDF...</div>
               )}
-
               <div className="flex justify-end items-center gap-3 mt-4">
                 <button
                   className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
@@ -134,8 +118,7 @@ const Tableview = (props) => {
         {/* <button
           onClick={() => handleReply(rowData)}
           className="relative p-2 transition-colors duration-300 rounded-full group hover:bg-purple-50"
-          title="Reply to Order"
-        >
+          title="Reply to Order" >
           <i className="text-xl text-purple-600 transition-colors fi fi-rr-comments group-hover:text-purple-700" />
         </button> */}
       </div>
@@ -239,9 +222,34 @@ const Tableview = (props) => {
   const TableHeader = () => (
     <div className="p-4 bg-white border-b">
       <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-md">
-          {/* Optional: Add search functionality if needed */}
+        {/* <div className="relative flex-1 max-w-md">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800 ">
+              Orders
+            </h2>
+          </div>
         </div>
+        <div>
+          <div className="flex items-center justify-center gap-4 px-6  ">
+            <div>
+              <div className="inline-flex gap-x-2">
+                <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
+              </div>
+            </div>
+            <div>
+              <div className="inline-flex gap-x-2">
+                <button
+                  onClick={newOrder}
+                  className="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-primary border border-transparent rounded-lg gap-x-2">
+                  <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  Add Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </div> */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowFilterPanel(true)}
@@ -311,15 +319,15 @@ const Tableview = (props) => {
         // scrollHeight="680px"
         className='!text-sm'
         stateStorage="session"
-        stateKey="dt-state-demo-local"
-      >
-        <Column header="Action" body={actionbotton} />
+        stateKey="dt-state-demo-local"  >
+        <Column header="Action" headerClassName='bg-primary text-white' body={actionbotton} />
         {columns.map((col, i) => (
           <Column
             key={i}
             field={col.field}
             header={col.header}
             // filter={col.filter}
+            headerClassName='bg-primary text-white'
             style={{ minWidth: col.width }}
             body={(rowData, meta) => {
               if (col.format == "Date") {

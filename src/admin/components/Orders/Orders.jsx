@@ -103,51 +103,119 @@ export default function Orders() {
 
     const handledeleteField = (event, rowIndex) => {
         if (formdata['ordermasterdata'].length > 1) {
-            var datas = formdata;
-            const updatedProducts = datas.ordermasterdata.filter((_, index) => index !== rowIndex['rowIndex']).map((res, index) => ({ ...res }));
-            var Sub_Total = updatedProducts.reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
-            var Total_Quantity = updatedProducts.reduce((sum, item) => sum + parseInt(item.QTY), 0);
-            setFormdata({ ...formdata, ordermasterdata: updatedProducts, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
+            const updatedProducts = formdata.ordermasterdata
+                .filter((_, index) => index !== rowIndex['rowIndex'])
+                .map((res) => ({ ...res }));
+
+            // Correctly recalculate total amount and quantity
+            const Total_Amount = updatedProducts.reduce(
+                (sum, item) => sum + (parseFloat(item.Sub_Total) || 0),
+                0
+            ).toFixed(2);
+
+            const Total_Quantity = updatedProducts.reduce(
+                (sum, item) => sum + (parseInt(item.QTY) || 0),
+                0
+            );
+
+            setFormdata({
+                ...formdata,
+                ordermasterdata: updatedProducts,
+                Total_Amount,
+                Total_Quantity,
+            });
         }
     };
+
+
+
+    //    const handlechangeProduct = (event, rowData) => {
+    //     const updatedProducts = [...formdata.ordermasterdata];
+    //     const index = rowData['rowIndex'];
+    //     const field = event.target.name;
+    //     const value = event.target.value;
+    //     updatedProducts[index][field] = value;
+    //     updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
+    //     // Extract values
+    //     let { QTY, Price, Discount_Percentage, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+    //     QTY = parseFloat(QTY) || 0;
+    //     Price = parseFloat(Price) || 0;
+    //     Discount_Percentage = parseFloat(Discount_Percentage) || 0;
+    //     Disc_Amount = parseFloat(Disc_Amount) || 0;
+    //     Tax_Percentage = parseFloat(Tax_Percentage) || 0;
+    //     // Calculate subtotal before tax
+    //     let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount_Percentage / 100)) - Disc_Amount;
+
+    //     let Sub_Total = 0;
+
+    //     if (Tax_Type === "Inclusive") {
+    //         // Tax is already included in the price, extract the base price
+    //         let taxFactor = 1 + (Tax_Percentage / 100);
+    //         let baseAmount = subtotalBeforeTax / taxFactor;
+    //         let taxAmount = subtotalBeforeTax - baseAmount;
+    //         Sub_Total = subtotalBeforeTax.toFixed(2);
+    //     } else {
+    //         // Exclusive tax is added on top
+    //         let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
+    //         Sub_Total = (subtotalBeforeTax + taxAmount).toFixed(2);
+    //     }
+    //     updatedProducts[index].Sub_Total = parseFloat(Sub_Total);
+
+    //     // Calculate total amount and total quantity
+    //     let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
+    //     let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
+    //     setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity, Sub_Total: Sub_Total });
+    // };
+
 
     const handlechangeProduct = (event, rowData) => {
         const updatedProducts = [...formdata.ordermasterdata];
         const index = rowData['rowIndex'];
         const field = event.target.name;
         const value = event.target.value;
-        updatedProducts[index][field] = value;
         updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
-        // Extract values
-        let { QTY, Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+        // Extract and parse values
+        let { QTY, Price, Discount_Percentage, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
         QTY = parseFloat(QTY) || 0;
         Price = parseFloat(Price) || 0;
-        Discount = parseFloat(Discount) || 0;
+        Discount_Percentage = parseFloat(Discount_Percentage) || 0;
         Disc_Amount = parseFloat(Disc_Amount) || 0;
         Tax_Percentage = parseFloat(Tax_Percentage) || 0;
-        // Calculate subtotal before tax
-        let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount / 100)) - Disc_Amount;
-
+        const totalBase = QTY * Price;
+        // Sync discount fields
+        if (field === "Disc_Amount") {
+            // Recalculate percentage from amount
+            Discount_Percentage = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
+            updatedProducts[index].Discount_Percentage = Math.round(Discount_Percentage);
+        } else if (field === "Discount_Percentage") {
+            // Recalculate amount from percentage
+            Disc_Amount = (totalBase * Discount_Percentage) / 100;
+            updatedProducts[index].Disc_Amount = Math.round(Disc_Amount);
+        }
+        // Recalculate subtotal before tax
+        let subtotalBeforeTax = totalBase - (totalBase * (Discount_Percentage / 100));
         let Sub_Total = 0;
-
         if (Tax_Type === "Inclusive") {
-            // Tax is already included in the price, extract the base price
             let taxFactor = 1 + (Tax_Percentage / 100);
             let baseAmount = subtotalBeforeTax / taxFactor;
-            let taxAmount = subtotalBeforeTax - baseAmount;
-            Sub_Total = subtotalBeforeTax.toFixed(2);
+            Sub_Total = subtotalBeforeTax;
         } else {
-            // Exclusive tax is added on top
             let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
-            Sub_Total = (subtotalBeforeTax + taxAmount).toFixed(2);
+            Sub_Total = subtotalBeforeTax + taxAmount;
         }
-        updatedProducts[index].Sub_Total = parseFloat(Sub_Total);
-
-        // Calculate total amount and total quantity
+        updatedProducts[index].Sub_Total = parseFloat(Sub_Total.toFixed(2));
+        // Calculate total amount and quantity
         let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
-        setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity, Sub_Total: Sub_Total });
+        setFormdata({
+            ...formdata,
+            ordermasterdata: updatedProducts,
+            Total_Amount,
+            Total_Quantity,
+            Sub_Total: Sub_Total.toFixed(2),
+        });
     };
+
 
     const handlesave = async (e) => {
         e.preventDefault();
@@ -165,7 +233,6 @@ export default function Orders() {
         setFormdata({});
         setVisible(true)
     }
-
     // const editfrom = (data) => {
     //     setFormdata(data);
     //     setOrderVisible(true)
@@ -241,39 +308,25 @@ export default function Orders() {
 
     // const loadData = (i, index) => {
     //     formdata['ordermasterdata'][index['rowIndex']] = { ...formdata['ordermasterdata'][index['rowIndex']], ...searchResults[i] }
-    //     formdata['ordermasterdata'][index['rowIndex']] = { ...formdata['ordermasterdata'][index['rowIndex']], ...searchResults[i] };
-    //     var Sub_Total = formdata['ordermasterdata'].reduce((sum, item) => sum + (item.Amount * 1), 0).toFixed(2);
-    //     var Total_Quantity = formdata['ordermasterdata'].reduce((sum, item) => sum + parseInt(item.QTY), 0);
-
-    //     setFormdata({ ...formdata, Sub_Total: Sub_Total, Total_Quantity: Total_Quantity });
-    //     //   handlechangeProduct(event, rowIndex);
+    //     setFormdata({ ...formdata});
     //     setSearchResults([]);
     // }
     const loadData = (searchIndex, rowData) => {
-        const selectedProduct = searchResults[searchIndex];
+        const selectedProduct = { ...searchResults[searchIndex] };
         const rowIndex = rowData.rowIndex;
-
-        const updatedProducts = [...formdata.ordermasterdata];
-        updatedProducts[rowIndex] = {
-            ...updatedProducts[rowIndex],
-            ...selectedProduct
-        };
-        setFormdata(prev => ({
-            ...prev,
-            ordermasterdata: updatedProducts
-        }));
-        handlechangeProduct({ target: { name: 'Product_Name', value: selectedProduct.Product_Name } }, { rowIndex });
+        delete selectedProduct._id;
+        selectedProduct.Order_id = formdata.Order_id;
+        Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); });
         setSearchResults([]);
         setShowResults(false);
     };
-
 
     return (
         <div>
             <div className="bg-white border rounded-3xl flex flex-col justify-between" style={{ height: "calc(100vh - 70px)" }}>
                 <div>
                     <Tableheadpanel newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} />
-                    <Tableview pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
+                    <Tableview newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                         cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
                 </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
