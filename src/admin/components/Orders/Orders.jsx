@@ -19,7 +19,7 @@ export default function Orders() {
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
     const [ordervisible, setOrderVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0 });
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Order_Date: '' });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -105,22 +105,39 @@ export default function Orders() {
     };
 
     const handledeleteField = (event, rowIndex) => {
-        if (formdata['ordermasterdata'].length > 1) {
+        const isOneItem = formdata['ordermasterdata'].length == 1;
+        const resetRow = {
+            ...formdata.ordermasterdata[0],
+            Product_Name: '',
+            QTY: '',
+            QTYS: '',
+            Regular_Price: '',
+            Discount:'',
+            Tax_Type:'',
+            Tax_Percentage :'',
+            Sub_Total:'',
+            Images:''
+        }
+        if (isOneItem) {
+            setFormdata({
+                ...formdata,
+                ordermasterdata: [resetRow],
+                Total_Amount: 0.00,
+                Total_Quantity: 0,
+            })
+        }
+        else {
             const updatedProducts = formdata.ordermasterdata
                 .filter((_, index) => index !== rowIndex['rowIndex'])
                 .map((res) => ({ ...res }));
-
-            // Correctly recalculate total amount and quantity
             const Total_Amount = updatedProducts.reduce(
                 (sum, item) => sum + (parseFloat(item.Sub_Total) || 0),
                 0
             ).toFixed(2);
-
             const Total_Quantity = updatedProducts.reduce(
                 (sum, item) => sum + (parseInt(item.QTY) || 0),
                 0
             );
-
             setFormdata({
                 ...formdata,
                 ordermasterdata: updatedProducts,
@@ -129,7 +146,6 @@ export default function Orders() {
             });
         }
     };
-
 
 
     //    const handlechangeProduct = (event, rowData) => {
@@ -179,11 +195,13 @@ export default function Orders() {
         if (field === "QTYS") {
             const availableStock = parseFloat(updatedProducts[index].QTY || 0); // Actual stock
             const enteredQty = parseFloat(value) || 0;
-            if (availableStock === 0) { toast.error("Currently Out of Stock"); updatedProducts[index][field] = ""; setFormdata({ ...formdata, ordermasterdata: updatedProducts }); return; }
-            if (availableStock != 0 && enteredQty > availableStock) { toast.error(`No available stock. Max available: ${availableStock}`);
-            updatedProducts[index][field] = "0";
-            setFormdata({...formdata , ordermasterdata:updatedProducts})
-             return 0; }
+            if (availableStock === 0) { toast.error("Currently Out of Stock"); updatedProducts[index][field] = "0"; setFormdata({ ...formdata, ordermasterdata: updatedProducts }); return; }
+            if (availableStock != 0 && enteredQty > availableStock) {
+                toast.error(`No available stock. Max available: ${availableStock}`);
+                updatedProducts[index][field] = "0";
+                setFormdata({ ...formdata, ordermasterdata: updatedProducts })
+                return 0;
+            }
         }
         updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
         // Extract and parse values

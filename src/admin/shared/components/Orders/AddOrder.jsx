@@ -183,12 +183,12 @@ function AddOrder(props) {
                                         <input type="text" name="Billing_Name" value={formdata?.Billing_Name} onChange={handlechange} className="w-full   focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white px-4 py-2 border rounded-md outline-none" />
                                     </div>
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium dark:text-white">Email<span className='text-red-500'>*</span></label>
+                                        <label className="block mb-2 text-sm font-medium dark:text-white">Email<span className='text-red-500'></span></label>
                                         <input type="text" name="Email" value={formdata?.Email} onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500  px-4 py-2 border rounded-md outline-none" />
                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">Mobile Number  <span className='text-red-500'>*</span></label>
-                                        <input type="text" name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}" onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                                        <input type="text" name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}"  onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                                     </div>
                                     <div className='col-span-2'>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
@@ -196,6 +196,7 @@ function AddOrder(props) {
                                         </label>
                                         <input
                                             type="text"
+
                                             name="address"
                                             value={addressFields.address}
                                             onChange={handlechange}
@@ -210,6 +211,7 @@ function AddOrder(props) {
                                             type="text"
                                             name="district"
                                             value={addressFields.district}
+
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
@@ -226,7 +228,7 @@ function AddOrder(props) {
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             Country <span className="text-red-500">*</span>
                                         </label>
@@ -238,15 +240,16 @@ function AddOrder(props) {
                                             readOnly
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
-                                    </div>
+                                    </div> */}
                                     <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
-                                            Zipcode <span className="text-red-500">*</span>
+                                            Pincode <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="number"
                                             name="zipcode"
                                             value={addressFields.zipcode}
+
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
@@ -275,7 +278,14 @@ function AddOrder(props) {
                                         id="orderDate"
                                         name="Order_Date"
                                         value={today}
-                                        onChange={(e) => setToday(e.target.value)}
+                                        onChange={(e) => {
+                                            const selectedDate = e.target.value;
+                                            setToday(selectedDate);
+                                            setFormdata(prev => ({
+                                                ...prev,
+                                                Order_Date: selectedDate
+                                            }));
+                                        }}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600"
                                     />
                                 </div>
@@ -319,28 +329,28 @@ function AddOrder(props) {
 
                         <div className='my-5 '>
                             <h1 className='py-4 text-xl text-primary font-extrabold'>Remarks</h1>
-                            <div className='flex justify-between items-center'>
+                            <div className='flex justify-between items-center gap-10' >
                                 <div className='  items-start   grid grid-cols-2 gap-4'>
-                                    <InputText name='Remarks' value={formdata?.Remarks} onChange={handlechange} className=' mt-8 focus:outline-none border p-2 focus:ring-2 focus:ring-blue-400   '></InputText>
+                                    <InputText name='Remarks' value={formdata?.Remarks} onChange={handlechange} className=' focus:outline-none border p-2 focus:ring-2 focus:ring-blue-400   '></InputText>
 
                                     <div className=' '>
                                         <div className="flex gap-4 items-center">
                                             <div className="mb-2">
-                                                <div className="mb-2">
+                                                {/* <div className="mb-2">
                                                     <label>Payment Status</label>
-                                                </div>
-                                                <select name="Payment_Status" value={formdata?.Payment_Status} onChange={handlechange} className="w-full   px-4 py-2 border rounded-md outline-none"   >
-                                                    <option value="" >Select a status</option>
+                                                </div> */}
+                                                <select name="Payment_Status" value={formdata?.Payment_Status} placeholder="Payment Status" onChange={handlechange} className="w-full   px-4 py-2 border rounded-md outline-none"   >
+                                                    <option value="" >Payment Status</option>
                                                     <option value="Not Paid">Not Paid</option>
                                                     <option value="Paid">Paid</option>
                                                 </select>
                                             </div>
                                             <div className="mb-2">
-                                                <div className="mb-2">
+                                                {/* <div className="mb-2">
                                                     <label>Order Status</label>
-                                                </div>
-                                                <select name="Order_Status" value={formdata?.Order_Status} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
-                                                    <option value="" >Select a status</option>
+                                                </div> */}
+                                                <select name="Order_Status" value={formdata?.Order_Status} placeholder="Order Status" onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                    <option value="" >Order Status</option>
                                                     <option value="Payment Pending">Payment Pending</option>
                                                     <option value="Payment Confirmed">Payment Confirmed</option>
                                                     <option value="Order Placed">Order Placed</option>
@@ -353,11 +363,11 @@ function AddOrder(props) {
                                                 </select>
                                             </div>
                                             <div className="mb-2">
-                                                <div className="mb-2">
+                                                {/* <div className="mb-2">
                                                     <label>Payment Method</label>
-                                                </div>
-                                                <select name="Payment_Method" value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
-                                                    <option value="" >Select a status</option>
+                                                </div> */}
+                                                <select name="Payment_Method" placeholder="Payment Method" value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                    <option value="" >Payment Method</option>
                                                     <option value="Card">Card</option>
                                                     <option value="Cash">Cash</option>
                                                 </select>
@@ -365,17 +375,12 @@ function AddOrder(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='font-bold'>Total: ₹ {formdata?.Total_Amount || '0'}</div>
+                                <div className='font-bold 2xl:mr-40 '>Total: ₹ {formdata?.Total_Amount || '0'}</div>
+
                             </div>
                         </div>
-
                     </div>
                     <div className='flex gap-3 items-center justify-end'>
-                        {/* <div className="mt-2 text-center" onClick={() => setOrderVisible(false)}>
-                            <button className=" px-4 py-2 text-white bg-primary border rounded-md" >
-                                Cancel
-                            </button>
-                        </div> */}
                         <div className="mt-2 text-center">
                             <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md" >
                                 {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>} {formdata._id ? "Update" : "Save"}
@@ -383,6 +388,10 @@ function AddOrder(props) {
                         </div>
                     </div>
                 </form>
+
+                {/* <button onClick={() => setOrderVisible(false)}>
+                    Cancel
+                </button> */}
             </Dialog>
 
 
