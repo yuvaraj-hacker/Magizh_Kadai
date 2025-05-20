@@ -55,6 +55,9 @@ export default function Orders() {
 
     const handlechange = (e) => {
         const { name, value, files } = e.target;
+        console.log(name)
+        console.log(value)
+        console.log(files)
         if (files) {
             setFormdata(prev => ({ ...prev, [name]: Array.from(files) }));
             return;
@@ -137,14 +140,14 @@ export default function Orders() {
     //     updatedProducts[index][field] = value;
     //     updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
     //     // Extract values
-    //     let { QTY, Price, Discount_Percentage, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+    //     let { QTY, Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
     //     QTY = parseFloat(QTY) || 0;
     //     Price = parseFloat(Price) || 0;
-    //     Discount_Percentage = parseFloat(Discount_Percentage) || 0;
+    //     Discount = parseFloat(Discount) || 0;
     //     Disc_Amount = parseFloat(Disc_Amount) || 0;
     //     Tax_Percentage = parseFloat(Tax_Percentage) || 0;
     //     // Calculate subtotal before tax
-    //     let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount_Percentage / 100)) - Disc_Amount;
+    //     let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount / 100)) - Disc_Amount;
 
     //     let Sub_Total = 0;
 
@@ -173,27 +176,36 @@ export default function Orders() {
         const index = rowData['rowIndex'];
         const field = event.target.name;
         const value = event.target.value;
+        if (field === "QTYS") {
+            const availableStock = parseFloat(updatedProducts[index].QTY || 0); // Actual stock
+            const enteredQty = parseFloat(value) || 0;
+            if (availableStock === 0) { toast.error("Currently Out of Stock"); updatedProducts[index][field] = ""; setFormdata({ ...formdata, ordermasterdata: updatedProducts }); return; }
+            if (availableStock != 0 && enteredQty > availableStock) { toast.error(`No available stock. Max available: ${availableStock}`);
+            updatedProducts[index][field] = "0";
+            setFormdata({...formdata , ordermasterdata:updatedProducts})
+             return 0; }
+        }
         updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
         // Extract and parse values
-        let { QTY, Price, Discount_Percentage, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
-        QTY = parseFloat(QTY) || 0;
-        Price = parseFloat(Price) || 0;
-        Discount_Percentage = parseFloat(Discount_Percentage) || 0;
+        let { QTYS, Regular_Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+        QTYS = parseFloat(QTYS) || 0;
+        Regular_Price = parseFloat(Regular_Price) || 0;
+        Discount = parseFloat(Discount) || 0;
         Disc_Amount = parseFloat(Disc_Amount) || 0;
         Tax_Percentage = parseFloat(Tax_Percentage) || 0;
-        const totalBase = QTY * Price;
+        const totalBase = QTYS * Regular_Price;
         // Sync discount fields
         if (field === "Disc_Amount") {
             // Recalculate percentage from amount
-            Discount_Percentage = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
-            updatedProducts[index].Discount_Percentage = Math.round(Discount_Percentage);
-        } else if (field === "Discount_Percentage") {
+            Discount = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
+            updatedProducts[index].Discount = Math.round(Discount);
+        } else if (field === "Discount") {
             // Recalculate amount from percentage
-            Disc_Amount = (totalBase * Discount_Percentage) / 100;
+            Disc_Amount = (totalBase * Discount) / 100;
             updatedProducts[index].Disc_Amount = Math.round(Disc_Amount);
         }
         // Recalculate subtotal before tax
-        let subtotalBeforeTax = totalBase - (totalBase * (Discount_Percentage / 100));
+        let subtotalBeforeTax = totalBase - (totalBase * (Discount / 100));
         let Sub_Total = 0;
         if (Tax_Type === "Inclusive") {
             let taxFactor = 1 + (Tax_Percentage / 100);
@@ -207,13 +219,7 @@ export default function Orders() {
         // Calculate total amount and quantity
         let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
-        setFormdata({
-            ...formdata,
-            ordermasterdata: updatedProducts,
-            Total_Amount,
-            Total_Quantity,
-            Sub_Total: Sub_Total.toFixed(2),
-        });
+        setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount, Total_Quantity, Sub_Total: Sub_Total.toFixed(2), });
     };
 
 
@@ -316,9 +322,9 @@ export default function Orders() {
         const rowIndex = rowData.rowIndex;
         delete selectedProduct._id;
         selectedProduct.Order_id = formdata.Order_id;
-        console.log("selectedProduct" , selectedProduct)
-        console.log("rowindex" , rowIndex)
-        Object.entries(selectedProduct).forEach(([key, value]) =>{handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); });
+        console.log("selectedProduct", selectedProduct)
+        console.log("rowindex", rowIndex)
+        Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); },);
         setSearchResults([]);
         setShowResults(false);
     };
