@@ -4,7 +4,7 @@ import { Dialog } from 'primereact/dialog';
 export default function Addandeditform(props) {
     const { visible, setVisible, handlesave, handlechange, loading, formdata, handleupdate } = props;
     return (
-        <Dialog header="Product Details" visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[40rem]">
+        <Dialog header="Order Details" visible={visible} onHide={() => setVisible(false)} className="!w-full lg:!w-[40rem]">
             <form onSubmit={handleupdate}>
                 <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                     <div className="mb-2">

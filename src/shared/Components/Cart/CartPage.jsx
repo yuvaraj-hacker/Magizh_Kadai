@@ -209,8 +209,7 @@ export default function CartPage(props) {
                                   className={`text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-200  bg-gray-100 dark:hover:text-black ${updatingItems.has(item._id)
                                     ? "opacity-50 cursor-not-allowed"
                                     : ""
-                                    }`}
-                                >
+                                    }`}  >
                                   <Plus size={16} className="dark:text-white dark:hover:text-black" />
                                 </button>
 
@@ -219,7 +218,7 @@ export default function CartPage(props) {
                               {showB2B !== true && (
                                 <div className="w-32 text-sm font-medium text-center md:text-lg">
                                   ₹ {(
-                                    (item.Sale_Price) * item.Quantity
+                                    (item?.productId?.Sale_Price) * item.Quantity
                                   )}
                                 </div>
                               )}
@@ -366,7 +365,7 @@ export default function CartPage(props) {
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
                       Total ({totalItems} items)
-                      {showB2B !== true && (
+                        {showB2B !== true && (
                         <> : ₹{finalTotal}</>
                       )}
                     </div>
@@ -417,11 +416,11 @@ export default function CartPage(props) {
                               </button>
                             </Link>
                           </div>
-                          {/* <div className="flex items-center justify-end mt-3">
+                          <div className="flex items-center justify-end mt-3">
                           <button className="bg-primary hover:bg-secondary rounded-xl  text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>
                             Checkout
                           </button>
-                        </div> */}
+                        </div>
                         </div>
                       </div>
                       {/* <div>

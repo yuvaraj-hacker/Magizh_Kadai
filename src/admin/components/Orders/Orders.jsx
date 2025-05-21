@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Tableheadpanel from '../../shared/components/Orders/Tableheadpanel';
 import Addandeditform from '../../shared/components/Orders/Addandeditform';
 import Tablepagination from '../../shared/others/Tablepagination';
@@ -19,7 +19,7 @@ export default function Orders() {
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
     const [ordervisible, setOrderVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Order_Date: '' });
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '' });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -31,9 +31,11 @@ export default function Orders() {
     const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [searchResults, setSearchResults] = useState([])
-    const [addressFields, setAddressFields] = useState({ address: "", district: "", state: "Tamilnadu", country: "India", zipcode: "" });
+    const [addressFields, setAddressFields] = useState({ Address: "", District: "", State: "Tamilnadu", Zipcode: "" });
     const [pdfUrl, setPdfUrl] = useState(null);
     let isMounted = true;
+    const isInitialMount = useRef(true);
+
 
     const getallorder = useCallback(async () => {
         const res = await getallorders({ first, rows, globalfilter, colfilter });
@@ -53,34 +55,29 @@ export default function Orders() {
         setRows(rows);
     };
 
+    useEffect(() => {
+        if (formdata.Delivery_Address && isInitialMount.current) {
+            const addressParts = formdata.Delivery_Address.split(',').map(item => item.trim());
+            setAddressFields({
+                Address: addressParts[0] || "",
+                District: addressParts[1] || "",
+                State: addressParts[2] || "Tamilnadu",
+                Zipcode: addressParts[3] || ""
+            });
+            isInitialMount.current = false;
+        }
+    }, [formdata.Delivery_Address]);
+
     const handlechange = (e) => {
         const { name, value, files } = e.target;
-        console.log(name)
-        console.log(value)
-        console.log(files)
-        if (files) {
-            setFormdata(prev => ({ ...prev, [name]: Array.from(files) }));
-            return;
-        } if (name === "address" || name === "district" || name === "state" ||
-            name === "country" || name === "zipcode") {
-            setAddressFields(prev => ({
-                ...prev,
-                [name]: value
-            }));
-            const updatedFields = {
-                ...addressFields,
-                [name]: value
-            };
-            const fullAddress = `${updatedFields.address}, ${updatedFields.district}, ${updatedFields.state}, ${updatedFields.country}, ${updatedFields.zipcode}`;
-            setFormdata(prev => ({
-                ...prev,
-                Delivery_Address: fullAddress
-            }));
-        } else {
-            setFormdata(prev => ({ ...prev, [name]: value }));
-        }
+        if (files) { setFormdata(prev => ({ ...prev, [name]: Array.from(files) })); return; }
+        if (["Address", "District", "State", "Zipcode"].includes(name)) {
+            const updatedFields = { ...addressFields, [name]: value };
+            setAddressFields(updatedFields);
+            const fullAddress = `${updatedFields.Address}, ${updatedFields.District}, ${updatedFields.State}, ${updatedFields.Zipcode}`;
+            setFormdata(prev => ({ ...prev, Delivery_Address: fullAddress }));
+        } else { setFormdata(prev => ({ ...prev, [name]: value })); }
     };
-
     const cusfilter = (field, value) => {
         setcolFilter(prev => ({ ...prev, [field]: { $in: value } }));
         setFirst(0)
@@ -105,28 +102,7 @@ export default function Orders() {
     };
 
     const handledeleteField = (event, rowIndex) => {
-        const isOneItem = formdata['ordermasterdata'].length == 1;
-        const resetRow = {
-            ...formdata.ordermasterdata[0],
-            Product_Name: '',
-            QTY: '',
-            QTYS: '',
-            Regular_Price: '',
-            Discount:'',
-            Tax_Type:'',
-            Tax_Percentage :'',
-            Sub_Total:'',
-            Images:''
-        }
-        if (isOneItem) {
-            setFormdata({
-                ...formdata,
-                ordermasterdata: [resetRow],
-                Total_Amount: 0.00,
-                Total_Quantity: 0,
-            })
-        }
-        else {
+        if (formdata['ordermasterdata'].length >= 1) {
             const updatedProducts = formdata.ordermasterdata
                 .filter((_, index) => index !== rowIndex['rowIndex'])
                 .map((res) => ({ ...res }));
@@ -192,7 +168,8 @@ export default function Orders() {
         const index = rowData['rowIndex'];
         const field = event.target.name;
         const value = event.target.value;
-        if (field === "QTYS") {
+        console.log("field", field)
+        if (field === "Quantity") {
             const availableStock = parseFloat(updatedProducts[index].QTY || 0); // Actual stock
             const enteredQty = parseFloat(value) || 0;
             if (availableStock === 0) { toast.error("Currently Out of Stock"); updatedProducts[index][field] = "0"; setFormdata({ ...formdata, ordermasterdata: updatedProducts }); return; }
@@ -203,25 +180,30 @@ export default function Orders() {
                 return 0;
             }
         }
-        updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
+        updatedProducts[index][field] = value;
         // Extract and parse values
-        let { QTYS, Regular_Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
-        QTYS = parseFloat(QTYS) || 0;
+        let { Quantity, Regular_Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
+        Quantity = parseFloat(Quantity) || 0;
         Regular_Price = parseFloat(Regular_Price) || 0;
         Discount = parseFloat(Discount) || 0;
+        console.log("Discount", Discount)
+        console.log("Regular_Price", Regular_Price)
         Disc_Amount = parseFloat(Disc_Amount) || 0;
+        console.log("Disc_Amount", Disc_Amount)
         Tax_Percentage = parseFloat(Tax_Percentage) || 0;
-        const totalBase = QTYS * Regular_Price;
+        const totalBase = Quantity * Regular_Price;
         // Sync discount fields
-        if (field === "Disc_Amount") {
+        if (field === "Discount_Percentage") {
             // Recalculate percentage from amount
             Discount = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
             updatedProducts[index].Discount = Math.round(Discount);
-        } else if (field === "Discount") {
+        } else if (field === "Disc_Amount") {
             // Recalculate amount from percentage
             Disc_Amount = (totalBase * Discount) / 100;
             updatedProducts[index].Disc_Amount = Math.round(Disc_Amount);
         }
+        console.log("totalBase", totalBase)
+        console.log("Upppppp", Disc_Amount)
         // Recalculate subtotal before tax
         let subtotalBeforeTax = totalBase - (totalBase * (Discount / 100));
         let Sub_Total = 0;
@@ -239,16 +221,18 @@ export default function Orders() {
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
         setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount, Total_Quantity, Sub_Total: Sub_Total.toFixed(2), });
     };
-
-
     const handlesave = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(formdata)
-        await saveorders(formdata);
+        const updatedFormdata = {
+            ...formdata,
+            Billing: "Billing",
+        };
+        await saveorders(updatedFormdata);
         toast.success("Successfully saved");
         getallorder();
         setOrderVisible(false);
+
         setLoading(false);
     };
 
@@ -261,13 +245,15 @@ export default function Orders() {
     //     setFormdata(data);
     //     setOrderVisible(true)
     // }
-
     const editfrom = async (data) => {
         var res = await getOrderitemsbyid(data.Order_id);
         setFormdata({ ...data, ordermasterdata: res });
-        setOrderVisible(true)
+        // if (data.Billing === "Billing") {
+        setOrderVisible(true);
+        // } else {
+        // setVisible(true);
+        // }
     }
-
 
     const handleupdate = async (e) => {
         e.preventDefault()
@@ -276,6 +262,7 @@ export default function Orders() {
         toast.success("Sucessfully updated")
         getallorder()
         setOrderVisible(false)
+        setVisible(false)
         setLoading(false)
     }
 
@@ -326,7 +313,7 @@ export default function Orders() {
 
     const newOrder = () => {
         setFormdata({ ordermasterdata: [{ Tax_Type: "" }] });
-        setAddressFields({ address: "", district: "", state: "Tamilnadu", country: "India", zipcode: "" });
+        setAddressFields({ Address: "", District: "", State: "Tamilnadu", Country: "India", Zipcode: "" });
         setOrderVisible(true)
     };
 
@@ -340,8 +327,6 @@ export default function Orders() {
         const rowIndex = rowData.rowIndex;
         delete selectedProduct._id;
         selectedProduct.Order_id = formdata.Order_id;
-        console.log("selectedProduct", selectedProduct)
-        console.log("rowindex", rowIndex)
         Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); },);
         setSearchResults([]);
         setShowResults(false);
@@ -356,7 +341,7 @@ export default function Orders() {
                         cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
                 </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
-                <AddOrder addressFields={addressFields} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
+                <AddOrder tabledata={tabledata} addressFields={addressFields} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />

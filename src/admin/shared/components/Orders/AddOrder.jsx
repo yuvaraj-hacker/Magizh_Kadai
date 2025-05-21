@@ -10,14 +10,13 @@ import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 
 function AddOrder(props) {
-    const { ordervisible, setOrderVisible, loading, addressFields, formdata, loadData, addRow, handledeleteField, handlechangeProduct, searchResults, setSearchResults, handlechange, setFormdata, handlesave, handleupdate } = props;
+    const { ordervisible, setOrderVisible, loading, addressFields, formdata, tabledata, loadData, addRow, handledeleteField, handlechangeProduct, searchResults, setSearchResults, handlechange, setFormdata, handlesave, handleupdate } = props;
     const [RowIndex, setRowIndex] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [exactMatches, setExactMatches] = useState([]);
     const [maximized, setMaximized] = useState(true); // default full view
     const [today, setToday] = useState('');
-
     useEffect(() => {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
@@ -114,14 +113,14 @@ function AddOrder(props) {
     const QTY = (rowData, rowIndex) => {
         return (
             <div>
-                <InputText type="text" name="QTYS" value={rowData?.QTYS} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                <InputText type="text" name="Quantity" value={rowData?.Quantity} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
             </div>
         )
     }
     const Price = (rowData, rowIndex) => {
         return (
             <div>
-                <input type="number" name="Price" value={rowData?.Regular_Price || ""} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                <input type="number" name="Price" value={rowData?.Regular_Price || ""}    onChange={(event) => handlechangeProduct(event, {...rowData, rowIndex })} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
             </div>
         )
     }
@@ -135,7 +134,9 @@ function AddOrder(props) {
     const DiscAmount = (rowData, rowIndex) => {
         return (
             <div>
-                <input type="number" name="Disc_Amount" value={rowData?.Disc_Amount} defaultValue={rowData?.Disc_Amount} onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                <input type="number" name="Disc_Amount"
+                 value={rowData?.Disc_Amount || ""}
+                  onChange={(event) => handlechangeProduct(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
             </div>
         )
     }
@@ -188,7 +189,7 @@ function AddOrder(props) {
                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">Mobile Number  <span className='text-red-500'>*</span></label>
-                                        <input type="text" name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}"  onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                                        <input type="text" name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}" onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                                     </div>
                                     <div className='col-span-2'>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
@@ -196,22 +197,20 @@ function AddOrder(props) {
                                         </label>
                                         <input
                                             type="text"
-
-                                            name="address"
-                                            value={addressFields.address}
+                                            name="Address"
+                                            value={addressFields?.Address}
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
-                                    </div>
+                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             City<span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
-                                            name="district"
-                                            value={addressFields.district}
-
+                                            name="District"
+                                            value={addressFields.District}
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
@@ -222,8 +221,8 @@ function AddOrder(props) {
                                         </label>
                                         <input
                                             type="text"
-                                            name="state"
-                                            value={addressFields.state}
+                                            name="State"
+                                            value={addressFields.State}
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
@@ -247,9 +246,8 @@ function AddOrder(props) {
                                         </label>
                                         <input
                                             type="number"
-                                            name="zipcode"
-                                            value={addressFields.zipcode}
-
+                                            name="Zipcode"
+                                            value={addressFields.Zipcode}
                                             onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
@@ -332,40 +330,35 @@ function AddOrder(props) {
                             <div className='flex justify-between items-center gap-10' >
                                 <div className='  items-start   grid grid-cols-2 gap-4'>
                                     <InputText name='Remarks' value={formdata?.Remarks} onChange={handlechange} className=' focus:outline-none border p-2 focus:ring-2 focus:ring-blue-400   '></InputText>
-
                                     <div className=' '>
                                         <div className="flex gap-4 items-center">
                                             <div className="mb-2">
-                                                {/* <div className="mb-2">
-                                                    <label>Payment Status</label>
-                                                </div> */}
                                                 <select name="Payment_Status" value={formdata?.Payment_Status} placeholder="Payment Status" onChange={handlechange} className="w-full   px-4 py-2 border rounded-md outline-none"   >
                                                     <option value="" >Payment Status</option>
                                                     <option value="Not Paid">Not Paid</option>
                                                     <option value="Paid">Paid</option>
                                                 </select>
                                             </div>
+
+                                            {formdata?.Description === "Order placed through website" ? (
+                                                <div className="mb-2">
+                                                    <select name="Order_Status" value={formdata?.Order_Status} placeholder="Order Status" onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                        <option value="" >Order Status</option>
+                                                        <option value="Payment Pending">Payment Pending</option>
+                                                        <option value="Payment Confirmed">Payment Confirmed</option>
+                                                        <option value="Order Placed">Order Placed</option>
+                                                        <option value="Order Processing">Order Processing</option>
+                                                        <option value="Order Dispatched">Order Dispatched</option>
+                                                        <option value="Order Delivered">Order Delivered</option>
+                                                        <option value="Order Returned">Order Returned</option>
+                                                        <option value="Order Cancel">Order Cancel</option>
+                                                        <option value="Order Replacement">Order Replacement</option>
+                                                    </select>
+                                                </div>
+                                            ) : (
+                                                <></>
+                                            )}
                                             <div className="mb-2">
-                                                {/* <div className="mb-2">
-                                                    <label>Order Status</label>
-                                                </div> */}
-                                                <select name="Order_Status" value={formdata?.Order_Status} placeholder="Order Status" onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
-                                                    <option value="" >Order Status</option>
-                                                    <option value="Payment Pending">Payment Pending</option>
-                                                    <option value="Payment Confirmed">Payment Confirmed</option>
-                                                    <option value="Order Placed">Order Placed</option>
-                                                    <option value="Order Processing">Order Processing</option>
-                                                    <option value="Order Dispatched">Order Dispatched</option>
-                                                    <option value="Order Delivered">Order Delivered</option>
-                                                    <option value="Order Returned">Order Returned</option>
-                                                    <option value="Order Cancel">Order Cancel</option>
-                                                    <option value="Order Replacement">Order Replacement</option>
-                                                </select>
-                                            </div>
-                                            <div className="mb-2">
-                                                {/* <div className="mb-2">
-                                                    <label>Payment Method</label>
-                                                </div> */}
                                                 <select name="Payment_Method" placeholder="Payment Method" value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
                                                     <option value="" >Payment Method</option>
                                                     <option value="Card">Card</option>

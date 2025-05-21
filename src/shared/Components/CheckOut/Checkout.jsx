@@ -176,7 +176,6 @@ export default function Checkout(props) {
                                     <p className="text-[#6C6C6C] dark:text-white">Subtotal ({cartItems.length} items): </p>
                                     <p className="">₹{finaltotal.toFixed(2)}</p>
                                 </div>
-
                                 {Number(overallDiscountPercentage) > 0 && (
                                     <div className="flex items-center justify-between p-2 rounded-md bg-green-50 dark:bg-green-900">
                                         <div>

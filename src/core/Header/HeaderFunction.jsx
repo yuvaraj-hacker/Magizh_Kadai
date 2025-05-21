@@ -48,6 +48,7 @@ export default function HeaderFunction() {
 
   const openform = () => {
     if (isLoggedIn) {
+         console.log("Toggling dropdown. Current:", showUserDropdown);
       setShowUserDropdown(!showUserDropdown);
     } else {
       setVisible(true);

@@ -69,6 +69,7 @@ function CheckoutPage() {
 
     const deliveryFee = calculateDeliveryFee();
     const calculateFinalPaymentAmount = () => {
+
         const amountAfterDiscount = finaltotal - discountAmount;
         console.log(amountAfterDiscount)
 
@@ -106,18 +107,18 @@ function CheckoutPage() {
 
     const loginType = localStorage.getItem('loginType');
 
-    // const getLocationdata = useCallback(async () => {
-    //     const response = await getalllocation({});
-    //     setLocation(response.resdata || [])
-    // }, [])
+    const getLocationdata = useCallback(async () => {
+        const response = await getalllocation({});
+        setLocation(response.resdata || [])
+    }, [])
 
-    // var isMounted = true;
-    // useEffect(() => {
-    //     if (isMounted) {
-    //         getLocationdata();
-    //     }
-    //     return () => (isMounted = false);
-    // }, [getLocationdata])
+    var isMounted = true;
+    useEffect(() => {
+        if (isMounted) {
+            getLocationdata();
+        }
+        return () => (isMounted = false);
+    }, [getLocationdata])
 
     useEffect(() => {
         if (location && location.resdata) {
@@ -159,7 +160,7 @@ function CheckoutPage() {
                 City: matchedLocation.City,
                 State: matchedLocation.State,
                 Zipcode: zipcodes.length === 1 ? zipcodes[0] : '',
-                Country: "United States of America"
+                Country: "India"
             }));
             setSelectedLocation(null);
             setAvailableZipcodes([]);
@@ -194,7 +195,7 @@ function CheckoutPage() {
 
     const handleAddressChange = (e) => {
         if (!formdata.Country) {
-            formdata.Country = "United States of America";
+            formdata.Country = "India";
         }
         setFormdata({ ...formdata, [e.target.name]: e.target.value });
     };
@@ -328,7 +329,6 @@ function CheckoutPage() {
             const userLastName = userdetails?.Last_Name || '';
             const userEmail = userdetails?.Email || '';
             const userMobileNumber = userdetails?.Mobilenumber || '';
-
             var orderdata = {
                 Billing_Name: `${userFirstName} ${userLastName}`.trim(),
                 Username: userFirstName,
@@ -338,7 +338,8 @@ function CheckoutPage() {
                 // Total_Amount: (Total+FeesandTax?.DeliveryFee).toFixed(2),
                 // Total_Amount: (parseFloat(Total || 0) + parseFloat(FeesandTax?.DeliveryFee || 0)).toFixed(2),
                 // Total_Amount: TotalValue.toFixed(2),
-                Total_Amount: finalPaymentAmount,
+                // Total_Amount: finalPaymentAmount,
+                Total_Amount: finaltotal,
                 // Shipping_Cost: TotalValue >= FeesandTax.Order_Price_Free_Delivery ? 0: FeesandTax?.DeliveryFee,
                 Shipping_Cost: deliveryFee,
                 Tax: FeesandTax?.Local_Tax,
@@ -351,10 +352,10 @@ function CheckoutPage() {
                 purchaseDateandTime: purchaseDateandTime,
                 Payment_Type: selectedPaymentmethod,
             };
-
             var ordermasterdata = cartItems.map(item => ({
                 Product_id: item.productId._id,
                 Product_Name: item.productId.Product_Name,
+                Sub_Total:(item.productId?.Sale_Price) * item.Quantity,
                 Images: item.productId.Images || [],
                 Sale_Price: item.productId.Sale_Price,
                 Regular_Price: item.productId.Regular_Price,
@@ -400,7 +401,7 @@ function CheckoutPage() {
                     setLoading(true);
                     setIsProcessing(true)
                     setIsElavonModalOpen(true);
-                    var response = await apiSaveorder({ orderdata, ordermasterdata });
+                    var response = await apiSaveorder({ ...orderdata, Order_Status: "Order Placed", Payment_Type: purchaseType == 'pickup' ? "Pay on Pickup" : "Cash on Delivery" , ordermasterdata });
                     setLoading(false);
                     setPaymentStatus('success');
                     setIsProcessing(false)
@@ -505,7 +506,6 @@ function CheckoutPage() {
                 finaltotal={finaltotal} loading={loading} overallDiscountPercentage={overallDiscountPercentage} discountAmount={discountAmount} TotalValue={TotalValue} finalPaymentAmount={finalPaymentAmount} deliveryFee={deliveryFee} />
             <ShippingForm availableZipcodes={availableZipcodes} handleZipcodeChange={handleZipcodeChange} cityOptions={cityOptions} handleCityChange={handleCityChange} location={location} loginType={loginType} visible={showNewAddressModal} setVisible={setShowNewAddressModal} loading={loading} formdata={formdata} setFormdata={setFormdata}
                 handlechange={handleAddressChange} handlesave={handlesave} />
-
             <ElavonPaymentModal isOpen={isElavonModalOpen} onClose={handleCloseElavonModal} onPayNow={handlePlaceOrder} setIsElavonModalOpen={setIsElavonModalOpen}
                 totalAmount={finalPaymentAmount} isProcessing={isProcessing}
                 paymentStatus={paymentStatus} setPaymentStatus={setPaymentStatus} selectedPaymentmethod={selectedPaymentmethod} purchaseType={purchaseType}

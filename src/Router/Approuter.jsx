@@ -21,6 +21,7 @@ import ProductViewFunctions from "../components/ProductViewFunctions/ProductView
 import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
 import Return from "../components/Return/Return";
 import BusinessPage from "../components/Business/BusinessPage";
+import AccountLayout from "../components/MyAccountLayout/AccountLayout";
 
 const Approuter = () => {
     return (
@@ -44,7 +45,7 @@ const Approuter = () => {
                     <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><SavedItemPage /></ProtectedRoute>} />
                     {/* <Route path="/wishlist" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><WishListPage /></ProtectedRoute>} /> */}
                     <Route path="/cart" element={<CartPageFunctions />} />
-                    <Route path="/new" element={<NewForm />} />
+                     <Route path="/new" element={<NewForm />} />
                     {/* <Route element={<AccountLayout />}>
                             <Route path="/myorder" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><MyOrderPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={['Admin', "Customer", "Guest"]}><ProfilePage /></ProtectedRoute>} />

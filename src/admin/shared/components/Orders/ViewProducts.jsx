@@ -18,7 +18,7 @@ export default function ViewProducts(props) {
                         </div>
                         {/* <p className="mb-6 text-base font-normal leading-7 text-gray-500">{product.Product_Description}  </p> */}
                         <div className="flex items-center justify-between">
-                            <h6 className="font-bold leading-9 text-right text-blue-700 font-manrope">QTY: {product.QTYS}</h6>
+                            <h6 className="font-bold leading-9 text-right text-blue-700 font-manrope">QTY: {product.Quantity}</h6>
                         </div>
                     </div>
                 </div>
