@@ -56,12 +56,7 @@ const Tableview = (props) => {
         </button> */}
         <button title="Download Invoice" className="inline-flex items-center text-xl font-medium text-red-600 gap-x-1 decoration-2" >
           <i className="text-red-500 fi fi-rr-file-pdf"
-
-            onClick={() => {
-              setIsModalOpen(true);
-              downloadPDF(rowData.Order_id);
-            }}
-          ></i>
+            onClick={() => { setIsModalOpen(true); downloadPDF(rowData.Order_id); }}  ></i>
 
         </button>
         {isModalOpen && (
@@ -152,7 +147,7 @@ const Tableview = (props) => {
     { field: 'Order_Date', header: 'Order Date', format: "Date", width: "150px" },
     { field: 'Invoice_ID', header: 'Invoice ID', filter: true },
     { field: 'Billing_Name', header: 'Billing Name', width: "150px" },
-    { field: 'Email', header: 'Email', width: "150px" },
+    // { field: 'Email', header: 'Email', width: "150px" },
     { field: 'Mobilenumber', header: 'Mobile Number', width: "150px" },
     // { field: 'City', header: 'City',  width: "150px" },
     { field: 'Delivery_Address', header: 'Address', width: "200px" },

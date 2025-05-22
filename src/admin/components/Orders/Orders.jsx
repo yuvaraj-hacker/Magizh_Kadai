@@ -5,7 +5,7 @@ import Tablepagination from '../../shared/others/Tablepagination';
 import Tableview from '../../shared/components/Orders/Tableview';
 import toast from "react-hot-toast";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { deleteorders, getallorders, getOrderitemsbyid, saveorders, updateorders } from '../../shared/services/apiorders/apiorders';
+import { deleteorders, getallorders, getOrderitemsbyid, getregularcustomername, regularcustomer, saveorders, updateorders } from '../../shared/services/apiorders/apiorders';
 import ViewProducts from '../../shared/components/Orders/ViewProducts';
 import { apidownloadPDF, updateOrder } from "../../../shared/services/APIOrder/apiorder.js";
 import { saveAs } from 'file-saver';
@@ -19,7 +19,7 @@ export default function Orders() {
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
     const [ordervisible, setOrderVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '' });
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '', Address: "", District: "", State: "Tamilnadu", Zipcode: "" });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -31,8 +31,10 @@ export default function Orders() {
     const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [searchResults, setSearchResults] = useState([])
-    const [addressFields, setAddressFields] = useState({ Address: "", District: "", State: "Tamilnadu", Zipcode: "" });
+    // const [addressFields, setAddressFields] = useState({ });ss
+    const [suggestions, setSuggestions] = useState([]);
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [activefield, setActiveField] = useState(null);
     let isMounted = true;
     const isInitialMount = useRef(true);
 
@@ -55,25 +57,38 @@ export default function Orders() {
         setRows(rows);
     };
 
-    useEffect(() => {
-        if (formdata.Delivery_Address && isInitialMount.current) {
-            const addressParts = formdata.Delivery_Address.split(',').map(item => item.trim());
-            setAddressFields({
-                Address: addressParts[0] || "",
-                District: addressParts[1] || "",
-                State: addressParts[2] || "Tamilnadu",
-                Zipcode: addressParts[3] || ""
-            });
-            isInitialMount.current = false;
-        }
-    }, [formdata.Delivery_Address]);
+    // useEffect(() => {
+    //     if (formdata.Delivery_Address && isInitialMount.current) {
+    //         const addressParts = formdata.Delivery_Address.split(',').map(item => item.trim());
+    //         setAddressFields({
+    //             Address: addressParts[0] || "", District: addressParts[1] || "", State: addressParts[2] && addressParts[2] !== "" ? addressParts[2] : "Tamilnadu", Zipcode: addressParts[3] || ""
+    //         });
+    //         isInitialMount.current = false;
+    //     }
+    // }, [formdata.Delivery_Address]);
 
-    const handlechange = (e) => {
+
+    const handlechange = async (e) => {
         const { name, value, files } = e.target;
+        setActiveField(name)
         if (files) { setFormdata(prev => ({ ...prev, [name]: Array.from(files) })); return; }
+        if (name === "Billing_Name" || name === "Mobilenumber") {
+            setFormdata(prev => ({ ...prev, [name]: value }));
+            if (value.length >= 1) {
+                try {
+                    const res = await getregularcustomername(value);
+                    setSuggestions(res);
+                } catch (err) {
+                    console.error("Autocomplete fetch failed", err);
+                }
+            } else {
+                setSuggestions([]);
+            }
+            return;
+        }
         if (["Address", "District", "State", "Zipcode"].includes(name)) {
-            const updatedFields = { ...addressFields, [name]: value };
-            setAddressFields(updatedFields);
+            const updatedFields = { ...formdata, [name]: value };
+            setFormdata(updatedFields);
             const fullAddress = `${updatedFields.Address}, ${updatedFields.District}, ${updatedFields.State}, ${updatedFields.Zipcode}`;
             setFormdata(prev => ({ ...prev, Delivery_Address: fullAddress }));
         } else { setFormdata(prev => ({ ...prev, [name]: value })); }
@@ -82,6 +97,21 @@ export default function Orders() {
         setcolFilter(prev => ({ ...prev, [field]: { $in: value } }));
         setFirst(0)
     };
+
+    const handleSuggestionClick = (customer) => {
+        setFormdata({
+            Billing_Name: customer.Billing_Name,
+            Email: customer.Email,
+            Mobilenumber: customer.Mobilenumber,
+            Delivery_Address: customer.Delivery_Address,
+            Address: customer.Address,
+            District: customer.District,
+            State: customer.State,
+            Zipcode: customer.Zipcode,
+        });
+        setSuggestions([]);
+    };
+
 
     // const handlesave = async (e) => {
     //     e.preventDefault();
@@ -97,7 +127,7 @@ export default function Orders() {
         const ordermasterdata = { Tax_Type: "" };
         setFormdata(prevData => ({
             ...prevData,
-            ordermasterdata: [...prevData.ordermasterdata, ordermasterdata]
+            ordermasterdata: [...prevData.ordermasterdata || [], ordermasterdata]
         }));
     };
 
@@ -124,87 +154,39 @@ export default function Orders() {
     };
 
 
-    //    const handlechangeProduct = (event, rowData) => {
-    //     const updatedProducts = [...formdata.ordermasterdata];
-    //     const index = rowData['rowIndex'];
-    //     const field = event.target.name;
-    //     const value = event.target.value;
-    //     updatedProducts[index][field] = value;
-    //     updatedProducts[index][field] = field === "HSN" ? parseInt(value, 10) : value;
-    //     // Extract values
-    //     let { QTY, Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
-    //     QTY = parseFloat(QTY) || 0;
-    //     Price = parseFloat(Price) || 0;
-    //     Discount = parseFloat(Discount) || 0;
-    //     Disc_Amount = parseFloat(Disc_Amount) || 0;
-    //     Tax_Percentage = parseFloat(Tax_Percentage) || 0;
-    //     // Calculate subtotal before tax
-    //     let subtotalBeforeTax = (QTY * Price) - ((QTY * Price) * (Discount / 100)) - Disc_Amount;
-
-    //     let Sub_Total = 0;
-
-    //     if (Tax_Type === "Inclusive") {
-    //         // Tax is already included in the price, extract the base price
-    //         let taxFactor = 1 + (Tax_Percentage / 100);
-    //         let baseAmount = subtotalBeforeTax / taxFactor;
-    //         let taxAmount = subtotalBeforeTax - baseAmount;
-    //         Sub_Total = subtotalBeforeTax.toFixed(2);
-    //     } else {
-    //         // Exclusive tax is added on top
-    //         let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
-    //         Sub_Total = (subtotalBeforeTax + taxAmount).toFixed(2);
-    //     }
-    //     updatedProducts[index].Sub_Total = parseFloat(Sub_Total);
-
-    //     // Calculate total amount and total quantity
-    //     let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
-    //     let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
-    //     setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount: Total_Amount, Total_Quantity: Total_Quantity, Sub_Total: Sub_Total });
-    // };
-
-
     const handlechangeProduct = (event, rowData) => {
         const updatedProducts = [...formdata.ordermasterdata];
         const index = rowData['rowIndex'];
         const field = event.target.name;
+        console.log("fileds", field)
         const value = event.target.value;
         console.log("field", field)
         if (field === "Quantity") {
-            const availableStock = parseFloat(updatedProducts[index].QTY || 0); // Actual stock
+            const availableStock = parseFloat(updatedProducts[index].QTY || 0);
             const enteredQty = parseFloat(value) || 0;
             if (availableStock === 0) { toast.error("Currently Out of Stock"); updatedProducts[index][field] = "0"; setFormdata({ ...formdata, ordermasterdata: updatedProducts }); return; }
             if (availableStock != 0 && enteredQty > availableStock) {
-                toast.error(`No available stock. Max available: ${availableStock}`);
-                updatedProducts[index][field] = "0";
-                setFormdata({ ...formdata, ordermasterdata: updatedProducts })
+                toast.error(`No available stock. Max available: ${availableStock}`); updatedProducts[index][field] = "0"; setFormdata({ ...formdata, ordermasterdata: updatedProducts })
                 return 0;
             }
         }
         updatedProducts[index][field] = value;
-        // Extract and parse values
         let { Quantity, Regular_Price, Discount, Disc_Amount, Tax_Percentage, Tax_Type } = updatedProducts[index];
         Quantity = parseFloat(Quantity) || 0;
         Regular_Price = parseFloat(Regular_Price) || 0;
-        Discount = parseFloat(Discount) || 0;
-        console.log("Discount", Discount)
-        console.log("Regular_Price", Regular_Price)
-        Disc_Amount = parseFloat(Disc_Amount) || 0;
-        console.log("Disc_Amount", Disc_Amount)
+        Discount = parseFloat(updatedProducts[index].Discount) || 0;
+        Disc_Amount = parseFloat(updatedProducts[index].Disc_Amount) || 0;
         Tax_Percentage = parseFloat(Tax_Percentage) || 0;
         const totalBase = Quantity * Regular_Price;
-        // Sync discount fields
-        if (field === "Discount_Percentage") {
-            // Recalculate percentage from amount
-            Discount = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
-            updatedProducts[index].Discount = Math.round(Discount);
-        } else if (field === "Disc_Amount") {
-            // Recalculate amount from percentage
+        if (field === "Discount") {
             Disc_Amount = (totalBase * Discount) / 100;
             updatedProducts[index].Disc_Amount = Math.round(Disc_Amount);
+        } else if (field === "Disc_Amount") {
+            Discount = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
+            updatedProducts[index].Discount = Math.round(Discount);
         }
-        console.log("totalBase", totalBase)
-        console.log("Upppppp", Disc_Amount)
-        // Recalculate subtotal before tax
+        Disc_Amount = (totalBase * Discount) / 100;
+        updatedProducts[index].Disc_Amount = parseFloat(Disc_Amount.toFixed(2));
         let subtotalBeforeTax = totalBase - (totalBase * (Discount / 100));
         let Sub_Total = 0;
         if (Tax_Type === "Inclusive") {
@@ -216,26 +198,23 @@ export default function Orders() {
             Sub_Total = subtotalBeforeTax + taxAmount;
         }
         updatedProducts[index].Sub_Total = parseFloat(Sub_Total.toFixed(2));
-        // Calculate total amount and quantity
         let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
         setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount, Total_Quantity, Sub_Total: Sub_Total.toFixed(2), });
     };
+
     const handlesave = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const updatedFormdata = {
-            ...formdata,
-            Billing: "Billing",
-        };
+        const updatedFormdata = { ...formdata, Billing: "Billing", };
+        console.log("updatedFormdata", updatedFormdata)
         await saveorders(updatedFormdata);
         toast.success("Successfully saved");
+        await regularcustomer(updatedFormdata);
         getallorder();
         setOrderVisible(false);
-
         setLoading(false);
     };
-
 
     const newform = () => {
         setFormdata({});
@@ -295,6 +274,20 @@ export default function Orders() {
         setPdfUrl(pdfFileUrl); // set for preview
     };
 
+    // const downloadPDF = async (orderId) => {
+    //     try {
+    //         const resData = await apidownloadPDF(orderId);
+    //         const pdfBlob = new Blob([resData], { type: 'application/pdf' });
+    //         const pdfFileUrl = URL.createObjectURL(pdfBlob);
+    //         setPdfUrl(pdfFileUrl); // for preview modal
+    //         return pdfFileUrl;     // return it so handlePrint can use it
+    //     } catch (error) {
+    //         console.error("Failed to generate PDF:", error);
+    //         return null;
+    //     }
+    // };
+
+
     const viewProducts = async (Order_id) => {
         var res = await getOrderitemsbyid(Order_id);
         setViewProductData(res);
@@ -312,8 +305,7 @@ export default function Orders() {
     };
 
     const newOrder = () => {
-        setFormdata({ ordermasterdata: [{ Tax_Type: "" }] });
-        setAddressFields({ Address: "", District: "", State: "Tamilnadu", Country: "India", Zipcode: "" });
+        setFormdata({ ordermasterdata: [{ Tax_Type: "" }], Address: "", District: "", State: "Tamilnadu", Country: "India", Zipcode: "" });
         setOrderVisible(true)
     };
 
@@ -327,9 +319,50 @@ export default function Orders() {
         const rowIndex = rowData.rowIndex;
         delete selectedProduct._id;
         selectedProduct.Order_id = formdata.Order_id;
+        selectedProduct.Quantity = 1;
         Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); },);
         setSearchResults([]);
         setShowResults(false);
+    };
+
+    const handlePrint = async (data) => {
+
+        console.log("Clicked Print");
+
+        try {
+            setLoading(true);
+
+            const updatedFormdata = { ...formdata, Billing: "Billing" };
+            console.log("Updated Form Data:", updatedFormdata);
+
+            // Save order and update
+            await saveorders(updatedFormdata);
+            toast.success("Successfully saved");
+
+            await regularcustomer(updatedFormdata);
+            getallorder();
+            setOrderVisible(false);
+            setLoading(false);
+            console.log(updatedFormdata._id)
+            // 🔥 Fix: Wait for actual PDF URL
+            // console.log(updatedFormdata.orderId)
+            const pdfUrl = await downloadPDF(data);
+            if (!pdfUrl) throw new Error("PDF URL not received");
+            // Open and print
+            const printWindow = window.open(pdfUrl, '_blank');
+            if (printWindow) {
+                printWindow.addEventListener('load', () => {
+                    printWindow.focus();
+                    printWindow.print();
+                });
+            } else {
+                throw new Error("Failed to open print window");
+            }
+        } catch (error) {
+            console.error("Error in handlePrint:", error);
+            toast.error("Something went wrong!");
+            setLoading(false);
+        }
     };
 
     return (
@@ -341,7 +374,7 @@ export default function Orders() {
                         cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
                 </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
-                <AddOrder tabledata={tabledata} addressFields={addressFields} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
+                <AddOrder activefield={activefield} setActiveField={setActiveField} handlePrint={handlePrint} setSuggestions={setSuggestions} suggestions={suggestions} handleSuggestionClick={handleSuggestionClick} tabledata={tabledata} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />

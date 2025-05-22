@@ -17,6 +17,7 @@ import RouteTracking from "../components/Routetracking/Routetracking";
 import Feedback from "../components/Feedback/Feedback";
 import Productrequests from "../components/Productrequests/Productrequests";
 import ReturnGifts from "../components/ReturnGift/ReturnGifts";
+import Regular from "../components/Customer-Details/Regular";
 
 
 
@@ -30,6 +31,7 @@ const AdminRouter = () => {
           <Route path="/products" element={<Product />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/regular" element={<Regular />} />
           <Route path="/category" element={<Category />} />
           <Route path="/banner" element={<Banner />} />
           <Route path="/purchase" element={<PurchasePage />} />

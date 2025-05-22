@@ -83,6 +83,11 @@ export default function Sidebar() {
               </NavLink>
             </li>
             <li>
+              <NavLink to={'/admin/regular'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? 'bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+                <i className="fi fi-ss-cart-shopping-fast flex justify-center items-center"></i> Customer
+              </NavLink>
+            </li>
+            <li>
               <NavLink to={'/admin/purchase'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
                 <i className="fi fi-ss-cart-shopping-fast flex justify-center items-center"></i> Purchase
               </NavLink>

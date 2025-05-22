@@ -17,6 +17,22 @@ export const saveorders=async(datas)=>{
     return res.data;
 }
 
+export const regularcustomer=async(datas)=>{
+    var res=await axios.post(`${apiurl()}/orders/apiregularcustomer`,datas,{ headers: {"Authorization" : `Bearer ${gettoken()}`}});
+    return res.data;
+}
+
+export const getregularcustomer=async( )=>{
+    var res=await axios.get(`${apiurl()}/orders/apigetregularcustomer`, { headers: {"Authorization" : `Bearer ${gettoken()}`}});
+    return res.data;
+}
+
+export const getregularcustomername=async(query)=>{
+   const res = await axios.post(  `${apiurl()}/orders/apigetregularcustomername`,  { query }, {  headers: { "Authorization": `Bearer ${gettoken()}` }   }  );
+  return res.data;
+};
+
+
 export const updateorders = async(datas)=>{
    var res=await axios.put(`${apiurl()}/orders/apiupdateorder`,formData,{params:{_id:formData._id}, headers: {"Authorization" : `Bearer ${gettoken()}`}});
    return res.data;
