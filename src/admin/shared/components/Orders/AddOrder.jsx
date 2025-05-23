@@ -10,7 +10,7 @@ import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 
 function AddOrder(props) {
-    const { ordervisible, setOrderVisible, loading, addressFields, formdata, setActiveField, handlePrint, activefield, suggestions, setSuggestions, handleSuggestionClick, tabledata, loadData, addRow, handledeleteField, handlechangeProduct, searchResults, setSearchResults, handlechange, setFormdata, handlesave, handleupdate } = props;
+    const { ordervisible, setOrderVisible, loading, addressFields, formdata, setActiveField, isPreviewOpen, setIsPreviewOpen, setPdfUrl, orderIdForPreview, pdfUrl, activefield, suggestions, setSuggestions, handleSuggestionClick, tabledata, loadData, addRow, handledeleteField, handlechangeProduct, searchResults, setSearchResults, handlechange, setFormdata, handlesave, handleupdate } = props;
     const [RowIndex, setRowIndex] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -107,7 +107,7 @@ function AddOrder(props) {
     }
     const Product_Name = (rowData, rowIndex) => {
         return (
-            <div className=''>
+            <div className=' '>
                 <input type="text" name="Product_Name" id={'Product_Name' + rowIndex['rowIndex']} required value={rowData?.Product_Name} onChange={(event) => handleSearch(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                 {RowIndex == rowIndex['rowIndex'] && showResults && searchResults && searchResults.length > 0 && (
                     <ul className="absolute    z-10 min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 h-96   overflow-hidden overflow-y-auto">
@@ -138,9 +138,10 @@ function AddOrder(props) {
         return (
             <div>
                 <input type="number" name="Regular_Price" required
-                    value={formdata.ordermasterdata[rowIndex]?.Regular_Price || ""}
+                    // value={formdata.ordermasterdata[rowIndex]?.Regular_Price || ""}
+                    value={rowData?.Regular_Price}
                     onChange={(event) =>
-                        handlechangeProduct(event, { rowIndex })
+                        handlechangeProduct(event, rowIndex)
                     } className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
             </div>
         )
@@ -195,7 +196,7 @@ function AddOrder(props) {
 
     return (
         <>
-            <Dialog header={formdata?._id ? "Order Update" : "Add Order"} visible={ordervisible} headerClassName='text-primary' onHide={() => setOrderVisible(false)} className="!w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 lg:!w-[95vw]" maximizable maximized={maximized} onMaximize={(e) => setMaximized(e.maximized)}>
+            <Dialog header={formdata?._id ? "Order Update" : "Add Order"} visible={ordervisible} headerClassName='text-primary' onHide={() => setOrderVisible(false)} className="!w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 lg:!w-[95vw] z-40" maximizable maximized={maximized} onMaximize={(e) => setMaximized(e.maximized)}>
                 <form onSubmit={formdata?._id ? handleupdate : handlesave} className='flex flex-col justify-between h-full'>
                     <div>
                         <div className=" mb-3  grid grid-cols-12 items-start gap-4">
@@ -204,7 +205,7 @@ function AddOrder(props) {
                                 <div className="grid grid-cols-1 gap-2 md:grid-cols-5 items-end">
                                     <div className='relative ' ref={dropdownRef} >
                                         <label className="block mb-2 text-sm font-medium dark:text-white">Name<span className='text-red-500'>*</span></label>
-                                        <input type="text" name="Billing_Name" value={formdata?.Billing_Name} onChange={handlechange} className="w-full   focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white px-4 py-2 border rounded-md outline-none" />
+                                        <input type="text" name="Billing_Name" value={formdata?.Billing_Name} onChange={handlechange} required className="w-full   focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white px-4 py-2 border rounded-md outline-none" />
                                         {activefield === "Billing_Name" && suggestions.length > 0 && (
                                             <ul className="absolute z-10 w-full bg-white border border-black   rounded-md max-h-60 overflow-y-auto">
                                                 {suggestions.map((customer, idx) => (
@@ -219,7 +220,7 @@ function AddOrder(props) {
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             Address <span className="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="Address" value={formdata?.Address} onChange={handlechange}
+                                        <input type="text" name="Address" value={formdata?.Address} required onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
@@ -227,7 +228,7 @@ function AddOrder(props) {
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             City<span className="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="District" value={formdata.District} onChange={handlechange}
+                                        <input type="text" name="District" value={formdata.District} required onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
@@ -235,7 +236,7 @@ function AddOrder(props) {
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             State <span className="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="State" value={formdata.State} onChange={handlechange}
+                                        <input type="text" name="State" value={formdata.State} required onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
@@ -243,7 +244,7 @@ function AddOrder(props) {
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             Pincode <span className="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="Zipcode" value={formdata.Zipcode} onChange={handlechange}
+                                        <input type="text" name="Zipcode" value={formdata.Zipcode} required onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
@@ -253,7 +254,7 @@ function AddOrder(props) {
                                     </div> */}
                                     <div className='relative ' ref={dropdownRef} >
                                         <label className="block mb-2 text-sm font-medium dark:text-white">Mobile Number  <span className='text-red-500'>*</span></label>
-                                        <input type="text" maxLength={10} name="Mobilenumber" value={formdata?.Mobilenumber} pattern="\d{10}" onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
+                                        <input type="text" maxLength={10} name="Mobilenumber" value={formdata?.Mobilenumber} required pattern="\d{10}" onChange={handlechange} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                                         {activefield === "Mobilenumber" && suggestions.length > 0 && (
                                             <ul className="absolute z-10 w-full bg-white  border-black   rounded-md max-h-60 border overflow-y-auto">
                                                 {suggestions.map((customer, idx) => (
@@ -312,7 +313,7 @@ function AddOrder(props) {
                             </div>
                         </div>
                         <div>
-                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border' >
+                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border w-full' >
                                 <Column header="S.No" headerClassName='bg-primary text-white ' body={sno} style={{ minWidth: '50px' }} />
                                 {/* <Column header="HSN No" headerClassName='bg-primary text-white ' body={HSN} style={{ minWidth: '120px' }} /> */}
                                 <Column header="Product" headerClassName='bg-primary text-white ' body={Product_Name} style={{ minWidth: '270px' }} />
@@ -344,7 +345,7 @@ function AddOrder(props) {
                                     <div className=' '>
                                         <div className="flex gap-4 items-center">
                                             <div className="mb-2">
-                                                <select name="Payment_Status" value={formdata?.Payment_Status} placeholder="Payment Status" onChange={handlechange} className="w-full   px-4 py-2 border rounded-md outline-none"   >
+                                                <select name="Payment_Status" value={formdata?.Payment_Status} required placeholder="Payment Status" onChange={handlechange} className="w-full   px-4 py-2 border rounded-md outline-none"   >
                                                     <option value="" >Payment Status</option>
                                                     <option value="Not Paid">Not Paid</option>
                                                     <option value="Paid">Paid</option>
@@ -353,7 +354,7 @@ function AddOrder(props) {
 
                                             {formdata?.Description === "Order placed through website" ? (
                                                 <div className="mb-2">
-                                                    <select name="Order_Status" value={formdata?.Order_Status} placeholder="Order Status" onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                    <select name="Order_Status" value={formdata?.Order_Status} required placeholder="Order Status" onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
                                                         <option value="" >Order Status</option>
                                                         <option value="Payment Pending">Payment Pending</option>
                                                         <option value="Payment Confirmed">Payment Confirmed</option>
@@ -386,13 +387,38 @@ function AddOrder(props) {
                     </div>
 
                     <div className='flex gap-3 items-center justify-end'>
-                        <div className="mt-2 text-center" onClick={handlePrint}>
-                            <div className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2" >
+                        {/* onClick={() => handlePrint(formdata)} */}
+                        <div className="mt-2 text-center cursor-pointer" >
+                            <button type='button' role='status' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2"
+                                onClick={(e) => {
+                                    e.preventDefault(); // Prevent form submission
+                                    const { Billing_Name, Address, District, State, Zipcode, Mobilenumber, Order_Date } = formdata;
+                                        if (
+                                        !Billing_Name?.trim() ||
+                                        !Address?.trim() ||
+                                        !District?.trim() ||
+                                        !State?.trim() ||
+                                        !Zipcode?.trim() ||
+                                        !Mobilenumber?.trim() ||
+                                        !Order_Date
+                                    ) {
+                                        alert("Please fill in all required fields before saving and printing.");
+                                        return;
+                                    }
+                                    if (formdata?._id) {
+                                        // Call handleupdate with print flag
+                                        handleupdate(e, true);
+                                    } else {
+                                        // Call handlesave with print flag
+                                        handlesave(e, true);
+                                    }
+                                }}
+                            >
                                 <i class="fi fi-rr-print flex items-center"></i>
-                                Save & Print                            </div>
+                                {formdata?._id ? "Update & Print" : "Save & Print"} </button>
                         </div>
                         <div className="mt-2 text-center">
-                            <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md" >
+                            <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md"   >
                                 {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>} {formdata._id ? "Update" : "Save"}
                             </button>
                         </div>
@@ -402,7 +428,42 @@ function AddOrder(props) {
                 {/* <button onClick={() => setOrderVisible(false)}>
                     Cancel
                 </button> */}
+
+
+                {isPreviewOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full h-[90] overflow-auto">
+                            <div className="mb-4 text-lg font-semibold">PDF Preview</div>
+                            {pdfUrl ? (
+                                <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
+                            ) : (
+                                <div>Loading PDF...</div>
+                            )}
+                            <div className="flex justify-end items-center gap-3 mt-4">
+                                <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
+                                    onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${orderIdForPreview}.pdf`; link.click(); }}  >
+                                    <i className="fi fi-rr-download flex items-center "></i>
+                                    Download
+                                </button>
+                                <button
+                                    className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
+                                    onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
+                                    <i className="fi fi-rr-print flex items-center "></i>
+                                    Print
+                                </button>
+                                <button
+                                    className="  absolute top-4 right-4 text-white rounded-md "
+                                    onClick={() => { setIsPreviewOpen(false); setPdfUrl(null); }} >
+                                    <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </Dialog>
+
+
 
 
         </>

@@ -10,11 +10,11 @@ import { Button } from 'primereact/button';
 import moment from 'moment-timezone';
 
 const Tableview = (props) => {
-  const { tabledata, editfrom, newform, newOrder, setglobalfilter, handledelete, viewProducts, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
+  const { tabledata, editfrom, newform, newOrder, setglobalfilter, handledelete, setPdfUrl, viewProducts, isModalOpen, setIsModalOpen, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState({});
   const [showFilterPanel, setShowFilterPanel] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     setTempFilterValues(filtervalues);
@@ -56,8 +56,7 @@ const Tableview = (props) => {
         </button> */}
         <button title="Download Invoice" className="inline-flex items-center text-xl font-medium text-red-600 gap-x-1 decoration-2" >
           <i className="text-red-500 fi fi-rr-file-pdf"
-            onClick={() => { setIsModalOpen(true); downloadPDF(rowData.Order_id); }}  ></i>
-
+            onClick={() => { setIsModalOpen(true); downloadPDF(rowData.Order_id); }}></i>
         </button>
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -69,41 +68,21 @@ const Tableview = (props) => {
                 <div>Loading PDF...</div>
               )}
               <div className="flex justify-end items-center gap-3 mt-4">
-                <button
-                  className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = pdfUrl;
-                    link.download = `${rowData.Order_id}.pdf`;
-                    link.click();
-                  }}
-                >
-                  <i class="fi fi-rr-download flex items-center "></i>
+                <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
+                  onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${rowData.Order_id}.pdf`; link.click(); }}  >
+                  <i className="fi fi-rr-download flex items-center "></i>
                   Download
                 </button>
                 <button
                   className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
-                  onClick={() => {
-                    const printWindow = window.open(pdfUrl);
-                    if (printWindow) {
-                      printWindow.addEventListener('load', () => {
-                        printWindow.focus();
-                        printWindow.print();
-                      });
-                    }
-                  }} >
-                  <i class="fi fi-rr-print flex items-center "></i>
+                  onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
+                  <i className="fi fi-rr-print flex items-center "></i>
                   Print
                 </button>
-
                 <button
                   className="  absolute top-4 right-4 text-white rounded-md "
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setPdfUrl(null); // clear preview
-                  }}
-                >
-                  <i class="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
+                  onClick={() => { setIsModalOpen(false); setPdfUrl(null); }} >
+                  <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
                 </button>
               </div>
             </div>
@@ -304,13 +283,35 @@ const Tableview = (props) => {
 
   return (
     <div className="bg-white border shadow-sm rounded-xl ">
-      <TableHeader />
+      <div className='flex gap-4 items-center justify-between'>
+        <TableHeader />
+        <div className="flex items-center justify-center gap-4 px-6  ">
+          <div>
+            <div className="inline-flex gap-x-2">
+              <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
+            </div>
+          </div>
+          <div>
+            <div className="inline-flex gap-x-2">
+              <button
+                onClick={newOrder}
+                className="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-primary border border-transparent rounded-lg gap-x-2">
+                <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                Add Order
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <DataTable
         rowClassName={() => 'border-b border-secondary'}
         selectionMode="single"
         value={tabledata}
         scrollable
-        scrollHeight="calc(100vh - 200px)"
+        scrollHeight="calc(100vh - 260px)"
         // scrollHeight="680px"
         className='!text-sm'
         stateStorage="session"

@@ -11,6 +11,7 @@ import { apidownloadPDF, updateOrder } from "../../../shared/services/APIOrder/a
 import { saveAs } from 'file-saver';
 import OrderReplyModal from '../../shared/components/Orders/OrderReplyModal.jsx';
 import AddOrder from '../../shared/components/Orders/AddOrder.jsx';
+import { SyncLoader } from 'react-spinners';
 
 export default function Orders() {
     const [totalRecords, setTotalRecords] = useState(0);
@@ -19,7 +20,7 @@ export default function Orders() {
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
     const [ordervisible, setOrderVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '', Address: "", District: "", State: "Tamilnadu", Zipcode: "" });
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '', Address: "", District: "", State: "Tamil Nadu", Zipcode: "" });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -37,6 +38,19 @@ export default function Orders() {
     const [activefield, setActiveField] = useState(null);
     let isMounted = true;
     const isInitialMount = useRef(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [orderIdForPreview, setOrderIdForPreview] = useState(null);
+
+
+
+    {
+        loading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center h-20 w-10 justify-center z-50">
+                <SyncLoader color="#024A34" />
+            </div>
+        )
+    }
 
 
     const getallorder = useCallback(async () => {
@@ -61,7 +75,7 @@ export default function Orders() {
     //     if (formdata.Delivery_Address && isInitialMount.current) {
     //         const addressParts = formdata.Delivery_Address.split(',').map(item => item.trim());
     //         setAddressFields({
-    //             Address: addressParts[0] || "", District: addressParts[1] || "", State: addressParts[2] && addressParts[2] !== "" ? addressParts[2] : "Tamilnadu", Zipcode: addressParts[3] || ""
+    //             Address: addressParts[0] || "", District: addressParts[1] || "", State: addressParts[2] && addressParts[2] !== "" ? addressParts[2] : "Tamil Nadu", Zipcode: addressParts[3] || ""
     //         });
     //         isInitialMount.current = false;
     //     }
@@ -99,7 +113,8 @@ export default function Orders() {
     };
 
     const handleSuggestionClick = (customer) => {
-        setFormdata({
+        setFormdata(prevData => ({
+            ...prevData,
             Billing_Name: customer.Billing_Name,
             Email: customer.Email,
             Mobilenumber: customer.Mobilenumber,
@@ -108,9 +123,11 @@ export default function Orders() {
             District: customer.District,
             State: customer.State,
             Zipcode: customer.Zipcode,
-        });
+        }));
+
         setSuggestions([]);
     };
+
 
 
     // const handlesave = async (e) => {
@@ -158,9 +175,7 @@ export default function Orders() {
         const updatedProducts = [...formdata.ordermasterdata];
         const index = rowData['rowIndex'];
         const field = event.target.name;
-        console.log("fileds", field)
         const value = event.target.value;
-        console.log("field", field)
         if (field === "Quantity") {
             const availableStock = parseFloat(updatedProducts[index].QTY || 0);
             const enteredQty = parseFloat(value) || 0;
@@ -203,16 +218,25 @@ export default function Orders() {
         setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount, Total_Quantity, Sub_Total: Sub_Total.toFixed(2), });
     };
 
-    const handlesave = async (e) => {
+    const handlesave = async (e, showPrint = false) => {
         e.preventDefault();
         setLoading(true);
         const updatedFormdata = { ...formdata, Billing: "Billing", };
-        console.log("updatedFormdata", updatedFormdata)
-        await saveorders(updatedFormdata);
+        const res = await saveorders(updatedFormdata);
         toast.success("Successfully saved");
         await regularcustomer(updatedFormdata);
         getallorder();
-        setOrderVisible(false);
+        setFormdata(prevData => ({
+            ...prevData,
+            Billing_Name: '', Address: '', District: '', State: 'Tamil Nadu', Zipcode: '', Mobilenumber: '', GST_Number: '', ordermasterdata: [],
+        }));
+        const orderId = res?.orderId;
+        if (showPrint && orderId) {
+            setIsPreviewOpen(true); downloadPDF(orderId);
+            setOrderIdForPreview(orderId);
+        }
+        //  { const pdfUrl = await downloadPDF(orderId); const printWindow = window.open(pdfUrl, '_blank');
+        // if (printWindow) { printWindow.onload = () => { printWindow.print(); }; } }
         setLoading(false);
     };
 
@@ -220,28 +244,34 @@ export default function Orders() {
         setFormdata({});
         setVisible(true)
     }
-    // const editfrom = (data) => {
-    //     setFormdata(data);
-    //     setOrderVisible(true)
-    // }
+
     const editfrom = async (data) => {
         var res = await getOrderitemsbyid(data.Order_id);
         setFormdata({ ...data, ordermasterdata: res });
-        // if (data.Billing === "Billing") {
         setOrderVisible(true);
-        // } else {
-        // setVisible(true);
-        // }
     }
 
-    const handleupdate = async (e) => {
+    const handleupdate = async (e, showPrint = false) => {
         e.preventDefault()
         setLoading(true)
-        await updateOrder(formdata)
+        const res = await updateOrder(formdata)
+        console.log("res", res)
         toast.success("Sucessfully updated")
         getallorder()
-        setOrderVisible(false)
-        setVisible(false)
+        const orderId = res?.order?.Order_id;
+        console.log(orderId)
+        // if (showPrint && orderId) {
+        //     const pdfUrl = await downloadPDF(orderId); const printWindow = window.open(pdfUrl, '_blank');
+        //     if (printWindow) { printWindow.onload = () => { printWindow.print(); }; }
+        // }
+        if (showPrint && orderId) {
+            setIsPreviewOpen(true); downloadPDF(orderId);
+            setOrderIdForPreview(orderId);
+        }
+        if (!showPrint) {
+            setOrderVisible(false)
+        }
+
         setLoading(false)
     }
 
@@ -261,32 +291,14 @@ export default function Orders() {
         });
     };
 
-    // const downloadPDF = async (data) => {
-    //     var resData = await apidownloadPDF(data)
-    //     const pdfBlob = new Blob([resData], { type: 'application/pdf' });
-    //     const pdfFileName = `${data}.pdf`;
-    //     saveAs(pdfBlob, pdfFileName);
-    // }
     const downloadPDF = async (data) => {
+        console.log("data", data)
         const resData = await apidownloadPDF(data);
         const pdfBlob = new Blob([resData], { type: 'application/pdf' });
         const pdfFileUrl = URL.createObjectURL(pdfBlob);
-        setPdfUrl(pdfFileUrl); // set for preview
+        setPdfUrl(pdfFileUrl);
+        return pdfFileUrl;
     };
-
-    // const downloadPDF = async (orderId) => {
-    //     try {
-    //         const resData = await apidownloadPDF(orderId);
-    //         const pdfBlob = new Blob([resData], { type: 'application/pdf' });
-    //         const pdfFileUrl = URL.createObjectURL(pdfBlob);
-    //         setPdfUrl(pdfFileUrl); // for preview modal
-    //         return pdfFileUrl;     // return it so handlePrint can use it
-    //     } catch (error) {
-    //         console.error("Failed to generate PDF:", error);
-    //         return null;
-    //     }
-    // };
-
 
     const viewProducts = async (Order_id) => {
         var res = await getOrderitemsbyid(Order_id);
@@ -305,15 +317,10 @@ export default function Orders() {
     };
 
     const newOrder = () => {
-        setFormdata({ ordermasterdata: [{ Tax_Type: "" }], Address: "", District: "", State: "Tamilnadu", Country: "India", Zipcode: "" });
+        setFormdata({ ordermasterdata: [{ Tax_Type: "" }], Address: "", District: "", State: "Tamil Nadu", Country: "India", Zipcode: "" });
         setOrderVisible(true)
     };
 
-    // const loadData = (i, index) => {
-    //     formdata['ordermasterdata'][index['rowIndex']] = { ...formdata['ordermasterdata'][index['rowIndex']], ...searchResults[i] }
-    //     setFormdata({ ...formdata});
-    //     setSearchResults([]);
-    // }
     const loadData = (searchIndex, rowData) => {
         const selectedProduct = { ...searchResults[searchIndex] };
         const rowIndex = rowData.rowIndex;
@@ -322,59 +329,18 @@ export default function Orders() {
         selectedProduct.Quantity = 1;
         Object.entries(selectedProduct).forEach(([key, value]) => { handlechangeProduct({ target: { name: key, value: value } }, { rowIndex }); },);
         setSearchResults([]);
-        setShowResults(false);
-    };
-
-    const handlePrint = async (data) => {
-
-        console.log("Clicked Print");
-
-        try {
-            setLoading(true);
-
-            const updatedFormdata = { ...formdata, Billing: "Billing" };
-            console.log("Updated Form Data:", updatedFormdata);
-
-            // Save order and update
-            await saveorders(updatedFormdata);
-            toast.success("Successfully saved");
-
-            await regularcustomer(updatedFormdata);
-            getallorder();
-            setOrderVisible(false);
-            setLoading(false);
-            console.log(updatedFormdata._id)
-            // 🔥 Fix: Wait for actual PDF URL
-            // console.log(updatedFormdata.orderId)
-            const pdfUrl = await downloadPDF(data);
-            if (!pdfUrl) throw new Error("PDF URL not received");
-            // Open and print
-            const printWindow = window.open(pdfUrl, '_blank');
-            if (printWindow) {
-                printWindow.addEventListener('load', () => {
-                    printWindow.focus();
-                    printWindow.print();
-                });
-            } else {
-                throw new Error("Failed to open print window");
-            }
-        } catch (error) {
-            console.error("Error in handlePrint:", error);
-            toast.error("Something went wrong!");
-            setLoading(false);
-        }
     };
 
     return (
         <div>
             <div className="bg-white border rounded-3xl flex flex-col justify-between" style={{ height: "calc(100vh - 70px)" }}>
                 <div>
-                    <Tableheadpanel newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} />
-                    <Tableview newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
+                    {/* <Tableheadpanel newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} /> */}
+                    <Tableview   isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newform={newform} setPdfUrl={setPdfUrl} newOrder={newOrder} setglobalfilter={setglobalfilter} pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                         cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
                 </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />
-                <AddOrder activefield={activefield} setActiveField={setActiveField} handlePrint={handlePrint} setSuggestions={setSuggestions} suggestions={suggestions} handleSuggestionClick={handleSuggestionClick} tabledata={tabledata} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
+                <AddOrder orderIdForPreview={orderIdForPreview} isPreviewOpen={isPreviewOpen} setIsPreviewOpen={setIsPreviewOpen} setPdfUrl={setPdfUrl} pdfUrl={pdfUrl} activefield={activefield} setIsModalOpen={setIsModalOpen} downloadPDF={downloadPDF} setActiveField={setActiveField} setSuggestions={setSuggestions} suggestions={suggestions} handleSuggestionClick={handleSuggestionClick} tabledata={tabledata} ordervisible={ordervisible} handlechangeProduct={handlechangeProduct} addRow={addRow} handledeleteField={handledeleteField} setFormdata={setFormdata} setOrderVisible={setOrderVisible} setSearchResults={setSearchResults} loadData={loadData} searchResults={searchResults} formdata={formdata} handlechange={handlechange} handleupdate={handleupdate} handlesave={handlesave} />
                 <Addandeditform visible={visible} setVisible={setVisible} loading={loading} formdata={formdata} setFormdata={setFormdata}
                     handlechange={handlechange} handlesave={handlesave} handleupdate={handleupdate} />
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} ViewProductData={ViewProductData} />
