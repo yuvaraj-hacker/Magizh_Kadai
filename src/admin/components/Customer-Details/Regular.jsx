@@ -4,12 +4,16 @@ import { FilterMatchMode } from 'primereact/api'
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { getregularcustomer } from '../../shared/services/apiorders/apiorders';
 import { MultiSelect } from 'primereact/multiselect';
+import Tablepagination from '../../shared/others/Tablepagination';
 
 function Regular() {
     const [getCustomers, setAllCustomers] = useState([]);
     const [billingNameOptions, setBillingNameOptions] = useState([]);
     const [mobileOptions, setMobileOptions] = useState([]);
     const [addressOptions, setAddressOptions] = useState([]);
+    const [page, setPage] = useState(1);
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(10);
 
     const [filters, setFilters] = useState({
         'Billing_Name': { value: null, matchMode: FilterMatchMode.IN },
@@ -89,6 +93,12 @@ function Regular() {
         dt.current && dt.current.reset();
     };
 
+    const onPage = (page) => {
+        setPage(page)
+        setFirst(rows * (page - 1));
+        setRows(rows);
+    };
+
     const filterss = (options, selectOptions, field) => {
         return (
             <>
@@ -101,18 +111,10 @@ function Regular() {
                     display="chip"
                     panelFooterTemplate={
                         <div className="flex justify-evenly p-2 mt-2">
-                            <button
-                                className='p-2 bg-[#6B7280] text-white rounded-lg px-4 hover:bg-[#4B5563]'
-                                onClick={() => clearFilters(field)}
-                                type="button"
-                            >
+                            <button className='p-2 bg-[#6B7280] text-white rounded-lg px-4 hover:bg-[#4B5563]' onClick={() => clearFilters(field)} type="button"    >
                                 Clear
                             </button>
-                            <button
-                                className='p-2 bg-[#2563EB] text-white rounded-lg px-4 hover:bg-[#1D4ED8]'
-                                onClick={() => applyFilters(field)}
-                                type="button"
-                            >
+                            <button className='p-2 bg-[#2563EB] text-white rounded-lg px-4 hover:bg-[#1D4ED8]' onClick={() => applyFilters(field)} type="button"   >
                                 Apply
                             </button>
                         </div>
@@ -124,7 +126,7 @@ function Regular() {
 
     return (
         <>
-            <section className='border rounded-md'>
+            <section className='border rounded-md' style={{ height: "calc(100vh - 120px)" }}>
                 <div className="flex items-center justify-between gap-4 px-6 py-3">
                     <div>
                     </div>
@@ -148,8 +150,7 @@ function Regular() {
                         </div>
                     </div>
                 </div>
-
-                <DataTable ref={dt} value={getCustomers} showGridlines className='border border-b' filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
+                <DataTable ref={dt} value={getCustomers} showGridlines className='' filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
                     <Column header="S.No" body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
                     <Column
                         filter
@@ -192,6 +193,9 @@ function Regular() {
                     />
                 </DataTable>
             </section >
+            <Tablepagination page={page} first={first} rows={rows}
+                //    totalRecords={totalRecords}
+                onPage={onPage} setRows={setRows} />
         </>
     )
 }

@@ -208,9 +208,9 @@ function AddOrder(props) {
     return (
         <>
             <Dialog header={formdata?._id ? "Order Update" : "Add Order"} visible={ordervisible} headerClassName='text-primary' onHide={() => setOrderVisible(false)} className="!w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 lg:!w-[95vw] z-40" maximizable maximized={maximized} onMaximize={(e) => setMaximized(e.maximized)}>
-                <form onSubmit={handleSubmit} className='flex flex-col justify-between h-full'>
+                <form onSubmit={handleSubmit} className='flex flex-col justify-between h-full relative'>
                     <div>
-                        <div className=" mb-3  grid grid-cols-12 items-start gap-4">
+                        <div className=" mb-3  grid grid-cols-12 items-start gap-4 sticky top-0 z-50 bg-white">
                             <div className='col-span-9 flex flex-col gap-4 '>
                                 <h1 className='text-primary font-bold'>Customer Details</h1>
                                 <div className="grid grid-cols-1 gap-2 md:grid-cols-5 items-end">
@@ -323,7 +323,7 @@ function AddOrder(props) {
                             </div>
                         </div>
                         <div>
-                            <DataTable value={formdata['ordermasterdata']} scrollHeight="calc(100vh - 550px)" showGridlines className='border w-full' >
+                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border w-full' >
                                 <Column header="S.No" headerClassName='bg-primary text-white ' body={sno} style={{ minWidth: '50px' }} />
                                 {/* <Column header="HSN No" headerClassName='bg-primary text-white ' body={HSN} style={{ minWidth: '120px' }} /> */}
                                 <Column header="Product" headerClassName='bg-primary text-white ' body={Product_Name} style={{ minWidth: '270px' }} />
@@ -359,6 +359,7 @@ function AddOrder(props) {
                                                     <option value="" >Payment Status</option>
                                                     <option value="Not Paid">Not Paid</option>
                                                     <option value="Paid">Paid</option>
+                                                    <option value="Payment Cancel">Payment Cancel</option>
                                                 </select>
                                             </div>
 
@@ -385,6 +386,7 @@ function AddOrder(props) {
                                                     <option value="" >Payment Method</option>
                                                     <option value="Card">Card</option>
                                                     <option value="Cash">Cash</option>
+                                                    <option value="upi">UPI</option>
                                                 </select>
                                             </div>
                                         </div>

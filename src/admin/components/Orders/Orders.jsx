@@ -20,7 +20,7 @@ export default function Orders() {
     const [rows, setRows] = useState(10);
     const [visible, setVisible] = useState(false);
     const [ordervisible, setOrderVisible] = useState(false);
-    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing', Order_Date: '', Address: "", District: "", State: "Tamil Nadu", Zipcode: "" });
+    const [formdata, setFormdata] = useState({ ordermasterdata: [], total: 0, Total_Quantity: 0, Sub_Total: 0, Billing: 'Billing',GST_Number:'33CLRPP6853Q2ZY', Order_Date: '', Address: "", District: "", State: "Tamil Nadu", Zipcode: "" });
     const [loading, setLoading] = useState(false);
     const [tabledata, setTabledata] = useState([]);
     const [colfilter, setcolFilter] = useState({});
@@ -308,7 +308,7 @@ export default function Orders() {
     };
 
     const newOrder = () => {
-        setFormdata({ ordermasterdata: [{ Tax_Type: "" }], Address: "", District: "", State: "Tamil Nadu", Country: "India", Zipcode: "" });
+        setFormdata({ ordermasterdata: [{ Tax_Type: "" }], Address: "", District: "", State: "Tamil Nadu",GST_Number:'33CLRPP6853Q2ZY', Country: "India", Zipcode: "" });
         setOrderVisible(true)
     };
 

@@ -15,8 +15,6 @@ const Tableview = (props) => {
   const [tempFilterValues, setTempFilterValues] = useState(filtervalues);
   const [filterOptions, setFilterOptions] = useState({});
   const [showFilterPanel, setShowFilterPanel] = useState(false);
-
-
   useEffect(() => {
     setTempFilterValues(filtervalues);
   }, [filtervalues]);
