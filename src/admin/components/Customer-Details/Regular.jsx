@@ -150,7 +150,7 @@ function Regular() {
                         </div>
                     </div>
                 </div>
-                <DataTable ref={dt} value={getCustomers} showGridlines className='' filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
+                <DataTable ref={dt} value={getCustomers} showGridlines  filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
                     <Column header="S.No" body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
                     <Column
                         filter
@@ -194,7 +194,7 @@ function Regular() {
                 </DataTable>
             </section >
             <Tablepagination page={page} first={first} rows={rows}
-                //    totalRecords={totalRecords}
+                totalRecords={totalRecords}
                 onPage={onPage} setRows={setRows} />
         </>
     )
