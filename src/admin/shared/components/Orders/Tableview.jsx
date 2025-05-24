@@ -8,6 +8,7 @@ import { getFilterOptions } from '../../services/apiorders/apiorders';
 import { MultiSelect } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import moment from 'moment-timezone';
+import { BeatLoader } from 'react-spinners';
 
 const Tableview = (props) => {
   const { tabledata, editfrom, newform, newOrder, setglobalfilter, handledelete, setPdfUrl, viewProducts, isModalOpen, setIsModalOpen, cusfilter, filtervalues, onPage, page, downloadPDF, pdfUrl, handleReply } = props;
@@ -63,28 +64,34 @@ const Tableview = (props) => {
             <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full h-[90] overflow-auto">
               <div className="mb-4 text-lg font-semibold">PDF Preview</div>
               {pdfUrl ? (
-                <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
+                <>
+                  <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
+                  <div className="flex justify-end items-center gap-3 mt-4">
+                    <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
+                      onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${rowData.Order_id}.pdf`; link.click(); }}  >
+                      <i className="fi fi-rr-download flex items-center "></i>
+                      Download
+                    </button>
+                    <button
+                      className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
+                      onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
+                      <i className="fi fi-rr-print flex items-center "></i>
+                      Print
+                    </button>
+                    <button
+                      className="  absolute top-4 right-4 text-white rounded-md "
+                      onClick={() => { setIsModalOpen(false); setPdfUrl(null); }} >
+                      <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
+                    </button>
+                  </div>
+                </>
               ) : (
-                <div>Loading PDF...</div>
+                <div className='flex items-center gap-3'>
+                  <div className='text-primary'>Loading PDF</div>
+                  <BeatLoader color="#024A34" />
+                </div>
               )}
-              <div className="flex justify-end items-center gap-3 mt-4">
-                <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
-                  onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${rowData.Order_id}.pdf`; link.click(); }}  >
-                  <i className="fi fi-rr-download flex items-center "></i>
-                  Download
-                </button>
-                <button
-                  className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
-                  onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
-                  <i className="fi fi-rr-print flex items-center "></i>
-                  Print
-                </button>
-                <button
-                  className="  absolute top-4 right-4 text-white rounded-md "
-                  onClick={() => { setIsModalOpen(false); setPdfUrl(null); }} >
-                  <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
-                </button>
-              </div>
+
             </div>
           </div>
         )}

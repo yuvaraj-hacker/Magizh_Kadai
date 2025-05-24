@@ -8,6 +8,7 @@ import { saveorders } from '../../services/apiorders/apiorders';
 import apiurl from '../../../../shared/services/apiendpoint/apiendpoint';
 import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
+import { BeatLoader, SyncLoader } from 'react-spinners';
 
 function AddOrder(props) {
     const { ordervisible, setOrderVisible, loading, addressFields, formdata, setActiveField, isPreviewOpen, setIsPreviewOpen, setPdfUrl, orderIdForPreview, pdfUrl, activefield, suggestions, setSuggestions, handleSuggestionClick, tabledata, loadData, addRow, handledeleteField, handlechangeProduct, searchResults, setSearchResults, handlechange, setFormdata, handlesave, handleupdate } = props;
@@ -179,7 +180,7 @@ function AddOrder(props) {
     const Sub_Total = (rowData) => {
         return (
             <div>
-                <input type="number" name="Sub_Total" readOnly value={rowData?.Sub_Total} className="w-full text-sm focus:outline-none px-4 py-2 outline-none border rounded-md" />
+                <input type="number" name="Sub_Total" readOnly value={rowData?.Sub_Total} className="w-full text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 outline-none border rounded-md" />
             </div>
         );
     };
@@ -193,11 +194,21 @@ function AddOrder(props) {
         )
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const action = e.nativeEvent.submitter?.name;
+        if (formdata?._id) {
+            handleupdate(e, action === 'print');
+        } else {
+            handlesave(e, action === 'print');
+        }
+    };
+
 
     return (
         <>
             <Dialog header={formdata?._id ? "Order Update" : "Add Order"} visible={ordervisible} headerClassName='text-primary' onHide={() => setOrderVisible(false)} className="!w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 lg:!w-[95vw] z-40" maximizable maximized={maximized} onMaximize={(e) => setMaximized(e.maximized)}>
-                <form onSubmit={formdata?._id ? handleupdate : handlesave} className='flex flex-col justify-between h-full'>
+                <form onSubmit={handleSubmit} className='flex flex-col justify-between h-full'>
                     <div>
                         <div className=" mb-3  grid grid-cols-12 items-start gap-4">
                             <div className='col-span-9 flex flex-col gap-4 '>
@@ -244,7 +255,7 @@ function AddOrder(props) {
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             Pincode <span className="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="Zipcode" value={formdata.Zipcode} required onChange={handlechange}
+                                        <input type="text" maxLength={6} name="Zipcode" value={formdata.Zipcode} required onChange={handlechange}
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div>
@@ -273,12 +284,11 @@ function AddOrder(props) {
                                             type="text"
                                             name="country"
                                             value={addressFields.country}
-                                            onChange={handlechange}
+                                               onChange={handlechange}
                                             readOnly
                                             className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none"
                                         />
                                     </div> */}
-
                                     <div>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">GST NO</label>
                                         <input type="text" name="GST_Number" value={formdata?.GST_Number} onChange={handlechange} pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
@@ -313,7 +323,7 @@ function AddOrder(props) {
                             </div>
                         </div>
                         <div>
-                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border w-full' >
+                            <DataTable value={formdata['ordermasterdata']} scrollHeight="calc(100vh - 550px)" showGridlines className='border w-full' >
                                 <Column header="S.No" headerClassName='bg-primary text-white ' body={sno} style={{ minWidth: '50px' }} />
                                 {/* <Column header="HSN No" headerClassName='bg-primary text-white ' body={HSN} style={{ minWidth: '120px' }} /> */}
                                 <Column header="Product" headerClassName='bg-primary text-white ' body={Product_Name} style={{ minWidth: '270px' }} />
@@ -371,7 +381,7 @@ function AddOrder(props) {
                                                 <></>
                                             )}
                                             <div className="mb-2">
-                                                <select name="Payment_Method" placeholder="Payment Method" value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                <select name="Payment_Method" placeholder="Payment Method" required value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
                                                     <option value="" >Payment Method</option>
                                                     <option value="Card">Card</option>
                                                     <option value="Cash">Cash</option>
@@ -381,82 +391,69 @@ function AddOrder(props) {
                                     </div>
                                 </div>
                                 <div className='font-bold 2xl:mr-40 '>Total: ₹ {formdata?.Total_Amount || '0'}</div>
-
                             </div>
                         </div>
                     </div>
 
                     <div className='flex gap-3 items-center justify-end'>
-                        {/* onClick={() => handlePrint(formdata)} */}
                         <div className="mt-2 text-center cursor-pointer" >
-                            <button type='button' role='status' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2"
-                                onClick={(e) => {
-                                    e.preventDefault(); // Prevent form submission
-                                    const { Billing_Name, Address, District, State, Zipcode, Mobilenumber, Order_Date } = formdata;
-                                        if (
-                                        !Billing_Name?.trim() ||
-                                        !Address?.trim() ||
-                                        !District?.trim() ||
-                                        !State?.trim() ||
-                                        !Zipcode?.trim() ||
-                                        !Mobilenumber?.trim() ||
-                                        !Order_Date
-                                    ) {
-                                        alert("Please fill in all required fields before saving and printing.");
-                                        return;
-                                    }
-                                    if (formdata?._id) {
-                                        // Call handleupdate with print flag
-                                        handleupdate(e, true);
-                                    } else {
-                                        // Call handlesave with print flag
-                                        handlesave(e, true);
-                                    }
-                                }}
+                            <button type='submit' role='status' name='print' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2"
+                            // onClick={(e) => {
+                            //     e.preventDefault();
+                            //     const { Billing_Name, Address, District, State, Zipcode, Mobilenumber, ordermasterdata } = formdata;
+                            //     if (!Billing_Name?.trim() || !Address?.trim() || !District?.trim() || !State?.trim() || !Zipcode?.trim() || !Mobilenumber?.trim()
+                            //     ) { alert("Please fill in all required fields before saving and printing."); return; }
+                            //     const hasValidProduct = Array.isArray(ordermasterdata) && ordermasterdata.some(row => row?.Product_Name?.trim() && row?.Quantity > 0 && row?.Regular_Price > 0);
+                            //     if (!hasValidProduct) { alert("Please add at least one valid product"); return; }
+                            //     if (formdata?._id) { handleupdate(e, true); } else { handlesave(e, true); }
+                            // }}
                             >
                                 <i class="fi fi-rr-print flex items-center"></i>
                                 {formdata?._id ? "Update & Print" : "Save & Print"} </button>
                         </div>
                         <div className="mt-2 text-center">
-                            <button type="submit" className=" px-4 py-2 text-white bg-primary border rounded-md"   >
+                            <button type="submit" name='save' className=" px-4 py-2 text-white bg-primary border rounded-md"   >
                                 {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>} {formdata._id ? "Update" : "Save"}
                             </button>
                         </div>
                     </div>
                 </form>
-
-                {/* <button onClick={() => setOrderVisible(false)}>
-                    Cancel
-                </button> */}
-
-
                 {isPreviewOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <div className="relative p-4 bg-white rounded-xl max-w-4xl w-full h-[90] overflow-auto">
                             <div className="mb-4 text-lg font-semibold">PDF Preview</div>
                             {pdfUrl ? (
-                                <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
+                                <>
+                                    <iframe src={pdfUrl} className="w-full  h-[80vh] border" title="PDF Preview" />
+                                    <div className="flex justify-end items-center gap-3 mt-4">
+                                        <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
+                                            onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${orderIdForPreview}.pdf`; link.click(); }}  >
+                                            <i className="fi fi-rr-download flex items-center "></i>
+                                            Download
+                                        </button>
+                                        <button
+                                            className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
+                                            onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
+                                            <i className="fi fi-rr-print flex items-center "></i>
+                                            Print
+                                        </button>
+                                        <button
+                                            className="  absolute top-4 right-4 text-white rounded-md "
+                                            onClick={() => { setIsPreviewOpen(false); setPdfUrl(null); }} >
+                                            <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
+                                        </button>
+
+                                    </div>
+                                </>
                             ) : (
-                                <div>Loading PDF...</div>
+                                <>
+                                    <div className='flex items-center gap-3'>
+                                        <div className='text-primary'>Loading PDF</div>
+                                        <BeatLoader color="#024A34" />
+                                    </div>
+                                </>
                             )}
-                            <div className="flex justify-end items-center gap-3 mt-4">
-                                <button className="bg-slate-600 hover:bg-slate-700 focus:ring-2 flex items-center gap-3 focus:ring-slate-400 p-2 text-white rounded-md transition"
-                                    onClick={() => { const link = document.createElement('a'); link.href = pdfUrl; link.download = `${orderIdForPreview}.pdf`; link.click(); }}  >
-                                    <i className="fi fi-rr-download flex items-center "></i>
-                                    Download
-                                </button>
-                                <button
-                                    className="bg-indigo-600 hover:bg-indigo-700 focus:ring-2 flex items-center gap-3 focus:ring-indigo-400 p-2 text-white rounded-md transition"
-                                    onClick={() => { const printWindow = window.open(pdfUrl); if (printWindow) { printWindow.addEventListener('load', () => { printWindow.focus(); printWindow.print(); }); } }} >
-                                    <i className="fi fi-rr-print flex items-center "></i>
-                                    Print
-                                </button>
-                                <button
-                                    className="  absolute top-4 right-4 text-white rounded-md "
-                                    onClick={() => { setIsPreviewOpen(false); setPdfUrl(null); }} >
-                                    <i className="fi fi-sr-circle-xmark flex items-center text-3xl text-red-600"></i>
-                                </button>
-                            </div>
+
                         </div>
                     </div>
                 )}

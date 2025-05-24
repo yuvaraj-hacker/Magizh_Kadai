@@ -9,7 +9,6 @@ export default function Customers(){
     const [page, setPage] = useState(1);
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
-  
     const [tabledata, setTabledata]=useState([]);
     const [colfilter, setcolFilter] = useState({});
     const [globalfilter,setglobalfilter]=useState('')
@@ -43,7 +42,7 @@ export default function Customers(){
         setcolFilter(prev => ({ ...prev, [field]: {$in:value} }));
         setFirst(0)
     };
- 
+
     return(
         <div>
 
@@ -52,11 +51,11 @@ export default function Customers(){
 
                     <Tableview tabledata={tabledata} totalRecords={totalRecords} first={first} cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} />
 
-                    <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows}/> 
-                  
+                    <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows}/>
+
                     <ConfirmDialog />
                 </div>
-    
+
         </div>
     )
 }

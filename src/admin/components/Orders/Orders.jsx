@@ -193,29 +193,37 @@ export default function Orders() {
         Disc_Amount = parseFloat(updatedProducts[index].Disc_Amount) || 0;
         Tax_Percentage = parseFloat(Tax_Percentage) || 0;
         const totalBase = Quantity * Regular_Price;
-        if (field === "Discount") {
-            Disc_Amount = (totalBase * Discount) / 100;
-            updatedProducts[index].Disc_Amount = Math.round(Disc_Amount);
-        } else if (field === "Disc_Amount") {
-            Discount = totalBase ? (Disc_Amount / totalBase) * 100 : 0;
-            updatedProducts[index].Discount = Math.round(Discount);
-        }
-        Disc_Amount = (totalBase * Discount) / 100;
-        updatedProducts[index].Disc_Amount = parseFloat(Disc_Amount.toFixed(2));
-        let subtotalBeforeTax = totalBase - (totalBase * (Discount / 100));
-        let Sub_Total = 0;
+
+        // STEP 1: Calculate Tax First
+        let totalWithTax = 0;
         if (Tax_Type === "Inclusive") {
-            let taxFactor = 1 + (Tax_Percentage / 100);
-            let baseAmount = subtotalBeforeTax / taxFactor;
-            Sub_Total = subtotalBeforeTax;
+            totalWithTax = totalBase; // Tax already included
         } else {
-            let taxAmount = (subtotalBeforeTax * Tax_Percentage) / 100;
-            Sub_Total = subtotalBeforeTax + taxAmount;
+            const taxAmount = (totalBase * Tax_Percentage) / 100;
+            totalWithTax = totalBase + taxAmount;
         }
+
+        // STEP 2: Apply Discount after Tax
+        if (field === "Discount") {
+            Disc_Amount = (totalWithTax * Discount) / 100;
+            updatedProducts[index].Disc_Amount = parseFloat(Disc_Amount.toFixed(2));
+        } else if (field === "Disc_Amount") {
+            Discount = totalWithTax ? (Disc_Amount / totalWithTax) * 100 : 0;
+            updatedProducts[index].Discount = parseFloat(Discount.toFixed(2));
+        }
+
+        // Final discount calculation (sync)
+        Disc_Amount = (totalWithTax * Discount) / 100;
+        updatedProducts[index].Disc_Amount = parseFloat(Disc_Amount.toFixed(2));
+
+        // Final Subtotal
+        const Sub_Total = totalWithTax - Disc_Amount;
         updatedProducts[index].Sub_Total = parseFloat(Sub_Total.toFixed(2));
+
         let Total_Amount = updatedProducts.reduce((sum, item) => sum + (parseFloat(item.Sub_Total) || 0), 0).toFixed(2);
         let Total_Quantity = updatedProducts.reduce((sum, item) => sum + (parseInt(item.QTY) || 0), 0);
         setFormdata({ ...formdata, ordermasterdata: updatedProducts, Total_Amount, Total_Quantity, Sub_Total: Sub_Total.toFixed(2), });
+
     };
 
     const handlesave = async (e, showPrint = false) => {
@@ -226,17 +234,10 @@ export default function Orders() {
         toast.success("Successfully saved");
         await regularcustomer(updatedFormdata);
         getallorder();
-        setFormdata(prevData => ({
-            ...prevData,
-            Billing_Name: '', Address: '', District: '', State: 'Tamil Nadu', Zipcode: '', Mobilenumber: '', GST_Number: '', ordermasterdata: [],
-        }));
+        const resetOrderMasterData = [{ Product_Name: '', Quantity: '', QTY: '', Regular_Price: '', Discount: '', Discount_Amount: '', Tax_Type: '', Tax_Percentage: '', Sub_Total: '', }];
+        setFormdata(prevData => ({ ...prevData, Billing_Name: '', Address: '', District: '', State: 'Tamil Nadu', Zipcode: '', Mobilenumber: '', GST_Number: '', ordermasterdata: resetOrderMasterData, Total_Amount: '', Payment_Status: '', Payment_Method: '', Order_Status: '', Remarks: '' }));
         const orderId = res?.orderId;
-        if (showPrint && orderId) {
-            setIsPreviewOpen(true); downloadPDF(orderId);
-            setOrderIdForPreview(orderId);
-        }
-        //  { const pdfUrl = await downloadPDF(orderId); const printWindow = window.open(pdfUrl, '_blank');
-        // if (printWindow) { printWindow.onload = () => { printWindow.print(); }; } }
+        if (showPrint && orderId) { setIsPreviewOpen(true); downloadPDF(orderId); setOrderIdForPreview(orderId); }
         setLoading(false);
     };
 
@@ -260,18 +261,8 @@ export default function Orders() {
         getallorder()
         const orderId = res?.order?.Order_id;
         console.log(orderId)
-        // if (showPrint && orderId) {
-        //     const pdfUrl = await downloadPDF(orderId); const printWindow = window.open(pdfUrl, '_blank');
-        //     if (printWindow) { printWindow.onload = () => { printWindow.print(); }; }
-        // }
-        if (showPrint && orderId) {
-            setIsPreviewOpen(true); downloadPDF(orderId);
-            setOrderIdForPreview(orderId);
-        }
-        if (!showPrint) {
-            setOrderVisible(false)
-        }
-
+        if (showPrint && orderId) { setIsPreviewOpen(true); downloadPDF(orderId); setOrderIdForPreview(orderId); }
+        if (!showPrint) { setOrderVisible(false) }
         setLoading(false)
     }
 
@@ -336,7 +327,7 @@ export default function Orders() {
             <div className="bg-white border rounded-3xl flex flex-col justify-between" style={{ height: "calc(100vh - 70px)" }}>
                 <div>
                     {/* <Tableheadpanel newform={newform} newOrder={newOrder} setglobalfilter={setglobalfilter} /> */}
-                    <Tableview   isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newform={newform} setPdfUrl={setPdfUrl} newOrder={newOrder} setglobalfilter={setglobalfilter} pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
+                    <Tableview isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newform={newform} setPdfUrl={setPdfUrl} newOrder={newOrder} setglobalfilter={setglobalfilter} pdfUrl={pdfUrl} tabledata={tabledata} totalRecords={totalRecords} first={first} editfrom={editfrom} handledelete={handledelete}
                         cusfilter={cusfilter} filtervalues={filtervalues} onPage={onPage} page={page} viewProducts={viewProducts} downloadPDF={downloadPDF} handleReply={handleReply} />
                 </div>
                 <Tablepagination page={page} first={first} rows={rows} totalRecords={totalRecords} onPage={onPage} setRows={setRows} />

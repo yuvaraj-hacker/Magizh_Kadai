@@ -29,9 +29,9 @@ const AdminRouter = () => {
           {/* <Route path="/home" element={<Home />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<Product />} />
-          <Route path="/customers" element={<Customers />} />
+          {/* <Route path="/customers" element={<Customers />} /> */}
           <Route path="/orders" element={<Orders />} />
-          <Route path="/regular" element={<Regular />} />
+          <Route path="/customers" element={<Regular />} />
           <Route path="/category" element={<Category />} />
           <Route path="/banner" element={<Banner />} />
           <Route path="/purchase" element={<PurchasePage />} />

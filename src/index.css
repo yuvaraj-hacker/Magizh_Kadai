@@ -784,9 +784,6 @@ input[type="number"] {
     }
   }
 
-
-
-
     .glow{
         background: linear-gradient(
             to right,
@@ -805,3 +802,16 @@ input[type="number"] {
     filter: invert(1);
     cursor: pointer;
 } */
+
+
+.p-column-filter-buttonbar{
+display: none;
+}
+
+ .p-column-filter-menu-button-hover {
+     background-color: #2563EB;
+ }
+
+ .p-column-filter-menu-button-active {
+     background-color: #2563EB;
+ }
