@@ -316,9 +316,9 @@ const Tableview = (props) => {
         selectionMode="single"
         value={tabledata}
         scrollable
-        scrollHeight="calc(100vh - 260px)"
+        scrollHeight="calc(100vh - 200px)"
         // scrollHeight="680px"
-        className='!text-sm'
+        className='!text-sm  '
         stateStorage="session"
         stateKey="dt-state-demo-local"  >
         <Column header="Action" headerClassName='bg-primary text-white' body={actionbotton} />

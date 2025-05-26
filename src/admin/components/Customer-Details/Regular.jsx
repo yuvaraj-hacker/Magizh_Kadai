@@ -14,6 +14,7 @@ function Regular() {
     const [page, setPage] = useState(1);
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
+    const [totalRecords, setTotalRecords] = useState(0);
 
     const [filters, setFilters] = useState({
         'Billing_Name': { value: null, matchMode: FilterMatchMode.IN },
@@ -34,6 +35,7 @@ function Regular() {
             const res = await getregularcustomer();
             const customers = res.customers || [];
             setAllCustomers(customers);
+            setTotalRecords(res?.totalCustomers)
             setBillingNameOptions([...new Set(customers.map(c => c.Billing_Name))].map(name => ({ label: name, value: name })));
             setMobileOptions([...new Set(customers.map(c => c.Mobilenumber))].map(mob => ({ label: mob, value: mob })));
             setAddressOptions([...new Set(customers.map(c => c.Delivery_Address))].map(addr => ({ label: addr, value: addr })));
@@ -150,10 +152,11 @@ function Regular() {
                         </div>
                     </div>
                 </div>
-                <DataTable ref={dt} value={getCustomers} showGridlines  filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
-                    <Column header="S.No" body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
+                <DataTable ref={dt} value={getCustomers} showGridlines filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
+                    <Column header="S.No" className='border-b' body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
                     <Column
                         filter
+                        className='border-b'
                         filterField="Billing_Name"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, billingNameOptions, 'Billing_Name')}
@@ -167,6 +170,7 @@ function Regular() {
                     />
                     <Column
                         filter
+                        className='border-b'
                         filterField="Mobilenumber"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, mobileOptions, 'Mobilenumber')}
@@ -180,6 +184,7 @@ function Regular() {
                     />
                     <Column
                         filter
+                        className='border-b'
                         filterField="Delivery_Address"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, addressOptions, 'Delivery_Address')}

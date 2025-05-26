@@ -111,8 +111,8 @@ function AddOrder(props) {
             <div className=' '>
                 <input type="text" name="Product_Name" id={'Product_Name' + rowIndex['rowIndex']} required value={rowData?.Product_Name} onChange={(event) => handleSearch(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                 {RowIndex == rowIndex['rowIndex'] && showResults && searchResults && searchResults.length > 0 && (
-                    <ul className="absolute    z-10 min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 h-96   overflow-hidden overflow-y-auto">
-                        {searchResults.map((result, index) => (
+                    <ul className="absolute    z-[9999] min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 h-96   overflow-hidden overflow-y-auto">
+                          {searchResults.map((result, index) => (
                             <li key={index} role="button" onClick={() => loadData(index, rowIndex)} className="flex items-center  py-2 px-3  rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none" dangerouslySetInnerHTML={{ __html: highlightText(result['Product_Name'], searchTerm), }}
                             />
                         ))}
@@ -323,7 +323,7 @@ function AddOrder(props) {
                             </div>
                         </div>
                         <div>
-                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border w-full' >
+                            <DataTable value={formdata['ordermasterdata']} scrollable scrollHeight="1000px" showGridlines className='border w-full' >
                                 <Column header="S.No" headerClassName='bg-primary text-white ' body={sno} style={{ minWidth: '50px' }} />
                                 {/* <Column header="HSN No" headerClassName='bg-primary text-white ' body={HSN} style={{ minWidth: '120px' }} /> */}
                                 <Column header="Product" headerClassName='bg-primary text-white ' body={Product_Name} style={{ minWidth: '270px' }} />
@@ -397,7 +397,7 @@ function AddOrder(props) {
                         </div>
                     </div>
 
-                    <div className='flex gap-3 items-center justify-end'>
+                    <div className='flex gap-3 items-center justify-end pb-5'>
                         <div className="mt-2 text-center cursor-pointer" >
                             <button type='submit' role='status' name='print' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2"
                             // onClick={(e) => {
