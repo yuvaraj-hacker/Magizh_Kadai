@@ -305,10 +305,10 @@ const Tableview = (props) => {
 
   const TableHeader = () => (
     <div className="">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between md:gap-4">
         <div className="relative flex-1 max-w-md">
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center md:gap-3">
           {/* <button
             onClick={() => setShowFilterPanel(true)}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -326,7 +326,7 @@ const Tableview = (props) => {
               Object.keys(tempFilterValues).forEach(key => handleClearFilters(key));
               setSearchValue('');
             }}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="inline-flex items-center px-4 py-2 text-sm md:mt-0 mt-3 font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <i className="mr-2 fi fi-rr-refresh"></i>
             Reset
@@ -382,14 +382,14 @@ const Tableview = (props) => {
 
   return (
     <div className="    "   >
-      <div className='p-4   flex justify-between rounded-t-xl  border-t-primary border  '>
+      <div className='md:p-4 p-2   flex justify-between rounded-t-xl flex-wrap   border-t-primary border  '>
         <div>
         </div>
         <div className='flex gap-4 '>
           {/* <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} /> */}
           <div className="relative">
             <input type="text" placeholder="Search..." value={search}
-              className="px-4 py-2 border outline-none   rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
+              className="px-4 py-2 border outline-none   rounded-xl pr-10 md:w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
               onChange={handleSearchChange} />
             {search && (
               <button onClick={clearSearch} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"   >
@@ -401,7 +401,7 @@ const Tableview = (props) => {
             <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            Add Category
+            <p className='md:block hidden'> Add Category</p>
           </button>
         </div>
         <TableHeader />
@@ -412,7 +412,7 @@ const Tableview = (props) => {
           size='small'
           value={tabledata}
           scrollable
-           scrollHeight="calc(100vh - 200px)"
+          scrollHeight="calc(100vh - 200px)"
           className="!text-sm "
           rowClassName={() => 'border border-b-primary border-r-primary transition-colors duration-200   '}
           showGridlines={false}

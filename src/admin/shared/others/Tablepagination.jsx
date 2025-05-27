@@ -25,15 +25,15 @@ export default function Tablepagination(props) {
     }, [totalRecords, rows]);
     const rowOptions = [10, 20, 50, 100];
     return (
-        <div className="flex items-center justify-between w-full p-2 bg-primary rounded-b-xl px-4">
+        <div className="flex items-center justify-between w-full md:p-2 p-1 bg-primary rounded-b-xl px-2 md:px-4">
 
-                      <div>
-                <label htmlFor="rows-per-page" className="mr-2 text-white">Rows per page:</label>
+            <div className='flex items-center  '>
+                <label htmlFor="rows-per-page" className="mr-2 md:text-base text-sm text-white md:block hidden">Rows per page:</label>
                 <select
                     id="rows-per-page"
                     value={rows}
                     onChange={(e) => setRows(Number(e.target.value))}
-                    className="px-2 py-1 border rounded"
+                    className="md:px-2 px-1 py-1 border md:text-base text-sm rounded"
                 >
                     {rowOptions.map(option => (
                         <option key={option} value={option}>
@@ -49,6 +49,7 @@ export default function Tablepagination(props) {
                     isCompact
                     showControls
                     showShadow
+                    className='md:text-base text-sm'
                     color="primary"
                     page={page}
                     total={pages}
@@ -57,7 +58,7 @@ export default function Tablepagination(props) {
             )}
 
 
-            <div className='text-white'>Total Records: {totalRecords}</div>
+            <div className='text-white md:text-sm text-xs whitespace-nowrap flex  gap-1'>Total <span className='md:hidden block'> :</span> <span className='md:block hidden'>Records:</span>  {totalRecords}</div>
         </div>
     );
 }

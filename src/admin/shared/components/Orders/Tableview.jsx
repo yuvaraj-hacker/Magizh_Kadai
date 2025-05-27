@@ -199,7 +199,7 @@ const Tableview = (props) => {
   );
 
   const TableHeader = () => (
-    <div className="p-4 bg-white border-b">
+    <div className="md:p-4 p-2 bg-white md:border-b">
       <div className="flex items-center justify-between gap-4">
         {/* <div className="relative flex-1 max-w-md">
           <div>
@@ -232,7 +232,7 @@ const Tableview = (props) => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowFilterPanel(true)}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="inline-flex items-center md:px-4 px-2 py-2  font-medium text-gray-700 bg-white border   text-sm border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <i className="mr-2 fi fi-rr-filter"></i>
             Filters
@@ -252,7 +252,7 @@ const Tableview = (props) => {
             onClick={() => {
               columns.filter(col => col.filter).forEach(col => handleClearFilters(col.field));
             }}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="inline-flex items-center md:px-4 px-2 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <i className="mr-2 fi fi-rr-refresh"></i>
             Reset
@@ -288,23 +288,24 @@ const Tableview = (props) => {
 
   return (
     <div className="bg-white border shadow-sm rounded-xl ">
-      <div className='flex gap-4 items-center justify-between'>
+      <div className='flex md:gap-4 items-center justify-between flex-wrap'>
         <TableHeader />
-        <div className="flex items-center justify-center gap-4 px-6  ">
+        <div className="flex items-center justify-center md:gap-4 gap-3 md:px-6 px-2 md:mb-0 mb-2 ">
           <div>
             <div className="inline-flex gap-x-2">
-              <input type="input" placeholder="Search..." className="px-4 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
+              <input type="input" placeholder="Search..." className="md:px-4 px-2 py-2 border outline-none rounded-xl" onChange={(e) => setglobalfilter(e.target.value)} />
             </div>
           </div>
           <div>
-            <div className="inline-flex gap-x-2">
+            <div className="inline-flex md:gap-x-2">
               <button
                 onClick={newOrder}
                 className="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-primary border border-transparent rounded-lg gap-x-2">
                 <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                Add Order
+                <p className='md:block hidden'>   Add Order</p>
+
               </button>
             </div>
           </div>
@@ -312,10 +313,11 @@ const Tableview = (props) => {
       </div>
 
       <DataTable
-        rowClassName={() => 'border-b border-secondary'}
+        rowClassName={() => 'border-b border-b-primary'}
         selectionMode="single"
         value={tabledata}
         scrollable
+        size='small'
         scrollHeight="calc(100vh - 200px)"
         // scrollHeight="680px"
         className='!text-sm  '

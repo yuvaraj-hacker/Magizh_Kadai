@@ -459,10 +459,10 @@ const Tableview = (props) => {
 
   const TableHeader = () => (
     <div className="">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between md:gap-4">
         <div className="relative flex-1 max-w-md">
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 md:mt-0 mt-3">
           {/* <button onClick={() => setShowFilterPanel(true)} className="inline-flex w-32 items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  >
             <i className="mr-2 fi fi-rr-filter"></i>
             Filters
@@ -542,10 +542,10 @@ const Tableview = (props) => {
 
   return (
     <div className="bg-white  shadow-sm rounded-xl " >
-      <div className='flex  justify-between items-center p-4  rounded-t-xl border border-t-primary'>
+      <div className='flex  justify-between items-center md:p-4 p-2 flex-wrap  rounded-t-xl border border-t-primary'>
         <div>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-4    '>
           {/* <input
             type="text"
             placeholder="Search..."
@@ -557,7 +557,7 @@ const Tableview = (props) => {
               type="text"
               placeholder="Search..."
               value={search}
-              className="px-4 py-2 border outline-none rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
+              className="px-4 py-2 border outline-none rounded-xl pr-10 md:w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
               onChange={handleSearchChange}
             />
             {search && (
@@ -576,7 +576,7 @@ const Tableview = (props) => {
             <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
               <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            Add Product
+            <p className='md:block hidden'>Add Product</p>
           </button>
 
         </div>

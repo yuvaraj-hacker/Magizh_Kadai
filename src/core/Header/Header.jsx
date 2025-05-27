@@ -584,7 +584,7 @@ export default function Header(props) {
                         <Moon className="w-5 h-5" />
                       )}
                     </button> */}
-                    <div className="relative" ref={userDropdownRef}>
+                    {/* <div className="relative" ref={userDropdownRef}>
                       <Link onClick={openform}>
                         {userdetails ? (
                            <div className="inline-flex items-center justify-center w-[38px] h-[38px] rounded-full bg-secondary ring-2 ring-white">
@@ -627,7 +627,7 @@ export default function Header(props) {
                                   <i className="fi fi-rr-shopping-bag dark:text-white"></i>
                                   <span className="text-sm dark:text-white">My orders</span>
                                 </Link>
-                                {/* onClick={toggleSidebar} */}
+
                                 <Link to="/dashboard"  className="flex items-center gap-3 px-4 py-2 text-black hover:bg-gray-50 dark:hover:bg-gray-400">
                                   <i className="fi fi-ts-book-user dark:text-white flex justify-center items-center"></i>
                                   <span className="text-sm dark:text-white">My Account</span>
@@ -662,7 +662,7 @@ export default function Header(props) {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   <RegisterContinueGoogle visible={visible} setVisible={setVisible} />
                 </div>

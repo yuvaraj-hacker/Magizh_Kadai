@@ -129,7 +129,7 @@ function Regular() {
     return (
         <>
             <section className='border rounded-md' style={{ height: "calc(100vh - 120px)" }}>
-                <div className="flex items-center justify-between gap-4 px-6 py-3">
+                <div className="flex items-center justify-between md:gap-4 md:px-6   py-3">
                     <div>
                     </div>
                     <div className='flex gap-3 items-center'>
@@ -137,13 +137,13 @@ function Regular() {
                             <input type="text" value={globalFilter}
                                 onChange={(e) => setGlobalFilter(e.target.value)}
                                 placeholder="Search..."
-                                className="px-4 py-2 border outline-none rounded-xl"
+                                className="px-4 py-2 border border-primary outline-none rounded-xl"
                             />
                         </div>
                         <div>
                             <button
                                 onClick={resetAllFilters}
-                                className="  px-3 py-2 text-sm font-semibold flex items-center gap-3  border border-gray-300 p-2 rounded-lg gap-x-2"
+                                className="  px-3 py-2 text-sm font-semibold flex items-center   gap-3  border border-gray-300 p-2 rounded-lg gap-x-2"
                                 type="button"
                             >
                                 <i class="fi fi-ts-rotate-reverse flex items-center "></i>
@@ -152,11 +152,11 @@ function Regular() {
                         </div>
                     </div>
                 </div>
-                <DataTable ref={dt} value={getCustomers} showGridlines filters={filters} globalFilter={globalFilter} emptyMessage="No customers found."  >
-                    <Column header="S.No" className='border-b' body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
+                <DataTable ref={dt} value={getCustomers} showGridlines filters={filters} globalFilter={globalFilter}  size='small'  emptyMessage="No customers found."  >
+                    <Column header="S.No" className='border-b border-b-primary' body={serialBodyTemplate} headerClassName='bg-primary text-white ' style={{ minWidth: '50px' }} />
                     <Column
                         filter
-                        className='border-b'
+                        className='border-b border-b-primary'
                         filterField="Billing_Name"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, billingNameOptions, 'Billing_Name')}
@@ -170,7 +170,7 @@ function Regular() {
                     />
                     <Column
                         filter
-                        className='border-b'
+                        className='border-b border-b-primary'
                         filterField="Mobilenumber"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, mobileOptions, 'Mobilenumber')}
@@ -184,7 +184,7 @@ function Regular() {
                     />
                     <Column
                         filter
-                        className='border-b'
+                        className='border-b border-b-primary'
                         filterField="Delivery_Address"
                         filterMatchMode={FilterMatchMode.IN}
                         filterElement={(options) => filterss(options, addressOptions, 'Delivery_Address')}

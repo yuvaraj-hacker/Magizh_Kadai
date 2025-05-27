@@ -17,7 +17,7 @@ export default function Tableheadpanel(props) {
 
 
   return (
-    <div className="flex items-center justify-between px-6 py-4">
+    <div className="flex items-center justify-between md:px-6 px-3 py-4">
       {/* <div>
               <h2 className="text-xl font-semibold text-primary ">
                 Purchase
@@ -33,7 +33,7 @@ export default function Tableheadpanel(props) {
               type="text"
               placeholder="Search..."
               value={search}
-              className="px-4 py-2 border outline-none rounded-xl pr-10 w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
+              className="px-4 py-2 border outline-none rounded-xl pr-10 md:w-[450px] border-primary focus:border-primary/80" // Adjust padding for icon space
               onChange={handleSearchChange}
             />
             {search && (
@@ -49,7 +49,9 @@ export default function Tableheadpanel(props) {
             <svg className="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            Add Purchase
+            <p className="md:block hidden">
+              Add Purchase
+            </p>
           </button>
         </div>
       </div>

@@ -218,7 +218,7 @@ export default function CartPage(props) {
                               {showB2B !== true && (
                                 <div className="w-32 text-sm font-medium text-center md:text-lg">
                                   ₹ {(
-                                    (item?.productId?.Sale_Price) * item.Quantity
+                                    (item?.productId?.Sale_Price || item?.Sale_Price) * item.Quantity
                                   )}
                                 </div>
                               )}

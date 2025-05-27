@@ -112,7 +112,7 @@ function AddOrder(props) {
                 <input type="text" name="Product_Name" id={'Product_Name' + rowIndex['rowIndex']} required value={rowData?.Product_Name} onChange={(event) => handleSearch(event, rowIndex)} className="w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 px-4 py-2 border rounded-md outline-none" />
                 {RowIndex == rowIndex['rowIndex'] && showResults && searchResults && searchResults.length > 0 && (
                     <ul className="absolute    z-[9999] min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 h-96   overflow-hidden overflow-y-auto">
-                          {searchResults.map((result, index) => (
+                        {searchResults.map((result, index) => (
                             <li key={index} role="button" onClick={() => loadData(index, rowIndex)} className="flex items-center  py-2 px-3  rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none" dangerouslySetInnerHTML={{ __html: highlightText(result['Product_Name'], searchTerm), }}
                             />
                         ))}
@@ -210,8 +210,8 @@ function AddOrder(props) {
             <Dialog header={formdata?._id ? "Order Update" : "Add Order"} visible={ordervisible} headerClassName='text-primary' onHide={() => setOrderVisible(false)} className="!w-full focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 lg:!w-[95vw] z-40" maximizable maximized={maximized} onMaximize={(e) => setMaximized(e.maximized)}>
                 <form onSubmit={handleSubmit} className='flex flex-col justify-between h-full relative'>
                     <div>
-                        <div className=" mb-3  grid grid-cols-12 items-start gap-4 sticky top-0 z-50 bg-white">
-                            <div className='col-span-9 flex flex-col gap-4 '>
+                        <div className=" mb-3  grid md:grid-cols-12 grid-cols-1 items-start gap-4   z-50 bg-white">
+                            <div className='md:col-span-9 flex flex-col gap-4  md:order-1 order-2 '>
                                 <h1 className='text-primary font-bold'>Customer Details</h1>
                                 <div className="grid grid-cols-1 gap-2 md:grid-cols-5 items-end">
                                     <div className='relative ' ref={dropdownRef} >
@@ -227,7 +227,7 @@ function AddOrder(props) {
                                             </ul>
                                         )}
                                     </div>
-                                    <div className='col-span-2'>
+                                    <div className='md:col-span-2'>
                                         <label className="block mb-2 text-sm font-medium dark:text-white">
                                             Address <span className="text-red-500">*</span>
                                         </label>
@@ -296,7 +296,7 @@ function AddOrder(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-span-3 flex flex-col  items-end justify-end gap-2 mb-5">
+                            <div className="md:col-span-3 flex flex-col  items-end justify-end gap-2 mb-5 md:order-2 order-1">
                                 {/* <div>
                                 <label className="block mb-1 text-sm font-medium dark:text-white">Invoice ID <span className='text-red-500'>*</span></label>
                                 <input type="text" name="Invoice_ID"   className="w-full bg-primary text-white    focus:outline-none  px-4 py-2 border rounded-md outline-none" />
@@ -323,7 +323,7 @@ function AddOrder(props) {
                             </div>
                         </div>
                         <div>
-                            <DataTable value={formdata['ordermasterdata']}  showGridlines className='border w-full' >
+                            <DataTable value={formdata['ordermasterdata']} showGridlines className='border w-full' >
                                 <Column header="S.No" headerClassName='bg-primary text-white ' body={sno} style={{ minWidth: '50px' }} />
                                 {/* <Column header="HSN No" headerClassName='bg-primary text-white ' body={HSN} style={{ minWidth: '120px' }} /> */}
                                 <Column header="Product" headerClassName='bg-primary text-white ' body={Product_Name} style={{ minWidth: '270px' }} />
@@ -341,7 +341,7 @@ function AddOrder(props) {
                             </DataTable>
                         </div>
                         <div className="flex justify-between mt-3">
-                            <button type='button' onClick={addRow} className='bg-primary p-2 rounded-md text-white'>
+                            <button type='button' onClick={addRow} className='bg-primary p-2 rounded-md md:text-base text=sm text-white'>
                                 <i className="fi fi-rr-plus"></i> Add Row
                             </button>
                             {/* <div>QTY: {formdata?.Total_Quantity}</div> */}
@@ -349,9 +349,9 @@ function AddOrder(props) {
 
                         <div className='my-5 '>
                             <h1 className='py-4 text-xl text-primary font-extrabold'>Remarks</h1>
-                            <div className='flex justify-between items-center gap-10' >
-                                <div className='  items-start   grid grid-cols-2 gap-4'>
-                                    <InputText name='Remarks' value={formdata?.Remarks} onChange={handlechange} className=' focus:outline-none border p-2 focus:ring-2 focus:ring-blue-400   '></InputText>
+                            <div className='flex justify-between flex-wrap items-center md:gap-10' >
+                                <div className='  items-start  w-full md:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                    <InputText name='Remarks' placeholder='Remarks..' value={formdata?.Remarks} onChange={handlechange} className=' focus:outline-none border p-2 focus:ring-2 focus:ring-blue-400   '></InputText>
                                     <div className=' '>
                                         <div className="flex gap-4 items-center">
                                             <div className="mb-2">
@@ -381,14 +381,16 @@ function AddOrder(props) {
                                             ) : (
                                                 <></>
                                             )}
-                                            <div className="mb-2">
-                                                <select name="Payment_Method" placeholder="Payment Method" required value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
-                                                    <option value="" >Payment Method</option>
-                                                    <option value="Card">Card</option>
-                                                    <option value="Cash">Cash</option>
-                                                    <option value="upi">UPI</option>
-                                                </select>
-                                            </div>
+                                            {formdata?.Payment_Status === "Paid" && (
+                                                <div className="mb-2">
+                                                    <select name="Payment_Method" placeholder="Payment Method" required value={formdata?.Payment_Method} onChange={handlechange} className="w-full    px-4 py-2 border rounded-md outline-none"   >
+                                                        <option value="" >Payment Method</option>
+                                                        <option value="Card">Card</option>
+                                                        <option value="Cash">Cash</option>
+                                                        <option value="upi">UPI</option>
+                                                    </select>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -399,7 +401,7 @@ function AddOrder(props) {
 
                     <div className='flex gap-3 items-center justify-end pb-5'>
                         <div className="mt-2 text-center cursor-pointer" >
-                            <button type='submit' role='status' name='print' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex items-center gap-2"
+                            <button type='submit' role='status' name='print' className=" px-4 py-2 text-white bg-[#2565EB] border rounded-md flex md:text-base text-sm items-center gap-2"
                             // onClick={(e) => {
                             //     e.preventDefault();
                             //     const { Billing_Name, Address, District, State, Zipcode, Mobilenumber, ordermasterdata } = formdata;
@@ -414,7 +416,7 @@ function AddOrder(props) {
                                 {formdata?._id ? "Update & Print" : "Save & Print"} </button>
                         </div>
                         <div className="mt-2 text-center">
-                            <button type="submit" name='save' className=" px-4 py-2 text-white bg-primary border rounded-md"   >
+                            <button type="submit" name='save' className=" px-4 py-2 text-white bg-primary border rounded-md md:text-base text-sm"   >
                                 {loading && <span className="animate-spin text-xl inline-block size-4 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading"></span>} {formdata._id ? "Update" : "Save"}
                             </button>
                         </div>

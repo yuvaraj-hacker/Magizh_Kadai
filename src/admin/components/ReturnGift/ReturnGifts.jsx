@@ -196,7 +196,6 @@ export default function ReturnGifts() {
                 <ViewProducts ViewProduct={ViewProduct} setViewProduct={setViewProduct} tabledata={tabledata} ViewProductData={ViewProductData} />
                 <ConfirmDialog />
             </div>
-
         </div>
     )
 }

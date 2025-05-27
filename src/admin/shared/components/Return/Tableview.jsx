@@ -22,17 +22,19 @@ const Tableview = (props) => {
   const [filterOptions, setFilterOptions] = useState([]);
   const [scroll, setScrollHeight] = useState("750px");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState('');
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  // Add these functions to handle modal open/close
+  const openModal = (imagePath) => {
+    setSelectedImage(imagePath);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedImage(null);
+    setSelectedImage('');
   };
+
 
   useEffect(() => {
     const updateHeight = () => {
@@ -74,35 +76,21 @@ const Tableview = (props) => {
   }
 
 
-
   const image = (rowData) => {
     return (
       <>
-         {/* <Swiper modules={[Pagination, Navigation, Autoplay]} spaceBetween={10} slidesPerView={1}
-                  navigation
-                  pagination={{ clickable: true }}
-                  autoplay={{ delay: 2000 }}  >
-                {rowData.Images.length > 0 && (
-                  <SwiperSlide   className="flex items-center justify-center">
-                  <img
-                  src={`${apiurl()}/${rowData['Images'][0]}`}
-                  className="rounded-xl w-40 h-auto object-cover bg-contain cursor-pointer"
-                  // onClick={() => handleImageClick(rowData['Images'][0])}
-                />
-                  </SwiperSlide>
-                )}
-                </Swiper> */}
-                <div className="flex gap-4">
-                <img
-                  src={`${apiurl()}/${rowData['Images'][0]}`}
-                  className="rounded-xl w-40 h-auto object-cover bg-contain cursor-pointer"
-                  // onClick={() => handleImageClick(rowData['Images'][0])}
-                />
-      </div>
+        <div className="flex gap-4">
+          <img
+            src={`${apiurl()}/${rowData['Images'][0]}`}
+            className="rounded-xl w-16 h-auto object-cover bg-contain cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => openModal(rowData['Images'][0])}
+            alt="Product preview"
+          />
+        </div>
       </>
-
     );
   };
+
 
   const handleApplyFilters = (key) => {
     cusfilter(key, tempFilterValues[key]);
@@ -143,7 +131,7 @@ const Tableview = (props) => {
             key={index}
             src={image} // Assuming image is the URL or file path
             alt={`Product Image ${index + 1}`}
-            className="w-16 h-16  object-cover bg-contain rounded-lg"
+            className="w-5 h-5 object-cover bg-contain rounded-lg"
           />
         ))}
       </div>
@@ -158,7 +146,7 @@ const Tableview = (props) => {
     { field: 'product_Name', header: 'Product Name', filter: true },
     { field: 'quantity', header: 'Quantity', filter: true },
     { field: 'Order_Date', header: 'Request Date', format: "Date", width: "150px" },
-    { field: 'expectedDate', header: 'Expected Date',  width: "150px" },
+    { field: 'expectedDate', header: 'Expected Date', width: "150px" },
     // {field: 'Billing_Name', header: 'Billing Name',width:"150px"},
     // {field: 'Email', header: 'Email',width:"150px"},
     // {field: 'Mobilenumber', header: 'Mobile Number',width:"150px"},
@@ -170,29 +158,13 @@ const Tableview = (props) => {
 
   return (
     <div className='  ' style={{ height: "calc(100vh - 197px)" }}>
-      <DataTable rowClassName={() => 'border-b border-secondary'} selectionMode="single" value={tabledata}  size='small' scrollHeight="calc(100vh - 200px)" scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
-        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary"  className=""
+      <DataTable size='small' rowClassName={() => 'border-b border-b-primary'} selectionMode="single" value={tabledata} scrollHeight="calc(100vh - 200px)" scrollable className='!text-sm' stateStorage="session" stateKey="dt-state-demo-local" >
+        <Column header="S.No" body={(rowData, { rowIndex }) => rowIndex + 1} headerClassName="text-white bg-primary" className=""
         />
         {/* <Column header="Action" body={actionbotton} headerClassName='text-white bg-primary' /> */}
         <Column header="Product Images" body={image} headerClassName='text-white bg-primary ' />
 
-        {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="relative p-4 bg-white rounded-xl">
-            <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 text-white text-xl bg-gray-800 p-1 rounded-full"
-            >
-              &times;
-            </button>
-            <img
-              src={`${apiurl()}/${selectedImage}`}
-              className="max-w-full max-h-screen object-contain"
-              alt="Preview"
-            />
-          </div>
-        </div>
-      )}
+
 
         {columns.map((col, i) => (
           <Column headerClassName='text-white bg-primary' key={i} field={col.field} header={col.header} filter={col.filter} filterElement={Filter(col)} showFilterMenuOptions={false} showApplyButton={false}
@@ -200,6 +172,24 @@ const Tableview = (props) => {
             body={(rowData, meta) => { if (col.format == "Date") { return moment(rowData[meta.field]).format("YYYY-MM-DD") } else if (col.format == "HTML") { return <div dangerouslySetInnerHTML={{ __html: rowData[meta.field] }} /> } else { return rowData[meta.field] } }} />
         ))}
       </DataTable>
+
+       {isModalOpen && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="relative p-4 bg-white rounded-xl max-w-4xl">
+          <button
+            onClick={closeModal}
+            className="absolute top-2 right-2 text-white text-xl bg-red-500 p-1 px-3   rounded-full flex items-center   transition-colors"
+          >
+            &times;
+          </button>
+          <img
+            src={`${apiurl()}/${selectedImage}`}
+            className="max-w-full max-h-[80vh] object-contain"
+            alt="Preview"
+          />
+        </div>
+      </div>
+    )}
     </div>
   )
 }
