@@ -58,7 +58,7 @@ export default function CartPage(props) {
             <div className={`grid items-start relative gap-5 ${showB2B ? 'xl:grid-cols-9' : 'xl:grid-cols-12'}`}>
               <div className="xl:col-span-9 space-y-4">
                 <div className=" border md:rounded-md  bg-gray-50 ">
-                  <div className={`md:text-2xl text-center text-base text-white py-4 md:rounded-t-md  ${showB2B ? 'bg-secondary':'   bg-primary'}`} >{showB2B ? 'B2B' : 'Your'} Cart ({cartItems.length} Products)</div>
+                  <div className={`md:text-2xl text-center text-base text-white py-4 md:rounded-t-md  ${showB2B ? 'bg-secondary' : '   bg-primary'}`} >{showB2B ? 'B2B' : 'Your'} Cart ({cartItems.length} Products)</div>
                   <div className=" space-y-2 p-2 ">
                     {/* <div className="justify-between lg:flex">
                      <div className="flex gap-3">
@@ -365,7 +365,7 @@ export default function CartPage(props) {
                   <div className="flex justify-between items-center">
                     <div className="font-bold md:text-base text-sm">
                       Total ({totalItems} items)
-                        {showB2B !== true && (
+                      {showB2B !== true && (
                         <> : ₹{finalTotal}</>
                       )}
                     </div>
@@ -416,11 +416,11 @@ export default function CartPage(props) {
                               </button>
                             </Link>
                           </div>
-                          <div className="flex items-center justify-end mt-3">
-                          <button className="bg-primary hover:bg-secondary rounded-xl  text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>
-                            Checkout
-                          </button>
-                        </div>
+                          {/* <div className="flex items-center justify-end mt-3">
+                            <button className="bg-primary hover:bg-secondary rounded-xl  text-white p-2 text-base px-3 font-semibold md:text-lg duration-300" onClick={goToCheckout}>
+                              Checkout
+                            </button>
+                          </div> */}
                         </div>
                       </div>
                       {/* <div>
