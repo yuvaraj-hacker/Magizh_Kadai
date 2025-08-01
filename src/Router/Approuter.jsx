@@ -22,6 +22,7 @@ import NewForm from "../shared/Components/Register-ContiGoogle/NewFormGoogle";
 import Return from "../components/Return/Return";
 import BusinessPage from "../components/Business/BusinessPage";
 import AccountLayout from "../components/MyAccountLayout/AccountLayout";
+import SpinGamePage from "../components/SpinGame/SpinGamePage";
 
 const Approuter = () => {
     return (
@@ -54,6 +55,7 @@ const Approuter = () => {
                             <Route path="/dashboard" element={<Dashboard />} />
                         </Route> */}
                 </Route>
+                <Route path="/spin-game" element={<SpinGamePage />} />
                 <Route path="/login" element={<SignInPage />} />
                 <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['Admin']}><AdminRouter /></ProtectedRoute>} />
             </Routes>

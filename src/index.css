@@ -815,3 +815,8 @@ display: none;
  .p-column-filter-menu-button-active {
      background-color: #2563EB;
  }
+
+ .p-paginator-page.p-paginator-element.p-link.p-highlight {
+     background-color: #024a34;
+     color: #fff;
+ }

@@ -20,6 +20,7 @@
     "browser-image-compression": "^2.0.2",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.16.4",
+    "html-to-image": "^1.11.13",
     "lucide-react": "^0.454.0",
     "mapbox-gl": "^3.8.0",
     "moment-timezone": "^0.5.45",

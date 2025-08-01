@@ -103,6 +103,12 @@ export default function Sidebar() {
                 Return Gift Request
               </NavLink>
             </li>
+            <li>
+              <NavLink to={'/admin/spingame'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-primary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>
+                <i className="fi fi-ss-gift flex justify-center items-center"></i>
+                Spin Game
+              </NavLink>
+            </li>
             {/*
            <li>
               <NavLink to={'/admin/offers'} className={({ isActive }) => (`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive ? ' bg-gradient-to-tr from-[#fffffffd] to-[#fff] text-secondary shadow' : ' text-white'}  text-sm  hover:text-black rounded-lg hover:bg-gradient-to-tr hover:from-[#fffffffd] hover:to-[#fffffffd]  hover:shadow`)}>

@@ -18,6 +18,7 @@ import Feedback from "../components/Feedback/Feedback";
 import Productrequests from "../components/Productrequests/Productrequests";
 import ReturnGifts from "../components/ReturnGift/ReturnGifts";
 import Regular from "../components/Customer-Details/Regular";
+import SpinGame from "../components/SpinGame/SpinGame";
 
 
 
@@ -43,6 +44,7 @@ const AdminRouter = () => {
           <Route path="/routetracking" element={<RouteTracking />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/product-request" element={<Productrequests />} />
+          <Route path="/spingame" element={<SpinGame />} />
           <Route path="/" element={<Navigate to="/admin/dashboard" />} />
         </Route>
       </Routes>
