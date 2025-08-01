@@ -494,9 +494,7 @@ const cartKey =  isB2B ? "b2bCartItems" : "cartItems";
             const regularPrice = item.productId?.Regular_Price || item.Regular_Price || 0;
             const salePrice = item.productId?.Sale_Price || item.Sale_Price || 0;
             const quantity = item.Quantity ?? 1;
-
             const discountAmount = (regularPrice - salePrice) * quantity;
-
             return totalDiscount + discountAmount;
         }, 0);
     };

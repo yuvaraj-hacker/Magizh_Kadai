@@ -67,7 +67,7 @@ function SettingPage() {
         try {
             const response = await apigetallCustomers({ email: userdetails?.Email });
             console.log(response)
-            setUser(response.resdata[0]);
+            setUser(response.resdata[0]);   
 
         } catch (error) {
             console.error("Error fetching user emails:", error);

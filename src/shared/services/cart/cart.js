@@ -21,16 +21,16 @@ export const savecartitems = async(data)=>{
     try {
       const response = await axios.put(
         `${apiurl()}/cart/updatecart`,
-        { 
+        {
           _id,        // Cart item ID
           productId,  // Product ID
-          Quantity, 
-          Email 
+          Quantity,
+          Email
         },
-        { 
-          headers: { 
-            Authorization: `Bearer ${gettoken()}` 
-          } 
+        {
+          headers: {
+            Authorization: `Bearer ${gettoken()}`
+          }
         }
       );
       return response.data;
